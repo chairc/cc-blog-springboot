@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="nivo-lightbox-notouch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>小虚无的下午茶</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <!--    <link rel="stylesheet" th:href="@{/static/css/simple-line-icons.css}">-->
+    <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
+    <!--<link rel="stylesheet" th:href="@{/static/css/Index/menu_sideslide.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/static/css/Index/slide-style.css}">-->
+    <link rel="stylesheet" th:href="@{/static/css/nivo-lightbox.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
+    <!--<link rel="stylesheet" th:href="@{/static/css/iconfont.css}">-->
+
+</head>
+<body>
+
+<!-- 头部开始 -->
+<header id="header-wrap">
+    <!-- 导航栏开始 -->
+    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
+                        aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                </button>
+                <a href="https://www.chairc.cn" class="navbar-brand"><img
+                        src="./Home_files/logo.png" alt=""></a>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <ul class="onepage-nev navbar-nav mr-auto w-100 justify-content-end clearfix">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            主页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">
+                            关于
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/article">
+                            归档
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/message">
+                            留言
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            图片
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            娱乐
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            个人
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 手机导航栏开始 -->
+        <ul class="onepage-nev mobile-menu">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="">
+                <a href="#about">关于</a>
+            </li>
+            <li class="">
+                <a href="/article">归档</a>
+            </li>
+            <li class="">
+                <a href="/message">留言</a>
+            </li>
+            <li class="">
+                <a href="">图片</a>
+            </li>
+            <li class="">
+                <a href="">娱乐</a>
+            </li>
+            <li class="">
+                <a href="/login">个人</a>
+            </li>
+        </ul>
+        <!-- 手机导航栏结束 -->
+    </nav>
+    <!-- 导航栏结束 -->
+
+    <!-- 主页壁纸开始 -->
+    <div id="hero-area" class="hero-area-bg">
+        <div class="overlay">
+
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 text-center">
+                    <div class="contents">
+                        <h5 class="script-font wow fadeInUp animated" data-wow-delay="0.2s"
+                            style="visibility: visible;-webkit-animation-delay: 0.2s; -moz-animation-delay: 0.2s; animation-delay: 0.2s;">
+                            哈喽！
+                        </h5>
+                        <h2 class="head-title wow fadeInUp animated" data-wow-delay="0.4s"
+                            style="visibility: visible;-webkit-animation-delay: 0.4s; -moz-animation-delay: 0.4s; animation-delay: 0.4s;">
+                            欢迎来喝我的下午茶
+                        </h2>
+                        <p class="script-font wow fadeInUp animated" data-wow-delay="0.6s"
+                           style="visibility: visible;-webkit-animation-delay: 0.6s; -moz-animation-delay: 0.6s; animation-delay: 0.6s;">
+                            蠢萌程序员养生全纪录
+                        </p>
+                        <ul class="social-icon wow fadeInUp animated" data-wow-delay="0.8s"
+                            style="visibility: visible;-webkit-animation-delay: 0.8s; -moz-animation-delay: 0.8s; animation-delay: 0.8s;">
+                            <li>
+                                <a class="github" href="https://github.com/chairc" target="_blank">
+                                    <img src="/images/picture/index-new/GitHub.svg" width="100%" height="100%"
+                                         style="vertical-align: super">
+                                </a>
+                            </li>
+                            <li>
+                                <a class="weibo" href="https://weibo.com/u/1802917091" target="_blank">
+                                    <img src="/images/picture/index-new/zu.svg" width="100%" height="100%"
+                                         style="vertical-align: super">
+                                </a>
+                            </li>
+                            <li>
+                                <a class="wangyimusic" href="https://music.163.com/#/user/home?id=320416909"
+                                   target="_blank">
+                                    <img src="/images/picture/index-new/wangyiyunyinyue.svg" width="100%" height="100%"
+                                         style="vertical-align: super">
+                                </a>
+                            </li>
+                            <li>
+                                <a class="instagram" href="" target="_blank">
+                                    <img src="/images/picture/index-new/instagram.svg" width="100%" height="100%"
+                                         style="vertical-align: super">
+                                </a>
+                            </li>
+                            <li>
+                                <a class="google" href="" target="_blank">
+                                    <img src="/images/picture/index-new/Google.svg" width="100%" height="100%"
+                                         style="vertical-align: super">
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="header-button wow fadeInUp animated" data-wow-delay="1s"
+                             style="visibility: visible;-webkit-animation-delay: 1s; -moz-animation-delay: 1s; animation-delay: 1s;">
+                            <a href="" class="btn btn-common">
+                                进入
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 主页壁纸结束 -->
+
+</header>
+<!-- 头部结束 -->
+
+<!-- 关于开始 -->
+<section id="about" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="img-thumb wow fadeInLeft animated" data-wow-delay="0.3s"
+                     style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                    <img class="img-fluid" src="/images/AboutusImg/pig.jpeg" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="profile-wrapper wow fadeInRight animated" data-wow-delay="0.3s"
+                     style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                    <h3>你们好！</h3>
+                    <p>欢迎来到我的博客</p>
+                    <p>emmm不知道要说啥</p>
+                    <p>各位自行浏览，哈哈。</p>
+                    <div class="about-profile">
+                        <ul class="admin-profile">
+                            <li>
+                                <span class="pro-title"> 姓名 </span>
+                                <span class="pro-detail">陈。</span>
+                            </li>
+                            <li>
+                                <span class="pro-title"> 职业 </span>
+                                <span class="pro-detail">大学生</span>
+                            </li>
+                            <li>
+                                <span class="pro-title"> 地区 </span>
+                                <span class="pro-detail">中国，山东，济南</span>
+                            </li>
+                            <li>
+                                <span class="pro-title"> 邮箱 </span>
+                                <span class="pro-detail">chenyu1998424@gmail.com</span>
+                            </li>
+                            <li>
+                                <span class="pro-title"> 微博 </span>
+                                <span class="pro-detail">小陈今年一定要发财</span>
+                            </li>
+                            <li>
+                                <span class="pro-title"> 爱好 </span>
+                                <span class="pro-detail">打游戏，写代码</span>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <a href="/article" class="btn btn-common">
+                        <i class="icon-paper-clip"></i>
+                        硬核区
+                    </a>
+                    <a href="/randomJump" class="btn btn-danger">
+                        <i class="icon-speech"></i>
+                        随便逛逛
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 关于结束 -->
+
+<!-- 归档开始 -->
+<section id="article" class="article section-padding">
+    <h2 class="section-title wow flipInX animated" data-wow-delay="0.4s"
+        style="visibility: visible;-webkit-animation-delay: 0.4s; -moz-animation-delay: 0.4s; animation-delay: 0.4s;">
+        归档
+    </h2>
+    <div class="container">
+        <div class="row">
+            <!-- article item -->
+
+            <div class="col-md-6 col-lg-3 col-xs-12" th:each="item:${article}">
+                <div class="article-item wow fadeInDown animated" data-wow-delay="0.3s"
+                     style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                    <div class="icon">
+                        <i class="icon-grid"></i>
+                    </div>
+                    <div class="article-content">
+                        <h3>
+                            <a href=""><p th:text="${item.article_title}"></p></a>
+                        </h3>
+                        <p th:text="${item.article_author}"></p>
+                        <p th:text="${item.article_time}"></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- 归档结束 -->
+
+<!-- 留言展示开始 -->
+<div id="message" class="section-padding">
+    <h2 class="section-title wow flipInX animated" data-wow-delay="0.4s"
+        style="visibility: visible;-webkit-animation-delay: 0.4s; -moz-animation-delay: 0.4s; animation-delay: 0.4s;">
+        留言
+    </h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                     style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                    <ul class="timeline">
+                        <li>
+                            <i class="icon-graduation"></i>
+                            <h2 class="timelin-title">近期留言</h2>
+                        </li>
+
+                        <li th:each="item1:${message}">
+                            <div class="content-text">
+                                <h3 class="line-title" th:text="${item1.message_username}"></h3>
+                                <span th:text="${item1.message_time}"></span>
+                                <p class="line-text" th:text="${item1.message_main}"></p>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="experience wow fadeInRight animated" data-wow-delay="0.6s"
+                     style="visibility: visible;-webkit-animation-delay: 0.6s; -moz-animation-delay: 0.6s; animation-delay: 0.6s;">
+                    <ul class="timeline">
+                        <li>
+                            <i class="icon-briefcase"></i>
+                            <h2 class="timelin-title">精选留言</h2>
+                        </li>
+
+                        <li th:each="item2:${message_weight}">
+                            <div class="content-text">
+                                <h3 class="line-title" th:text="${item2.message_username}"></h3>
+                                <span th:text="${item2.message_time}"></span>
+                                <p class="line-text" th:text="${item2.message_main}"></p>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 留言展示结束 -->
+
+<!-- 图片开始 -->
+<section id="pictures" class="section-padding">
+    <div class="container">
+        <h2 class="section-title wow flipInX animated" data-wow-delay="0.4s"
+            style="visibility: visible;-webkit-animation-delay: 0.4s; -moz-animation-delay: 0.4s; animation-delay: 0.4s;">
+            图片
+        </h2>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- 图片选择按钮开始 -->
+                <div class="controls text-center">
+                    <a class="filter btn btn-common active" data-filter="all">
+                        所有
+                    </a>
+                    <a class="filter btn btn-common" data-filter=".design">
+                        设计
+                    </a>
+                    <a class="filter btn btn-common" data-filter=".people">
+                        人像
+                    </a>
+                    <a class="filter btn btn-common" data-filter=".landscape">
+                        风景
+                    </a>
+                    <a class="filter btn btn-common" data-filter=".wallpaper">
+                        壁纸
+                    </a>
+                </div>
+                <!-- 图片选择按钮结束-->
+            </div>
+
+
+            <div id="picture" class="row wow fadeInDown animated" data-wow-delay="0.4s"
+                 style="visibility: visible;-webkit-animation-delay: 0.4s; -moz-animation-delay: 0.4s; animation-delay: 0.4s;">
+
+                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4 mix ${P.picturetype}" style="display: inline-block;"
+                     data-bound="">
+                    <div class="picture-item">
+                        <div class="shot-item">
+                            <img src="/images/picture/swiperbanner/${P.picturename}" alt="">
+                            <div class="overlay">
+                                <div class="icons">
+                                    <a class="lightbox preview" href="">
+                                        <i class="icon-eye"></i>
+                                    </a>
+                                    <a class="link" href="">
+                                        <i class="icon-link"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 图片结束 -->
+
+
+<!-- 底部开始 -->
+<footer th:replace="footer.html"></footer>
+<!-- 底部结束 -->
+
+<!-- 返回最顶层 -->
+<a href="" class="back-to-top" style="display: block;">
+    <i>
+        <p>UP</p>
+    </i>
+</a>
+
+<script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.counterup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/waypoints.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/wow.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.nav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+
+
+</body>
+</html>

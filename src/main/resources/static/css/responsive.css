@@ -1,0 +1,93 @@
+/* only small desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+  #hero-area .contents .head-title {
+    font-size: 40px;
+  }
+  .article-item .article-content h3 a {
+    font-size: 14px;
+  }
+  .article-content-small h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* tablets */
+@media (max-width: 991px) {
+  .section-title {
+    font-size: 30px;
+    margin-bottom: 30px;
+  }
+  .article-item .article-content h3 a {
+    font-size: 14px;
+  }
+  .article-item {
+    margin-bottom: 20px;
+  }
+  .article-content-small h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* only small tablets */
+@media (min-width: 768px) and (max-width: 991px) {
+  .section-title {
+    font-size: 26px;
+    margin-bottom: 30px;
+  }
+  .article-item .article-content h3 a {
+    font-size: 16px;
+  }
+  .article-item {
+    margin-bottom: 20px;
+  }
+  .counter-section .counter p {
+    font-size: 14px;
+  }
+  .article-content-small h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* mobile or only mobile */
+@media (max-width: 767px) {
+  .section-title {
+    font-size: 22px;
+    margin-bottom: 30px;
+  }
+  .section-sub {
+    font-size: 16px;
+  }
+  .navbar-brand img {
+    margin: 5px 0;
+  }
+  #hero-area .contents {
+    padding: 100px 0px 60px 0px;
+  }
+  #hero-area .contents .head-title {
+    font-size: 22px;
+  }
+  #hero-area .contents h5 {
+    font-size: 32px;
+  }
+  .article-content-small h3 {
+    font-size: 1.5rem;
+  }
+  #hero-area .contents p {
+    font-size: 20px;
+  }
+  .article-item {
+    margin-bottom: 20px;
+  }
+  .timeline li .line-title {
+    line-height: 26px;
+  }
+  .timeline li:first-child i {
+    margin: -12px -40px;
+  }
+  .contact-form-area {
+    padding: 40px 0px;
+  }
+  .footer-right-area {
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="nivo-lightbox-notouch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>个人空间 | 小虚无的下午茶</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <!--    <link rel="stylesheet" th:href="@{/static/css/simple-line-icons.css}">-->
+    <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
+    <!--<link rel="stylesheet" th:href="@{/static/css/Index/menu_sideslide.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/static/css/Index/slide-style.css}">-->
+    <link rel="stylesheet" th:href="@{/static/css/nivo-lightbox.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
+    <!--<link rel="stylesheet" th:href="@{/static/css/iconfont.css}">-->
+    <style>
+        .border td {
+            border: #000000 solid 1px
+        }
+    </style>
+</head>
+<body>
+<header id="header-wrap">
+    <!-- 导航栏开始 -->
+    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
+                        aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                </button>
+                <a href="https://www.chairc.cn" class="navbar-brand"><img
+                        src="./Home_files/logo.png" alt=""></a>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <ul class="onepage-nev navbar-nav mr-auto w-100 justify-content-end clearfix">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            主页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#about">
+                            关于
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/article">
+                            归档
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/message">
+                            留言
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            图片
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            娱乐
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            登出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 手机导航栏开始 -->
+        <ul class="onepage-nev mobile-menu">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="">
+                <a href="/#about">关于</a>
+            </li>
+            <li class="">
+                <a href="/article">归档</a>
+            </li>
+            <li class="">
+                <a href="/message">留言</a>
+            </li>
+            <li class="">
+                <a href="">图片</a>
+            </li>
+            <li class="">
+                <a href="">娱乐</a>
+            </li>
+            <li class="">
+                <a href="/logout">登出</a>
+            </li>
+        </ul>
+        <!-- 手机导航栏结束 -->
+    </nav>
+    <!-- 导航栏结束 -->
+
+    <!-- 主页壁纸开始 -->
+    <div id="hero-area" class="hero-area-bg">
+        <div class="overlay">
+
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 text-center">
+                    <div class="contents">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 主页壁纸结束 -->
+
+</header>
+
+<table style="border: #000000 solid 1px;text-align: center;">
+    <tr class="border">
+        <td>序号</td>
+        <td>个人识别号</td>
+        <td>用户名</td>
+        <td>密码</td>
+        <td>昵称</td>
+        <td>真实姓名</td>
+        <td>电话</td>
+        <td>邮箱</td>
+        <td>生日</td>
+        <td>性别</td>
+        <td>年龄</td>
+        <td>微信</td>
+        <td>QQ</td>
+        <td>微博</td>
+        <td>地址</td>
+        <td>最后登录时间</td>
+        <td>IP地址</td>
+        <td>密保问题</td>
+        <td>密保答案</td>
+        <td>系统</td>
+        <td>浏览器</td>
+        <td>权重</td>
+    </tr>
+    <tr class="border" th:each="item:${user}">
+        <td th:text="${item.user_common_id}"></td>
+        <td th:text="${item.user_common_private_id}"></td>
+        <td th:text="${item.user_common_username}"></td>
+        <td th:text="${item.user_common_password}"></td>
+        <td th:text="${item.user_common_nickname}"></td>
+        <td th:text="${item.user_secret_real_name}"></td>
+        <td th:text="${item.user_secret_phone}"></td>
+        <td th:text="${item.user_secret_email}"></td>
+        <td th:text="${item.user_secret_birthday}"></td>
+        <td th:text="${item.user_secret_sex}"></td>
+        <td th:text="${item.user_secret_age}"></td>
+        <td th:text="${item.user_secret_wechat}"></td>
+        <td th:text="${item.user_secret_qq}"></td>
+        <td th:text="${item.user_secret_weibo}"></td>
+        <td th:text="${item.user_secret_address}"></td>
+        <td th:text="${item.user_safe_logtime}"></td>
+        <td th:text="${item.user_safe_ip}"></td>
+        <td th:text="${item.user_safe_question}"></td>
+        <td th:text="${item.user_safe_answer}"></td>
+        <td th:text="${item.user_safe_system}"></td>
+        <td th:text="${item.user_safe_browser}"></td>
+        <td th:text="${item.user_safe_weight}"></td>
+    </tr>
+</table>
+<!--
+<form th:action="@{/addUser}">
+   <div>
+       <p>用户名</p>
+       <input type="text" th:id="username" name="username">
+   </div>
+   <div>
+       <p>密码</p>
+       <input type="password" th:id="password" name="password">
+   </div>
+   <div>
+       <p>昵称</p>
+       <input type="text" th:id="nickname" name="nickname">
+   </div>
+   <div>
+       <p>真实姓名</p>
+       <input type="text" th:id="realname" name="realname">
+   </div>
+   <div>
+       <p>电话</p>
+       <input type="text" th:id="phone" name="phone">
+   </div>
+   <div>
+       <p>邮箱</p>
+       <input type="email" th:id="email" name="email">
+   </div>
+   <div>
+       <p>生日</p>
+       <input type="text" th:id="birthday" name="birthday">
+   </div>
+   <div>
+       <p>性别</p>
+       <input type="text" th:id="sex" name="sex">
+   </div>
+   <div>
+       <p>年龄</p>
+       <input type="number" th:id="age" name="age">
+   </div>
+   <div>
+       <p>微信</p>
+       <input type="text" th:id="wechat" name="wechat">
+   </div>
+   <div>
+       <p>QQ</p>
+       <input type="number" th:id="qq" name="qq">
+   </div>
+   <div>
+       <p>微博</p>
+       <input type="text" th:id="weibo" name="weibo">
+   </div>
+   <div>
+       <p>联系地址</p>
+       <input type="text" th:id="address" name="address">
+   </div>
+   <div>
+       <p>安全问题</p>
+       <input type="text" value="生日？" th:id="question" name="question">
+   </div>
+   <div>
+       <p>安全问题答案</p>
+       <input type="text" th:id="answer" name="answer">
+   </div>
+   <input type="submit">
+</form>
+
+
+<div style="float: left">
+   <input type="text" name="username" th:id="username" placeholder="用户名"
+          required="required" onkeyup="value=value.replace(/[\W]/g,'')" />
+   <input type="password" name="password" th:id="password" placeholder="密码"
+          required="required" />
+   <input type="text" name="realname" th:id="realname" placeholder="真实姓名"
+          required="required" />
+   <input type="number" name="phone" th:id="phone" placeholder="电话"
+          required="required" />
+   <input type="email" name="email" th:id="email" placeholder="邮箱"
+          required="required" />
+   <input type="text" name="sex" th:id="sex" placeholder="性别"
+          required="required" />
+   <input type="number" name="age" th:id="age" placeholder="年龄"
+          required="required" />
+</div>
+
+<div style="float: left">
+   <input type="text" name="wechat" th:id="wechat" placeholder="微信"
+          required="required" />
+   <input type="number" name="qq" th:id="qq" placeholder="QQ"
+          required="required" />
+   <input type="text" name="weibo" th:id="weibo" placeholder="微博"
+          required="required" />
+   <input type="text" name="address" th:id="address" placeholder="联系地址"
+          required="required" />
+   <select th:id="question" name="question">
+       <option value="我的生日" selected>我的生日（例如YYYYMMDD）</option>
+       <option value="我最好的朋友">我最好的朋友</option>
+       <option value="最喜欢玩的游戏">最喜欢玩的游戏</option>
+       <option value="最爱的一首歌" >最爱的一首歌</option>
+   </select>
+   <input type="text" name="answer" th:id="answer" placeholder="安全问题答案"
+          required="required" />
+</div>
+-->
+<form id="form1">
+    <div style="float: left">
+        <input type="text" id="username" name="username" placeholder="用户名"
+               required="required" onkeyup="value=value.replace(/[\W]/g,'')"/>
+        <input type="password" id="password" name="password" placeholder="密码" autocomplete
+               required="required"/>
+        <input type="text" id="nickname" name="nickname" placeholder="昵称"
+               required="required"/>
+        <input type="number" id="phone" name="phone" placeholder="电话"/>
+        <input type="email" id="email" name="email" placeholder="邮箱"
+               required="required"/>
+        <select id="sex" name="sex" style="width: 186.4px;" title="性别">
+            <option value="男" selected>男</option>
+            <option value="女">女</option>
+        </select>
+    </div>
+
+    <div style="float: left">
+        <input type="text" id="birthday" name="birthday" placeholder="生日"/>
+        <input type="text" id="wechat" name="wechat" placeholder="微信"/>
+        <input type="number" id="qq" name="qq" placeholder="QQ"/>
+        <input type="text" id="weibo" name="weibo" placeholder="微博"/>
+        <select id="question" name="question" style="width: 186.4px;" title="安全问题">
+            <option value="我的生日" selected>我的生日（例如YYYYMMDD）</option>
+            <option value="我最好的朋友">我最好的朋友</option>
+            <option value="最喜欢玩的游戏">最喜欢玩的游戏</option>
+            <option value="最爱的一首歌">最爱的一首歌</option>
+        </select>
+        <input type="text" id="answer" name="answer" placeholder="安全问题答案"
+               required="required"/>
+    </div>
+    <button onclick="login()">登录</button>
+</form>
+<!-- 返回最顶层 -->
+<a href="" class="back-to-top" style="display: block;">
+    <i>
+        <p>UP</p>
+    </i>
+</a>
+<script>
+    function login() {
+        var username = $("#username").val().trim();
+        var password = $("#password").val().trim();
+        var nickname = $("#nickname").val();
+        var phone = $("#phone").val();
+        var email = $("#email").val();
+        var sex = $("#sex").val();
+        var birthday = $("#birthday").val();
+        var wechat = $("#wechat").val();
+        var qq = $("#qq").val();
+        var weibo = $("#weibo").val();
+        var question = $("#question").val();
+        var answer = $("#answer").val();
+
+        console.log(username, password, nickname, phone, email, sex, birthday, wechat, qq, weibo, question, answer);
+        $.ajax({
+            url: "/addUser1",
+            dataType: "JSON",
+            data: {
+                "username": username, "password": password, "nickname": nickname, "phone": phone,
+                "email": email, "sex": sex, "birthday": birthday, "wechat": wechat, "qq": qq,
+                "weibo": weibo, "question": question, "answer": answer
+            },
+            /*data:$("#form1").serialize(),*/  //序列化表单
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.result == "1") {
+                    alert("提交成功");
+                } else {
+                    alert("提交失败，用户名或密码为null");
+                }
+                window.location.href("/user");
+            }
+        })
+    }
+</script>
+
+<script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.counterup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/waypoints.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/wow.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.nav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+</body>
+</html>

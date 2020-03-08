@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="nivo-lightbox-notouch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>注册 | 小虚无的下午茶</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <!--    <link rel="stylesheet" th:href="@{/static/css/simple-line-icons.css}">-->
+    <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
+    <!--<link rel="stylesheet" th:href="@{/static/css/Index/menu_sideslide.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/static/css/Index/slide-style.css}">-->
+    <link rel="stylesheet" th:href="@{/static/css/nivo-lightbox.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
+    <!--<link rel="stylesheet" th:href="@{/static/css/iconfont.css}">-->
+
+</head>
+<body>
+
+<!-- 头部开始 -->
+<header id="header-wrap">
+    <!-- 导航栏开始 -->
+    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
+                        aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                </button>
+                <a href="https://www.chairc.cn" class="navbar-brand"><img
+                        src="./Home_files/logo.png" alt=""></a>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <ul class="onepage-nev navbar-nav mr-auto w-100 justify-content-end clearfix">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            主页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#about">
+                            关于
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/article">
+                            归档
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/message">
+                            留言
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            图片
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            娱乐
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            个人
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 手机导航栏开始 -->
+        <ul class="onepage-nev mobile-menu">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="">
+                <a href="/#about">关于</a>
+            </li>
+            <li class="">
+                <a href="/article">归档</a>
+            </li>
+            <li class="">
+                <a href="/message">留言</a>
+            </li>
+            <li class="">
+                <a href="">图片</a>
+            </li>
+            <li class="">
+                <a href="">娱乐</a>
+            </li>
+            <li class="">
+                <a href="/login">个人</a>
+            </li>
+        </ul>
+        <!-- 手机导航栏结束 -->
+    </nav>
+    <!-- 导航栏结束 -->
+
+</header>
+<!-- 头部结束 -->
+
+<div class="registered-container">
+    <form th:action="@{/addUser}" th:method="post" class="registered-form">
+        <h2>注册</h2>
+        <div style="float: left">
+            <input type="text" id="username" name="username" placeholder="用户名"
+                   required="required" onkeyup="value=value.replace(/[\W]/g,'')"/>
+            <input type="password" id="password" name="password" placeholder="密码" autocomplete
+                   required="required"/>
+            <input type="text" id="nickname" name="nickname" placeholder="昵称"
+                   required="required"/>
+            <input type="number" id="phone" name="phone" placeholder="电话"/>
+            <input type="email" id="email" name="email" placeholder="邮箱"
+                   required="required"/>
+            <select id="sex" name="sex" style="width: 186.4px;" title="性别">
+                <option value="男" selected>男</option>
+                <option value="女">女</option>
+            </select>
+        </div>
+
+        <div style="float: left">
+            <input type="text" id="birthday" name="birthday" placeholder="生日"/>
+            <input type="text" id="wechat" name="wechat" placeholder="微信"/>
+            <input type="number" id="qq" name="qq" placeholder="QQ"/>
+            <input type="text" id="weibo" name="weibo" placeholder="微博"/>
+            <select id="question" name="question" style="width: 186.4px;" title="安全问题">
+                <option value="我的生日" selected>我的生日（例如YYYYMMDD）</option>
+                <option value="我最好的朋友">我最好的朋友</option>
+                <option value="最喜欢玩的游戏">最喜欢玩的游戏</option>
+                <option value="最爱的一首歌">最爱的一首歌</option>
+            </select>
+            <input type="text" id="answer" name="answer" placeholder="安全问题答案"
+                   required="required"/>
+        </div>
+        <button onclick="registered()">注册</button>
+        <button onclick="back()">返回</button>
+    </form>
+</div>
+
+<script>
+    function registered() {
+        var username = $("#username").val().trim();
+        var password = $("#password").val().trim();
+        var nickname = $("#nickname").val();
+        var phone = $("#phone").val();
+        var email = $("#email").val();
+        var sex = $("#sex").val();
+        var birthday = $("#birthday").val();
+        var wechat = $("#wechat").val();
+        var qq = $("#qq").val();
+        var weibo = $("#weibo").val();
+        var question = $("#question").val();
+        var answer = $("#answer").val();
+
+        //console.log(username,password,nickname,phone,email,sex,birthday,wechat,qq,weibo,question,answer);
+        $.ajax({
+            url: "/addUserForAjax",
+            dataType: "JSON",
+            data: {
+                "username": username, "password": password, "nickname": nickname, "phone": phone,
+                "email": email, "sex": sex, "birthday": birthday, "wechat": wechat, "qq": qq,
+                "weibo": weibo, "question": question, "answer": answer
+            },
+            /*data:$("#form1").serialize(),*/  //序列化表单
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.result === "1") {
+                    alert("提交成功");
+                    window.location.href = "/login";
+                } else {
+                    alert("提交失败，用户名或密码为null");
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+                alert(errorThrown)
+            }
+        })
+    }
+
+    function back() {
+        window.location.href = "/login";
+    }
+</script>
+
+<script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.counterup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/waypoints.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/wow.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.nav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+
+
+</body>
+</html>
