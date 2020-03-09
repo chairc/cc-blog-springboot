@@ -71,6 +71,16 @@ public class UserService {
     }
 
     /**
+     * 新增用户信息
+     *
+     * @param user
+     */
+
+    public void insertUser(User user) {
+        userDao.insertUser(user);
+    }
+
+    /**
      * 通过ID删除用户信息
      *
      * @param id
@@ -89,16 +99,5 @@ public class UserService {
     public void updateUser(User user) {
         userDao.updateUser(user);
     }
-
-    /**
-     * 新增用户信息
-     *
-     * @param user
-     */
-
-    public void insertUser(User user) {
-        userDao.insertUser(user);
-    }
-
 
 }

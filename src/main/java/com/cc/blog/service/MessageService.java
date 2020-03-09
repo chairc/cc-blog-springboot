@@ -52,4 +52,34 @@ public class MessageService {
     public List<Message> getMessageAll_weight() {
         return messageDao.getMessageAll_weight();
     }
+
+    /**
+     * 新增留言
+     *
+     * @param message
+     */
+
+    public void insertMessage(Message message) {
+        messageDao.insertMessage(message);
+    }
+
+    /**
+     * 通过私有ID删除留言
+     *
+     * @param privateId
+     */
+
+    public void deleteMessage(String privateId) {
+        messageDao.deleteMessageByPrivateId(privateId);
+    }
+
+    /**
+     * 更新留言
+     *
+     * @param message
+     */
+
+    public void updateMessage(Message message) {
+        messageDao.updateMessage(message);
+    }
 }

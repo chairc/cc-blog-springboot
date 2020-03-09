@@ -44,4 +44,34 @@ public class ArticleService {
     public List<Article> getArticleByPrivateId(String articlePrivateId) {
         return articleDao.getArticleByPrivateId(articlePrivateId);
     }
+
+    /**
+     * 新增文章
+     *
+     * @param article
+     */
+
+    public void insertArticle(Article article) {
+        articleDao.insertArticle(article);
+    }
+
+    /**
+     * 通过私有ID删除文章
+     *
+     * @param privateId
+     */
+
+    public void deleteArticleByPrivateId(String privateId) {
+        articleDao.deleteArticleByPrivateId(privateId);
+    }
+
+    /**
+     * 更新文章
+     *
+     * @param article
+     */
+
+    public void updateArticle(Article article) {
+        articleDao.updateArticle(article);
+    }
 }

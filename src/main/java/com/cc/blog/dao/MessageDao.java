@@ -51,10 +51,26 @@ public interface MessageDao {
     Article getMessageByUsername(String username);
 
     /**
-     * 通过ID删除留言
+     * 新增留言
+     *
+     * @param message
+     */
+
+    void insertMessage(Message message);
+
+    /**
+     * 通过私有ID删除留言
      *
      * @param id
      */
 
-    void deleteMessageById(int id);
+    void deleteMessageByPrivateId(String privateId);
+
+    /**
+     * 修改留言
+     *
+     * @param message
+     */
+
+    void updateMessage(Message message);
 }

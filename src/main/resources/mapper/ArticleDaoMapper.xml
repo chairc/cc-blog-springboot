@@ -34,4 +34,29 @@
         article_private_id = #{articlePrivateId}
     </select>
 
+    <insert id="insertArticle" parameterType="com.cc.blog.model.Article">
+        INSERT INTO
+        <include refid="table"/>
+        (article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num)
+        VALUE
+        (#{article_id},#{article_private_id},#{article_private_id},#{article_author},#{article_main},
+        #{article_time},#{article_click_num})
+    </insert>
+
+    <delete id="deleteArticleByPrivateId" parameterType="com.cc.blog.model.Article">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        article_private_id = #{article_private_id}
+    </delete>
+
+    <update id="updateArticle" parameterType="com.cc.blog.model.Article">
+        UPDATE
+        <include refid="table"/>
+        SET
+        article_id = #{article_id},article_private_id = #{article_private_id},article_title = #{article_title},
+        article_author = #{article_author},article_main = #{article_main},article_time = #{article_time},
+        article_click_num = #{article_click_num}
+    </update>
+
 </mapper>

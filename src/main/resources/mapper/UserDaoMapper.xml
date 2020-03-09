@@ -69,14 +69,14 @@
         user_safe_ip = #{user_safe_ip},user_safe_question = #{user_safe_question},user_safe_answer = #{user_safe_answer},
         user_safe_system = #{user_safe_system},user_safe_browser = #{user_safe_browser},user_safe_weight = #{user_safe_weight}
         WHERE
-        user_common_id = #{id}
+        user_common_id = #{user_common_id}
     </update>
 
     <delete id="deleteUserById" parameterType="com.cc.blog.model.User">
         DELETE FROM
         <include refid="table"/>
         WHERE
-        user_common_id = #{id}
+        user_common_id = #{user_common_id}
     </delete>
 
 </mapper>

@@ -15,10 +15,11 @@ public class Tools {
      *
      * @return privateId
      */
-    public static String CreateRandomPrivateId() {
+    public static String CreateRandomPrivateId(int type) {//0：article;1:message;
         String[] arr = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
                 "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C",
                 "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+        String[] str = new String[]{"article_","message_"};
         int i = 0;
         StringBuilder privateId = new StringBuilder();
         while (i < 15) {
@@ -26,6 +27,7 @@ public class Tools {
             privateId.insert(0, arr[randomNum]);
             i++;
         }
+        privateId.insert(0,str[type]);
         return privateId.toString();
     }
 

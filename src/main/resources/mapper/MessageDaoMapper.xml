@@ -50,4 +50,29 @@
         DESC
     </select>
 
+    <insert id="insertMessage" parameterType="com.cc.blog.model.Message">
+        INSERT INTO
+        <include refid="table"/>
+        (message_id,message_private_id,message_username,message_main,message_time,message_ip,message_weight)
+        VALUE
+        (#{message_id},#{message_private_id},#{message_username},#{message_main},#{message_time},#{message_ip},
+        #{message_weight})
+    </insert>
+
+    <delete id="deleteMessageByPrivateId" parameterType="com.cc.blog.model.Message">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        message_private_id = #{message_private_id}
+    </delete>
+
+    <update id="updateMessage" parameterType="com.cc.blog.model.Message">
+        UPDATE
+        <include refid="table"/>
+        SET
+        message_id = #{message_id},message_private_id = #{message_private_id},message_username = #{message_username},
+        message_main = #{message_main},message_time = #{message_time},message_ip = #{message_ip},
+        message_weight = #{message_weight}
+    </update>
+
 </mapper>

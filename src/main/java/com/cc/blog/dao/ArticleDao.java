@@ -32,4 +32,28 @@ public interface ArticleDao {
      */
 
     List<Article> getArticleByPrivateId(String articlePrivateId);
+
+    /**
+     * 新增文章
+     *
+     * @param article
+     */
+
+    void insertArticle(Article article);
+
+    /**
+     * 通过私有ID删除文章
+     *
+     * @param articlePrivateId
+     */
+
+    void deleteArticleByPrivateId(String articlePrivateId);
+
+    /**
+     * 更新文章
+     *
+     * @param article
+     */
+
+    void updateArticle(Article article);
 }
