@@ -115,11 +115,9 @@
                    required="required" onkeyup="value=value.replace(/[\W]/g,'')"/>
             <input type="password" id="password" name="password" placeholder="密码" autocomplete
                    required="required"/>
-            <input type="text" id="nickname" name="nickname" placeholder="昵称"
-                   required="required"/>
+            <input type="text" id="nickname" name="nickname" placeholder="昵称"/>
             <input type="number" id="phone" name="phone" placeholder="电话"/>
-            <input type="email" id="email" name="email" placeholder="邮箱"
-                   required="required"/>
+            <input type="email" id="email" name="email" placeholder="邮箱"/>
             <select id="sex" name="sex" style="width: 186.4px;" title="性别">
                 <option value="男" selected>男</option>
                 <option value="女">女</option>
@@ -144,6 +142,17 @@
         <button onclick="back()">返回</button>
     </form>
 </div>
+
+<div class="message-box-warp" style="width: 100%;position: fixed;top:0;left: 0;text-align: center;
+    z-index: 1000000;transform: translateY(10%);">
+    <div id="message-box" class="message-box" style="width: calc(260px);height: calc(60px);display: none;
+        margin: 0 auto;padding: 0 20px 0 20px;text-align: center;border: 1px transparent;
+        border-radius: 4px;background: inherit;line-height: 60px;
+        box-shadow: 0 2px 6px 0 rgba(0,0,0,.12), inset 0 -1px 0 0 #dadce0">
+        <p id="message-box-text"></p>
+    </div>
+</div>
+
 
 <script>
     function registered() {
@@ -173,11 +182,26 @@
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 if (data.result === "1") {
-                    alert("提交成功");
-                    window.location.href = "/login";
+                    //alert("提交成功");
+                    document.getElementById("message-box-text").innerHTML = "提交成功";
+                    document.getElementById("message-box").style.color = "#d7f7ff";
+                    document.getElementById("message-box").style.background = "#1a95ff";
+                    //window.location.href = "/login";
                 } else {
-                    alert("提交失败，用户名或密码为null");
+                    document.getElementById("message-box-text").innerHTML = "提交失败，用户名或密码为null";
+                    document.getElementById("message-box").style.background = "#f2dede";
+                    document.getElementById("message-box").style.color = "#a94442";
+                    //alert("提交失败，用户名或密码为null");
                 }
+                if($("#message-box").is(":hidden")){
+                    $('#message-box').slideDown(500);
+                }else{
+                    $('#message-box').slideUp(500);
+                }
+                $(document).one("click", function(){
+                    $('#message-box').slideUp(500);
+                });
+                e.stopPropagation();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
