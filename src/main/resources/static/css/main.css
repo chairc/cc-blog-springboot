@@ -1449,3 +1449,30 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
   line-height: 42px;
   float: left;
 }
+
+/*custom alert*/
+
+.message-box-warp{
+  width: 100%;
+  position: fixed;
+  top:0;
+  left: 0;
+  text-align: center;
+  z-index: 1000000;
+  transform: translateY(10%);
+}
+
+.message-box{
+  width: calc(320px);
+  height: calc(60px);
+  display: none;
+  margin: 0 auto;
+  padding: 0 20px 0 20px;
+  text-align: center;
+  border: 1px transparent;
+  border-radius: 4px;
+  background: inherit;
+  line-height: 60px;
+  box-shadow: 0 2px 6px 0 rgba(0,0,0,.12),
+              inset 0 -1px 0 0 #dadce0;
+}

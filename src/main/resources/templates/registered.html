@@ -143,12 +143,8 @@
     </form>
 </div>
 
-<div class="message-box-warp" style="width: 100%;position: fixed;top:0;left: 0;text-align: center;
-    z-index: 1000000;transform: translateY(10%);">
-    <div id="message-box" class="message-box" style="width: calc(260px);height: calc(60px);display: none;
-        margin: 0 auto;padding: 0 20px 0 20px;text-align: center;border: 1px transparent;
-        border-radius: 4px;background: inherit;line-height: 60px;
-        box-shadow: 0 2px 6px 0 rgba(0,0,0,.12), inset 0 -1px 0 0 #dadce0">
+<div class="message-box-warp">
+    <div id="message-box" class="message-box">
         <p id="message-box-text"></p>
     </div>
 </div>
@@ -188,7 +184,7 @@
                     document.getElementById("message-box").style.background = "#1a95ff";
                     //window.location.href = "/login";
                 } else {
-                    document.getElementById("message-box-text").innerHTML = "提交失败，用户名或密码为null";
+                    document.getElementById("message-box-text").innerHTML = "提交失败，用户名、密码或安全答案为null";
                     document.getElementById("message-box").style.background = "#f2dede";
                     document.getElementById("message-box").style.color = "#a94442";
                     //alert("提交失败，用户名或密码为null");

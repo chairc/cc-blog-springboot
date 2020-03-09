@@ -66,7 +66,7 @@ public class UserController {
                                                     HttpServletRequest request) {
         //map集合用来存放返回值
         Map<String, String> map = new HashMap<String, String>();
-        if (username != null && password != null && !username.equals("") && !password.equals("")) {
+        if (username != null && password != null && !username.equals("") && !password.equals("") && !answer.equals("")) {
             User user = new User();
             Integer flag = 1;
             String privateId = "";
