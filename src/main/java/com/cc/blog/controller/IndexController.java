@@ -21,6 +21,12 @@ public class IndexController {
         this.messageService = messageService;
     }
 
+    /**
+     * 主页显示
+     *
+     * @return mav
+     */
+
     @RequestMapping("/")
     public ModelAndView showIndex() {
         ModelAndView mav = new ModelAndView("index");
@@ -32,6 +38,12 @@ public class IndexController {
         mav.addObject("message_weight", message_weight);
         return mav;
     }
+
+    /**
+     * 随机跳转页面
+     *
+     * @return randomPage
+     */
 
     @RequestMapping("/randomJump")
     public String randomJump() {

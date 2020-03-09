@@ -19,86 +19,51 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/user")
-    public ModelAndView getUserAll() {
-        ModelAndView mav = new ModelAndView("user");
-        List<User> list = userService.getUserAll();
-        mav.addObject("user", list);
-        return mav;
+    /**
+     * 注册页面
+     *
+     * @return registered页面
+     */
+
+    @RequestMapping("/registered")
+    public String showRegistered() {
+        return "registered";
     }
 
-    @RequestMapping("/getUser1/{id}")
-    public String getUserById(@PathVariable int id) {
-        return userService.getUserById(id).toString();
-    }
+    /**
+     * 注册
+     *
+     * @param username
+     * @param password
+     * @param nickname
+     * @param phone
+     * @param email
+     * @param sex
+     * @param birthday
+     * @param wechat
+     * @param qq
+     * @param weibo
+     * @param question
+     * @param answer
+     * @param request
+     * @return result
+     */
 
-    @RequestMapping("/getUser/{id}")
-    public ModelAndView getUser(@PathVariable int id) {
-        ModelAndView mav = new ModelAndView("user");
-        mav.addObject("user", userService.getUserById(id));
-        return mav;
-    }
-
-    @RequestMapping("/addUser")
-    public String insertUser(@RequestParam(value = "username") String username,
-                             @RequestParam(value = "password") String password,
-                             @RequestParam(value = "nickname") String nickname,
-                             @RequestParam(value = "phone") String phone,
-                             @RequestParam(value = "email") String email,
-                             @RequestParam(value = "sex") String sex,
-                             @RequestParam(value = "birthday") String birthday,
-                             @RequestParam(value = "wechat") String wechat,
-                             @RequestParam(value = "qq") String qq,
-                             @RequestParam(value = "weibo") String weibo,
-                             @RequestParam(value = "question") String question,
-                             @RequestParam(value = "answer") String answer,
-                             HttpServletRequest request) {
-        User user = new User();
-        //privateId生成并判断是否重复
-        Integer flag = 1;
-        String privateId = "";
-        while (flag == 1) {
-            privateId = Tools.CreateUserRandomPrivateId();
-            flag = userService.getUserPrivateId(privateId);
-        }
-        user.setUser_common_private_id(privateId);
-        user.setUser_common_username(username);
-        user.setUser_common_password(password);
-        user.setUser_common_nickname(nickname);
-        user.setUser_secret_phone(phone);
-        user.setUser_secret_email(email);
-        user.setUser_secret_sex(sex);
-        user.setUser_secret_birthday(birthday);
-        user.setUser_secret_wechat(wechat);
-        user.setUser_secret_qq(qq);
-        user.setUser_secret_weibo(weibo);
-        user.setUser_safe_question(question);
-        user.setUser_safe_answer(answer);
-        user.setUser_safe_logtime(Tools.getServerTime());
-        user.setUser_safe_ip(Tools.getUserIp(request));
-        user.setUser_safe_system(Tools.getSystemVersion(request));
-        user.setUser_safe_browser(Tools.getBrowserVersion(request));
-//        user.setUser_safe_weight((Integer) 1);
-        userService.insertUser(user);
-
-        return "redirect:/login";//重定向index的RequestMapping
-    }
-
-    @RequestMapping("/addUserForAjax")
+    @RequestMapping("/registeredUserByAjax")
     @ResponseBody
-    public Map<String, String> addUserForAjax(@RequestParam(value = "username", required = false) String username,
-                                              @RequestParam(value = "password", required = false) String password,
-                                              @RequestParam(value = "nickname", required = false) String nickname,
-                                              @RequestParam(value = "phone", required = false) String phone,
-                                              @RequestParam(value = "email", required = false) String email,
-                                              @RequestParam(value = "sex", required = false) String sex,
-                                              @RequestParam(value = "birthday", required = false) String birthday,
-                                              @RequestParam(value = "wechat", required = false) String wechat,
-                                              @RequestParam(value = "qq", required = false) String qq,
-                                              @RequestParam(value = "weibo", required = false) String weibo,
-                                              @RequestParam(value = "question", required = false) String question,
-                                              @RequestParam(value = "answer", required = false) String answer,
-                                              HttpServletRequest request) {    //user是与页面参数对应的JavaBean
+    public Map<String, String> registeredUserByAjax(@RequestParam(value = "username", required = false) String username,
+                                                    @RequestParam(value = "password", required = false) String password,
+                                                    @RequestParam(value = "nickname", required = false) String nickname,
+                                                    @RequestParam(value = "phone", required = false) String phone,
+                                                    @RequestParam(value = "email", required = false) String email,
+                                                    @RequestParam(value = "sex", required = false) String sex,
+                                                    @RequestParam(value = "birthday", required = false) String birthday,
+                                                    @RequestParam(value = "wechat", required = false) String wechat,
+                                                    @RequestParam(value = "qq", required = false) String qq,
+                                                    @RequestParam(value = "weibo", required = false) String weibo,
+                                                    @RequestParam(value = "question", required = false) String question,
+                                                    @RequestParam(value = "answer", required = false) String answer,
+                                                    HttpServletRequest request) {
         //map集合用来存放返回值
         Map<String, String> map = new HashMap<String, String>();
         if (username != null && password != null && !username.equals("") && !password.equals("")) {
@@ -107,7 +72,7 @@ public class UserController {
             String privateId = "";
             while (flag == 1) {
                 privateId = Tools.CreateUserRandomPrivateId();
-                flag = userService.getUserPrivateId(privateId);
+                flag = userService.getUserPrivateId(privateId); //判断私有ID是否存在
             }
             user.setUser_common_private_id(privateId);
             user.setUser_common_username(username);
@@ -137,9 +102,10 @@ public class UserController {
     }
 
     /**
-     * 登陆
+     * 登录页面
      *
-     * @return
+     * @param request
+     * @return 根据session判断页面跳转
      */
 
     @RequestMapping("/login")
@@ -153,6 +119,13 @@ public class UserController {
         return "redirect:/user";
     }
 
+    /**
+     * 登出
+     *
+     * @param request
+     * @return 重定向：主页
+     */
+
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -162,11 +135,20 @@ public class UserController {
         return "redirect:/";
     }
 
-    @RequestMapping("/loginUserForAjax")
+    /**
+     * Ajax登录
+     *
+     * @param username
+     * @param password
+     * @param request
+     * @return map
+     */
+
+    @RequestMapping("/loginUserByAjax")
     @ResponseBody
-    public Map<String, String> loginUser(@RequestParam("username") String username,
-                                         @RequestParam("password") String password,
-                                         HttpServletRequest request) {
+    public Map<String, String> loginUserByAjax(@RequestParam("username") String username,
+                                               @RequestParam("password") String password,
+                                               HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
         if (username != null && password != null && !username.equals("") && !password.equals("")) {
             Integer flag = userService.loginUser(username, password);
@@ -182,9 +164,31 @@ public class UserController {
         return map;
     }
 
-    @RequestMapping("/registered")
-    public String showRegistered() {
-        return "registered";
+    /**
+     * 展示所有用户信息
+     *
+     * @return mav
+     */
+
+    @RequestMapping("/user")
+    public ModelAndView getUserAll() {
+        ModelAndView mav = new ModelAndView("user");
+        List<User> list = userService.getUserAll();
+        mav.addObject("user", list);
+        return mav;
     }
+
+    @RequestMapping("/getUser1/{id}")
+    public String getUserById(@PathVariable int id) {
+        return userService.getUserById(id).toString();
+    }
+
+    @RequestMapping("/getUser/{id}")
+    public ModelAndView getUser(@PathVariable int id) {
+        ModelAndView mav = new ModelAndView("user");
+        mav.addObject("user", userService.getUserById(id));
+        return mav;
+    }
+
 
 }

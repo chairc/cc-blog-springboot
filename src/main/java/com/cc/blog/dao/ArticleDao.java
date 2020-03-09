@@ -7,9 +7,29 @@ import java.util.List;
 
 @Mapper
 public interface ArticleDao {
+
+    /**
+     * 主页获取文章
+     *
+     * @return
+     */
+
     List<Article> getArticleAll_index();
 
+    /**
+     * 获取文章
+     *
+     * @return
+     */
+
     List<Article> getArticleAll();
+
+    /**
+     * 文章私有ID获取文章
+     *
+     * @param articlePrivateId
+     * @return
+     */
 
     List<Article> getArticleByPrivateId(String articlePrivateId);
 }

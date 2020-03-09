@@ -18,12 +18,19 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
+    /**
+     * 留言列表显示
+     *
+     * @param model
+     * @return message页面
+     */
+
     @RequestMapping("/message")
     public String showMessage(Model model) {
         int page = 1;
         Page<Message> pages = PageHelper.startPage(1, 10);
         List<Message> message = messageService.getMessageAll();
-        List<Message> message_weight = messageService.getMessageAll_index_weight();
+        List<Message> message_weight = messageService.getMessageAll_weight();
         model.addAttribute("message", message);
         model.addAttribute("message_weight", message_weight);
         model.addAttribute("pageNum", page);
@@ -33,12 +40,20 @@ public class MessageController {
         return "message";
     }
 
+    /**
+     * 留言列表分页显示
+     *
+     * @param model
+     * @param pageNum
+     * @return message页面
+     */
+
     @RequestMapping("/message/{pageNum}")
     public String messageByPage(Model model,
                                 @PathVariable int pageNum) {
         Page<Message> pages = PageHelper.startPage(pageNum, 10);
         List<Message> message = messageService.getMessageAll();
-        List<Message> message_weight = messageService.getMessageAll_index_weight();
+        List<Message> message_weight = messageService.getMessageAll_weight();
         model.addAttribute("message", message);
         model.addAttribute("message_weight", message_weight);
         if (pageNum == 1) {

@@ -18,6 +18,13 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
+    /**
+     * 文章列表显示
+     *
+     * @param model
+     * @return article页面
+     */
+
     @RequestMapping("/article")
     public String showArticle(Model model) {
         int page = 1;
@@ -30,6 +37,14 @@ public class ArticleController {
         model.addAttribute("pageTotal", pages.getTotal() / 8 + 1);
         return "article";
     }
+
+    /**
+     * 文章列表分页显示
+     *
+     * @param model
+     * @param pageNum
+     * @return article页面
+     */
 
     @RequestMapping("/article/{pageNum}")
     public String showArticle1(Model model,
@@ -50,6 +65,14 @@ public class ArticleController {
         model.addAttribute("pageTotal", pages.getTotal() / 8 + 1);
         return "article";
     }
+
+    /**
+     * 文章显示
+     *
+     * @param model
+     * @param privateId
+     * @return show_article页面
+     */
 
     @RequestMapping("/article/title/{privateId}")
     public String showArticleByPrivateId(Model model,

@@ -38,4 +38,16 @@
         DESC
     </select>
 
+    <select id="getMessageAll_weight" resultType="com.cc.blog.model.Message">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+        WHERE
+        message_weight = 1
+        ORDER BY
+        message_id
+        DESC
+    </select>
+
 </mapper>
