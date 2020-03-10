@@ -76,4 +76,12 @@ public interface UserDao {
      */
 
     void insertUser(User user);
+
+    /**
+     * 通过QQ快速登录新增用户信息
+     *
+     * @param user
+     */
+
+    void insertUserByQQ(User user);
 }

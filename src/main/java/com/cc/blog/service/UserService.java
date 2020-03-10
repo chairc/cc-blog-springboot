@@ -81,6 +81,16 @@ public class UserService {
     }
 
     /**
+     * 通过QQ快速登录新增用户信息
+     *
+     * @param user
+     */
+
+    public void insertUserByQQ(User user) {
+        userDao.insertUserByQQ(user);
+    }
+
+    /**
      * 通过ID删除用户信息
      *
      * @param id
