@@ -106,8 +106,8 @@ public class QQLoginController {
      * 用户授权后的回调方法
      */
 
-    @ResponseBody
     @RequestMapping("/callback")
+    @ResponseBody
     public String callbackHandler(HttpServletRequest request,
                                   HttpServletResponse response) throws IOException {
         // 1.获取回调的authorization
