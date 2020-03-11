@@ -19,11 +19,11 @@ package com.cc.blog.controller;
 
 import com.cc.blog.model.User;
 import com.cc.blog.service.UserService;
-import com.cc.blog.tools.QQTools;
 
 import com.cc.blog.tools.Tools;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,18 +48,52 @@ public class QQLoginController {
     @Autowired
     private UserService userService;
 
+    @Value("${qqlogin.call-back-url}")
+    private String CALLBACK_URL;
+
+    @Value("${qqlogin.app-id}")
+    private String APP_ID;
+
+    @Value("${qqlogin.app-key}")
+    private String APP_KEY;
+
+    @Value("${qqlogin.get-authorizaion-code}")
+    private String GET_AUTHORIZATION_CODE;
+
+    @Value("${qqlogin.get-access-token}")
+    private String GET_ACCESS_TOKEN;
+
+    @Value("${qqlogin.get-open-id}")
+    private String GET_OPEN_ID;
+
+    @Value("${qqlogin.get-user-info}")
+    private String GET_USER_INFO;
+
+    @RequestMapping("/testLoginByQQ")
+    @ResponseBody
+    public String testLoginByQQ() {
+        return "CALLBACK_URL=" + CALLBACK_URL + "<br>" + "APP_ID=" + APP_ID + "<br>" +
+                "APP_KEY=" + APP_KEY + "<br>" + "GET_AUTHORIZATION_CODE=" + GET_AUTHORIZATION_CODE +
+                "<br>" + "GET_ACCESS_TOKEN=" + GET_ACCESS_TOKEN + "<br>" +
+                "GET_OPEN_ID=" + GET_OPEN_ID + "<br>" + "GET_USER_INFO=" + GET_USER_INFO;
+    }
+
+    /**
+     * 用户授权登录方法
+     */
+
     @RequestMapping("/loginByQQ")
     public void loginByQQ(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         String response_type = "code";
-        String client_id = QQTools.APP_ID;
-        String redirect_uri = URLEncoder.encode(QQTools.CALLBACK_URL, "UTF-8");
-        //String redirect_uri = QQTools.CALLBACK_URL;
+        String client_id = APP_ID;
+        String redirect_uri = URLEncoder.encode(CALLBACK_URL, "UTF-8");
+        //String redirect_uri = CALLBACK_URL;
         //client端的状态值。用于第三方应用防止CSRF攻击。
         String state = new Date().toString();
         request.getSession().setAttribute("state", state);
 
-        String url = String.format(QQTools.GET_AUTHORIZATION_CODE +
+        String url = String.format(GET_AUTHORIZATION_CODE +
                         "?response_type=%s&client_id=%s&redirect_uri=%s&state=%s",
                 response_type, client_id, redirect_uri, state);
 
@@ -136,12 +170,12 @@ public class QQLoginController {
 
     private String getUrlForAccessToken(String authorization_code) {
         String grant_type = "authorization_code";
-        String client_id = QQTools.APP_ID;
-        String client_secret = QQTools.APP_KEY;
+        String client_id = APP_ID;
+        String client_secret = APP_KEY;
 //        String redirect_uri = URLEncoder.encode(CALLBACK_URL, "UTF-8"); 此处进行URLEncode会导致无法获取AccessToken
-        String redirect_uri = QQTools.CALLBACK_URL;
+        String redirect_uri = CALLBACK_URL;
 
-        return String.format(QQTools.GET_ACCESS_TOKEN +
+        return String.format(GET_ACCESS_TOKEN +
                         "?grant_type=%s&client_id=%s&client_secret=%s&code=%s&redirect_uri=%s",
                 grant_type, client_id, client_secret, authorization_code, redirect_uri);
     }
@@ -171,7 +205,7 @@ public class QQLoginController {
      */
 
     private String getOpenId(String access_token) throws IOException {
-        String url = String.format(QQTools.GET_OPEN_ID + "?access_token=%s", access_token);
+        String url = String.format(GET_OPEN_ID + "?access_token=%s", access_token);
         //callback( {"client_id":"YOUR_APPID","open_id":"YOUR_OPENID"} );
         String secondCallbackInfo = restTemplate.getForObject(url, String.class);
 
@@ -197,8 +231,8 @@ public class QQLoginController {
      */
 
     private String getUserInfo(String open_id, String access_token) {
-        String info_url = String.format(QQTools.GET_USER_INFO + "?access_token=%s&oauth_consumer_key=%s&openid=%ss",
-                access_token, QQTools.APP_ID, open_id);
+        String info_url = String.format(GET_USER_INFO + "?access_token=%s&oauth_consumer_key=%s&openid=%ss",
+                access_token, APP_ID, open_id);
         System.out.println("infoUrl = " + info_url);
         return restTemplate.getForObject(info_url, String.class);
     }

@@ -14,7 +14,7 @@ spring:
     url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: '*19980424*'
+    password: 
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
@@ -25,3 +25,12 @@ pagehelper:
   helper-dialect: mysql
   reasonable: true
   support-methods-arguments: true
+
+qqlogin:
+  call-back-url: http://chairc.cn/qqlogin/callback
+  app-id: 
+  app-key: 
+  get-authorizaion-code: https://graph.qq.com/oauth2.0/authorize
+  get-access-token: https://graph.qq.com/oauth2.0/token
+  get-open-id: https://graph.qq.com/oauth2.0/me
+  get-user-info: https://graph.qq.com/user/get_user_info
