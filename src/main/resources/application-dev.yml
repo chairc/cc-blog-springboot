@@ -1,4 +1,4 @@
-server:
+﻿server:
   port: 8080
 
 spring:
@@ -14,7 +14,7 @@ spring:
     url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 
+    password: '*19980424*'
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
@@ -27,9 +27,16 @@ pagehelper:
   support-methods-arguments: true
 
 qqlogin:
-  call-back-url: http://chairc.cn/qqlogin/callback
+  #主要
+  #call-back-url: https://xxx.com/qqlogin/callback
+  #app-id: 
+  #app-key: 
+
+  #开发测试
+  call-back-url: http://127.0.0.1:8080/qqlogin/callback
   app-id: 
   app-key: 
+
   get-authorizaion-code: https://graph.qq.com/oauth2.0/authorize
   get-access-token: https://graph.qq.com/oauth2.0/token
   get-open-id: https://graph.qq.com/oauth2.0/me

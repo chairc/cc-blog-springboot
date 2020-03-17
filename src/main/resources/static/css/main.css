@@ -1182,7 +1182,7 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
 
 .login-form {
   width: 260px;
-  height: 260px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   padding: 40px;

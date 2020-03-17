@@ -4,6 +4,7 @@ public class User {
 
     private int user_common_id;
     private String user_common_private_id;
+    private String user_common_open_id;
     private String user_common_username;
     private String user_common_password;
     private String user_common_nickname;
@@ -39,6 +40,14 @@ public class User {
 
     public void setUser_common_private_id(String user_common_private_id) {
         this.user_common_private_id = user_common_private_id;
+    }
+
+    public String getUser_common_open_id() {
+        return user_common_open_id;
+    }
+
+    public void setUser_common_open_id(String user_common_open_id) {
+        this.user_common_open_id = user_common_open_id;
     }
 
     public String getUser_common_username() {
@@ -206,6 +215,7 @@ public class User {
         return "User{" +
                 "user_common_id=" + user_common_id +
                 ", user_common_private_id='" + user_common_private_id + '\'' +
+                ", user_common_open_id='" + user_common_open_id + '\'' +
                 ", user_common_username='" + user_common_username + '\'' +
                 ", user_common_password='" + user_common_password + '\'' +
                 ", user_common_nickname='" + user_common_nickname + '\'' +

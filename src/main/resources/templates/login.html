@@ -119,6 +119,13 @@
         <a class="login-registered" href="/qqlogin/loginByQQ">qq快速登录</a>
     </div>
 </div>
+
+<div class="message-box-warp">
+    <div id="message-box" class="message-box">
+        <p id="message-box-text"></p>
+    </div>
+</div>
+
 <script>
     function login() {
         var username = $("#username").val().trim();
@@ -135,10 +142,25 @@
                     alert("登录成功");
                     window.location.href = "/";
                 } else if (data.result === "0") {
-                    alert("登录失败，用户名或密码错误");
+                    document.getElementById("message-box-text").innerHTML = "登录失败，用户名或密码错误";
+                    document.getElementById("message-box").style.background = "#f2dede";
+                    document.getElementById("message-box").style.color = "#a94442";
+                    //alert("登录失败，用户名或密码错误");
                 } else {
-                    alert("登录失败，用户名或密码为null");
+                    document.getElementById("message-box-text").innerHTML = "提交失败，用户名、密码为null";
+                    document.getElementById("message-box").style.background = "#f2dede";
+                    document.getElementById("message-box").style.color = "#a94442";
+                    //alert("登录失败，用户名或密码为null");
                 }
+                if($("#message-box").is(":hidden")){
+                    $('#message-box').slideDown(500);
+                }else{
+                    $('#message-box').slideUp(500);
+                }
+                $(document).one("click", function(){
+                    $('#message-box').slideUp(500);
+                });
+                e.stopPropagation();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);

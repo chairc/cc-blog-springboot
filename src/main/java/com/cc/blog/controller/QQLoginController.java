@@ -20,7 +20,7 @@ package com.cc.blog.controller;
 import com.cc.blog.model.User;
 import com.cc.blog.service.UserService;
 
-import com.cc.blog.tools.Tools;
+import com.cc.blog.util.Tools;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -141,7 +141,11 @@ public class QQLoginController {
         System.out.println(user_info);
 
 
-        // ... 获取到用户信息就可以进行自己的业务逻辑处理了
+        // 6.将user_info从Json格式中解析并传入service层
+        ObjectMapper objectMapper = new ObjectMapper();
+        HashMap hashMap = objectMapper.readValue(user_info,HashMap.class);
+        String username = (String) hashMap.get("nickname");
+
         User user = new User();
         Integer flag = 1;
         String private_id = "";
@@ -150,14 +154,20 @@ public class QQLoginController {
             flag = userService.getUserPrivateId(private_id); //判断私有ID是否存在
         }
         user.setUser_common_private_id(private_id);
-        //user.setUser_common_username(username);
-        //user.setUser_secret_qq(qq);
+        user.setUser_common_open_id(open_id);
+        user.setUser_common_username(username);
+        user.setUser_common_password("null");
+        user.setUser_common_nickname(username);
+        user.setUser_safe_question("QQ快速登录");
+        user.setUser_safe_answer("暂无");
         user.setUser_safe_logtime(Tools.getServerTime());
         user.setUser_safe_ip(Tools.getUserIp(request));
         user.setUser_safe_system(Tools.getSystemVersion(request));
         user.setUser_safe_browser(Tools.getBrowserVersion(request));
         System.out.println(user);
         userService.insertUser(user);
+
+        request.getSession().setAttribute("username", username);
 
         return "redirect:/";
     }

@@ -2,17 +2,14 @@ package com.cc.blog.controller;
 
 import com.cc.blog.model.User;
 import com.cc.blog.service.UserService;
-import com.cc.blog.tools.Tools;
+import com.cc.blog.util.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
