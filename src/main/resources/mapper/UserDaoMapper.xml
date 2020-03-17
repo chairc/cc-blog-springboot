@@ -81,4 +81,22 @@
         user_common_id = #{user_common_id}
     </delete>
 
+    <select id="usernameValidate" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+        SELECT
+        COUNT(*)
+        FROM
+        <include refid="table"/>
+        WHERE
+        user_common_username = #{username}
+    </select>
+
+    <select id="openIdValidate" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+        SELECT
+        COUNT(*)
+        FROM
+        <include refid="table"/>
+        WHERE
+        user_common_open_id = #{openId}
+    </select>
+
 </mapper>

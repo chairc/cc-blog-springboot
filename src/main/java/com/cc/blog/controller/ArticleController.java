@@ -81,4 +81,9 @@ public class ArticleController {
         model.addAttribute("article", list);
         return "show_article";
     }
+
+    @RequestMapping("/articleTest")
+    public String articleTest(){
+        return "article_test";
+    }
 }

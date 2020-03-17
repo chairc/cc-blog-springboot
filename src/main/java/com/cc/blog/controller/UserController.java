@@ -46,7 +46,7 @@ public class UserController {
      * @param question
      * @param answer
      * @param request
-     * @return result
+     * @return
      */
 
     @RequestMapping("/registeredUserByAjax")
@@ -66,36 +66,41 @@ public class UserController {
                                                     HttpServletRequest request) {
         //map集合用来存放返回值
         Map<String, String> map = new HashMap<String, String>();
-        if (username != null && password != null && !username.equals("") && !password.equals("") && !answer.equals("")) {
-            User user = new User();
-            Integer flag = 1;
-            String privateId = "";
-            while (flag == 1) {
-                privateId = Tools.CreateUserRandomPrivateId();
-                flag = userService.getUserPrivateId(privateId); //判断私有ID是否存在
+        //验证username的唯一性
+        if (userService.usernameValidate(username).equals(0)) {
+            if (username != null && password != null && !username.equals("") && !password.equals("") && !answer.equals("")) {
+                User user = new User();
+                Integer flag = 1;
+                String privateId = "";
+                while (flag == 1) {
+                    privateId = Tools.CreateUserRandomPrivateId();
+                    flag = userService.getUserPrivateId(privateId); //判断私有ID是否存在
+                }
+                user.setUser_common_private_id(privateId);
+                user.setUser_common_username(username);
+                user.setUser_common_password(password);
+                user.setUser_common_nickname(nickname);
+                user.setUser_secret_phone(phone);
+                user.setUser_secret_email(email);
+                user.setUser_secret_sex(sex);
+                user.setUser_secret_birthday(birthday);
+                user.setUser_secret_wechat(wechat);
+                user.setUser_secret_qq(qq);
+                user.setUser_secret_weibo(weibo);
+                user.setUser_safe_question(question);
+                user.setUser_safe_answer(answer);
+                user.setUser_safe_logtime(Tools.getServerTime());
+                user.setUser_safe_ip(Tools.getUserIp(request));
+                user.setUser_safe_system(Tools.getSystemVersion(request));
+                user.setUser_safe_browser(Tools.getBrowserVersion(request));
+                System.out.println(user);
+                userService.insertUser(user);
+                map.put("result", "1");
+            } else {
+                map.put("result", "0");
             }
-            user.setUser_common_private_id(privateId);
-            user.setUser_common_username(username);
-            user.setUser_common_password(password);
-            user.setUser_common_nickname(nickname);
-            user.setUser_secret_phone(phone);
-            user.setUser_secret_email(email);
-            user.setUser_secret_sex(sex);
-            user.setUser_secret_birthday(birthday);
-            user.setUser_secret_wechat(wechat);
-            user.setUser_secret_qq(qq);
-            user.setUser_secret_weibo(weibo);
-            user.setUser_safe_question(question);
-            user.setUser_safe_answer(answer);
-            user.setUser_safe_logtime(Tools.getServerTime());
-            user.setUser_safe_ip(Tools.getUserIp(request));
-            user.setUser_safe_system(Tools.getSystemVersion(request));
-            user.setUser_safe_browser(Tools.getBrowserVersion(request));
-            System.out.println(user);
-            userService.insertUser(user);
-            map.put("result", "1");
         } else {
-            map.put("result", "0");
+            map.put("result", "-1");
         }
 
         return map;
@@ -151,8 +156,7 @@ public class UserController {
                                                HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
         if (username != null && password != null && !username.equals("") && !password.equals("")) {
-            Integer flag = userService.loginUser(username, password);
-            if (flag == 1) {
+            if (userService.loginUser(username, password) == 1) {
                 request.getSession().setAttribute("username", username);
                 map.put("result", "1");
             } else {

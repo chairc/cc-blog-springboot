@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="nivo-lightbox-notouch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>个人空间 | 小虚无的下午茶</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <!--    <link rel="stylesheet" th:href="@{/static/css/simple-line-icons.css}">-->
+    <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
+    <!--<link rel="stylesheet" th:href="@{/static/css/Index/menu_sideslide.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/static/css/Index/slide-style.css}">-->
+    <link rel="stylesheet" th:href="@{/static/css/nivo-lightbox.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
+    <!--<link rel="stylesheet" th:href="@{/static/css/iconfont.css}">-->
+
+    <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.css}">
+<!--    <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.min.css}">-->
+    <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.preview.css}">
+</head>
+<body>
+<header id="header-wrap">
+    <!-- 导航栏开始 -->
+    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
+                        aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                </button>
+                <a href="https://www.chairc.cn" class="navbar-brand"><img
+                        src="./Home_files/logo.png" alt=""></a>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <ul class="onepage-nev navbar-nav mr-auto w-100 justify-content-end clearfix">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            主页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#about">
+                            关于
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/article">
+                            归档
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/message">
+                            留言
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            图片
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            娱乐
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            登出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 手机导航栏开始 -->
+        <ul class="onepage-nev mobile-menu">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="">
+                <a href="/#about">关于</a>
+            </li>
+            <li class="">
+                <a href="/article">归档</a>
+            </li>
+            <li class="">
+                <a href="/message">留言</a>
+            </li>
+            <li class="">
+                <a href="">图片</a>
+            </li>
+            <li class="">
+                <a href="">娱乐</a>
+            </li>
+            <li class="">
+                <a href="/logout">登出</a>
+            </li>
+        </ul>
+        <!-- 手机导航栏结束 -->
+    </nav>
+    <!-- 导航栏结束 -->
+
+    <!-- 主页壁纸开始 -->
+    <div id="hero-area" class="hero-area-bg">
+        <div class="overlay">
+
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 text-center">
+                    <div class="contents">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 主页壁纸结束 -->
+
+</header>
+
+<div>
+    <div id="editor">
+        <textarea style="display: none">### Hello Editor.md !</textarea>
+    </div>
+    <div id="markdown-view">
+        <textarea style="display: none">### Hello Editor.md !</textarea>
+    </div>
+</div>
+
+
+<script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
+
+<script type="text/javascript">
+    $(function() {
+        var editor = editormd("editor", {
+            width: "100%",
+            height: 500,
+            // markdown: "xxxx",
+            syncScrolling : "single",
+            path : "/static/editor.md/lib/",
+            imageUpload: true,//图片上传功能
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            toolbarIcons : function() {
+                return editormd.toolbarModes["full"]
+            },
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(function() {
+        var testView = editormd.markdownToHTML("markdown-view", {
+            // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+            htmlDecode : true,  // Enable / disable HTML tag encode.
+            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+        });
+    });
+</script>
+
+
+
+<script type="text/javascript" th:src="@{/static/editor.md/editormd.min.js}"></script>
+
+<script type="text/javascript" th:src="@{/static/editor.md/editormd.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/prettify.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/raphael.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/underscore.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/sequence-diagram.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/flowchart.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/jquery.flowchart.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/editormd.min.js}"></script>
+
+
+
+<script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.counterup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/waypoints.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/wow.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.nav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+</body>
+</html>

@@ -78,10 +78,22 @@ public interface UserDao {
     void insertUser(User user);
 
     /**
-     * 通过QQ快速登录新增用户信息
+     * 用户名唯一性验证
      *
-     * @param user
+     * @param username
+     * @return
      */
 
-    void insertUserByQQ(User user);
+    Integer usernameValidate(String username);
+
+    /**
+     * 通过QQ快速登录来验证openId
+     *
+     * @param openId
+     * @return
+     */
+
+    Integer openIdValidate(String openId);
+
+
 }

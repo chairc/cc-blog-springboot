@@ -69,6 +69,12 @@ public class QQLoginController {
     @Value("${qqlogin.get-user-info}")
     private String GET_USER_INFO;
 
+    /**
+     * 测试配置
+     *
+     * @return
+     */
+
     @RequestMapping("/testLoginByQQ")
     @ResponseBody
     public String testLoginByQQ() {
@@ -80,6 +86,10 @@ public class QQLoginController {
 
     /**
      * 用户授权登录方法
+     *
+     * @param request
+     * @param response
+     * @throws IOException
      */
 
     @RequestMapping("/loginByQQ")
@@ -98,75 +108,80 @@ public class QQLoginController {
                 response_type, client_id, redirect_uri, state);
 
         response.sendRedirect(url);
-
-        // 如果一切顺利，就会进入callbackHandler方法
     }
 
     /**
      * 用户授权后的回调方法
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
      */
 
     @RequestMapping("/callback")
     @ResponseBody
     public String callbackHandler(HttpServletRequest request,
                                   HttpServletResponse response) throws IOException {
-        // 1.获取回调的authorization
+        //获取回调的authorization
         String authorization_code = request.getParameter("code");
         if (authorization_code == null || authorization_code.trim().isEmpty()) {
             throw new RuntimeException("未获取到AuthorizationCode");
         }
-        // 2.client端的状态值。用于第三方应用防止CSRF攻击。
+        //client端的状态值。用于第三方应用防止CSRF攻击。
         String state = request.getParameter("state");
         if (!state.equals(request.getParameter("state"))) {
             throw new RuntimeException("client端的状态值不匹配！");
         }
 
-        // 3.获取accessToken
+        //获取accessToken
         String url_for_access_token = getUrlForAccessToken(authorization_code);
         String access_token = getAccessToken(url_for_access_token);
 
-        // 4.根据access_token获取open_id
+        //根据access_token获取open_id
         if (access_token == null || access_token.trim().isEmpty()) {
             throw new RuntimeException("未获取到accessToken");
         }
         String open_id = getOpenId(access_token);
 
-        // 5.根据open_id获取用户信息
+        //根据open_id获取用户信息
         if (open_id == null || open_id.trim().isEmpty()) {
             throw new RuntimeException("未获取到openId");
         }
         String user_info = getUserInfo(open_id, access_token);
-        //return "user_info为：" + user_info;
 
-        System.out.println(user_info);
+        //System.out.println(user_info);
 
-
-        // 6.将user_info从Json格式中解析并传入service层
+        //将user_info从Json格式中解析并传入service层
         ObjectMapper objectMapper = new ObjectMapper();
-        HashMap hashMap = objectMapper.readValue(user_info,HashMap.class);
+        HashMap hashMap = objectMapper.readValue(user_info, HashMap.class);
         String username = (String) hashMap.get("nickname");
+        String sex = (String) hashMap.get("gender");
 
-        User user = new User();
-        Integer flag = 1;
-        String private_id = "";
-        while (flag == 1) {
-            private_id = Tools.CreateUserRandomPrivateId();
-            flag = userService.getUserPrivateId(private_id); //判断私有ID是否存在
+        //验证open_id是否存在于用户表，若不存在则创建该用户并将处于登录状态，若存在则直接进入登录状态
+        if (userService.openIdValidate(open_id).equals(0)) {
+            User user = new User();
+            Integer flag = 1;
+            String private_id = "";
+            while (flag == 1) {
+                private_id = Tools.CreateUserRandomPrivateId();
+                flag = userService.getUserPrivateId(private_id); //判断私有ID是否存在
+            }
+            user.setUser_common_private_id(private_id);
+            user.setUser_common_open_id(open_id);
+            user.setUser_common_username(username);
+            user.setUser_common_password("null");
+            user.setUser_common_nickname(username);
+            user.setUser_secret_sex(sex);
+            user.setUser_safe_question("QQ快速登录");
+            user.setUser_safe_answer("暂无");
+            user.setUser_safe_logtime(Tools.getServerTime());
+            user.setUser_safe_ip(Tools.getUserIp(request));
+            user.setUser_safe_system(Tools.getSystemVersion(request));
+            user.setUser_safe_browser(Tools.getBrowserVersion(request));
+            System.out.println(user);
+            userService.insertUser(user);
         }
-        user.setUser_common_private_id(private_id);
-        user.setUser_common_open_id(open_id);
-        user.setUser_common_username(username);
-        user.setUser_common_password("null");
-        user.setUser_common_nickname(username);
-        user.setUser_safe_question("QQ快速登录");
-        user.setUser_safe_answer("暂无");
-        user.setUser_safe_logtime(Tools.getServerTime());
-        user.setUser_safe_ip(Tools.getUserIp(request));
-        user.setUser_safe_system(Tools.getSystemVersion(request));
-        user.setUser_safe_browser(Tools.getBrowserVersion(request));
-        System.out.println(user);
-        userService.insertUser(user);
-
         request.getSession().setAttribute("username", username);
 
         return "redirect:/";
@@ -176,6 +191,9 @@ public class QQLoginController {
 
     /**
      * 拼接用于获取accessToken的链接
+     *
+     * @param authorization_code
+     * @return
      */
 
     private String getUrlForAccessToken(String authorization_code) {
@@ -192,6 +210,9 @@ public class QQLoginController {
 
     /**
      * 获取accessToken
+     *
+     * @param url_for_access_token
+     * @return
      */
 
     private String getAccessToken(String url_for_access_token) {
@@ -211,7 +232,11 @@ public class QQLoginController {
     }
 
     /**
-     * 根据accessToken获取openid
+     * 根据accessToken获取open_id
+     *
+     * @param access_token
+     * @return
+     * @throws IOException
      */
 
     private String getOpenId(String access_token) throws IOException {
@@ -238,6 +263,10 @@ public class QQLoginController {
 
     /**
      * 根据openid获取用户信息
+     *
+     * @param open_id
+     * @param access_token
+     * @return
      */
 
     private String getUserInfo(String open_id, String access_token) {

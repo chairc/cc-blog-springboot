@@ -55,8 +55,7 @@ public class UserService {
      */
 
     public Integer getUserPrivateId(String privateId) {
-        Integer flag = userDao.getUserPrivateId(privateId);
-        return flag;
+        return userDao.getUserPrivateId(privateId);
     }
 
     /**
@@ -81,16 +80,6 @@ public class UserService {
     }
 
     /**
-     * 通过QQ快速登录新增用户信息
-     *
-     * @param user
-     */
-
-    public void insertUserByQQ(User user) {
-        userDao.insertUserByQQ(user);
-    }
-
-    /**
      * 通过ID删除用户信息
      *
      * @param id
@@ -108,6 +97,28 @@ public class UserService {
 
     public void updateUser(User user) {
         userDao.updateUser(user);
+    }
+
+    /**
+     * 用户名唯一性验证
+     *
+     * @param username
+     * @return
+     */
+
+    public Integer usernameValidate(String username) {
+        return userDao.usernameValidate(username);
+    }
+
+    /**
+     * 通过QQ快速登录来验证openId
+     *
+     * @param openId
+     * @return
+     */
+
+    public Integer openIdValidate(String openId) {
+        return userDao.openIdValidate(openId);
     }
 
 }
