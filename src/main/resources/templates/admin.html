@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="nivo-lightbox-notouch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>留言板 | 小虚无的下午茶</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
+    <link rel="stylesheet" th:href="@{/static/css/nivo-lightbox.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.min.css}">
+
+</head>
+<body>
+
+<!-- 头部开始 -->
+<header id="header-wrap">
+    <!-- 导航栏开始 -->
+    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
+                        aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                </button>
+                <a href="https://www.chairc.cn" class="navbar-brand"><img
+                        src="./Home_files/logo.png" alt=""></a>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <ul class="onepage-nev navbar-nav mr-auto w-100 justify-content-end clearfix">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            主页
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#people">
+                            人员管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#article">
+                            归档管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#message">
+                            留言管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            图片管理
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/superAdmin/logout">
+                            登出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 手机导航栏开始 -->
+        <ul class="onepage-nev mobile-menu">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="">
+                <a href="/#about">人员管理</a>
+            </li>
+            <li class="">
+                <a href="/article">归档管理</a>
+            </li>
+            <li class="">
+                <a href="/message">留言管理</a>
+            </li>
+            <li class="">
+                <a href="">图片管理</a>
+            </li>
+            <li class="">
+                <a href="/superAdmin/logout">登出</a>
+            </li>
+        </ul>
+        <!-- 手机导航栏结束 -->
+    </nav>
+    <!-- 导航栏结束 -->
+</header>
+<!-- 头部结束 -->
+
+<!-- 管理员展示开始 -->
+<div id="user" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div>
+                <input type="text" id="userId"/>
+                <p id="p_test">点击可以显示数据！</p>
+                <button id="btn_change" onclick="test()">点我改变数据</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 管理员展示结束 -->
+
+<!-- 底部开始 -->
+<footer th:replace="footer.html"></footer>
+<!-- 底部结束 -->
+
+<!-- 返回最顶层 -->
+<a href="" class="back-to-top" style="display: block;">
+    <i>
+        <p>UP</p>
+    </i>
+</a>
+
+<script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
+<script type="text/javascript">
+    function test() {
+
+        var userId = $("#userId").val().trim();
+        var test = $('#p_test');
+
+        $.ajax({
+            url: "/superAdmin/clickTest",
+            dataType: "JSON",
+            data: {
+                "userId": userId
+            },
+            success: function (data) {
+                    test.html('<p id="p_test">' + data.result + '</p>');
+            },
+        })
+    }
+</script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/editormd.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/prettify.min.js}"></script>
+
+<script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.counterup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/waypoints.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/wow.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.nav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+
+
+</body>
+</html>

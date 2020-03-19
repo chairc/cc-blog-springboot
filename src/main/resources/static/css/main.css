@@ -1450,6 +1450,14 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
   float: left;
 }
 
+.message-container{
+  width: 100%;
+  height: auto;
+  text-align: center;
+  display: flex;
+  position: relative;
+}
+
 /*custom alert*/
 
 .message-box-warp{

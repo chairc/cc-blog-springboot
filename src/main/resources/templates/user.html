@@ -5,15 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
-    <!--    <link rel="stylesheet" th:href="@{/static/css/simple-line-icons.css}">-->
     <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
-    <!--<link rel="stylesheet" th:href="@{/static/css/Index/menu_sideslide.css}">-->
-    <!--    <link rel="stylesheet" th:href="@{/static/css/Index/slide-style.css}">-->
     <link rel="stylesheet" th:href="@{/static/css/nivo-lightbox.css}">
     <link rel="stylesheet" th:href="@{/static/css/animate.css}">
     <link rel="stylesheet" th:href="@{/static/css/main.css}">
     <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
-    <!--<link rel="stylesheet" th:href="@{/static/css/iconfont.css}">-->
     <style>
         .border td {
             border: #000000 solid 1px
@@ -343,7 +339,7 @@
             /*data:$("#form1").serialize(),*/  //序列化表单
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                if (data.result == "1") {
+                if (data.result === "1") {
                     alert("提交成功");
                 } else {
                     alert("提交失败，用户名或密码为null");

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cc.blog.dao.SuperAdminDao">
+    <!--关于ResultMap 如果实体类与数据库的行相同则不用写，反之则需要写ResultMap-->
+    <sql id="table">cc_blog_user</sql>
+
+    <select id="superAdminLogin" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+        SELECT
+        COUNT(*)
+        FROM
+        <include refid="table"/>
+        WHERE
+        user_common_username = #{username}
+        AND
+        user_common_password = #{password}
+        AND
+        user_common_private_id = #{privateId}
+    </select>
+</mapper>

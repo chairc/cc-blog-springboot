@@ -115,12 +115,15 @@ public class UserController {
 
     @RequestMapping("/login")
     public String login(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
+        String username = Tools.usernameSessionValidate(request);
+        System.out.println("当前Session：" + username);
         if (username == null) {
             return "login";
+        } else if (username.equals("SuperAdmin")) {
+            return "redirect:/superAdmin/admin";
         }
         System.out.println("登录人员：" + username);
+
         return "redirect:/user";
     }
 
@@ -133,10 +136,9 @@ public class UserController {
 
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("username");
+        System.out.println("登出人员：" + Tools.usernameSessionValidate(request));
         request.getSession().invalidate();
-        System.out.println("登出人员：" + username);
+
         return "redirect:/";
     }
 
@@ -155,7 +157,9 @@ public class UserController {
                                                @RequestParam("password") String password,
                                                HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
-        if (username != null && password != null && !username.equals("") && !password.equals("")) {
+
+        if (username != null && password != null && !username.equals("")
+                && !password.equals("") && !username.equals("SuperAdmin")) {
             if (userService.loginUser(username, password) == 1) {
                 request.getSession().setAttribute("username", username);
                 map.put("result", "1");

@@ -5,6 +5,7 @@ import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -124,4 +125,10 @@ public class Tools {
         OperatingSystem os = userAgent.getOperatingSystem();//获取系统信息
         return os.getName();
     }
+
+    public static String usernameSessionValidate(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        return (String) session.getAttribute("username");
+    }
+
 }

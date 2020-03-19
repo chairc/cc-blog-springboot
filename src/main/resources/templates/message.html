@@ -6,15 +6,12 @@
     <title>留言板 | 小虚无的下午茶</title>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
-    <!--    <link rel="stylesheet" th:href="@{/static/css/simple-line-icons.css}">-->
     <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
-    <!--<link rel="stylesheet" th:href="@{/static/css/Index/menu_sideslide.css}">-->
-    <!--    <link rel="stylesheet" th:href="@{/static/css/Index/slide-style.css}">-->
     <link rel="stylesheet" th:href="@{/static/css/nivo-lightbox.css}">
     <link rel="stylesheet" th:href="@{/static/css/animate.css}">
     <link rel="stylesheet" th:href="@{/static/css/main.css}">
     <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
-    <!--<link rel="stylesheet" th:href="@{/static/css/iconfont.css}">-->
+    <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.min.css}">
 
 </head>
 <body>
@@ -190,6 +187,9 @@
                 <p th:text="${pageTotal}"></p>
             </div>
         </div>
+        <div class="message-container" id="message-editor">
+            <textarea style="display: none"></textarea>
+        </div>
     </div>
 </div>
 <!-- 留言展示结束 -->
@@ -206,6 +206,26 @@
 </a>
 
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        var editor = editormd("message-editor", {
+            width: "100%",
+            height: 200,
+            placeholder:"开始留言吧...",
+            // markdown: "xxxx",
+            syncScrolling: "single",
+            path: "/static/editor.md/lib/",
+            watch: false,
+            toolbarIcons: function () {
+                return ["undo", "redo"]
+            },
+        });
+    });
+</script>
+<script type="text/javascript" th:src="@{/static/editor.md/editormd.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/prettify.min.js}"></script>
+
 <script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>

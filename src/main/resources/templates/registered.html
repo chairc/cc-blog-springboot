@@ -6,15 +6,11 @@
     <title>注册 | 小虚无的下午茶</title>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
-    <!--    <link rel="stylesheet" th:href="@{/static/css/simple-line-icons.css}">-->
     <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
-    <!--<link rel="stylesheet" th:href="@{/static/css/Index/menu_sideslide.css}">-->
-    <!--    <link rel="stylesheet" th:href="@{/static/css/Index/slide-style.css}">-->
     <link rel="stylesheet" th:href="@{/static/css/nivo-lightbox.css}">
     <link rel="stylesheet" th:href="@{/static/css/animate.css}">
     <link rel="stylesheet" th:href="@{/static/css/main.css}">
     <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
-    <!--<link rel="stylesheet" th:href="@{/static/css/iconfont.css}">-->
 
 </head>
 <body>
@@ -196,15 +192,18 @@
                     document.getElementById("message-box").style.background = "#f2dede";
                     document.getElementById("message-box").style.color = "#a94442";
                 }
+                setTimeout(function () {
+                    $('#message-box').slideUp(300);
+                },1000);
                 if ($("#message-box").is(":hidden")) {
                     $('#message-box').slideDown(300);
                 } else {
                     $('#message-box').slideUp(300);
                 }
-                $(document).one("click", function () {
+                /*$(document).one("click", function () {
                     $('#message-box').slideUp(300);
                 });
-                e.stopPropagation();
+                e.stopPropagation();*/
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.status);
