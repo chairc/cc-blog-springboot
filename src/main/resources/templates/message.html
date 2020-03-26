@@ -211,13 +211,15 @@
         var editor = editormd("message-editor", {
             width: "100%",
             height: 200,
-            placeholder:"开始留言吧...",
-            // markdown: "xxxx",
+            emoji: true,
+            autofocus: false,
+            placeholder: "开始留言吧...",
             syncScrolling: "single",
             path: "/static/editor.md/lib/",
+            saveHTMLToTextarea: true,
             watch: false,
             toolbarIcons: function () {
-                return ["undo", "redo"]
+                return ["undo", "redo", "|", "emoji"]
             },
         });
     });

@@ -15,11 +15,8 @@ import java.util.List;
 public class IndexController {
     @Autowired
     private ArticleService articleService;
+    @Autowired
     private MessageService messageService;
-
-    public IndexController(MessageService messageService) {
-        this.messageService = messageService;
-    }
 
     /**
      * 主页显示
@@ -28,7 +25,7 @@ public class IndexController {
      */
 
     @RequestMapping("/")
-    public ModelAndView showIndex() {
+    public ModelAndView showIndexPage() {
         ModelAndView mav = new ModelAndView("index");
         List<Article> article = articleService.getArticleAll_index();
         List<Message> message = messageService.getMessageAll_index();
@@ -46,7 +43,7 @@ public class IndexController {
      */
 
     @RequestMapping("/randomJump")
-    public String randomJump() {
+    public String randomJumpPage() {
         String[] randomPages = new String[]{"article", "message"};
         String randomPage = "";
         int randomNum = (int) (Math.random() * 2);

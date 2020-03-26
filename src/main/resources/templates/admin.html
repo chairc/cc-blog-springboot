@@ -99,10 +99,194 @@
 <div id="user" class="section-padding">
     <div class="container">
         <div class="row">
-            <div>
+            <div style="width: 100%">
                 <input type="text" id="userId"/>
                 <p id="p_test">点击可以显示数据！</p>
-                <button id="btn_change" onclick="test()">点我改变数据</button>
+                <button id="btn_change" onclick="test()">点我查询数据</button>
+            </div>
+            <div style="width: 100%">
+                <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                     style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                    <ul class="timeline">
+                        <li>
+                            <i class="icon-graduation"></i>
+                            <h2 class="timelin-title">用户信息</h2>
+                        </li>
+
+                        <li th:each="item:${admin}">
+                            <div class="content-text" style="display: inline-block;width: 100%;align-content: center">
+                                <div style="float: left;">
+                                    <p>公有ID:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="id" type="text"
+                                                   th:value="${item.user_common_id}">
+                                        </label>
+                                    </p>
+                                    <p>私有ID:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="privateId" type="text"
+                                                   th:value="${item.user_common_private_id}">
+                                        </label>
+                                    </p>
+                                    <p>OpenID:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="openId" type="text"
+                                                   th:value="${item.user_common_open_id}">
+                                        </label>
+                                    </p>
+                                    <p>用户名:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="username" type="text"
+                                                   th:value="${item.user_common_username}">
+                                        </label>
+                                    </p>
+                                    <p>密码:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="password" type="text"
+                                                   th:value="${item.user_common_password}">
+                                        </label>
+                                    </p>
+                                    <p>昵称:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="nickname" type="text"
+                                                   th:value="${item.user_common_nickname}">
+                                        </label>
+                                    </p>
+                                </div>
+                                <div style="float: left;">
+                                    <p>真实姓名:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="realname" type="text"
+                                                   th:value="${item.user_secret_real_name}">
+                                        </label>
+                                    </p>
+                                    <p>电话:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="phone" type="text"
+                                                   th:value="${item.user_secret_phone}">
+                                        </label>
+                                    </p>
+                                    <p>电子邮箱:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="email" type="text"
+                                                   th:value="${item.user_secret_email}">
+                                        </label>
+                                    </p>
+                                    <p>生日:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="birthday" type="text"
+                                                   th:value="${item.user_secret_birthday}">
+                                        </label>
+                                    </p>
+                                    <p>性别:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="sex" type="text"
+                                                   th:value="${item.user_secret_sex}">
+                                        </label>
+                                    </p>
+                                    <p>年龄:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="age" type="text"
+                                                   th:value="${item.user_secret_age}">
+                                        </label>
+                                    </p>
+                                </div>
+                                <div style="float: left">
+                                    <p>微信:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="wechat" type="text"
+                                                   th:value="${item.user_secret_wechat}">
+                                        </label>
+                                    </p>
+                                    <p>QQ:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="qq" type="text"
+                                                   th:value="${item.user_secret_qq}">
+                                        </label>
+                                    </p>
+                                    <p>微博:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="weibo" type="text"
+                                                   th:value="${item.user_secret_weibo}">
+                                        </label>
+                                    </p>
+                                    <p>地址:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="address" type="text"
+                                                   th:value="${item.user_secret_address}">
+                                        </label>
+                                    </p>
+                                    <p>登录时间:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="logtime" type="text"
+                                                   th:value="${item.user_safe_logtime}">
+                                        </label>
+                                    </p>
+                                    <p>IP地址:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="ip" type="text"
+                                                   th:value="${item.user_safe_ip}">
+                                        </label>
+                                    </p>
+                                </div>
+                                <div style="float: left">
+                                    <p>安全问题:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="question" type="text"
+                                                   th:value="${item.user_safe_question}">
+                                        </label>
+                                    </p>
+                                    <p>安全答案:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="answer" type="text"
+                                                   th:value="${item.user_safe_answer}">
+                                        </label>
+                                    </p>
+                                    <p>操作系统:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="system" type="text"
+                                                   th:value="${item.user_safe_system}">
+                                        </label>
+                                    </p>
+                                    <p>浏览器:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="browser" type="text"
+                                                   th:value="${item.user_safe_browser}">
+                                        </label>
+                                    </p>
+                                    <p>权重:
+                                        <label>
+                                            <input style="background: transparent;border: none" id="weight" type="text"
+                                                   th:value="${item.user_safe_weight}">
+                                        </label>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-info" onclick="update()">更新</button>
+                                <button class="btn btn-danger" onclick="deleteUser()">删除</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="btn-container">
+                <div class="btn-prev-or-next">
+                    <a th:href="'/superAdmin/admin/'+${pageNumPrev}" class="btn btn-primary">
+                        上一页
+                    </a>
+                </div>
+                <div class="btn-prev-or-next">
+                    <a th:href="'/superAdmin/admin/'+${pageNumNext}" class="btn btn-primary">
+                        下一页
+                    </a>
+                </div>
+                <div class="btn-prev-or-next">
+                    <p>当前页：</p>
+                    <p th:text="${pageNum}"></p>
+                    <p>/总页数：</p>
+                    <p th:text="${pageTotal}"></p>
+                </div>
             </div>
         </div>
     </div>
@@ -120,6 +304,12 @@
     </i>
 </a>
 
+<div class="message-box-warp">
+    <div id="message-box" class="message-box">
+        <p id="message-box-text"></p>
+    </div>
+</div>
+
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
 <script type="text/javascript">
     function test() {
@@ -134,7 +324,167 @@
                 "userId": userId
             },
             success: function (data) {
+
+                if (data.result === "-1") {
+                    //少于0
+                    document.getElementById("message-box-text").innerHTML = "提交失败，低于0值";
+                    document.getElementById("message-box").style.background = "#f2dede";
+                    document.getElementById("message-box").style.color = "#a94442";
+                    setTimeout(function () {
+                        $('#message-box').slideUp(300);
+                    }, 1000);
+                    if ($("#message-box").is(":hidden")) {
+                        $('#message-box').slideDown(300);
+                    } else {
+                        $('#message-box').slideUp(300);
+                    }
+                } else if (data.result === "-2") {
+                    //超出
+                    document.getElementById("message-box-text").innerHTML = "提交失败，超出范围";
+                    document.getElementById("message-box").style.background = "#f2dede";
+                    document.getElementById("message-box").style.color = "#a94442";
+                    setTimeout(function () {
+                        $('#message-box').slideUp(300);
+                    }, 1000);
+                    if ($("#message-box").is(":hidden")) {
+                        $('#message-box').slideDown(300);
+                    } else {
+                        $('#message-box').slideUp(300);
+                    }
+                } else if (data.result === "error") {
+                    //其他情况
+                    document.getElementById("message-box-text").innerHTML = "提交失败，请正确输入";
+                    document.getElementById("message-box").style.background = "#f2dede";
+                    document.getElementById("message-box").style.color = "#a94442";
+                    setTimeout(function () {
+                        $('#message-box').slideUp(300);
+                    }, 1000);
+                    if ($("#message-box").is(":hidden")) {
+                        $('#message-box').slideDown(300);
+                    } else {
+                        $('#message-box').slideUp(300);
+                    }
+                } else {
                     test.html('<p id="p_test">' + data.result + '</p>');
+                }
+
+            },
+        })
+    }
+
+    function update() {
+        var id = $("#id").val();
+        var privateId = $("#privateId").val();
+        var openId = $("#openId").val();
+        var username = $("#username").val().trim();
+        var password = $("#password").val().trim();
+        var nickname = $("#nickname").val();
+        var realname = $("#realname").val();
+        var phone = $("#phone").val();
+        var email = $("#email").val();
+        var birthday = $("#birthday").val();
+        var sex = $("#sex").val();
+        var age = $("#age").val();
+        var wechat = $("#wechat").val();
+        var qq = $("#qq").val();
+        var weibo = $("#weibo").val();
+        var address = $("#address").val();
+        var logtime = $("#logtime").val();
+        var ip = $("#ip").val();
+        var question = $("#question").val();
+        var answer = $("#answer").val();
+        var system = $("#system").val();
+        var browser = $("#browser").val();
+        var weight = $("#weight").val();
+
+
+        $.ajax({
+            url: "/superAdmin/update",
+            dataType: "JSON",
+            data: {
+                "id": id,
+                "privateId": privateId,
+                "openId": openId,
+                "username": username,
+                "password": password,
+                "nickname": nickname,
+                "realname": realname,
+                "phone": phone,
+                "email": email,
+                "sex": sex,
+                "birthday": birthday,
+                "age": age,
+                "wechat": wechat,
+                "qq": qq,
+                "weibo": weibo,
+                "address": address,
+                "logtime": logtime,
+                "ip": ip,
+                "question": question,
+                "answer": answer,
+                "system": system,
+                "browser": browser,
+                "weight": weight
+            },
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.result === "1") {
+                    document.getElementById("message-box-text").innerHTML = "更新成功";
+                    //document.getElementById("message-box").style.color = "#d7f7ff";
+                    document.getElementById("message-box").style.color = "#ffffff";
+                    document.getElementById("message-box").style.background = "#1a95ff";
+                } else {
+                    document.getElementById("message-box-text").innerHTML = "更新失败";
+                    document.getElementById("message-box").style.background = "#f2dede";
+                    document.getElementById("message-box").style.color = "#a94442";
+                }
+                setTimeout(function () {
+                    $('#message-box').slideUp(300);
+                }, 1000);
+                if ($("#message-box").is(":hidden")) {
+                    $('#message-box').slideDown(300);
+                } else {
+                    $('#message-box').slideUp(300);
+                }
+
+            },
+        })
+    }
+
+    function deleteUser() {
+
+        var deleteId = $("#id").val();
+
+        $.ajax({
+            url: "/superAdmin/delete",
+            dataType: "JSON",
+            data: {
+                "deleteId": deleteId
+            },
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.result === "1") {
+                    document.getElementById("message-box-text").innerHTML = "删除成功";
+                    //document.getElementById("message-box").style.color = "#d7f7ff";
+                    document.getElementById("message-box").style.color = "#ffffff";
+                    document.getElementById("message-box").style.background = "#1a95ff";
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000)
+                } else {
+                    document.getElementById("message-box-text").innerHTML = "删除失败";
+                    document.getElementById("message-box").style.background = "#f2dede";
+                    document.getElementById("message-box").style.color = "#a94442";
+                }
+                setTimeout(function () {
+                    $('#message-box').slideUp(300);
+                }, 1000);
+                if ($("#message-box").is(":hidden")) {
+                    $('#message-box').slideDown(300);
+                } else {
+                    $('#message-box').slideUp(300);
+                }
+
             },
         })
     }

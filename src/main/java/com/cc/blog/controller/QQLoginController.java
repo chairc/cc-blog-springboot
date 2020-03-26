@@ -93,7 +93,7 @@ public class QQLoginController {
      */
 
     @RequestMapping("/loginByQQ")
-    public void loginByQQ(HttpServletRequest request,
+    public void userLoginByQQ(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
         String response_type = "code";
         String client_id = APP_ID;

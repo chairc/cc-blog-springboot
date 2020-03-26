@@ -20,13 +20,17 @@ public class ArticleController {
 
     /**
      * 文章列表显示
+     * <p>
+     * {@link MessageController}
+     * 注解参考see中MessageController#showMessage(Model)方法
      *
      * @param model
      * @return article页面
+     * @see MessageController#showMessagePage (Model)
      */
 
     @RequestMapping("/article")
-    public String showArticle(Model model) {
+    public String showArticlePage(Model model) {
         int page = 1;
         Page<Article> pages = PageHelper.startPage(1, 8);
         List<Article> list = articleService.getArticleAll();
@@ -40,15 +44,19 @@ public class ArticleController {
 
     /**
      * 文章列表分页显示
+     * <p>
+     * {@link MessageController}
+     * 注解参考see中MessageController#showMessageByPage(Model, int)中方法
      *
      * @param model
      * @param pageNum
      * @return article页面
+     * @see MessageController#showMessagePageByPageHelper(Model, int)
      */
 
     @RequestMapping("/article/{pageNum}")
-    public String showArticle1(Model model,
-                               @PathVariable int pageNum) {
+    public String showArticlePageByPageHelper(Model model,
+                                    @PathVariable int pageNum) {
         Page<Article> pages = PageHelper.startPage(pageNum, 8);
         List<Article> list = articleService.getArticleAll();
         model.addAttribute("article", list);
@@ -75,7 +83,7 @@ public class ArticleController {
      */
 
     @RequestMapping("/article/title/{privateId}")
-    public String showArticleByPrivateId(Model model,
+    public String showArticleDetailByPrivateId(Model model,
                                          @PathVariable String privateId) {
         List<Article> list = articleService.getArticleByPrivateId(privateId);
         model.addAttribute("article", list);
@@ -83,7 +91,7 @@ public class ArticleController {
     }
 
     @RequestMapping("/articleTest")
-    public String articleTest(){
+    public String articleTest() {
         return "article_test";
     }
 }

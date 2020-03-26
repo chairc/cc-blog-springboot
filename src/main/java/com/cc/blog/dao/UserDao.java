@@ -55,7 +55,7 @@ public interface UserDao {
     User getUserByUsername(String username);
 
     /**
-     * 通过ID删除用户信息
+     * 通过ID删除用户信息（暂时停用此接口）
      *
      * @param id
      */
@@ -63,7 +63,7 @@ public interface UserDao {
     void deleteUserById(int id);
 
     /**
-     * 更新用户信息
+     * 更新用户信息（暂时停用此接口）
      *
      * @param user
      */
@@ -95,6 +95,14 @@ public interface UserDao {
      */
 
     Integer openIdValidate(String openId);
+
+    /**
+     * 获取用户数
+     *
+     * @return
+     */
+
+    Integer getUserCount();
 
 
 }

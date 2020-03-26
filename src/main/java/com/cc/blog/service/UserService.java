@@ -2,6 +2,7 @@ package com.cc.blog.service;
 
 import com.cc.blog.dao.UserDao;
 import com.cc.blog.model.User;
+import com.cc.blog.util.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,9 @@ import java.util.Map;
 public class UserService {
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    UserService userService;
 
     /**
      * 获取所有用户
@@ -77,11 +81,16 @@ public class UserService {
      */
 
     public void insertUser(User user) {
+        Integer flag = userService.getUserPrivateId(user.getUser_common_private_id());
+        while (flag == 1) {
+            user.setUser_common_private_id(Tools.CreateUserRandomPrivateId());
+            flag = userService.getUserPrivateId(user.getUser_common_private_id());
+        }
         userDao.insertUser(user);
     }
 
     /**
-     * 通过ID删除用户信息
+     * 通过ID删除用户信息（暂时停用此方法）
      *
      * @param id
      */
@@ -91,7 +100,7 @@ public class UserService {
     }
 
     /**
-     * 更新用户信息
+     * 更新用户信息（暂时停用此方法）
      *
      * @param user
      */
@@ -120,6 +129,16 @@ public class UserService {
 
     public Integer openIdValidate(String openId) {
         return userDao.openIdValidate(openId);
+    }
+
+    /**
+     * 获取用户数
+     *
+     * @return
+     */
+
+    public Integer getUserCount() {
+        return userDao.getUserCount();
     }
 
 }

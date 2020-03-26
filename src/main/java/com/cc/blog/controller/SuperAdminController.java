@@ -4,17 +4,19 @@ import com.cc.blog.model.User;
 import com.cc.blog.service.SuperAdminService;
 import com.cc.blog.service.UserService;
 import com.cc.blog.util.Tools;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sun.invoke.empty.Empty;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -36,10 +38,51 @@ public class SuperAdminController {
      */
 
     @RequestMapping("admin")
-    public String showSuperAdmin(HttpServletRequest request) {
+    public String showSuperAdmin(Model model,
+                                 HttpServletRequest request) {
         if (Tools.usernameSessionValidate(request) == null) {
             return "redirect:/superAdmin/login";
         }
+        int page = 1;
+        Page<User> pages = PageHelper.startPage(1, 10);
+        List<User> list = userService.getUserAll();
+        model.addAttribute("admin", list);
+        model.addAttribute("pageNum", page);
+        model.addAttribute("pageNumPrev", 1);
+        model.addAttribute("pageNumNext", page + 1);
+        model.addAttribute("pageTotal", pages.getTotal() / 10 + 1);
+        return "admin";
+    }
+
+    /**
+     * 用户列表分页显示
+     * <p>
+     * {@link MessageController}
+     * 注解参考see中MessageController#showMessageByPage(Model, int)中方法
+     *
+     * @param model
+     * @param pageNum
+     * @return admin页面
+     * @see MessageController#showMessagePageByPageHelper(Model, int) (Model, int)
+     */
+
+    @RequestMapping("/admin/{pageNum}")
+    public String showSuperAdminByPage(Model model,
+                                       @PathVariable int pageNum) {
+        Page<User> pages = PageHelper.startPage(pageNum, 10);
+        List<User> list = userService.getUserAll();
+        model.addAttribute("admin", list);
+        if (pageNum == 1) {
+            model.addAttribute("pageNumPrev", 1);
+        } else {
+            model.addAttribute("pageNumPrev", pageNum - 1);
+        }
+        if (pageNum == pages.getTotal() / 10 + 1) {
+            model.addAttribute("pageNumNext", pages.getTotal() / 10 + 1);
+        } else {
+            model.addAttribute("pageNumNext", pageNum + 1);
+        }
+        model.addAttribute("pageTotal", pages.getTotal() / 10 + 1);
         return "admin";
     }
 
@@ -51,7 +94,7 @@ public class SuperAdminController {
      */
 
     @RequestMapping("/login")
-    public String superAdminLogin(HttpServletRequest request) {
+    public String showSuperAdminLoginPage(HttpServletRequest request) {
         String username = Tools.usernameSessionValidate(request);
         if (username == null) {
             return "super_admin_login";
@@ -69,7 +112,7 @@ public class SuperAdminController {
      */
 
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request) {
+    public String superAdminLogout(HttpServletRequest request) {
         System.out.println("登出人员：" + Tools.usernameSessionValidate(request));
         request.getSession().invalidate();
 
@@ -87,10 +130,10 @@ public class SuperAdminController {
 
     @RequestMapping("/superAdminLoginByAjax")
     @ResponseBody
-    public Map<String, String> loginUserByAjax(@RequestParam("username") String username,
-                                               @RequestParam("password") String password,
-                                               @RequestParam("privateId") String privateId,
-                                               HttpServletRequest request) {
+    public Map<String, String> superAdminLoginByAjax(@RequestParam("username") String username,
+                                                     @RequestParam("password") String password,
+                                                     @RequestParam("privateId") String privateId,
+                                                     HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
         if (mistake_num < 5) {
             if (username != null && password != null && privateId != null
@@ -128,6 +171,22 @@ public class SuperAdminController {
 
     //管理模块
 
+    /**
+     * 删除用户
+     *
+     * @param deleteId
+     * @return
+     */
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public Map<String, String> deleteUserInfoByAjax(@RequestParam(value = "deleteId") int deleteId) {
+        Map<String, String> map = new HashMap<>();
+        superAdminService.deleteUserById(deleteId);
+        map.put("result", "1");
+        return map;
+    }
+
     @RequestMapping("/management/people")
     public String showManagementPeople(Model model) {
 
@@ -152,16 +211,32 @@ public class SuperAdminController {
         return "admin";
     }
 
+    /**
+     * 测试点击Ajax替换数据
+     *
+     * @param userId
+     * @return
+     */
+
     @RequestMapping("/clickTest")
     @ResponseBody
     public Map<String, String> clickTest(@RequestParam("userId") int userId) {
+        System.out.println("待查询用户：" + userId);
+        System.out.println("总条数：" + userService.getUserCount());
         Map<String, String> map = new HashMap<>();
-
-        User user = userService.getUserById(userId);
-        String username = user.getUser_common_username();
-        System.out.println(username);
-        //map.put("result", username);
-        map.put("result", user.toString());
+        if (userId >= 0 && userId <= userService.getUserCount()) {
+            User user = userService.getUserById(userId);
+            String username = user.getUser_common_username();
+            System.out.println(username);
+            map.put("result", user.toString());
+        } else if (userId < 0) {
+            map.put("result", "-1");
+        } else if (userId > userService.getUserCount()) {
+            map.put("result", "-2");
+        } else {
+            map.put("result", "error");
+        }
+        System.out.println("返回结果：" + map);
         return map;
     }
 

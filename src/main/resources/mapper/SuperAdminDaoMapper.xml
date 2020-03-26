@@ -16,4 +16,28 @@
         AND
         user_common_private_id = #{privateId}
     </select>
+
+    <update id="updateUser" parameterType="com.cc.blog.model.User">
+        UPDATE
+        <include refid="table"/>
+        SET
+        user_common_private_id = #{user_common_private_id},user_common_open_id = #{user_common_open_id},
+        user_common_username = #{user_common_username},user_common_password = #{user_common_password},
+        user_common_nickname = #{user_common_nickname},user_secret_real_name = #{user_secret_real_name},
+        user_secret_phone = #{user_secret_phone},user_secret_email = #{user_secret_email},user_secret_birthday = #{user_secret_birthday},
+        user_secret_sex = #{user_secret_sex},user_secret_age = #{user_secret_age},user_secret_wechat = #{user_secret_wechat},
+        user_secret_qq = #{user_secret_qq},user_secret_weibo = #{user_secret_weibo},
+        user_secret_address = #{user_secret_address},user_safe_logtime = #{user_safe_logtime},
+        user_safe_ip = #{user_safe_ip},user_safe_question = #{user_safe_question},user_safe_answer = #{user_safe_answer},
+        user_safe_system = #{user_safe_system},user_safe_browser = #{user_safe_browser},user_safe_weight = #{user_safe_weight}
+        WHERE
+        user_common_id = #{user_common_id}
+    </update>
+
+    <delete id="deleteUserById" parameterType="com.cc.blog.model.User">
+        DELETE FROM
+        <include refid="table"/>
+        WHERE
+        user_common_id = #{user_common_id}
+    </delete>
 </mapper>

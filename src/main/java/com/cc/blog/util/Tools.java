@@ -21,7 +21,7 @@ public class Tools {
                 "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C",
                 "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
                 "U", "V", "W", "X", "Y", "Z"};
-        String[] str = new String[]{"article_","message_"};
+        String[] str = new String[]{"article_", "message_"};
         int i = 0;
         StringBuilder privateId = new StringBuilder();
         while (i < 15) {
@@ -29,7 +29,7 @@ public class Tools {
             privateId.insert(0, arr[randomNum]);
             i++;
         }
-        privateId.insert(0,str[type]);
+        privateId.insert(0, str[type]);
         return privateId.toString();
     }
 
@@ -126,7 +126,14 @@ public class Tools {
         return os.getName();
     }
 
-    public static String usernameSessionValidate(HttpServletRequest request){
+    /**
+     * 用户Session验证
+     *
+     * @param request
+     * @return
+     */
+
+    public static String usernameSessionValidate(HttpServletRequest request) {
         HttpSession session = request.getSession();
         return (String) session.getAttribute("username");
     }

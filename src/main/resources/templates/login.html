@@ -127,7 +127,6 @@
         var username = $("#username").val().trim();
         var password = $("#password").val().trim();
 
-        //console.log(username,password,nickname,phone,email,sex,birthday,wechat,qq,weibo,question,answer);
         $.ajax({
             url: "/loginUserByAjax",
             dataType: "JSON",
@@ -136,7 +135,8 @@
             success: function (data) {
                 if (data.result === "1") {
                     document.getElementById("message-box-text").innerHTML = "登录成功";
-                    document.getElementById("message-box").style.color = "#d7f7ff";
+                    //document.getElementById("message-box").style.color = "#d7f7ff";
+                    document.getElementById("message-box").style.color = "#ffffff";
                     document.getElementById("message-box").style.background = "#1a95ff";
                     setTimeout(function () {
                         window.location.href = "/";

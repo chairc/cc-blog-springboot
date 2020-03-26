@@ -110,4 +110,11 @@
         user_common_open_id = #{openId}
     </select>
 
+    <select id="getUserCount" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+        SELECT
+        COUNT(*)
+        FROM
+        <include refid="table"/>
+    </select>
+
 </mapper>

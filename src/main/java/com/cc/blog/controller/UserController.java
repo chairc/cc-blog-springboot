@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,7 @@ public class UserController {
      */
 
     @RequestMapping("/registered")
-    public String showRegistered() {
+    public String showRegisteredPage() {
         return "registered";
     }
 
@@ -46,7 +45,7 @@ public class UserController {
      * @param question
      * @param answer
      * @param request
-     * @return
+     * @return 1:成功 0：username password answer为空 -1：username重复
      */
 
     @RequestMapping("/registeredUserByAjax")
@@ -70,13 +69,8 @@ public class UserController {
         if (userService.usernameValidate(username).equals(0)) {
             if (username != null && password != null && !username.equals("") && !password.equals("") && !answer.equals("")) {
                 User user = new User();
-                Integer flag = 1;
-                String privateId = "";
-                while (flag == 1) {
-                    privateId = Tools.CreateUserRandomPrivateId();
-                    flag = userService.getUserPrivateId(privateId); //判断私有ID是否存在
-                }
-                user.setUser_common_private_id(privateId);
+                //将数据放入user中
+                user.setUser_common_private_id(Tools.CreateUserRandomPrivateId());
                 user.setUser_common_username(username);
                 user.setUser_common_password(password);
                 user.setUser_common_nickname(nickname);
@@ -114,7 +108,7 @@ public class UserController {
      */
 
     @RequestMapping("/login")
-    public String login(HttpServletRequest request) {
+    public String showUserLoginPage(HttpServletRequest request) {
         String username = Tools.usernameSessionValidate(request);
         System.out.println("当前Session：" + username);
         if (username == null) {
@@ -135,7 +129,7 @@ public class UserController {
      */
 
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request) {
+    public String userLogout(HttpServletRequest request) {
         System.out.println("登出人员：" + Tools.usernameSessionValidate(request));
         request.getSession().invalidate();
 
@@ -153,7 +147,7 @@ public class UserController {
 
     @RequestMapping("/loginUserByAjax")
     @ResponseBody
-    public Map<String, String> loginUserByAjax(@RequestParam("username") String username,
+    public Map<String, String> userLoginByAjax(@RequestParam("username") String username,
                                                @RequestParam("password") String password,
                                                HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
@@ -192,7 +186,7 @@ public class UserController {
     }
 
     @RequestMapping("/getUser/{id}")
-    public ModelAndView getUser(@PathVariable int id) {
+    public ModelAndView getUserByIdTest1(@PathVariable int id) {
         ModelAndView mav = new ModelAndView("user");
         mav.addObject("user", userService.getUserById(id));
         return mav;
