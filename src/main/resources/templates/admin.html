@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>留言板 | 小虚无的下午茶</title>
+    <title>超级管理员后台管理 | 小虚无的下午茶</title>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
@@ -118,7 +118,7 @@
                                 <div style="float: left;">
                                     <p>公有ID:
                                         <label>
-                                            <input style="background: transparent;border: none" id="id" type="text"
+                                            <input style="background: transparent;border: none" th:id="id+${item.user_common_id}" type="text"
                                                    th:value="${item.user_common_id}">
                                         </label>
                                     </p>
@@ -264,7 +264,7 @@
                             </div>
                             <div class="btn-container">
                                 <button class="btn btn-info" onclick="update()">更新</button>
-                                <button class="btn btn-danger" onclick="deleteUser()">删除</button>
+                                <button class="btn btn-danger" th:value="${item.user_common_id}">删除</button>
                             </div>
                         </li>
                     </ul>
@@ -451,43 +451,45 @@
         })
     }
 
-    function deleteUser() {
+    $(document).ready(function () {
+        $("button").click(function () {
+            var deleteId = $(this).val();
 
-        var deleteId = $("#id").val();
-
-        $.ajax({
-            url: "/superAdmin/delete",
-            dataType: "JSON",
-            data: {
-                "deleteId": deleteId
-            },
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                if (data.result === "1") {
-                    document.getElementById("message-box-text").innerHTML = "删除成功";
-                    //document.getElementById("message-box").style.color = "#d7f7ff";
-                    document.getElementById("message-box").style.color = "#ffffff";
-                    document.getElementById("message-box").style.background = "#1a95ff";
+            $.ajax({
+                url: "/superAdmin/delete",
+                dataType: "JSON",
+                data: {
+                    "deleteId": deleteId
+                },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data.result === "1") {
+                        document.getElementById("message-box-text").innerHTML = "删除成功";
+                        //document.getElementById("message-box").style.color = "#d7f7ff";
+                        document.getElementById("message-box").style.color = "#ffffff";
+                        document.getElementById("message-box").style.background = "#1a95ff";
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000)
+                    } else {
+                        document.getElementById("message-box-text").innerHTML = "删除失败";
+                        document.getElementById("message-box").style.background = "#f2dede";
+                        document.getElementById("message-box").style.color = "#a94442";
+                    }
                     setTimeout(function () {
-                        window.location.reload();
-                    }, 2000)
-                } else {
-                    document.getElementById("message-box-text").innerHTML = "删除失败";
-                    document.getElementById("message-box").style.background = "#f2dede";
-                    document.getElementById("message-box").style.color = "#a94442";
-                }
-                setTimeout(function () {
-                    $('#message-box').slideUp(300);
-                }, 1000);
-                if ($("#message-box").is(":hidden")) {
-                    $('#message-box').slideDown(300);
-                } else {
-                    $('#message-box').slideUp(300);
-                }
+                        $('#message-box').slideUp(300);
+                    }, 1000);
+                    if ($("#message-box").is(":hidden")) {
+                        $('#message-box').slideDown(300);
+                    } else {
+                        $('#message-box').slideUp(300);
+                    }
 
-            },
+                },
+            })
         })
-    }
+
+    })
 </script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/editormd.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>
