@@ -1,15 +1,18 @@
 package com.cc.blog.controller;
 
 import com.cc.blog.model.User;
+import com.cc.blog.service.ArticleService;
+import com.cc.blog.service.MessageService;
 import com.cc.blog.service.SuperAdminService;
 import com.cc.blog.service.UserService;
 import com.cc.blog.util.Tools;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,60 +34,12 @@ public class SuperAdminController {
     @Autowired
     UserService userService;
 
-    /**
-     * 显示超级管理员页面
-     *
-     * @return
-     */
+    @Autowired
+    ArticleService articleService;
 
-    @RequestMapping("admin")
-    public String showSuperAdmin(Model model,
-                                 HttpServletRequest request) {
-        if (Tools.usernameSessionValidate(request) == null) {
-            return "redirect:/superAdmin/login";
-        }
-        int page = 1;
-        Page<User> pages = PageHelper.startPage(1, 10);
-        List<User> list = userService.getUserAll();
-        model.addAttribute("admin", list);
-        model.addAttribute("pageNum", page);
-        model.addAttribute("pageNumPrev", 1);
-        model.addAttribute("pageNumNext", page + 1);
-        model.addAttribute("pageTotal", pages.getTotal() / 10 + 1);
-        return "admin";
-    }
+    @Autowired
+    MessageService messageService;
 
-    /**
-     * 用户列表分页显示
-     * <p>
-     * {@link MessageController}
-     * 注解参考see中MessageController#showMessageByPage(Model, int)中方法
-     *
-     * @param model
-     * @param pageNum
-     * @return admin页面
-     * @see MessageController#showMessagePageByPageHelper(Model, int) (Model, int)
-     */
-
-    @RequestMapping("/admin/{pageNum}")
-    public String showSuperAdminByPage(Model model,
-                                       @PathVariable int pageNum) {
-        Page<User> pages = PageHelper.startPage(pageNum, 10);
-        List<User> list = userService.getUserAll();
-        model.addAttribute("admin", list);
-        if (pageNum == 1) {
-            model.addAttribute("pageNumPrev", 1);
-        } else {
-            model.addAttribute("pageNumPrev", pageNum - 1);
-        }
-        if (pageNum == pages.getTotal() / 10 + 1) {
-            model.addAttribute("pageNumNext", pages.getTotal() / 10 + 1);
-        } else {
-            model.addAttribute("pageNumNext", pageNum + 1);
-        }
-        model.addAttribute("pageTotal", pages.getTotal() / 10 + 1);
-        return "admin";
-    }
 
     /**
      * 超级管理员登录
@@ -218,9 +173,9 @@ public class SuperAdminController {
      * @return
      */
 
-    @RequestMapping("/clickTest")
+    @RequestMapping("/showUser")
     @ResponseBody
-    public Map<String, String> clickTest(@RequestParam("userId") int userId) {
+    public Map<String, String> clickTest(@RequestParam("userId") int userId) throws JsonProcessingException {
         System.out.println("待查询用户：" + userId);
         System.out.println("总条数：" + userService.getUserCount());
         Map<String, String> map = new HashMap<>();
@@ -228,7 +183,9 @@ public class SuperAdminController {
             User user = userService.getUserById(userId);
             String username = user.getUser_common_username();
             System.out.println(username);
-            map.put("result", user.toString());
+            ObjectMapper mapper = new ObjectMapper();
+            String userToJson = mapper.writeValueAsString(user);
+            map.put("result", userToJson);
         } else if (userId < 0) {
             map.put("result", "-1");
         } else if (userId > userService.getUserCount()) {
@@ -237,6 +194,51 @@ public class SuperAdminController {
             map.put("result", "error");
         }
         System.out.println("返回结果：" + map);
+        return map;
+    }
+
+    /**
+     * 将json展示到userList
+     *
+     * @param pageNum
+     * @return
+     * @throws JsonProcessingException
+     */
+
+    @RequestMapping("/showUserList")
+    @ResponseBody
+    public Map<String, String> showUserList(@RequestParam("pageNum") int pageNum) throws JsonProcessingException {
+        Map<String, String> map = new HashMap<>();
+        Page<User> userPages = PageHelper.startPage(pageNum, 10);
+        List<User> userList = userService.getUserAll();
+        ObjectMapper mapper = new ObjectMapper();
+        String userListToJson = mapper.writeValueAsString(userList);
+        map.put("result", userListToJson);
+        return map;
+    }
+
+    /**
+     * 通过页面名查找页面数
+     *
+     * @param pageName
+     * @return
+     */
+
+    @RequestMapping("/selectPageNumByPageName")
+    @ResponseBody
+    public Map<String, String> selectPageNumBypageName(@RequestParam("pageName") String pageName) {
+        Map<String, String> map = new HashMap<>();
+        switch (pageName) {
+            case "userList":
+                map.put("result", Integer.toString(userService.getUserCount() / 10 + 1));
+                break;
+            case "articleList":
+                map.put("result", Integer.toString(articleService.getArticleCount() / 10 + 1));
+                break;
+            case "messageList":
+                map.put("result", Integer.toString(messageService.getMessageCount() / 10 + 1));
+                break;
+        }
         return map;
     }
 

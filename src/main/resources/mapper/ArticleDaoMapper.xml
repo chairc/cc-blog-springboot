@@ -59,4 +59,11 @@
         article_click_num = #{article_click_num}
     </update>
 
+    <select id="getArticleCount" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+        SELECT
+        COUNT(*)
+        FROM
+        <include refid="table"/>
+    </select>
+
 </mapper>

@@ -82,4 +82,14 @@ public class MessageService {
     public void updateMessage(Message message) {
         messageDao.updateMessage(message);
     }
+
+    /**
+     * 获取留言数
+     *
+     * @return
+     */
+
+    public Integer getMessageCount() {
+        return messageDao.getMessageCount();
+    }
 }

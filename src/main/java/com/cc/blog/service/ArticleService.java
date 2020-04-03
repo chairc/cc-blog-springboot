@@ -74,4 +74,14 @@ public class ArticleService {
     public void updateArticle(Article article) {
         articleDao.updateArticle(article);
     }
+
+    /**
+     * 获取文章条数
+     *
+     * @return
+     */
+
+    public Integer getArticleCount(){
+        return articleDao.getArticleCount();
+    }
 }

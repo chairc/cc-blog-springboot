@@ -19,7 +19,7 @@
 <body>
 <header id="header-wrap">
     <!-- 导航栏开始 -->
-    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
+    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse top-nav-shadow">
         <div class="container">
             <div class="navbar-header">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
@@ -100,212 +100,256 @@
         <!-- 手机导航栏结束 -->
     </nav>
     <!-- 导航栏结束 -->
+</header>
 
-    <!-- 主页壁纸开始 -->
-    <div id="hero-area" class="hero-area-bg">
-        <div class="overlay">
+<div class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div style="padding-top: 60px;">
+                <ul class="nav nav-tabs">
+                    <li class="active user-li-style">
+                        <a href="#user_home" data-toggle="tab" style="color: #000000">用户信息</a>
+                    </li>
+                    <li class="user-li-style">
+                        <a href="#user_info" data-toggle="tab" style="color: #000000">最新信息</a>
+                    </li>
+                    <li class="user-li-style">
+                        <a href="#user_registered" data-toggle="tab" style="color: #000000">添加注册成员</a>
+                    </li>
+                    <li class="user-li-style">
+                        <a href="/articleTest" style="color: #000000">写文章</a>
+                    </li>
+                    <li class="user-li-style">
+                        <a href="#user_settings" data-toggle="tab" style="color: #000000">设置</a>
+                    </li>
+                </ul>
 
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-sm-12 text-center">
-                    <div class="contents">
+                <div class="tab-content" style="width: 100%">
+                    <div class="tab-pane active" id="user_home">
+                        <table cellpadding="0" cellspacing="0" width="100%"
+                               style="border: #000000 solid 1px;text-align: center;table-layout: fixed;word-break:break-all;">
+                            <tr class="border">
+                                <td>序号</td>
+                                <td>个人识别号</td>
+                                <td>用户名</td>
+                                <td>密码</td>
+                                <td>昵称</td>
+                                <td>真实姓名</td>
+                                <td>电话</td>
+                                <td>邮箱</td>
+                                <td>生日</td>
+                                <td>性别</td>
+                                <td>年龄</td>
+                                <td>微信</td>
+                                <td>QQ</td>
+                                <td>微博</td>
+                                <td>地址</td>
+                                <td>最后登录时间</td>
+                                <td>IP地址</td>
+                                <td>密保问题</td>
+                                <td>密保答案</td>
+                                <td>系统</td>
+                                <td>浏览器</td>
+                                <td>权重</td>
+                            </tr>
+                            <tr class="border" th:each="item:${user}">
+                                <td th:text="${item.user_common_id}"></td>
+                                <td th:text="${item.user_common_private_id}"></td>
+                                <td th:text="${item.user_common_username}"></td>
+                                <td th:text="${item.user_common_password}"></td>
+                                <td th:text="${item.user_common_nickname}"></td>
+                                <td th:text="${item.user_secret_real_name}"></td>
+                                <td th:text="${item.user_secret_phone}"></td>
+                                <td th:text="${item.user_secret_email}"></td>
+                                <td th:text="${item.user_secret_birthday}"></td>
+                                <td th:text="${item.user_secret_sex}"></td>
+                                <td th:text="${item.user_secret_age}"></td>
+                                <td th:text="${item.user_secret_wechat}"></td>
+                                <td th:text="${item.user_secret_qq}"></td>
+                                <td th:text="${item.user_secret_weibo}"></td>
+                                <td th:text="${item.user_secret_address}"></td>
+                                <td th:text="${item.user_safe_logtime}"></td>
+                                <td th:text="${item.user_safe_ip}"></td>
+                                <td th:text="${item.user_safe_question}"></td>
+                                <td th:text="${item.user_safe_answer}"></td>
+                                <td th:text="${item.user_safe_system}"></td>
+                                <td th:text="${item.user_safe_browser}"></td>
+                                <td th:text="${item.user_safe_weight}"></td>
+                            </tr>
+                        </table>
+                        <div class="btn-container">
+                            <div class="btn-prev-or-next">
+                                <a th:href="'/user/'+${pageNumPrev}" class="btn btn-primary">
+                                    上一页
+                                </a>
+                            </div>
+                            <div class="btn-prev-or-next">
+                                <a th:href="'/user/'+${pageNumNext}" class="btn btn-primary">
+                                    下一页
+                                </a>
+                            </div>
+                            <div class="btn-prev-or-next">
+                                <p>当前页：</p>
+                                <p th:text="${pageNum}"></p>
+                                <p>/总页数：</p>
+                                <p th:text="${pageTotal}"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane user-tab-pane-height" id="user_info">
+                        <p> 我是最新信息 </p>
+                    </div>
+                    <div class="tab-pane user-tab-pane-height" id="user_registered">
+                        <div style="float: left">
+                            <input type="text" id="username" name="username" placeholder="用户名"
+                                   required="required" onkeyup="value=value.replace(/[\W]/g,'')"/>
+                            <input type="password" id="password" name="password" placeholder="密码" autocomplete
+                                   required="required"/>
+                            <input type="text" id="nickname" name="nickname" placeholder="昵称"
+                                   required="required"/>
+                            <input type="number" id="phone" name="phone" placeholder="电话"/>
+                            <input type="email" id="email" name="email" placeholder="邮箱"
+                                   required="required"/>
+                            <select id="sex" name="sex" style="width: 186.4px;" title="性别">
+                                <option value="男" selected>男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
 
+                        <div style="float: left">
+                            <input type="text" id="birthday" name="birthday" placeholder="生日"/>
+                            <input type="text" id="wechat" name="wechat" placeholder="微信"/>
+                            <input type="number" id="qq" name="qq" placeholder="QQ"/>
+                            <input type="text" id="weibo" name="weibo" placeholder="微博"/>
+                            <select id="question" name="question" style="width: 186.4px;" title="安全问题">
+                                <option value="我的生日" selected>我的生日（例如YYYYMMDD）</option>
+                                <option value="我最好的朋友">我最好的朋友</option>
+                                <option value="最喜欢玩的游戏">最喜欢玩的游戏</option>
+                                <option value="最爱的一首歌">最爱的一首歌</option>
+                            </select>
+                            <input type="text" id="answer" name="answer" placeholder="安全问题答案"
+                                   required="required"/>
+                        </div>
+                        <button onclick="login()">登录</button>
+                    </div>
+                    <div class="tab-pane user-tab-pane-height" id="user_settings">
+                        <p>设置</p>
                     </div>
                 </div>
+                <!--
+
+                -->
+                <!--
+                <form th:action="@{/addUser}">
+                   <div>
+                       <p>用户名</p>
+                       <input type="text" th:id="username" name="username">
+                   </div>
+                   <div>
+                       <p>密码</p>
+                       <input type="password" th:id="password" name="password">
+                   </div>
+                   <div>
+                       <p>昵称</p>
+                       <input type="text" th:id="nickname" name="nickname">
+                   </div>
+                   <div>
+                       <p>真实姓名</p>
+                       <input type="text" th:id="realname" name="realname">
+                   </div>
+                   <div>
+                       <p>电话</p>
+                       <input type="text" th:id="phone" name="phone">
+                   </div>
+                   <div>
+                       <p>邮箱</p>
+                       <input type="email" th:id="email" name="email">
+                   </div>
+                   <div>
+                       <p>生日</p>
+                       <input type="text" th:id="birthday" name="birthday">
+                   </div>
+                   <div>
+                       <p>性别</p>
+                       <input type="text" th:id="sex" name="sex">
+                   </div>
+                   <div>
+                       <p>年龄</p>
+                       <input type="number" th:id="age" name="age">
+                   </div>
+                   <div>
+                       <p>微信</p>
+                       <input type="text" th:id="wechat" name="wechat">
+                   </div>
+                   <div>
+                       <p>QQ</p>
+                       <input type="number" th:id="qq" name="qq">
+                   </div>
+                   <div>
+                       <p>微博</p>
+                       <input type="text" th:id="weibo" name="weibo">
+                   </div>
+                   <div>
+                       <p>联系地址</p>
+                       <input type="text" th:id="address" name="address">
+                   </div>
+                   <div>
+                       <p>安全问题</p>
+                       <input type="text" value="生日？" th:id="question" name="question">
+                   </div>
+                   <div>
+                       <p>安全问题答案</p>
+                       <input type="text" th:id="answer" name="answer">
+                   </div>
+                   <input type="submit">
+                </form>
+
+
+                <div style="float: left">
+                   <input type="text" name="username" th:id="username" placeholder="用户名"
+                          required="required" onkeyup="value=value.replace(/[\W]/g,'')" />
+                   <input type="password" name="password" th:id="password" placeholder="密码"
+                          required="required" />
+                   <input type="text" name="realname" th:id="realname" placeholder="真实姓名"
+                          required="required" />
+                   <input type="number" name="phone" th:id="phone" placeholder="电话"
+                          required="required" />
+                   <input type="email" name="email" th:id="email" placeholder="邮箱"
+                          required="required" />
+                   <input type="text" name="sex" th:id="sex" placeholder="性别"
+                          required="required" />
+                   <input type="number" name="age" th:id="age" placeholder="年龄"
+                          required="required" />
+                </div>
+
+                <div style="float: left">
+                   <input type="text" name="wechat" th:id="wechat" placeholder="微信"
+                          required="required" />
+                   <input type="number" name="qq" th:id="qq" placeholder="QQ"
+                          required="required" />
+                   <input type="text" name="weibo" th:id="weibo" placeholder="微博"
+                          required="required" />
+                   <input type="text" name="address" th:id="address" placeholder="联系地址"
+                          required="required" />
+                   <select th:id="question" name="question">
+                       <option value="我的生日" selected>我的生日（例如YYYYMMDD）</option>
+                       <option value="我最好的朋友">我最好的朋友</option>
+                       <option value="最喜欢玩的游戏">最喜欢玩的游戏</option>
+                       <option value="最爱的一首歌" >最爱的一首歌</option>
+                   </select>
+                   <input type="text" name="answer" th:id="answer" placeholder="安全问题答案"
+                          required="required" />
+                </div>
+                -->
             </div>
         </div>
     </div>
-    <!-- 主页壁纸结束 -->
-
-</header>
-
-<a href="/articleTest">写文章啦</a>
-<table style="border: #000000 solid 1px;text-align: center;">
-    <tr class="border">
-        <td>序号</td>
-        <td>个人识别号</td>
-        <td>用户名</td>
-        <td>密码</td>
-        <td>昵称</td>
-        <td>真实姓名</td>
-        <td>电话</td>
-        <td>邮箱</td>
-        <td>生日</td>
-        <td>性别</td>
-        <td>年龄</td>
-        <td>微信</td>
-        <td>QQ</td>
-        <td>微博</td>
-        <td>地址</td>
-        <td>最后登录时间</td>
-        <td>IP地址</td>
-        <td>密保问题</td>
-        <td>密保答案</td>
-        <td>系统</td>
-        <td>浏览器</td>
-        <td>权重</td>
-    </tr>
-    <tr class="border" th:each="item:${user}">
-        <td th:text="${item.user_common_id}"></td>
-        <td th:text="${item.user_common_private_id}"></td>
-        <td th:text="${item.user_common_username}"></td>
-        <td th:text="${item.user_common_password}"></td>
-        <td th:text="${item.user_common_nickname}"></td>
-        <td th:text="${item.user_secret_real_name}"></td>
-        <td th:text="${item.user_secret_phone}"></td>
-        <td th:text="${item.user_secret_email}"></td>
-        <td th:text="${item.user_secret_birthday}"></td>
-        <td th:text="${item.user_secret_sex}"></td>
-        <td th:text="${item.user_secret_age}"></td>
-        <td th:text="${item.user_secret_wechat}"></td>
-        <td th:text="${item.user_secret_qq}"></td>
-        <td th:text="${item.user_secret_weibo}"></td>
-        <td th:text="${item.user_secret_address}"></td>
-        <td th:text="${item.user_safe_logtime}"></td>
-        <td th:text="${item.user_safe_ip}"></td>
-        <td th:text="${item.user_safe_question}"></td>
-        <td th:text="${item.user_safe_answer}"></td>
-        <td th:text="${item.user_safe_system}"></td>
-        <td th:text="${item.user_safe_browser}"></td>
-        <td th:text="${item.user_safe_weight}"></td>
-    </tr>
-</table>
-<!--
-<form th:action="@{/addUser}">
-   <div>
-       <p>用户名</p>
-       <input type="text" th:id="username" name="username">
-   </div>
-   <div>
-       <p>密码</p>
-       <input type="password" th:id="password" name="password">
-   </div>
-   <div>
-       <p>昵称</p>
-       <input type="text" th:id="nickname" name="nickname">
-   </div>
-   <div>
-       <p>真实姓名</p>
-       <input type="text" th:id="realname" name="realname">
-   </div>
-   <div>
-       <p>电话</p>
-       <input type="text" th:id="phone" name="phone">
-   </div>
-   <div>
-       <p>邮箱</p>
-       <input type="email" th:id="email" name="email">
-   </div>
-   <div>
-       <p>生日</p>
-       <input type="text" th:id="birthday" name="birthday">
-   </div>
-   <div>
-       <p>性别</p>
-       <input type="text" th:id="sex" name="sex">
-   </div>
-   <div>
-       <p>年龄</p>
-       <input type="number" th:id="age" name="age">
-   </div>
-   <div>
-       <p>微信</p>
-       <input type="text" th:id="wechat" name="wechat">
-   </div>
-   <div>
-       <p>QQ</p>
-       <input type="number" th:id="qq" name="qq">
-   </div>
-   <div>
-       <p>微博</p>
-       <input type="text" th:id="weibo" name="weibo">
-   </div>
-   <div>
-       <p>联系地址</p>
-       <input type="text" th:id="address" name="address">
-   </div>
-   <div>
-       <p>安全问题</p>
-       <input type="text" value="生日？" th:id="question" name="question">
-   </div>
-   <div>
-       <p>安全问题答案</p>
-       <input type="text" th:id="answer" name="answer">
-   </div>
-   <input type="submit">
-</form>
-
-
-<div style="float: left">
-   <input type="text" name="username" th:id="username" placeholder="用户名"
-          required="required" onkeyup="value=value.replace(/[\W]/g,'')" />
-   <input type="password" name="password" th:id="password" placeholder="密码"
-          required="required" />
-   <input type="text" name="realname" th:id="realname" placeholder="真实姓名"
-          required="required" />
-   <input type="number" name="phone" th:id="phone" placeholder="电话"
-          required="required" />
-   <input type="email" name="email" th:id="email" placeholder="邮箱"
-          required="required" />
-   <input type="text" name="sex" th:id="sex" placeholder="性别"
-          required="required" />
-   <input type="number" name="age" th:id="age" placeholder="年龄"
-          required="required" />
 </div>
 
-<div style="float: left">
-   <input type="text" name="wechat" th:id="wechat" placeholder="微信"
-          required="required" />
-   <input type="number" name="qq" th:id="qq" placeholder="QQ"
-          required="required" />
-   <input type="text" name="weibo" th:id="weibo" placeholder="微博"
-          required="required" />
-   <input type="text" name="address" th:id="address" placeholder="联系地址"
-          required="required" />
-   <select th:id="question" name="question">
-       <option value="我的生日" selected>我的生日（例如YYYYMMDD）</option>
-       <option value="我最好的朋友">我最好的朋友</option>
-       <option value="最喜欢玩的游戏">最喜欢玩的游戏</option>
-       <option value="最爱的一首歌" >最爱的一首歌</option>
-   </select>
-   <input type="text" name="answer" th:id="answer" placeholder="安全问题答案"
-          required="required" />
-</div>
--->
-<form id="form1">
-    <div style="float: left">
-        <input type="text" id="username" name="username" placeholder="用户名"
-               required="required" onkeyup="value=value.replace(/[\W]/g,'')"/>
-        <input type="password" id="password" name="password" placeholder="密码" autocomplete
-               required="required"/>
-        <input type="text" id="nickname" name="nickname" placeholder="昵称"
-               required="required"/>
-        <input type="number" id="phone" name="phone" placeholder="电话"/>
-        <input type="email" id="email" name="email" placeholder="邮箱"
-               required="required"/>
-        <select id="sex" name="sex" style="width: 186.4px;" title="性别">
-            <option value="男" selected>男</option>
-            <option value="女">女</option>
-        </select>
-    </div>
+<!-- 底部开始 -->
+<footer th:replace="footer.html"></footer>
+<!-- 底部结束 -->
 
-    <div style="float: left">
-        <input type="text" id="birthday" name="birthday" placeholder="生日"/>
-        <input type="text" id="wechat" name="wechat" placeholder="微信"/>
-        <input type="number" id="qq" name="qq" placeholder="QQ"/>
-        <input type="text" id="weibo" name="weibo" placeholder="微博"/>
-        <select id="question" name="question" style="width: 186.4px;" title="安全问题">
-            <option value="我的生日" selected>我的生日（例如YYYYMMDD）</option>
-            <option value="我最好的朋友">我最好的朋友</option>
-            <option value="最喜欢玩的游戏">最喜欢玩的游戏</option>
-            <option value="最爱的一首歌">最爱的一首歌</option>
-        </select>
-        <input type="text" id="answer" name="answer" placeholder="安全问题答案"
-               required="required"/>
-    </div>
-    <button onclick="login()">登录</button>
-</form>
 <!-- 返回最顶层 -->
 <a href="" class="back-to-top" style="display: block;">
     <i>

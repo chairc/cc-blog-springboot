@@ -73,4 +73,12 @@ public interface MessageDao {
      */
 
     void updateMessage(Message message);
+
+    /**
+     * 获取留言条数
+     *
+     * @return
+     */
+
+    Integer getMessageCount();
 }

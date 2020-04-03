@@ -75,4 +75,11 @@
         message_weight = #{message_weight}
     </update>
 
+    <select id="getMessageCount" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+        SELECT
+        COUNT(*)
+        FROM
+        <include refid="table"/>
+    </select>
+
 </mapper>

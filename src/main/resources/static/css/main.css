@@ -531,6 +531,10 @@ a.back-to-prev:hover, a.back-to-prev:focus {
   color: #00b4d9 !important;
 }
 
+.top-nav-shadow{
+  box-shadow: 0px 3px 6px 3px rgba(0, 0, 0, 0.06)
+}
+
 .indigo {
   background: #fff;
 }
@@ -683,7 +687,7 @@ a.back-to-prev:hover, a.back-to-prev:focus {
   background: #00b4d9;
 }
 
-/* only small tablets */
+/* only small tablets(ban it) */
 @media (min-width: 768px) and (max-width: 991px) {
   #nav-main li a.nav-link {
     padding-top: 18px;
@@ -702,7 +706,7 @@ a.back-to-prev:hover, a.back-to-prev:focus {
   display: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
   .navbar-header {
     width: 100%;
   }
@@ -1483,4 +1487,16 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
   line-height: 60px;
   box-shadow: 0 2px 6px 0 rgba(0,0,0,.12),
               inset 0 -1px 0 0 #dadce0;
+}
+
+.user-li-style{
+  padding: 10px;
+  margin-right:5px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #f2f2f2
+}
+
+.user-tab-pane-height{
+  height: 500px;
 }

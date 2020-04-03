@@ -56,4 +56,11 @@ public interface ArticleDao {
      */
 
     void updateArticle(Article article);
+
+    /**
+     * 获取文章条数
+     *
+     * @return
+     */
+    Integer getArticleCount();
 }

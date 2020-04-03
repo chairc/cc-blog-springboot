@@ -19,7 +19,7 @@
 <!-- 头部开始 -->
 <header id="header-wrap">
     <!-- 导航栏开始 -->
-    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
+    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse top-nav-shadow">
         <div class="container">
             <div class="navbar-header">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
@@ -40,23 +40,28 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/#people">
-                            人员管理
+                        <a class="nav-link" href="/#about">
+                            关于
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/#article">
-                            归档管理
+                        <a class="nav-link" href="/article">
+                            归档
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/#message">
-                            留言管理
+                        <a class="nav-link" href="/message">
+                            留言
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">
-                            图片管理
+                            图片
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            娱乐
                         </a>
                     </li>
                     <li class="nav-item">
@@ -74,16 +79,19 @@
                 <a href="/">主页</a>
             </li>
             <li class="">
-                <a href="/#about">人员管理</a>
+                <a href="/#about">关于</a>
             </li>
             <li class="">
-                <a href="/article">归档管理</a>
+                <a href="/article">归档</a>
             </li>
             <li class="">
-                <a href="/message">留言管理</a>
+                <a href="/message">留言</a>
             </li>
             <li class="">
-                <a href="">图片管理</a>
+                <a href="">图片</a>
+            </li>
+            <li class="">
+                <a href="">娱乐</a>
             </li>
             <li class="">
                 <a href="/superAdmin/logout">登出</a>
@@ -99,193 +107,405 @@
 <div id="user" class="section-padding">
     <div class="container">
         <div class="row">
-            <div style="width: 100%">
-                <input type="text" id="userId"/>
-                <p id="p_test">点击可以显示数据！</p>
-                <button id="btn_change" onclick="test()">点我查询数据</button>
-            </div>
-            <div style="width: 100%">
-                <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
-                     style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
-                    <ul class="timeline">
-                        <li>
-                            <i class="icon-graduation"></i>
-                            <h2 class="timelin-title">用户信息</h2>
-                        </li>
+            <div style="padding-top: 60px;width: 100%;">
+                <ul class="nav nav-tabs">
+                    <li class="user-li-style">
+                        <a href="#admin_home_look" data-toggle="tab" style="color: #000000">用户信息查看</a>
+                    </li>
+                    <li class="user-li-style">
+                        <a href="#admin_home_edit" data-toggle="tab" style="color: #000000">用户信息操作</a>
+                    </li>
+                    <li class="user-li-style">
+                        <a href="#admin_article_edit" data-toggle="tab" style="color: #000000">归档操作</a>
+                    </li>
+                    <li class="user-li-style">
+                        <a href="#admin_message_edit" data-toggle="tab" style="color: #000000">留言操作</a>
+                    </li>
+                    <li class="user-li-style">
+                        <a href="#admin_picture_edit" data-toggle="tab" style="color: #000000">图片操作</a>
+                    </li>
+                    <li class="user-li-style">
+                        <a href="#admin_info" data-toggle="tab" style="color: #000000">查询数据</a>
+                    </li>
+                    <li class="user-li-style">
+                        <a href="/articleTest" style="color: #000000">写文章</a>
+                    </li>
+                    <li class="user-li-style">
+                        <a href="#admin_settings" data-toggle="tab" style="color: #000000">设置</a>
+                    </li>
+                </ul>
 
-                        <li th:each="item:${admin}">
-                            <div class="content-text" style="display: inline-block;width: 100%;align-content: center">
-                                <div style="float: left;">
-                                    <p>公有ID:
-                                        <label>
-                                            <input style="background: transparent;border: none" th:id="id+${item.user_common_id}" type="text"
-                                                   th:value="${item.user_common_id}">
-                                        </label>
-                                    </p>
-                                    <p>私有ID:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="privateId" type="text"
-                                                   th:value="${item.user_common_private_id}">
-                                        </label>
-                                    </p>
-                                    <p>OpenID:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="openId" type="text"
-                                                   th:value="${item.user_common_open_id}">
-                                        </label>
-                                    </p>
-                                    <p>用户名:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="username" type="text"
-                                                   th:value="${item.user_common_username}">
-                                        </label>
-                                    </p>
-                                    <p>密码:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="password" type="text"
-                                                   th:value="${item.user_common_password}">
-                                        </label>
-                                    </p>
-                                    <p>昵称:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="nickname" type="text"
-                                                   th:value="${item.user_common_nickname}">
-                                        </label>
-                                    </p>
-                                </div>
-                                <div style="float: left;">
-                                    <p>真实姓名:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="realname" type="text"
-                                                   th:value="${item.user_secret_real_name}">
-                                        </label>
-                                    </p>
-                                    <p>电话:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="phone" type="text"
-                                                   th:value="${item.user_secret_phone}">
-                                        </label>
-                                    </p>
-                                    <p>电子邮箱:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="email" type="text"
-                                                   th:value="${item.user_secret_email}">
-                                        </label>
-                                    </p>
-                                    <p>生日:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="birthday" type="text"
-                                                   th:value="${item.user_secret_birthday}">
-                                        </label>
-                                    </p>
-                                    <p>性别:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="sex" type="text"
-                                                   th:value="${item.user_secret_sex}">
-                                        </label>
-                                    </p>
-                                    <p>年龄:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="age" type="text"
-                                                   th:value="${item.user_secret_age}">
-                                        </label>
-                                    </p>
-                                </div>
-                                <div style="float: left">
-                                    <p>微信:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="wechat" type="text"
-                                                   th:value="${item.user_secret_wechat}">
-                                        </label>
-                                    </p>
-                                    <p>QQ:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="qq" type="text"
-                                                   th:value="${item.user_secret_qq}">
-                                        </label>
-                                    </p>
-                                    <p>微博:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="weibo" type="text"
-                                                   th:value="${item.user_secret_weibo}">
-                                        </label>
-                                    </p>
-                                    <p>地址:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="address" type="text"
-                                                   th:value="${item.user_secret_address}">
-                                        </label>
-                                    </p>
-                                    <p>登录时间:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="logtime" type="text"
-                                                   th:value="${item.user_safe_logtime}">
-                                        </label>
-                                    </p>
-                                    <p>IP地址:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="ip" type="text"
-                                                   th:value="${item.user_safe_ip}">
-                                        </label>
-                                    </p>
-                                </div>
-                                <div style="float: left">
-                                    <p>安全问题:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="question" type="text"
-                                                   th:value="${item.user_safe_question}">
-                                        </label>
-                                    </p>
-                                    <p>安全答案:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="answer" type="text"
-                                                   th:value="${item.user_safe_answer}">
-                                        </label>
-                                    </p>
-                                    <p>操作系统:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="system" type="text"
-                                                   th:value="${item.user_safe_system}">
-                                        </label>
-                                    </p>
-                                    <p>浏览器:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="browser" type="text"
-                                                   th:value="${item.user_safe_browser}">
-                                        </label>
-                                    </p>
-                                    <p>权重:
-                                        <label>
-                                            <input style="background: transparent;border: none" id="weight" type="text"
-                                                   th:value="${item.user_safe_weight}">
-                                        </label>
-                                    </p>
-                                </div>
-                            </div>
+                <div class="tab-content" style="width: 100%">
+                    <div class="tab-pane" id="admin_home_look">
+                        <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                             style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                            <table cellpadding="0" cellspacing="0" width="100%"
+                                   style="border: #000000 solid 1px;text-align: center;table-layout: fixed;word-break:break-all;">
+                                <tr class="border">
+                                    <td>序号</td>
+                                    <td>个人识别号</td>
+                                    <td>用户名</td>
+                                    <td>密码</td>
+                                    <td>昵称</td>
+                                    <td>真实姓名</td>
+                                    <td>电话</td>
+                                    <td>邮箱</td>
+                                    <td>生日</td>
+                                    <td>性别</td>
+                                    <td>年龄</td>
+                                    <td>微信</td>
+                                    <td>QQ</td>
+                                    <td>微博</td>
+                                    <td>地址</td>
+                                    <td>最后登录时间</td>
+                                    <td>IP地址</td>
+                                    <td>密保问题</td>
+                                    <td>密保答案</td>
+                                    <td>系统</td>
+                                    <td>浏览器</td>
+                                    <td>权重</td>
+                                </tr>
+                                <tr class="border" th:each="item:${adminUser}">
+                                    <td th:text="${item.user_common_id}"></td>
+                                    <td th:text="${item.user_common_private_id}"></td>
+                                    <td th:text="${item.user_common_username}"></td>
+                                    <td th:text="${item.user_common_password}"></td>
+                                    <td th:text="${item.user_common_nickname}"></td>
+                                    <td th:text="${item.user_secret_real_name}"></td>
+                                    <td th:text="${item.user_secret_phone}"></td>
+                                    <td th:text="${item.user_secret_email}"></td>
+                                    <td th:text="${item.user_secret_birthday}"></td>
+                                    <td th:text="${item.user_secret_sex}"></td>
+                                    <td th:text="${item.user_secret_age}"></td>
+                                    <td th:text="${item.user_secret_wechat}"></td>
+                                    <td th:text="${item.user_secret_qq}"></td>
+                                    <td th:text="${item.user_secret_weibo}"></td>
+                                    <td th:text="${item.user_secret_address}"></td>
+                                    <td th:text="${item.user_safe_logtime}"></td>
+                                    <td th:text="${item.user_safe_ip}"></td>
+                                    <td th:text="${item.user_safe_question}"></td>
+                                    <td th:text="${item.user_safe_answer}"></td>
+                                    <td th:text="${item.user_safe_system}"></td>
+                                    <td th:text="${item.user_safe_browser}"></td>
+                                    <td th:text="${item.user_safe_weight}"></td>
+                                </tr>
+                            </table>
                             <div class="btn-container">
-                                <button class="btn btn-info" onclick="update()">更新</button>
-                                <button class="btn btn-danger" th:value="${item.user_common_id}">删除</button>
+                                <div class="btn-prev-or-next">
+                                    <a th:href="'/superAdmin/admin/'+${userPageNumPrev}" class="btn btn-primary">
+                                        上一页
+                                    </a>
+                                </div>
+                                <div class="btn-prev-or-next">
+                                    <a th:href="'/superAdmin/admin/'+${userPageNumNext}" class="btn btn-primary">
+                                        下一页
+                                    </a>
+                                </div>
+                                <div class="btn-prev-or-next">
+                                    <p>当前页：</p>
+                                    <p th:text="${pageNum}"></p>
+                                    <p>/总页数：</p>
+                                    <p th:text="${userPageTotal}"></p>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="btn-container">
-                <div class="btn-prev-or-next">
-                    <a th:href="'/superAdmin/admin/'+${pageNumPrev}" class="btn btn-primary">
-                        上一页
-                    </a>
-                </div>
-                <div class="btn-prev-or-next">
-                    <a th:href="'/superAdmin/admin/'+${pageNumNext}" class="btn btn-primary">
-                        下一页
-                    </a>
-                </div>
-                <div class="btn-prev-or-next">
-                    <p>当前页：</p>
-                    <p th:text="${pageNum}"></p>
-                    <p>/总页数：</p>
-                    <p th:text="${pageTotal}"></p>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="admin_home_edit">
+                        <div style="width: 100%">
+                            <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                                 style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                                <ul class="timeline">
+                                    <li>
+                                        <i class="icon-graduation"></i>
+                                        <h2 class="timelin-title">用户信息</h2>
+                                    </li>
+
+                                    <li th:each="item:${adminUser}">
+                                        <div class="content-text"
+                                             style="display: inline-block;width: 100%;align-content: center">
+                                            <div style="float: left;">
+                                                <p>公有ID:
+                                                    <label>
+                                                        <input style="background: transparent;border: none"
+                                                               th:id="id+${item.user_common_id}" type="text"
+                                                               th:value="${item.user_common_id}">
+                                                    </label>
+                                                </p>
+                                                <p>私有ID:
+                                                    <label>
+                                                        <input style="background: transparent;border: none"
+                                                               id="privateId" type="text"
+                                                               th:value="${item.user_common_private_id}">
+                                                    </label>
+                                                </p>
+                                                <p>OpenID:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="openId"
+                                                               type="text"
+                                                               th:value="${item.user_common_open_id}">
+                                                    </label>
+                                                </p>
+                                                <p>用户名:
+                                                    <label>
+                                                        <input style="background: transparent;border: none"
+                                                               id="username" type="text"
+                                                               th:value="${item.user_common_username}">
+                                                    </label>
+                                                </p>
+                                                <p>密码:
+                                                    <label>
+                                                        <input style="background: transparent;border: none"
+                                                               id="password" type="text"
+                                                               th:value="${item.user_common_password}">
+                                                    </label>
+                                                </p>
+                                                <p>昵称:
+                                                    <label>
+                                                        <input style="background: transparent;border: none"
+                                                               id="nickname" type="text"
+                                                               th:value="${item.user_common_nickname}">
+                                                    </label>
+                                                </p>
+                                            </div>
+                                            <div style="float: left;">
+                                                <p>真实姓名:
+                                                    <label>
+                                                        <input style="background: transparent;border: none"
+                                                               id="realname" type="text"
+                                                               th:value="${item.user_secret_real_name}">
+                                                    </label>
+                                                </p>
+                                                <p>电话:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="phone"
+                                                               type="text"
+                                                               th:value="${item.user_secret_phone}">
+                                                    </label>
+                                                </p>
+                                                <p>电子邮箱:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="email"
+                                                               type="text"
+                                                               th:value="${item.user_secret_email}">
+                                                    </label>
+                                                </p>
+                                                <p>生日:
+                                                    <label>
+                                                        <input style="background: transparent;border: none"
+                                                               id="birthday" type="text"
+                                                               th:value="${item.user_secret_birthday}">
+                                                    </label>
+                                                </p>
+                                                <p>性别:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="sex"
+                                                               type="text"
+                                                               th:value="${item.user_secret_sex}">
+                                                    </label>
+                                                </p>
+                                                <p>年龄:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="age"
+                                                               type="text"
+                                                               th:value="${item.user_secret_age}">
+                                                    </label>
+                                                </p>
+                                            </div>
+                                            <div style="float: left">
+                                                <p>微信:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="wechat"
+                                                               type="text"
+                                                               th:value="${item.user_secret_wechat}">
+                                                    </label>
+                                                </p>
+                                                <p>QQ:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="qq"
+                                                               type="text"
+                                                               th:value="${item.user_secret_qq}">
+                                                    </label>
+                                                </p>
+                                                <p>微博:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="weibo"
+                                                               type="text"
+                                                               th:value="${item.user_secret_weibo}">
+                                                    </label>
+                                                </p>
+                                                <p>地址:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="address"
+                                                               type="text"
+                                                               th:value="${item.user_secret_address}">
+                                                    </label>
+                                                </p>
+                                                <p>登录时间:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="logtime"
+                                                               type="text"
+                                                               th:value="${item.user_safe_logtime}">
+                                                    </label>
+                                                </p>
+                                                <p>IP地址:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="ip"
+                                                               type="text"
+                                                               th:value="${item.user_safe_ip}">
+                                                    </label>
+                                                </p>
+                                            </div>
+                                            <div style="float: left">
+                                                <p>安全问题:
+                                                    <label>
+                                                        <input style="background: transparent;border: none"
+                                                               id="question" type="text"
+                                                               th:value="${item.user_safe_question}">
+                                                    </label>
+                                                </p>
+                                                <p>安全答案:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="answer"
+                                                               type="text"
+                                                               th:value="${item.user_safe_answer}">
+                                                    </label>
+                                                </p>
+                                                <p>操作系统:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="system"
+                                                               type="text"
+                                                               th:value="${item.user_safe_system}">
+                                                    </label>
+                                                </p>
+                                                <p>浏览器:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="browser"
+                                                               type="text"
+                                                               th:value="${item.user_safe_browser}">
+                                                    </label>
+                                                </p>
+                                                <p>权重:
+                                                    <label>
+                                                        <input style="background: transparent;border: none" id="weight"
+                                                               type="text"
+                                                               th:value="${item.user_safe_weight}">
+                                                    </label>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="btn-container">
+                                            <button class="btn btn-info" onclick="update()">更新</button>
+                                            <button class="btn btn-danger" id="btn_delete"
+                                                    th:value="${item.user_common_id}">删除
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="admin_article_edit">
+                        <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                             style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                            <p>归档</p>
+                            <table cellpadding="0" cellspacing="0" width="100%"
+                                   style="border: #000000 solid 1px;text-align: center;table-layout: fixed;word-break:break-all;">
+                                <tr class="border">
+                                    <td>序号</td>
+                                    <td>个人识别号</td>
+                                    <td>用户名</td>
+                                    <td>密码</td>
+                                </tr>
+                                <tr class="border" th:each="item1:${adminArticle}">
+                                    <td th:text="${item1.article_private_id}"></td>
+                                    <td th:text="${item1.article_title}"></td>
+                                    <td th:text="${item1.article_author}"></td>
+                                    <td th:text="${item1.article_time}"></td>
+                                </tr>
+                            </table>
+                            <div class="btn-container">
+                                <div class="btn-prev-or-next">
+                                    <a th:href="'/superAdmin/admin/'+${articlePageNumPrev}" class="btn btn-primary">
+                                        上一页
+                                    </a>
+                                </div>
+                                <div class="btn-prev-or-next">
+                                    <a th:href="'/superAdmin/admin/'+${articlePageNumNext}" class="btn btn-primary">
+                                        下一页
+                                    </a>
+                                </div>
+                                <div class="btn-prev-or-next">
+                                    <p>当前页：</p>
+                                    <p th:text="${pageNum}"></p>
+                                    <p>/总页数：</p>
+                                    <p th:text="${articlePageTotal}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane user-tab-pane-height" id="admin_message_edit">
+                        <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                             style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                            <p>留言</p>
+                        </div>
+                    </div>
+                    <div class="tab-pane user-tab-pane-height" id="admin_picture_edit">
+                        <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                             style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                            <p>图片</p>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="admin_info">
+                        <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                             style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                            <div style="width: 100%">
+                                <input type="text" id="userId"/>
+                                <button class="btn btn-info" id="btn_change" onclick="selectUser()">查询数据</button>
+                                <div id="p_test" style="word-break:break-all;">点击可以显示json数据！</div>
+                                <div style="width: 100%">
+                                    <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                                         style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                                        <ul class="timeline">
+                                            <li>
+                                                <i class="icon-graduation"></i>
+                                                <h2 class="timelin-title">用户信息</h2>
+                                            </li>
+                                            <div id="showData">
+
+                                            </div>
+                                        </ul>
+                                        <div class="btn-container">
+                                            <div class="btn-prev-or-next">
+                                                <button class="btn btn-primary" id="userPrev"
+                                                        onclick="selectUserList(this.value)" value="-1">
+                                                    上一页
+                                                </button>
+                                            </div>
+                                            <div class="btn-prev-or-next">
+                                                <button class="btn btn-primary" id="userNext"
+                                                        onclick="selectUserList(this.value)" value="+1">
+                                                    下一页
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width: 100%">
+                                <button class="btn btn-info" onclick="selectUserList(this.value)" value="1">遍历查询数据
+                                </button>
+                                <div id="showData2">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane user-tab-pane-height" id="admin_settings">
+                        <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                             style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                            <p>设置</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -312,13 +532,13 @@
 
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
 <script type="text/javascript">
-    function test() {
+    function selectUser() {
 
         var userId = $("#userId").val().trim();
         var test = $('#p_test');
 
         $.ajax({
-            url: "/superAdmin/clickTest",
+            url: "/superAdmin/showUser",
             dataType: "JSON",
             data: {
                 "userId": userId
@@ -365,14 +585,499 @@
                         $('#message-box').slideUp(300);
                     }
                 } else {
-                    test.html('<p id="p_test">' + data.result + '</p>');
-                }
+                    test.html('<div id="p_test">' + data.result + '</div>');
+                    var jsonVal = data.result;
+                    data1 = (new Function("", "return " + jsonVal))();
 
+                    $("#showData").html(
+                        '<li id="showData">' +
+                        '<div class="content-text" style="display: inline-block;width: 100%;align-content: center">' +
+                        '<div style="float: left;">' +
+                        '<p>公有ID:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'th:id="id' + data1['user_common_id'] + '" type="text"' +
+                        'value="' + data1['user_common_id'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>私有ID:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="privateId" type="text"' +
+                        'value="' + data1['user_common_private_id'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>OpenID:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none" id="openId" type="text"' +
+                        'value="' + data1['user_common_open_id'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>用户名:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="username" type="text"' +
+                        'value="' + data1['user_common_username'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>密码:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="password" type="text"' +
+                        'value="' + data1['user_common_password'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>昵称:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="nickname" type="text"' +
+                        'value="' + data1['user_common_nickname'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '</div>' +
+                        '<div style="float: left;">' +
+                        '<p>真实姓名:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="realname" type="text"' +
+                        'value="' + data1['user_secret_real_name'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>电话:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="phone" type="text"' +
+                        'value="' + data1['user_secret_phone'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>电子邮箱:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="email" type="text"' +
+                        'value="' + data1['user_secret_email'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>生日:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="birthday" type="text"' +
+                        'value="' + data1['user_secret_birthday'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>性别:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="sex" type="text"' +
+                        'value="' + data1['user_secret_sex'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>年龄:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="age" type="text"' +
+                        'value="' + data1['user_secret_age'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '</div>' +
+                        '<div style="float: left">' +
+                        '<p>微信:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="wechat" type="text"' +
+                        'value="' + data1['user_secret_wechat'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>QQ:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="qq" type="text"' +
+                        'value="' + data1['user_secret_qq'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>微博:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="weibo" type="text"' +
+                        'value="' + data1['user_secret_weibo'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>地址:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="address" type="text"' +
+                        'value="' + data1['user_secret_address'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>登录时间:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="logtime" type="text"' +
+                        'value="' + data1['user_safe_logtime'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>IP地址:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="ip" type="text"' +
+                        'value="' + data1['user_safe_ip'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '</div>' +
+                        '<div style="float: left">' +
+                        '<p>安全问题:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="question" type="text"' +
+                        'value="' + data1['user_safe_question'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>安全答案:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="answer" type="text"' +
+                        'value="' + data1['user_safe_answer'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>操作系统:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="system" type="text"' +
+                        'value="' + data1['user_safe_system'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>浏览器:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="browser" type="text"' +
+                        'value="' + data1['user_safe_browser'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '<p>权重:' +
+                        '<label>' +
+                        '<input style="background: transparent;border: none"' +
+                        'id="weight" type="text"' +
+                        'value="' + data1['user_safe_weight'] + '">' +
+                        '</label>' +
+                        '</p>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="btn-container">' +
+                        '<button class="btn btn-info" onclick="updateUser()">更新</button>' +
+                        '<button class="btn btn-danger" onclick="deleteUser(this.value)" ' +
+                        'value="' + data1['user_common_id'] + '">删除' +
+                        '</button>' +
+                        '</div>' +
+                        '</li>');
+                }
             },
         })
     }
 
-    function update() {
+    var userPageNum = 0;
+    var selectPages;
+
+    function selectUserList(value) {
+        let list = "userList";
+        let userPageMax = PageNum(list);
+        if (value === '-1') {
+            if (userPageNum > 1) {
+                userPageNum--;
+            } else {
+                $("#message-box-text").html("已经是第一页了！")
+                $("#message-box").css("color", "#a94442");
+                $("#message-box").css("background", "#f2dede");
+                setTimeout(function () {
+                    $('#message-box').slideUp(300);
+                }, 1000);
+                if ($("#message-box").is(":hidden")) {
+                    $('#message-box').slideDown(300);
+                } else {
+                    $('#message-box').slideUp(300);
+                }
+            }
+        } else if (value === '+1') {
+            if (userPageNum < userPageMax) {
+                userPageNum++;
+            } else {
+                $("#message-box-text").html("已经是最后一页了！")
+                $("#message-box").css("color", "#a94442");
+                $("#message-box").css("background", "#f2dede");
+                setTimeout(function () {
+                    $('#message-box').slideUp(300);
+                }, 1000);
+                if ($("#message-box").is(":hidden")) {
+                    $('#message-box').slideDown(300);
+                } else {
+                    $('#message-box').slideUp(300);
+                }
+            }
+
+        } else {
+            userPageNum = 1;
+        }
+        console.log(userPageNum);
+
+        $.ajax({
+            url: "/superAdmin/showUserList",
+            dataType: "JSON",
+            data: {
+                "pageNum": userPageNum
+            },
+            success: function (data) {
+                var jsonVal = data.result;
+                data1 = (new Function("", "return " + jsonVal))();
+                var html =
+                    '<div class="education wow fadeInRight animated" data-wow-delay="0.3s"' +
+                    'style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">' +
+                    '<ul class="timeline">' +
+                    '<li>' +
+                    '<i class="icon-graduation"></i>' +
+                    '<h2 class="timelin-title">用户信息</h2>' +
+                    '</li>';
+                for (var i = 0; i < 10; i++) {
+                    try {
+                        html += '<li>' +
+                            '<div class="content-text" style="display: inline-block;width: 100%;align-content: center">' +
+                            '<div style="float: left;">' +
+                            '<p>公有ID:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'th:id="id' + data1[i]['user_common_id'] + '" type="text"' +
+                            'value="' + data1[i]['user_common_id'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>私有ID:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="privateId" type="text"' +
+                            'value="' + data1[i]['user_common_private_id'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>OpenID:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none" id="openId" type="text"' +
+                            'value="' + data1[i]['user_common_open_id'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>用户名:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="username" type="text"' +
+                            'value="' + data1[i]['user_common_username'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>密码:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="password" type="text"' +
+                            'value="' + data1[i]['user_common_password'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>昵称:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="nickname" type="text"' +
+                            'value="' + data1[i]['user_common_nickname'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '</div>' +
+                            '<div style="float: left;">' +
+                            '<p>真实姓名:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="realname" type="text"' +
+                            'value="' + data1[i]['user_secret_real_name'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>电话:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="phone" type="text"' +
+                            'value="' + data1[i]['user_secret_phone'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>电子邮箱:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="email" type="text"' +
+                            'value="' + data1[i]['user_secret_email'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>生日:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="birthday" type="text"' +
+                            'value="' + data1[i]['user_secret_birthday'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>性别:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="sex" type="text"' +
+                            'value="' + data1[i]['user_secret_sex'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>年龄:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="age" type="text"' +
+                            'value="' + data1[i]['user_secret_age'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '</div>' +
+                            '<div style="float: left">' +
+                            '<p>微信:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="wechat" type="text"' +
+                            'value="' + data1[i]['user_secret_wechat'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>QQ:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="qq" type="text"' +
+                            'value="' + data1[i]['user_secret_qq'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>微博:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="weibo" type="text"' +
+                            'value="' + data1[i]['user_secret_weibo'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>地址:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="address" type="text"' +
+                            'value="' + data1[i]['user_secret_address'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>登录时间:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="logtime" type="text"' +
+                            'value="' + data1[i]['user_safe_logtime'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>IP地址:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="ip" type="text"' +
+                            'value="' + data1[i]['user_safe_ip'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '</div>' +
+                            '<div style="float: left">' +
+                            '<p>安全问题:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="question" type="text"' +
+                            'value="' + data1[i]['user_safe_question'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>安全答案:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="answer" type="text"' +
+                            'value="' + data1[i]['user_safe_answer'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>操作系统:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="system" type="text"' +
+                            'value="' + data1[i]['user_safe_system'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>浏览器:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="browser" type="text"' +
+                            'value="' + data1[i]['user_safe_browser'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '<p>权重:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="weight" type="text"' +
+                            'value="' + data1[i]['user_safe_weight'] + '">' +
+                            '</label>' +
+                            '</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="btn-container">' +
+                            '<button class="btn btn-info" onclick="updateUser()">更新</button>' +
+                            '<button class="btn btn-danger" onclick="deleteUser(this.value)" ' +
+                            'value="' + data1[i]['user_common_id'] + '">删除' +
+                            '</button>' +
+                            '</div>' +
+                            '</li>'
+                    } catch (e) {
+                        //异常处理，如果遍历不够十次则中断遍历直接输出
+                        break;
+                    }
+                }
+                html += '</ul>' +
+                    '</div>';
+                $("#showData2").html(html);
+            },
+        })
+    }
+
+    function PageNum(listName) {
+        $.ajax({
+            url: "/superAdmin/selectPageNumByPageName",
+            contentType: "application/json",
+            dataType: "JSON",
+            data: {
+                "pageName": listName
+            },
+            success: function (data) {
+                selectPages = data.result;
+            }
+        });
+        return selectPages;
+    }
+
+    function deleteUser(value) {
+        $.ajax({
+            url: "/superAdmin/delete",
+            dataType: "JSON",
+            data: {
+                "deleteId": value
+            },
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.result === "1") {
+                    document.getElementById("message-box-text").innerHTML = "删除成功";
+                    //document.getElementById("message-box").style.color = "#d7f7ff";
+                    document.getElementById("message-box").style.color = "#ffffff";
+                    document.getElementById("message-box").style.background = "#1a95ff";
+                    //setTimeout(function () {
+                    //   window.location.reload();
+                    //}, 2000)
+                    selectUserList();
+                } else {
+                    document.getElementById("message-box-text").innerHTML = "删除失败";
+                    document.getElementById("message-box").style.background = "#f2dede";
+                    document.getElementById("message-box").style.color = "#a94442";
+                }
+                setTimeout(function () {
+                    $('#message-box').slideUp(300);
+                }, 1000);
+                if ($("#message-box").is(":hidden")) {
+                    $('#message-box').slideDown(300);
+                } else {
+                    $('#message-box').slideUp(300);
+                }
+            },
+        })
+    }
+
+    function updateUser() {
+        alert(1);
         var id = $("#id").val();
         var privateId = $("#privateId").val();
         var openId = $("#openId").val();
@@ -451,45 +1156,6 @@
         })
     }
 
-    $(document).ready(function () {
-        $("button").click(function () {
-            var deleteId = $(this).val();
-
-            $.ajax({
-                url: "/superAdmin/delete",
-                dataType: "JSON",
-                data: {
-                    "deleteId": deleteId
-                },
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    if (data.result === "1") {
-                        document.getElementById("message-box-text").innerHTML = "删除成功";
-                        //document.getElementById("message-box").style.color = "#d7f7ff";
-                        document.getElementById("message-box").style.color = "#ffffff";
-                        document.getElementById("message-box").style.background = "#1a95ff";
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 2000)
-                    } else {
-                        document.getElementById("message-box-text").innerHTML = "删除失败";
-                        document.getElementById("message-box").style.background = "#f2dede";
-                        document.getElementById("message-box").style.color = "#a94442";
-                    }
-                    setTimeout(function () {
-                        $('#message-box').slideUp(300);
-                    }, 1000);
-                    if ($("#message-box").is(":hidden")) {
-                        $('#message-box').slideDown(300);
-                    } else {
-                        $('#message-box').slideUp(300);
-                    }
-
-                },
-            })
-        })
-
-    })
 </script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/editormd.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>

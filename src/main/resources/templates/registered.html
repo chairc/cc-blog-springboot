@@ -175,9 +175,9 @@
             success: function (data) {
                 if (data.result === "1") {
                     //提交成功
-                    document.getElementById("message-box-text").innerHTML = "提交成功";
-                    document.getElementById("message-box").style.color = "#d7f7ff";
-                    document.getElementById("message-box").style.background = "#1a95ff";
+                    $("#message-box-text").html("提交成功")
+                    $("#message-box").css("color","#d7f7ff");
+                    $("#message-box").css("background","#1a95ff");
                     setTimeout(function () {
                         window.location.href = "/login";
                     }, 2000)
@@ -186,11 +186,17 @@
                     document.getElementById("message-box-text").innerHTML = "提交失败，用户名存在";
                     document.getElementById("message-box").style.background = "#f2dede";
                     document.getElementById("message-box").style.color = "#a94442";
+                    $("#message-box-text").html("提交失败，用户名存在")
+                    $("#message-box").css("color","#a94442");
+                    $("#message-box").css("background","#f2dede");
                 } else {
                     //提交失败，用户名或密码为null
                     document.getElementById("message-box-text").innerHTML = "提交失败，用户名、密码或安全答案为null";
                     document.getElementById("message-box").style.background = "#f2dede";
                     document.getElementById("message-box").style.color = "#a94442";
+                    $("#message-box-text").html("提交失败，用户名、密码或安全答案为null")
+                    $("#message-box").css("color","#a94442");
+                    $("#message-box").css("background","#f2dede");
                 }
                 setTimeout(function () {
                     $('#message-box').slideUp(300);
