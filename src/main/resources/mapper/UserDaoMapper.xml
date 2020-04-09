@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cc.blog.dao.UserDao">
+<mapper namespace="com.cc.blog.mapper.UserDao">
     <!--关于ResultMap 如果实体类与数据库的行相同则不用写，反之则需要写ResultMap-->
     <sql id="table">cc_blog_user</sql>
 

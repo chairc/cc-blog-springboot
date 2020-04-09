@@ -1,21 +1,10 @@
 package com.cc.blog.service;
 
-import com.cc.blog.dao.UserDao;
 import com.cc.blog.model.User;
-import com.cc.blog.util.Tools;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
-@Service
-public class UserService {
-    @Autowired
-    UserDao userDao;
-
-    @Autowired
-    UserService userService;
+public interface UserService {
 
     /**
      * 获取所有用户
@@ -23,9 +12,7 @@ public class UserService {
      * @return
      */
 
-    public List<User> getUserAll() {
-        return userDao.getUserAll();
-    }
+    List<User> getUserAll();
 
     /**
      * 通过ID获取用户
@@ -33,10 +20,7 @@ public class UserService {
      * @param id
      * @return
      */
-
-    public User getUserById(int id) {
-        return userDao.getUserById(id);
-    }
+    User getUserById(int id);
 
     /**
      * 用户登录
@@ -45,12 +29,7 @@ public class UserService {
      * @param password
      * @return
      */
-
-    public Integer loginUser(String username, String password) {
-        Integer flag = userDao.loginUser(username, password);
-        System.out.println("登陆状态（1:success/2:failure）：" + flag);
-        return flag;
-    }
+    Integer loginUser(String username, String password);
 
     /**
      * 查找私有ID获取用户
@@ -58,10 +37,7 @@ public class UserService {
      * @param privateId
      * @return
      */
-
-    public Integer getUserPrivateId(String privateId) {
-        return userDao.getUserPrivateId(privateId);
-    }
+    Integer getUserPrivateId(String privateId);
 
     /**
      * 通过用户名获取用户信息
@@ -69,45 +45,28 @@ public class UserService {
      * @param username
      * @return
      */
-
-    public User getUserByUsername(String username) {
-        return userDao.getUserByUsername(username);
-    }
+    User getUserByUsername(String username);
 
     /**
      * 新增用户信息
      *
      * @param user
      */
-
-    public void insertUser(User user) {
-        Integer flag = userService.getUserPrivateId(user.getUser_common_private_id());
-        while (flag == 1) {
-            user.setUser_common_private_id(Tools.CreateUserRandomPrivateId());
-            flag = userService.getUserPrivateId(user.getUser_common_private_id());
-        }
-        userDao.insertUser(user);
-    }
+    void insertUser(User user);
 
     /**
      * 通过ID删除用户信息（暂时停用此方法）
      *
      * @param id
      */
-
-    public void deleteUserById(int id) {
-        userDao.deleteUserById(id);
-    }
+    void deleteUserById(int id);
 
     /**
      * 更新用户信息（暂时停用此方法）
      *
      * @param user
      */
-
-    public void updateUser(User user) {
-        userDao.updateUser(user);
-    }
+    void updateUser(User user);
 
     /**
      * 用户名唯一性验证
@@ -115,10 +74,7 @@ public class UserService {
      * @param username
      * @return
      */
-
-    public Integer usernameValidate(String username) {
-        return userDao.usernameValidate(username);
-    }
+    Integer usernameValidate(String username);
 
     /**
      * 通过QQ快速登录来验证openId
@@ -126,10 +82,7 @@ public class UserService {
      * @param openId
      * @return
      */
-
-    public Integer openIdValidate(String openId) {
-        return userDao.openIdValidate(openId);
-    }
+    Integer openIdValidate(String openId);
 
     /**
      * 获取用户数
@@ -137,8 +90,5 @@ public class UserService {
      * @return
      */
 
-    public Integer getUserCount() {
-        return userDao.getUserCount();
-    }
-
+    Integer getUserCount();
 }

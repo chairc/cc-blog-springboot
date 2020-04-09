@@ -1,4 +1,4 @@
-package com.cc.blog.dao;
+package com.cc.blog.mapper;
 
 import com.cc.blog.model.Article;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,15 +14,23 @@ public interface ArticleDao {
      * @return
      */
 
-    List<Article> getArticleAll_index();
+    List<Article> getArticleAllToIndex();
 
     /**
-     * 获取文章
+     * 获取文章（降序）
      *
      * @return
      */
 
     List<Article> getArticleAll();
+
+    /**
+     * 获取文章（升序）
+     *
+     * @return
+     */
+
+    List<Article> getArticleAllByAscendingOrder();
 
     /**
      * 文章私有ID获取文章

@@ -1,18 +1,10 @@
 package com.cc.blog.service;
 
-import com.cc.blog.dao.ArticleDao;
 import com.cc.blog.model.Article;
-import com.github.pagehelper.PageHelper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class ArticleService {
-
-    @Autowired
-    ArticleDao articleDao;
+public interface ArticleService {
 
     /**
      * 主页获取文章
@@ -20,19 +12,21 @@ public class ArticleService {
      * @return
      */
 
-    public List<Article> getArticleAll_index() {
-        return articleDao.getArticleAll_index();
-    }
+    List<Article> getArticleAllToIndex();
 
     /**
-     * 获取文章
+     * 获取文章（降序）
      *
      * @return
      */
+    List<Article> getArticleAll();
 
-    public List<Article> getArticleAll() {
-        return articleDao.getArticleAll();
-    }
+    /**
+     * 获取文章（升序）
+     *
+     * @return
+     */
+    List<Article> getArticleAllByAscendingOrder();
 
     /**
      * 文章私有ID获取文章
@@ -40,40 +34,28 @@ public class ArticleService {
      * @param articlePrivateId
      * @return
      */
-
-    public List<Article> getArticleByPrivateId(String articlePrivateId) {
-        return articleDao.getArticleByPrivateId(articlePrivateId);
-    }
+    List<Article> getArticleByPrivateId(String articlePrivateId);
 
     /**
      * 新增文章
      *
      * @param article
      */
-
-    public void insertArticle(Article article) {
-        articleDao.insertArticle(article);
-    }
+    void insertArticle(Article article);
 
     /**
      * 通过私有ID删除文章
      *
      * @param privateId
      */
-
-    public void deleteArticleByPrivateId(String privateId) {
-        articleDao.deleteArticleByPrivateId(privateId);
-    }
+    void deleteArticleByPrivateId(String privateId);
 
     /**
      * 更新文章
      *
      * @param article
      */
-
-    public void updateArticle(Article article) {
-        articleDao.updateArticle(article);
-    }
+    void updateArticle(Article article);
 
     /**
      * 获取文章条数
@@ -81,7 +63,5 @@ public class ArticleService {
      * @return
      */
 
-    public Integer getArticleCount(){
-        return articleDao.getArticleCount();
-    }
+    Integer getArticleCount();
 }

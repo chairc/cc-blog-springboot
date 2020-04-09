@@ -113,19 +113,23 @@
                         <a href="#admin_home_look" data-toggle="tab" style="color: #000000">用户信息查看</a>
                     </li>
                     <li class="user-li-style">
-                        <a href="#admin_home_edit" data-toggle="tab" style="color: #000000">用户信息操作</a>
+                        <a onclick="selectUserList(1)" href="#admin_home_edit" data-toggle="tab"
+                           style="color: #000000">用户信息操作</a>
                     </li>
                     <li class="user-li-style">
-                        <a href="#admin_article_edit" data-toggle="tab" style="color: #000000">归档操作</a>
+                        <a onclick="selectArticleList(1)" href="#admin_article_edit" data-toggle="tab"
+                           style="color: #000000">归档操作</a>
                     </li>
                     <li class="user-li-style">
-                        <a href="#admin_message_edit" data-toggle="tab" style="color: #000000">留言操作</a>
+                        <a onclick="selectMessageList(1)" href="#admin_message_edit" data-toggle="tab"
+                           style="color: #000000">留言操作</a>
                     </li>
                     <li class="user-li-style">
                         <a href="#admin_picture_edit" data-toggle="tab" style="color: #000000">图片操作</a>
                     </li>
                     <li class="user-li-style">
-                        <a href="#admin_info" data-toggle="tab" style="color: #000000">查询数据</a>
+                        <a onclick="selectUserList(1)" href="#admin_info" data-toggle="tab"
+                           style="color: #000000">查询数据</a>
                     </li>
                     <li class="user-li-style">
                         <a href="/articleTest" style="color: #000000">写文章</a>
@@ -212,241 +216,79 @@
                     </div>
                     <div class="tab-pane" id="admin_home_edit">
                         <div style="width: 100%">
-                            <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
-                                 style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
-                                <ul class="timeline">
-                                    <li>
-                                        <i class="icon-graduation"></i>
-                                        <h2 class="timelin-title">用户信息</h2>
-                                    </li>
+                            <div id="showData2">
 
-                                    <li th:each="item:${adminUser}">
-                                        <div class="content-text"
-                                             style="display: inline-block;width: 100%;align-content: center">
-                                            <div style="float: left;">
-                                                <p>公有ID:
-                                                    <label>
-                                                        <input style="background: transparent;border: none"
-                                                               th:id="id+${item.user_common_id}" type="text"
-                                                               th:value="${item.user_common_id}">
-                                                    </label>
-                                                </p>
-                                                <p>私有ID:
-                                                    <label>
-                                                        <input style="background: transparent;border: none"
-                                                               id="privateId" type="text"
-                                                               th:value="${item.user_common_private_id}">
-                                                    </label>
-                                                </p>
-                                                <p>OpenID:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="openId"
-                                                               type="text"
-                                                               th:value="${item.user_common_open_id}">
-                                                    </label>
-                                                </p>
-                                                <p>用户名:
-                                                    <label>
-                                                        <input style="background: transparent;border: none"
-                                                               id="username" type="text"
-                                                               th:value="${item.user_common_username}">
-                                                    </label>
-                                                </p>
-                                                <p>密码:
-                                                    <label>
-                                                        <input style="background: transparent;border: none"
-                                                               id="password" type="text"
-                                                               th:value="${item.user_common_password}">
-                                                    </label>
-                                                </p>
-                                                <p>昵称:
-                                                    <label>
-                                                        <input style="background: transparent;border: none"
-                                                               id="nickname" type="text"
-                                                               th:value="${item.user_common_nickname}">
-                                                    </label>
-                                                </p>
-                                            </div>
-                                            <div style="float: left;">
-                                                <p>真实姓名:
-                                                    <label>
-                                                        <input style="background: transparent;border: none"
-                                                               id="realname" type="text"
-                                                               th:value="${item.user_secret_real_name}">
-                                                    </label>
-                                                </p>
-                                                <p>电话:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="phone"
-                                                               type="text"
-                                                               th:value="${item.user_secret_phone}">
-                                                    </label>
-                                                </p>
-                                                <p>电子邮箱:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="email"
-                                                               type="text"
-                                                               th:value="${item.user_secret_email}">
-                                                    </label>
-                                                </p>
-                                                <p>生日:
-                                                    <label>
-                                                        <input style="background: transparent;border: none"
-                                                               id="birthday" type="text"
-                                                               th:value="${item.user_secret_birthday}">
-                                                    </label>
-                                                </p>
-                                                <p>性别:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="sex"
-                                                               type="text"
-                                                               th:value="${item.user_secret_sex}">
-                                                    </label>
-                                                </p>
-                                                <p>年龄:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="age"
-                                                               type="text"
-                                                               th:value="${item.user_secret_age}">
-                                                    </label>
-                                                </p>
-                                            </div>
-                                            <div style="float: left">
-                                                <p>微信:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="wechat"
-                                                               type="text"
-                                                               th:value="${item.user_secret_wechat}">
-                                                    </label>
-                                                </p>
-                                                <p>QQ:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="qq"
-                                                               type="text"
-                                                               th:value="${item.user_secret_qq}">
-                                                    </label>
-                                                </p>
-                                                <p>微博:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="weibo"
-                                                               type="text"
-                                                               th:value="${item.user_secret_weibo}">
-                                                    </label>
-                                                </p>
-                                                <p>地址:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="address"
-                                                               type="text"
-                                                               th:value="${item.user_secret_address}">
-                                                    </label>
-                                                </p>
-                                                <p>登录时间:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="logtime"
-                                                               type="text"
-                                                               th:value="${item.user_safe_logtime}">
-                                                    </label>
-                                                </p>
-                                                <p>IP地址:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="ip"
-                                                               type="text"
-                                                               th:value="${item.user_safe_ip}">
-                                                    </label>
-                                                </p>
-                                            </div>
-                                            <div style="float: left">
-                                                <p>安全问题:
-                                                    <label>
-                                                        <input style="background: transparent;border: none"
-                                                               id="question" type="text"
-                                                               th:value="${item.user_safe_question}">
-                                                    </label>
-                                                </p>
-                                                <p>安全答案:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="answer"
-                                                               type="text"
-                                                               th:value="${item.user_safe_answer}">
-                                                    </label>
-                                                </p>
-                                                <p>操作系统:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="system"
-                                                               type="text"
-                                                               th:value="${item.user_safe_system}">
-                                                    </label>
-                                                </p>
-                                                <p>浏览器:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="browser"
-                                                               type="text"
-                                                               th:value="${item.user_safe_browser}">
-                                                    </label>
-                                                </p>
-                                                <p>权重:
-                                                    <label>
-                                                        <input style="background: transparent;border: none" id="weight"
-                                                               type="text"
-                                                               th:value="${item.user_safe_weight}">
-                                                    </label>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="btn-container">
-                                            <button class="btn btn-info" onclick="update()">更新</button>
-                                            <button class="btn btn-danger" id="btn_delete"
-                                                    th:value="${item.user_common_id}">删除
-                                            </button>
-                                        </div>
-                                    </li>
-                                </ul>
+                            </div>
+                            <div class="btn-container">
+                                <div class="btn-prev-or-next">
+                                    <button class="btn btn-primary" id="userPrev"
+                                            onclick="selectUserList(this.value)" value="-1">
+                                        上一页
+                                    </button>
+                                </div>
+                                <div class="btn-prev-or-next">
+                                    <button class="btn btn-primary" id="userNext"
+                                            onclick="selectUserList(this.value)" value="+1">
+                                        下一页
+                                    </button>
+                                </div>
+                                <div class="btn-prev-or-next">
+                                    <p>当前页：</p>
+                                    <p id="userPageNow"></p>
+                                    <p>/总页数：</p>
+                                    <p id="userPageTotal"></p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="admin_article_edit">
-                        <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
-                             style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
-                            <p>归档</p>
-                            <table cellpadding="0" cellspacing="0" width="100%"
-                                   style="border: #000000 solid 1px;text-align: center;table-layout: fixed;word-break:break-all;">
-                                <tr class="border">
-                                    <td>序号</td>
-                                    <td>个人识别号</td>
-                                    <td>用户名</td>
-                                    <td>密码</td>
-                                </tr>
-                                <tr class="border" th:each="item1:${adminArticle}">
-                                    <td th:text="${item1.article_private_id}"></td>
-                                    <td th:text="${item1.article_title}"></td>
-                                    <td th:text="${item1.article_author}"></td>
-                                    <td th:text="${item1.article_time}"></td>
-                                </tr>
-                            </table>
-                            <div class="btn-container">
-                                <div class="btn-prev-or-next">
-                                    <a th:href="'/superAdmin/admin/'+${articlePageNumPrev}" class="btn btn-primary">
-                                        上一页
-                                    </a>
-                                </div>
-                                <div class="btn-prev-or-next">
-                                    <a th:href="'/superAdmin/admin/'+${articlePageNumNext}" class="btn btn-primary">
-                                        下一页
-                                    </a>
-                                </div>
-                                <div class="btn-prev-or-next">
-                                    <p>当前页：</p>
-                                    <p th:text="${pageNum}"></p>
-                                    <p>/总页数：</p>
-                                    <p th:text="${articlePageTotal}"></p>
-                                </div>
+                        <div id="showArticleData">
+
+                        </div>
+                        <div class="btn-container">
+                            <div class="btn-prev-or-next">
+                                <button class="btn btn-primary" id="articlePrev"
+                                        onclick="selectArticleList(this.value)" value="-1">
+                                    上一页
+                                </button>
+                            </div>
+                            <div class="btn-prev-or-next">
+                                <button class="btn btn-primary" id="articleNext"
+                                        onclick="selectArticleList(this.value)" value="+1">
+                                    下一页
+                                </button>
+                            </div>
+                            <div class="btn-prev-or-next">
+                                <p>当前页：</p>
+                                <p id="articlePageNow"></p>
+                                <p>/总页数：</p>
+                                <p id="articlePageTotal"></p>
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane user-tab-pane-height" id="admin_message_edit">
-                        <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
-                             style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
-                            <p>留言</p>
+                        <div id="showMessageData">
+
+                        </div>
+                        <div class="btn-container">
+                            <div class="btn-prev-or-next">
+                                <button class="btn btn-primary" id="messagePrev"
+                                        onclick="selectMessageList(this.value)" value="-1">
+                                    上一页
+                                </button>
+                            </div>
+                            <div class="btn-prev-or-next">
+                                <button class="btn btn-primary" id="messageNext"
+                                        onclick="selectMessageList(this.value)" value="+1">
+                                    下一页
+                                </button>
+                            </div>
+                            <div class="btn-prev-or-next">
+                                <p>当前页：</p>
+                                <p id="messagePageNow"></p>
+                                <p>/总页数：</p>
+                                <p id="messagePageTotal"></p>
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane user-tab-pane-height" id="admin_picture_edit">
@@ -474,28 +316,7 @@
 
                                             </div>
                                         </ul>
-                                        <div class="btn-container">
-                                            <div class="btn-prev-or-next">
-                                                <button class="btn btn-primary" id="userPrev"
-                                                        onclick="selectUserList(this.value)" value="-1">
-                                                    上一页
-                                                </button>
-                                            </div>
-                                            <div class="btn-prev-or-next">
-                                                <button class="btn btn-primary" id="userNext"
-                                                        onclick="selectUserList(this.value)" value="+1">
-                                                    下一页
-                                                </button>
-                                            </div>
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div style="width: 100%">
-                                <button class="btn btn-info" onclick="selectUserList(this.value)" value="1">遍历查询数据
-                                </button>
-                                <div id="showData2">
-
                                 </div>
                             </div>
                         </div>
@@ -532,6 +353,12 @@
 
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
 <script type="text/javascript">
+    var userPageNum = 1;
+    var articlePageNum = 1;
+    var messagePageNum = 1;
+    var selectPages;
+
+    //查找单一用户
     function selectUser() {
 
         var userId = $("#userId").val().trim();
@@ -547,9 +374,9 @@
 
                 if (data.result === "-1") {
                     //少于0
-                    document.getElementById("message-box-text").innerHTML = "提交失败，低于0值";
-                    document.getElementById("message-box").style.background = "#f2dede";
-                    document.getElementById("message-box").style.color = "#a94442";
+                    $("#message-box-text").html("提交失败，低于0值")
+                    $("#message-box").css("color", "#a94442");
+                    $("#message-box").css("background", "#f2dede");
                     setTimeout(function () {
                         $('#message-box').slideUp(300);
                     }, 1000);
@@ -560,9 +387,9 @@
                     }
                 } else if (data.result === "-2") {
                     //超出
-                    document.getElementById("message-box-text").innerHTML = "提交失败，超出范围";
-                    document.getElementById("message-box").style.background = "#f2dede";
-                    document.getElementById("message-box").style.color = "#a94442";
+                    $("#message-box-text").html("提交失败，超出范围")
+                    $("#message-box").css("color", "#a94442");
+                    $("#message-box").css("background", "#f2dede");
                     setTimeout(function () {
                         $('#message-box').slideUp(300);
                     }, 1000);
@@ -573,9 +400,9 @@
                     }
                 } else if (data.result === "error") {
                     //其他情况
-                    document.getElementById("message-box-text").innerHTML = "提交失败，请正确输入";
-                    document.getElementById("message-box").style.background = "#f2dede";
-                    document.getElementById("message-box").style.color = "#a94442";
+                    $("#message-box-text").html("提交失败，请正确输入")
+                    $("#message-box").css("color", "#a94442");
+                    $("#message-box").css("background", "#f2dede");
                     setTimeout(function () {
                         $('#message-box').slideUp(300);
                     }, 1000);
@@ -588,6 +415,7 @@
                     test.html('<div id="p_test">' + data.result + '</div>');
                     var jsonVal = data.result;
                     data1 = (new Function("", "return " + jsonVal))();
+                    console.log(JSON.stringify(data));
 
                     $("#showData").html(
                         '<li id="showData">' +
@@ -773,43 +601,21 @@
         })
     }
 
-    var userPageNum = 0;
-    var selectPages;
-
+    //遍历输出用户表
     function selectUserList(value) {
         let list = "userList";
-        let userPageMax = PageNum(list);
+        let userPageMax = pageNum(list);
         if (value === '-1') {
             if (userPageNum > 1) {
                 userPageNum--;
             } else {
-                $("#message-box-text").html("已经是第一页了！")
-                $("#message-box").css("color", "#a94442");
-                $("#message-box").css("background", "#f2dede");
-                setTimeout(function () {
-                    $('#message-box').slideUp(300);
-                }, 1000);
-                if ($("#message-box").is(":hidden")) {
-                    $('#message-box').slideDown(300);
-                } else {
-                    $('#message-box').slideUp(300);
-                }
+                warningFirstPage();
             }
         } else if (value === '+1') {
             if (userPageNum < userPageMax) {
                 userPageNum++;
             } else {
-                $("#message-box-text").html("已经是最后一页了！")
-                $("#message-box").css("color", "#a94442");
-                $("#message-box").css("background", "#f2dede");
-                setTimeout(function () {
-                    $('#message-box').slideUp(300);
-                }, 1000);
-                if ($("#message-box").is(":hidden")) {
-                    $('#message-box').slideDown(300);
-                } else {
-                    $('#message-box').slideUp(300);
-                }
+                warningLastPage();
             }
 
         } else {
@@ -826,6 +632,7 @@
             success: function (data) {
                 var jsonVal = data.result;
                 data1 = (new Function("", "return " + jsonVal))();
+                console.log(JSON.stringify(data));
                 var html =
                     '<div class="education wow fadeInRight animated" data-wow-delay="0.3s"' +
                     'style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">' +
@@ -1026,7 +833,144 @@
         })
     }
 
-    function PageNum(listName) {
+    //遍历输出文章表
+    function selectArticleList(value) {
+        let list = "articleList";
+        let articlePageMax = pageNum(list);
+        if (value === '-1') {
+            if (articlePageNum > 1) {
+                articlePageNum--;
+            } else {
+                warningFirstPage();
+            }
+        } else if (value === '+1') {
+            if (articlePageNum < articlePageMax) {
+                articlePageNum++;
+            } else {
+                warningLastPage();
+            }
+
+        } else {
+            articlePageNum = 1;
+        }
+        console.log(articlePageNum);
+
+        $.ajax({
+            url: "/superAdmin/showArticleList",
+            dataType: "JSON",
+            data: {
+                "pageNum": articlePageNum
+            },
+            success: function (data) {
+                var jsonVal = data.result;
+                data1 = (new Function("", "return " + jsonVal))();
+                console.log(JSON.stringify(data));
+                var html =
+                    '<div class="education wow fadeInRight animated" data-wow-delay="0.3s"' +
+                    'style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">' +
+                    '<table cellpadding="0" cellspacing="0" width="100%"' +
+                    'style="border: #000000 solid 1px;text-align: center;table-layout: fixed;word-break:break-all;">' +
+                    '<tr class="border">' +
+                    '<td>序号</td>' +
+                    '<td>文章识别号</td>' +
+                    '<td>文章题目</td>' +
+                    '<td>作者</td>' +
+                    '<td>写作时间</td>' +
+                    '<td>点击数</td>' +
+                    '</tr>';
+                for (var i = 0; i < 10; i++) {
+                    try {
+                        html += '<tr class="border">' +
+                            '<td>' + data1[i]["article_id"] + '</td>' +
+                            '<td>' + data1[i]["article_private_id"] + '</td>' +
+                            '<td>' + data1[i]["article_title"] + '</td>' +
+                            '<td>' + data1[i]["article_author"] + '</td>' +
+                            '<td>' + data1[i]["article_time"] + '</td>' +
+                            '<td>' + data1[i]["article_click_num"] + '</td>' +
+                            '</tr>';
+                    } catch (e) {
+                        //异常处理，如果遍历不够十次则中断遍历直接输出
+                        break;
+                    }
+                }
+                html += '</table>' +
+                    '</div>';
+                $("#showArticleData").html(html);
+            },
+        })
+    }
+
+    //遍历输出留言表
+    function selectMessageList(value) {
+        let list = "messageList";
+        let messagePageMax = pageNum(list);
+        if (value === '-1') {
+            if (messagePageNum > 1) {
+                messagePageNum--;
+            } else {
+                warningFirstPage();
+            }
+        } else if (value === '+1') {
+            if (messagePageNum < messagePageMax) {
+                messagePageNum++;
+            } else {
+                warningLastPage();
+            }
+
+        } else {
+            messagePageNum = 1;
+        }
+        console.log(messagePageNum);
+
+        $.ajax({
+            url: "/superAdmin/showMessageList",
+            dataType: "JSON",
+            data: {
+                "pageNum": messagePageNum
+            },
+            success: function (data) {
+                var jsonVal = data.result;
+                data1 = (new Function("", "return " + jsonVal))();
+                console.log(JSON.stringify(data));
+                var html =
+                    '<div class="education wow fadeInRight animated" data-wow-delay="0.3s"' +
+                    'style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">' +
+                    '<table cellpadding="0" cellspacing="0" width="100%"' +
+                    'style="border: #000000 solid 1px;text-align: center;table-layout: fixed;word-break:break-all;">' +
+                    '<tr class="border">' +
+                    '<td>序号</td>' +
+                    '<td>留言识别号</td>' +
+                    '<td>用户名</td>' +
+                    '<td>留言内容</td>' +
+                    '<td>留言时间</td>' +
+                    '<td>IP地址</td>' +
+                    '<td>权重</td>' +
+                    '</tr>';
+                for (var i = 0; i < 10; i++) {
+                    try {
+                        html += '<tr class="border">' +
+                            '<td>' + data1[i]["message_id"] + '</td>' +
+                            '<td>' + data1[i]["message_private_id"] + '</td>' +
+                            '<td>' + data1[i]["message_username"] + '</td>' +
+                            '<td>' + data1[i]["message_main"] + '</td>' +
+                            '<td>' + data1[i]["message_time"] + '</td>' +
+                            '<td>' + data1[i]["message_ip"] + '</td>' +
+                            '<td>' + data1[i]["message_weight"] + '</td>' +
+                            '</tr>';
+                    } catch (e) {
+                        //异常处理，如果遍历不够十次则中断遍历直接输出
+                        break;
+                    }
+                }
+                html += '</table>' +
+                    '</div>';
+                $("#showMessageData").html(html);
+            },
+        })
+    }
+
+    //每个表总页数以及当前页数
+    function pageNum(listName) {
         $.ajax({
             url: "/superAdmin/selectPageNumByPageName",
             contentType: "application/json",
@@ -1036,11 +980,52 @@
             },
             success: function (data) {
                 selectPages = data.result;
+                if (listName === "userList") {
+                    $("#userPageNow").html('<p id="userPageNow">' + userPageNum + '</p>');
+                    $("#userPageTotal").html('<p id="userPageTotal">' + selectPages + '</p>');
+                } else if (listName === "articleList") {
+                    $("#articlePageNow").html('<p id="articlePageNow">' + articlePageNum + '</p>');
+                    $("#articlePageTotal").html('<p id="articlePageTotal">' + selectPages + '</p>');
+                } else if (listName === "messageList") {
+                    $("#messagePageNow").html('<p id="messagePageNow">' + messagePageNum + '</p>');
+                    $("#messagePageTotal").html('<p id="messagePageTotal">' + selectPages + '</p>');
+                }
             }
         });
         return selectPages;
     }
 
+    //小于第一页警告
+    function warningFirstPage() {
+        $("#message-box-text").html("已经是第一页了！")
+        $("#message-box").css("color", "#a94442");
+        $("#message-box").css("background", "#f2dede");
+        setTimeout(function () {
+            $('#message-box').slideUp(300);
+        }, 1000);
+        if ($("#message-box").is(":hidden")) {
+            $('#message-box').slideDown(300);
+        } else {
+            $('#message-box').slideUp(300);
+        }
+    }
+
+    //大于最后一页警告
+    function warningLastPage() {
+        $("#message-box-text").html("已经是最后一页了！")
+        $("#message-box").css("color", "#a94442");
+        $("#message-box").css("background", "#f2dede");
+        setTimeout(function () {
+            $('#message-box').slideUp(300);
+        }, 1000);
+        if ($("#message-box").is(":hidden")) {
+            $('#message-box').slideDown(300);
+        } else {
+            $('#message-box').slideUp(300);
+        }
+    }
+
+    //删除用户
     function deleteUser(value) {
         $.ajax({
             url: "/superAdmin/delete",
@@ -1076,6 +1061,7 @@
         })
     }
 
+    //更新用户
     function updateUser() {
         alert(1);
         var id = $("#id").val();

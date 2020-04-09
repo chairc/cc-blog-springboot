@@ -1,4 +1,4 @@
-package com.cc.blog.dao;
+package com.cc.blog.mapper;
 
 import com.cc.blog.model.Article;
 import com.cc.blog.model.Message;
@@ -15,7 +15,7 @@ public interface MessageDao {
      * @return
      */
 
-    List<Message> getMessageAll_index();
+    List<Message> getMessageAllToIndex();
 
     /**
      * 主页获取精选留言
@@ -23,10 +23,10 @@ public interface MessageDao {
      * @return
      */
 
-    List<Message> getMessageAll_index_weight();
+    List<Message> getMessageAllToIndexByWeight();
 
     /**
-     * 获取留言
+     * 获取留言（降序）
      *
      * @return
      */
@@ -34,12 +34,20 @@ public interface MessageDao {
     List<Message> getMessageAll();
 
     /**
+     * 获取留言（升序）
+     *
+     * @return
+     */
+
+    List<Message> getMessageAllByAscendingOrder();
+
+    /**
      * 获取精选留言
      *
      * @return
      */
 
-    List<Message> getMessageAll_weight();
+    List<Message> getMessageAllByWeight();
 
     /**
      * 通过用户名获取留言
@@ -61,7 +69,7 @@ public interface MessageDao {
     /**
      * 通过私有ID删除留言
      *
-     * @param id
+     * @param privateId
      */
 
     void deleteMessageByPrivateId(String privateId);

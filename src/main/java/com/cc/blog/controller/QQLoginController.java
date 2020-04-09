@@ -18,7 +18,7 @@
 package com.cc.blog.controller;
 
 import com.cc.blog.model.User;
-import com.cc.blog.service.UserService;
+import com.cc.blog.service.impl.UserServiceImpl;
 
 import com.cc.blog.util.Tools;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,7 +46,7 @@ public class QQLoginController {
     private RestTemplate restTemplate;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Value("${qqlogin.call-back-url}")
     private String CALLBACK_URL;
@@ -95,17 +95,17 @@ public class QQLoginController {
     @RequestMapping("/loginByQQ")
     public void userLoginByQQ(HttpServletRequest request,
                           HttpServletResponse response) throws IOException {
-        String response_type = "code";
-        String client_id = APP_ID;
-        String redirect_uri = URLEncoder.encode(CALLBACK_URL, "UTF-8");
-        //String redirect_uri = CALLBACK_URL;
+        String responseType = "code";
+        String clientId = APP_ID;
+        String redirectUrl = URLEncoder.encode(CALLBACK_URL, "UTF-8");
+        //String redirectUrl = CALLBACK_URL;
         //client端的状态值。用于第三方应用防止CSRF攻击。
         String state = new Date().toString();
         request.getSession().setAttribute("state", state);
 
         String url = String.format(GET_AUTHORIZATION_CODE +
                         "?response_type=%s&client_id=%s&redirect_uri=%s&state=%s",
-                response_type, client_id, redirect_uri, state);
+                responseType, clientId, redirectUrl, state);
 
         response.sendRedirect(url);
     }
@@ -124,8 +124,8 @@ public class QQLoginController {
     public String callbackHandler(HttpServletRequest request,
                                   HttpServletResponse response) throws IOException {
         //获取回调的authorization
-        String authorization_code = request.getParameter("code");
-        if (authorization_code == null || authorization_code.trim().isEmpty()) {
+        String authorizationCode = request.getParameter("code");
+        if (authorizationCode == null || authorizationCode.trim().isEmpty()) {
             throw new RuntimeException("未获取到AuthorizationCode");
         }
         //client端的状态值。用于第三方应用防止CSRF攻击。
@@ -135,40 +135,34 @@ public class QQLoginController {
         }
 
         //获取accessToken
-        String url_for_access_token = getUrlForAccessToken(authorization_code);
-        String access_token = getAccessToken(url_for_access_token);
+        String urlForAccessToken = getUrlForAccessToken(authorizationCode);
+        String accessToken = getAccessToken(urlForAccessToken);
 
-        //根据access_token获取open_id
-        if (access_token == null || access_token.trim().isEmpty()) {
+        //根据accessToken获取openId
+        if (accessToken == null || accessToken.trim().isEmpty()) {
             throw new RuntimeException("未获取到accessToken");
         }
-        String open_id = getOpenId(access_token);
+        String openId = getOpenId(accessToken);
 
-        //根据open_id获取用户信息
-        if (open_id == null || open_id.trim().isEmpty()) {
+        //根据openId获取用户信息
+        if (openId == null || openId.trim().isEmpty()) {
             throw new RuntimeException("未获取到openId");
         }
-        String user_info = getUserInfo(open_id, access_token);
+        String userInfo = getUserInfo(openId, accessToken);
 
-        //System.out.println(user_info);
+        //System.out.println(userInfo);
 
-        //将user_info从Json格式中解析并传入service层
+        //将userInfo从Json格式中解析并传入service层
         ObjectMapper objectMapper = new ObjectMapper();
-        HashMap hashMap = objectMapper.readValue(user_info, HashMap.class);
+        HashMap hashMap = objectMapper.readValue(userInfo, HashMap.class);
         String username = (String) hashMap.get("nickname");
         String sex = (String) hashMap.get("gender");
 
-        //验证open_id是否存在于用户表，若不存在则创建该用户并将处于登录状态，若存在则直接进入登录状态
-        if (userService.openIdValidate(open_id).equals(0)) {
+        //验证openId是否存在于用户表，若不存在则创建该用户并将处于登录状态，若存在则直接进入登录状态
+        if (userService.openIdValidate(openId).equals(0)) {
             User user = new User();
-            Integer flag = 1;
-            String private_id = "";
-            while (flag == 1) {
-                private_id = Tools.CreateUserRandomPrivateId();
-                flag = userService.getUserPrivateId(private_id); //判断私有ID是否存在
-            }
-            user.setUser_common_private_id(private_id);
-            user.setUser_common_open_id(open_id);
+            user.setUser_common_private_id(Tools.CreateUserRandomPrivateId());
+            user.setUser_common_open_id(openId);
             user.setUser_common_username(username);
             user.setUser_common_password("null");
             user.setUser_common_nickname(username);
@@ -192,56 +186,56 @@ public class QQLoginController {
     /**
      * 拼接用于获取accessToken的链接
      *
-     * @param authorization_code
+     * @param authorizationCode
      * @return
      */
 
-    private String getUrlForAccessToken(String authorization_code) {
-        String grant_type = "authorization_code";
-        String client_id = APP_ID;
-        String client_secret = APP_KEY;
-//        String redirect_uri = URLEncoder.encode(CALLBACK_URL, "UTF-8"); 此处进行URLEncode会导致无法获取AccessToken
-        String redirect_uri = CALLBACK_URL;
+    private String getUrlForAccessToken(String authorizationCode) {
+        String grantType = "authorization_code";
+        String clientId = APP_ID;
+        String clientSecret = APP_KEY;
+//        String redirectUrl = URLEncoder.encode(CALLBACK_URL, "UTF-8"); 此处进行URLEncode会导致无法获取AccessToken
+        String redirectUrl = CALLBACK_URL;
 
         return String.format(GET_ACCESS_TOKEN +
                         "?grant_type=%s&client_id=%s&client_secret=%s&code=%s&redirect_uri=%s",
-                grant_type, client_id, client_secret, authorization_code, redirect_uri);
+                grantType, clientId, clientSecret, authorizationCode, redirectUrl);
     }
 
     /**
      * 获取accessToken
      *
-     * @param url_for_access_token
+     * @param urlForAccessToken
      * @return
      */
 
-    private String getAccessToken(String url_for_access_token) {
-        String first_callback_info = restTemplate.getForObject(url_for_access_token, String.class);
-        assert first_callback_info != null;
-        String[] params = first_callback_info.split("&");
-        String access_token = null;
+    private String getAccessToken(String urlForAccessToken) {
+        String firstCallback_info = restTemplate.getForObject(urlForAccessToken, String.class);
+        assert firstCallback_info != null;
+        String[] params = firstCallback_info.split("&");
+        String accessToken = null;
         for (String param : params) {
-            String[] key_value = param.split("=");
-            if (key_value[0].equals("access_token")) {
-                access_token = key_value[1];
+            String[] keyValue = param.split("=");
+            if (keyValue[0].equals("access_token")) {
+                accessToken = keyValue[1];
                 break;
             }
         }
-        System.out.println("access_token = " + access_token);
-        return access_token;
+        System.out.println("access_token = " + accessToken);
+        return accessToken;
     }
 
     /**
      * 根据accessToken获取open_id
      *
-     * @param access_token
+     * @param accessToken
      * @return
      * @throws IOException
      */
 
-    private String getOpenId(String access_token) throws IOException {
-        String url = String.format(GET_OPEN_ID + "?access_token=%s", access_token);
-        //callback( {"client_id":"YOUR_APPID","open_id":"YOUR_OPENID"} );
+    private String getOpenId(String accessToken) throws IOException {
+        String url = String.format(GET_OPEN_ID + "?access_token=%s", accessToken);
+        //callback( {"clientId":"YOUR_APPID","openId":"YOUR_OPENID"} );
         String secondCallbackInfo = restTemplate.getForObject(url, String.class);
 
         //正则表达式处理
@@ -257,22 +251,22 @@ public class QQLoginController {
         ObjectMapper objectMapper = new ObjectMapper();
         HashMap hashMap = objectMapper.readValue(matcher.group(0), HashMap.class);
 
-        //return "获取到的openid为：" + openid;
-        return ((String) hashMap.get("openid"));
+        //return "获取到的openId为：" + openId;
+        return ((String) hashMap.get("openId"));
     }
 
     /**
      * 根据openid获取用户信息
      *
-     * @param open_id
-     * @param access_token
+     * @param openId
+     * @param accessToken
      * @return
      */
 
-    private String getUserInfo(String open_id, String access_token) {
-        String info_url = String.format(GET_USER_INFO + "?access_token=%s&oauth_consumer_key=%s&openid=%ss",
-                access_token, APP_ID, open_id);
-        System.out.println("infoUrl = " + info_url);
-        return restTemplate.getForObject(info_url, String.class);
+    private String getUserInfo(String openId, String accessToken) {
+        String infoUrl = String.format(GET_USER_INFO + "?access_token=%s&oauth_consumer_key=%s&openid=%ss",
+                accessToken, APP_ID, openId);
+        System.out.println("infoUrl = " + infoUrl);
+        return restTemplate.getForObject(infoUrl, String.class);
     }
 }

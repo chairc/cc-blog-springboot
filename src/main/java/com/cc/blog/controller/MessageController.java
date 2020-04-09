@@ -31,9 +31,9 @@ public class MessageController {
         //第一页开始，一页十条数据
         Page<Message> pages = PageHelper.startPage(1, 10);
         List<Message> message = messageService.getMessageAll();
-        List<Message> message_weight = messageService.getMessageAll_weight();
+        List<Message> messageWeight = messageService.getMessageAllByWeight();
         model.addAttribute("message", message);
-        model.addAttribute("message_weight", message_weight);
+        model.addAttribute("message_weight", messageWeight);
         model.addAttribute("pageNum", page);
         //前一页设为1，下一页设为这一页+1
         model.addAttribute("pageNumPrev", 1);
@@ -57,9 +57,9 @@ public class MessageController {
         //pageNum传进来页面号
         Page<Message> pages = PageHelper.startPage(pageNum, 10);
         List<Message> message = messageService.getMessageAll();
-        List<Message> message_weight = messageService.getMessageAll_weight();
+        List<Message> messageWeight = messageService.getMessageAllByWeight();
         model.addAttribute("message", message);
-        model.addAttribute("message_weight", message_weight);
+        model.addAttribute("message_weight", messageWeight);
         if (pageNum == 1) {
             //如果当前页处于第一页，则上一页设为1
             model.addAttribute("pageNumPrev", 1);

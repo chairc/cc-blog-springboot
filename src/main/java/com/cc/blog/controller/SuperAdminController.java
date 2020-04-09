@@ -1,5 +1,7 @@
 package com.cc.blog.controller;
 
+import com.cc.blog.model.Article;
+import com.cc.blog.model.Message;
 import com.cc.blog.model.User;
 import com.cc.blog.service.ArticleService;
 import com.cc.blog.service.MessageService;
@@ -26,7 +28,7 @@ import java.util.Map;
 @RequestMapping("/superAdmin")
 public class SuperAdminController {
     //记录输入错误总数
-    private int mistake_num = 0;
+    private int mistakeNum = 0;
 
     @Autowired
     SuperAdminService superAdminService;
@@ -40,6 +42,10 @@ public class SuperAdminController {
     @Autowired
     MessageService messageService;
 
+    @RequestMapping("/admin")
+    public String showSuperAdmin(){
+        return "admin";
+    }
 
     /**
      * 超级管理员登录
@@ -90,24 +96,24 @@ public class SuperAdminController {
                                                      @RequestParam("privateId") String privateId,
                                                      HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
-        if (mistake_num < 5) {
+        if (mistakeNum < 5) {
             if (username != null && password != null && privateId != null
                     && !username.equals("") && !password.equals("") && !privateId.equals("")) {
                 if (superAdminService.superAdminLogin(username, password, privateId) == 1) {
                     request.getSession().setAttribute("username", username);
                     map.put("result", "1");
                 } else {
-                    mistake_num++;
+                    mistakeNum++;
                     map.put("result", "0");
                 }
             } else {
-                mistake_num++;
+                mistakeNum++;
                 map.put("result", "-1");
             }
         } else {
             map.put("result", "error");
         }
-        System.out.println(mistake_num);
+        System.out.println(mistakeNum);
 
         return map;
     }
@@ -120,7 +126,7 @@ public class SuperAdminController {
 
     @RequestMapping("/help/clean")
     public String cleanLimitSuperAdminLogin() {
-        mistake_num = 0;
+        mistakeNum = 0;
         return "redirect:/superAdmin/login";
     }
 
@@ -207,13 +213,56 @@ public class SuperAdminController {
 
     @RequestMapping("/showUserList")
     @ResponseBody
-    public Map<String, String> showUserList(@RequestParam("pageNum") int pageNum) throws JsonProcessingException {
+    public Object showUserList(@RequestParam("pageNum") int pageNum) throws JsonProcessingException {
         Map<String, String> map = new HashMap<>();
         Page<User> userPages = PageHelper.startPage(pageNum, 10);
+        //需修改到service层中
         List<User> userList = userService.getUserAll();
         ObjectMapper mapper = new ObjectMapper();
         String userListToJson = mapper.writeValueAsString(userList);
         map.put("result", userListToJson);
+        return map;
+    }
+
+    /**
+     * 将json展示到articleList
+     *
+     * @param pageNum
+     * @return
+     * @throws JsonProcessingException
+     */
+
+    @RequestMapping("/showArticleList")
+    @ResponseBody
+    public Object showArticleList(@RequestParam("pageNum") int pageNum) throws JsonProcessingException {
+        Map<String, String> map = new HashMap<>();
+        Page<Article> articlePages = PageHelper.startPage(pageNum, 10);
+        //需修改到service层中
+        List<Article> articleList = articleService.getArticleAllByAscendingOrder();
+        ObjectMapper mapper = new ObjectMapper();
+        String articleListToJson = mapper.writeValueAsString(articleList);
+        map.put("result", articleListToJson);
+        return map;
+    }
+
+    /**
+     * 将json展示到messageList
+     *
+     * @param pageNum
+     * @return
+     * @throws JsonProcessingException
+     */
+
+    @RequestMapping("/showMessageList")
+    @ResponseBody
+    public Object showMessageList(@RequestParam("pageNum") int pageNum) throws JsonProcessingException {
+        Map<String, String> map = new HashMap<>();
+        Page<Message> messagePages = PageHelper.startPage(pageNum, 10);
+        //需修改到service层中
+        List<Message> messageList = messageService.getMessageAllByAscendingOrder();
+        ObjectMapper mapper = new ObjectMapper();
+        String messageListToJson = mapper.writeValueAsString(messageList);
+        map.put("result", messageListToJson);
         return map;
     }
 
@@ -226,7 +275,7 @@ public class SuperAdminController {
 
     @RequestMapping("/selectPageNumByPageName")
     @ResponseBody
-    public Map<String, String> selectPageNumBypageName(@RequestParam("pageName") String pageName) {
+    public Object selectPageNumByPageName(@RequestParam("pageName") String pageName) {
         Map<String, String> map = new HashMap<>();
         switch (pageName) {
             case "userList":

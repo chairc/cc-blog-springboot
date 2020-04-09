@@ -1,95 +1,73 @@
 package com.cc.blog.service;
 
-import com.cc.blog.dao.MessageDao;
 import com.cc.blog.model.Message;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class MessageService {
-
-    @Autowired
-    MessageDao messageDao;
+public interface MessageService {
 
     /**
-     * 主页获取留言
+     * 获取主页留言
      *
      * @return
      */
 
-    public List<Message> getMessageAll_index() {
-        return messageDao.getMessageAll_index();
-    }
+    List<Message> getMessageAllToIndex();
 
     /**
-     * 主页获取精选留言
+     * 获取主页留言
      *
      * @return
      */
 
-    public List<Message> getMessageAll_index_weight() {
-        return messageDao.getMessageAll_index_weight();
-    }
+    List<Message> getMessageAllToIndexByWeight();
 
     /**
-     * 获取留言
+     * 获取留言（降序）
      *
      * @return
      */
+    List<Message> getMessageAllByAscendingOrder();
 
-    public List<Message> getMessageAll() {
-        return messageDao.getMessageAll();
-    }
+    /**
+     * 获取留言（升序）
+     *
+     * @return
+     */
+    List<Message> getMessageAll();
 
     /**
      * 获取精选留言
      *
      * @return
      */
-
-    public List<Message> getMessageAll_weight() {
-        return messageDao.getMessageAll_weight();
-    }
+    List<Message> getMessageAllByWeight();
 
     /**
      * 新增留言
      *
      * @param message
      */
-
-    public void insertMessage(Message message) {
-        messageDao.insertMessage(message);
-    }
+    void insertMessage(Message message);
 
     /**
      * 通过私有ID删除留言
      *
      * @param privateId
      */
-
-    public void deleteMessage(String privateId) {
-        messageDao.deleteMessageByPrivateId(privateId);
-    }
+    void deleteMessage(String privateId);
 
     /**
      * 更新留言
      *
      * @param message
      */
-
-    public void updateMessage(Message message) {
-        messageDao.updateMessage(message);
-    }
+    void updateMessage(Message message);
 
     /**
      * 获取留言数
      *
      * @return
      */
-
-    public Integer getMessageCount() {
-        return messageDao.getMessageCount();
-    }
+    Integer getMessageCount();
 }

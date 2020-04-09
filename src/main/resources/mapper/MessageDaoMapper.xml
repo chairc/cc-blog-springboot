@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cc.blog.dao.MessageDao">
+<mapper namespace="com.cc.blog.mapper.MessageDao">
     <!--关于ResultMap 如果实体类与数据库的行相同则不用写，反之则需要写ResultMap-->
     <sql id="table">cc_blog_message</sql>
 
-    <select id="getMessageAll_index" resultType="com.cc.blog.model.Message">
+    <select id="getMessageAllToIndex" resultType="com.cc.blog.model.Message">
         SELECT
         *
         FROM
@@ -15,7 +15,7 @@
         LIMIT 0,3
     </select>
 
-    <select id="getMessageAll_index_weight" resultType="com.cc.blog.model.Message">
+    <select id="getMessageAllToIndexByWeight" resultType="com.cc.blog.model.Message">
         SELECT
         *
         FROM
@@ -38,7 +38,16 @@
         DESC
     </select>
 
-    <select id="getMessageAll_weight" resultType="com.cc.blog.model.Message">
+    <select id="getMessageAllByAscendingOrder" resultType="com.cc.blog.model.Message">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+        ORDER BY
+        message_id
+    </select>
+
+    <select id="getMessageAllByWeight" resultType="com.cc.blog.model.Message">
         SELECT
         *
         FROM

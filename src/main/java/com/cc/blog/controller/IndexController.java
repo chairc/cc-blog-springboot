@@ -27,12 +27,12 @@ public class IndexController {
     @RequestMapping("/")
     public ModelAndView showIndexPage() {
         ModelAndView mav = new ModelAndView("index");
-        List<Article> article = articleService.getArticleAll_index();
-        List<Message> message = messageService.getMessageAll_index();
-        List<Message> message_weight = messageService.getMessageAll_index_weight();
+        List<Article> article = articleService.getArticleAllToIndex();
+        List<Message> message = messageService.getMessageAllToIndex();
+        List<Message> messageWeight = messageService.getMessageAllToIndexByWeight();
         mav.addObject("article", article);
         mav.addObject("message", message);
-        mav.addObject("message_weight", message_weight);
+        mav.addObject("message_weight", messageWeight);
         return mav;
     }
 
