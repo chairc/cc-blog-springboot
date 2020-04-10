@@ -128,7 +128,7 @@
                         <a href="#admin_picture_edit" data-toggle="tab" style="color: #000000">图片操作</a>
                     </li>
                     <li class="user-li-style">
-                        <a onclick="selectUserList(1)" href="#admin_info" data-toggle="tab"
+                        <a href="#admin_info" data-toggle="tab"
                            style="color: #000000">查询数据</a>
                     </li>
                     <li class="user-li-style">
@@ -371,8 +371,8 @@
                 "userId": userId
             },
             success: function (data) {
-
-                if (data.result === "-1") {
+                console.log(JSON.stringify(data));
+                if (data.code === "-1") {
                     //少于0
                     $("#message-box-text").html("提交失败，低于0值")
                     $("#message-box").css("color", "#a94442");
@@ -385,7 +385,7 @@
                     } else {
                         $('#message-box').slideUp(300);
                     }
-                } else if (data.result === "-2") {
+                } else if (data.code === "-2") {
                     //超出
                     $("#message-box-text").html("提交失败，超出范围")
                     $("#message-box").css("color", "#a94442");
@@ -398,7 +398,7 @@
                     } else {
                         $('#message-box').slideUp(300);
                     }
-                } else if (data.result === "error") {
+                } else if (data.code === "error") {
                     //其他情况
                     $("#message-box-text").html("提交失败，请正确输入")
                     $("#message-box").css("color", "#a94442");
@@ -411,11 +411,10 @@
                     } else {
                         $('#message-box').slideUp(300);
                     }
-                } else {
+                } else if(data.code === "1") {
                     test.html('<div id="p_test">' + data.result + '</div>');
                     var jsonVal = data.result;
                     data1 = (new Function("", "return " + jsonVal))();
-                    console.log(JSON.stringify(data));
 
                     $("#showData").html(
                         '<li id="showData">' +

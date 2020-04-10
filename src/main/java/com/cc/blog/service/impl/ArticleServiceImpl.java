@@ -12,7 +12,7 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
-    ArticleDao articleDao;
+    private ArticleDao articleDao;
 
     /**
      * 主页获取文章

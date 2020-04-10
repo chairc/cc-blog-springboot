@@ -18,7 +18,7 @@
 package com.cc.blog.controller;
 
 import com.cc.blog.model.User;
-import com.cc.blog.service.impl.UserServiceImpl;
+import com.cc.blog.service.UserService;
 
 import com.cc.blog.util.Tools;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,7 +46,7 @@ public class QQLoginController {
     private RestTemplate restTemplate;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Value("${qqlogin.call-back-url}")
     private String CALLBACK_URL;

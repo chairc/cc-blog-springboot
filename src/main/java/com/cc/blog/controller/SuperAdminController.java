@@ -14,7 +14,6 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,19 +30,19 @@ public class SuperAdminController {
     private int mistakeNum = 0;
 
     @Autowired
-    SuperAdminService superAdminService;
+    private SuperAdminService superAdminService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
     @Autowired
-    MessageService messageService;
+    private MessageService messageService;
 
     @RequestMapping("/admin")
-    public String showSuperAdmin(){
+    public String showSuperAdmin() {
         return "admin";
     }
 
@@ -141,35 +140,11 @@ public class SuperAdminController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public Map<String, String> deleteUserInfoByAjax(@RequestParam(value = "deleteId") int deleteId) {
+    public Object deleteUserInfoByAjax(@RequestParam(value = "deleteId") int deleteId) {
         Map<String, String> map = new HashMap<>();
         superAdminService.deleteUserById(deleteId);
         map.put("result", "1");
         return map;
-    }
-
-    @RequestMapping("/management/people")
-    public String showManagementPeople(Model model) {
-
-        return "admin";
-    }
-
-    @RequestMapping("/management/article")
-    public String showManagementAritcle(Model model) {
-
-        return "admin";
-    }
-
-    @RequestMapping("/management/message")
-    public String showManagementMessage(Model model) {
-
-        return "admin";
-    }
-
-    @RequestMapping("/management/photo")
-    public String showManagementPhoto(Model model) {
-
-        return "admin";
     }
 
     /**
@@ -181,24 +156,10 @@ public class SuperAdminController {
 
     @RequestMapping("/showUser")
     @ResponseBody
-    public Map<String, String> clickTest(@RequestParam("userId") int userId) throws JsonProcessingException {
-        System.out.println("待查询用户：" + userId);
+    public Object clickTest(@RequestParam("userId") String userId) {
+        System.out.println("待查询用户ID：" + userId);
         System.out.println("总条数：" + userService.getUserCount());
-        Map<String, String> map = new HashMap<>();
-        if (userId >= 0 && userId <= userService.getUserCount()) {
-            User user = userService.getUserById(userId);
-            String username = user.getUser_common_username();
-            System.out.println(username);
-            ObjectMapper mapper = new ObjectMapper();
-            String userToJson = mapper.writeValueAsString(user);
-            map.put("result", userToJson);
-        } else if (userId < 0) {
-            map.put("result", "-1");
-        } else if (userId > userService.getUserCount()) {
-            map.put("result", "-2");
-        } else {
-            map.put("result", "error");
-        }
+        Map map = superAdminService.superAdminShowUser(userId);
         System.out.println("返回结果：" + map);
         return map;
     }

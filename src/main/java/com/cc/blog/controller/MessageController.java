@@ -16,7 +16,7 @@ import java.util.List;
 public class MessageController {
 
     @Autowired
-    MessageService messageService;
+    private MessageService messageService;
 
     /**
      * 留言列表显示

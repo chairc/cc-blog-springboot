@@ -2,6 +2,8 @@ package com.cc.blog.service;
 
 import com.cc.blog.model.User;
 
+import java.util.Map;
+
 public interface SuperAdminService {
 
     /**
@@ -30,4 +32,12 @@ public interface SuperAdminService {
      */
 
     void updateUser(User user);
+
+    /**
+     * 根据ID查询用户信息
+     * @param userId
+     * @return
+     */
+
+    Map superAdminShowUser(String userId);
 }

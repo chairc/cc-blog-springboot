@@ -11,11 +11,12 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    UserDao userDao;
 
     @Autowired
-    UserServiceImpl userService;
+    private UserDao userDao;
+
+    @Autowired
+    private UserServiceImpl userService;
 
     /**
      * 获取所有用户

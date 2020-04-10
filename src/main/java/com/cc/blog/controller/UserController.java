@@ -18,8 +18,9 @@ import java.util.Map;
 
 @Controller
 public class UserController {
+
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     /**
      * 注册页面
