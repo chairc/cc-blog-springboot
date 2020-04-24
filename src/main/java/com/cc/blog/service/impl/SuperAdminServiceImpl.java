@@ -4,10 +4,12 @@ import com.cc.blog.mapper.SuperAdminDao;
 import com.cc.blog.model.User;
 import com.cc.blog.service.SuperAdminService;
 import com.cc.blog.service.UserService;
+import com.cc.blog.util.Tools;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,8 +41,11 @@ public class SuperAdminServiceImpl implements SuperAdminService {
      * @param id
      */
 
-    public void deleteUserById(int id) {
-        superAdminDao.deleteUserById(id);
+    public void deleteUserById(int id,HttpServletRequest request) {
+        if(Tools.usernameSessionIsAdminValidate(request)){
+            superAdminDao.deleteUserById(id);
+        }
+
     }
 
     /**
@@ -49,8 +54,11 @@ public class SuperAdminServiceImpl implements SuperAdminService {
      * @param user
      */
 
-    public void updateUser(User user) {
-        superAdminDao.updateUser(user);
+    public void updateUser(User user,HttpServletRequest request) {
+        if(Tools.usernameSessionIsAdminValidate(request)){
+            superAdminDao.updateUser(user);
+        }
+
     }
 
     /**
@@ -59,12 +67,12 @@ public class SuperAdminServiceImpl implements SuperAdminService {
      * @return
      */
 
-    public Map superAdminShowUser(String userId){
+    public Map superAdminShowUser(String userId, HttpServletRequest request){
         Map<String, String> map = new HashMap<>();
         try {
             int getUserId = Integer.parseInt(userId);
             if (getUserId >= 0 && getUserId <= userService.getUserCount()) {
-                User user = userService.getUserById(getUserId);
+                User user = userService.getUserById(getUserId,request);
                 String username = user.getUser_common_username();
                 System.out.println(username);
                 ObjectMapper mapper = new ObjectMapper();

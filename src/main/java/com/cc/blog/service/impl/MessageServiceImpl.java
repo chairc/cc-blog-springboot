@@ -3,9 +3,11 @@ package com.cc.blog.service.impl;
 import com.cc.blog.mapper.MessageDao;
 import com.cc.blog.model.Message;
 import com.cc.blog.service.MessageService;
+import com.cc.blog.util.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -40,7 +42,7 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
 
-    public List<Message> getMessageAllByAscendingOrder() {
+    public List<Message> getMessageAllByAscendingOrder(HttpServletRequest request) {
         return messageDao.getMessageAllByAscendingOrder();
     }
 
@@ -50,7 +52,7 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
 
-    public List<Message> getMessageAll() {
+    public List<Message> getMessageAll(HttpServletRequest request) {
         return messageDao.getMessageAll();
     }
 
@@ -60,8 +62,22 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
 
-    public List<Message> getMessageAllByWeight() {
+    public List<Message> getMessageAllByWeight(HttpServletRequest request) {
         return messageDao.getMessageAllByWeight();
+    }
+
+    /**
+     * 管理员获取留言
+     *
+     * @param request
+     * @return
+     */
+
+    public List<Message> getMessageAllByAdmin(HttpServletRequest request){
+        if(Tools.usernameSessionIsAdminValidate(request)){
+            return messageDao.getMessageAllByAdmin();
+        }
+        return null;
     }
 
     /**
@@ -70,8 +86,11 @@ public class MessageServiceImpl implements MessageService {
      * @param message
      */
 
-    public void insertMessage(Message message) {
-        messageDao.insertMessage(message);
+    public void insertMessage(Message message,HttpServletRequest request) {
+        if(Tools.usernameSessionIsAdminValidate(request)){
+            messageDao.insertMessage(message);
+        }
+
     }
 
     /**
@@ -80,8 +99,11 @@ public class MessageServiceImpl implements MessageService {
      * @param privateId
      */
 
-    public void deleteMessage(String privateId) {
-        messageDao.deleteMessageByPrivateId(privateId);
+    public void deleteMessage(String privateId,HttpServletRequest request) {
+        if(Tools.usernameSessionIsAdminValidate(request)){
+            messageDao.deleteMessageByPrivateId(privateId);
+        }
+
     }
 
     /**
@@ -90,8 +112,11 @@ public class MessageServiceImpl implements MessageService {
      * @param message
      */
 
-    public void updateMessage(Message message) {
-        messageDao.updateMessage(message);
+    public void updateMessage(Message message,HttpServletRequest request) {
+        if(Tools.usernameSessionIsAdminValidate(request)){
+            messageDao.updateMessage(message);
+        }
+
     }
 
     /**

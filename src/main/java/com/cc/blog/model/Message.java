@@ -7,6 +7,8 @@ public class Message {
     private String message_main;
     private String message_time;
     private String message_ip;
+    private String message_system;
+    private String message_browser;
     private String message_weight;
 
     public int getMessage_id() {
@@ -57,6 +59,22 @@ public class Message {
         this.message_ip = message_ip;
     }
 
+    public String getMessage_system() {
+        return message_system;
+    }
+
+    public void setMessage_system(String message_system) {
+        this.message_system = message_system;
+    }
+
+    public String getMessage_browser() {
+        return message_browser;
+    }
+
+    public void setMessage_browser(String message_browser) {
+        this.message_browser = message_browser;
+    }
+
     public String getMessage_weight() {
         return message_weight;
     }
@@ -74,6 +92,8 @@ public class Message {
                 ", message_main='" + message_main + '\'' +
                 ", message_time='" + message_time + '\'' +
                 ", message_ip='" + message_ip + '\'' +
+                ", message_system='" + message_system + '\'' +
+                ", message_browser='" + message_browser + '\'' +
                 ", message_weight='" + message_weight + '\'' +
                 '}';
     }

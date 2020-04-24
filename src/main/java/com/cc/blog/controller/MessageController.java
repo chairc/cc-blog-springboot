@@ -2,6 +2,7 @@ package com.cc.blog.controller;
 
 import com.cc.blog.model.Message;
 import com.cc.blog.service.MessageService;
+import com.cc.blog.util.Tools;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MessageController {
@@ -26,12 +32,13 @@ public class MessageController {
      */
 
     @RequestMapping("/message")
-    public String showMessagePage(Model model) {
+    public String showMessagePage(Model model,
+                                  HttpServletRequest request) {
         int page = 1;
         //第一页开始，一页十条数据
         Page<Message> pages = PageHelper.startPage(1, 10);
-        List<Message> message = messageService.getMessageAll();
-        List<Message> messageWeight = messageService.getMessageAllByWeight();
+        List<Message> message = messageService.getMessageAll(request);
+        List<Message> messageWeight = messageService.getMessageAllByWeight(request);
         model.addAttribute("message", message);
         model.addAttribute("message_weight", messageWeight);
         model.addAttribute("pageNum", page);
@@ -53,11 +60,12 @@ public class MessageController {
 
     @RequestMapping("/message/{pageNum}")
     public String showMessagePageByPageHelper(Model model,
-                                @PathVariable int pageNum) {
+                                              @PathVariable int pageNum,
+                                              HttpServletRequest request) {
         //pageNum传进来页面号
         Page<Message> pages = PageHelper.startPage(pageNum, 10);
-        List<Message> message = messageService.getMessageAll();
-        List<Message> messageWeight = messageService.getMessageAllByWeight();
+        List<Message> message = messageService.getMessageAll(request);
+        List<Message> messageWeight = messageService.getMessageAllByWeight(request);
         model.addAttribute("message", message);
         model.addAttribute("message_weight", messageWeight);
         if (pageNum == 1) {
@@ -76,5 +84,35 @@ public class MessageController {
         }
         model.addAttribute("pageTotal", pages.getTotal() / 10 + 1);
         return "message";
+    }
+
+    @RequestMapping("/message/addMessageByAjax")
+    @ResponseBody
+    public Object addMessageByAjax(@RequestParam(value = "messageText") String messageText,
+                                   HttpServletRequest request) {
+        Map<String, String> map = new HashMap<String, String>();
+        String username = Tools.usernameSessionValidate(request);
+        if(username == null){
+            //未登录
+            map.put("request","0");//
+        }else {
+            try {
+                System.out.println(messageText);
+                Message message = new Message();
+                message.setMessage_private_id(Tools.CreateRandomPrivateId(1));
+                message.setMessage_username(username);
+                message.setMessage_main(messageText);
+                message.setMessage_ip(Tools.getUserIp(request));
+                message.setMessage_time(Tools.getServerTime());
+                message.setMessage_browser(Tools.getBrowserVersion(request));
+                message.setMessage_system(Tools.getSystemVersion(request));
+                messageService.insertMessage(message,request);
+                map.put("result", "1");
+            }catch (Exception e){
+                map.put("result", "error");
+            }
+        }
+
+        return map;
     }
 }

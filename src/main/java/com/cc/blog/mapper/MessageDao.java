@@ -59,6 +59,14 @@ public interface MessageDao {
     Article getMessageByUsername(String username);
 
     /**
+     * 管理员获取留言
+     *
+     * @return
+     */
+
+    List<Message> getMessageAllByAdmin();
+
+    /**
      * 新增留言
      *
      * @param message

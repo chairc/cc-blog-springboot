@@ -174,7 +174,7 @@ public class QQLoginController {
             user.setUser_safe_system(Tools.getSystemVersion(request));
             user.setUser_safe_browser(Tools.getBrowserVersion(request));
             System.out.println(user);
-            userService.insertUser(user);
+            userService.insertUser(user,request);
         }
         request.getSession().setAttribute("username", username);
 
@@ -210,9 +210,9 @@ public class QQLoginController {
      */
 
     private String getAccessToken(String urlForAccessToken) {
-        String firstCallback_info = restTemplate.getForObject(urlForAccessToken, String.class);
-        assert firstCallback_info != null;
-        String[] params = firstCallback_info.split("&");
+        String firstCallbackInfo = restTemplate.getForObject(urlForAccessToken, String.class);
+        assert firstCallbackInfo != null;
+        String[] params = firstCallbackInfo.split("&");
         String accessToken = null;
         for (String param : params) {
             String[] keyValue = param.split("=");

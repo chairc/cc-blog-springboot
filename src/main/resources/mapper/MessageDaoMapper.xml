@@ -6,7 +6,7 @@
 
     <select id="getMessageAllToIndex" resultType="com.cc.blog.model.Message">
         SELECT
-        *
+        message_id,message_private_id,message_username,message_main,message_time,message_weight
         FROM
         <include refid="table"/>
         ORDER BY
@@ -17,7 +17,7 @@
 
     <select id="getMessageAllToIndexByWeight" resultType="com.cc.blog.model.Message">
         SELECT
-        *
+        message_id,message_private_id,message_username,message_main,message_time,message_weight
         FROM
         <include refid="table"/>
         WHERE
@@ -30,7 +30,7 @@
 
     <select id="getMessageAll" resultType="com.cc.blog.model.Message">
         SELECT
-        *
+        message_id,message_private_id,message_username,message_main,message_time,message_weight
         FROM
         <include refid="table"/>
         ORDER BY
@@ -40,7 +40,7 @@
 
     <select id="getMessageAllByAscendingOrder" resultType="com.cc.blog.model.Message">
         SELECT
-        *
+        message_id,message_private_id,message_username,message_main,message_time,message_weight
         FROM
         <include refid="table"/>
         ORDER BY
@@ -49,7 +49,7 @@
 
     <select id="getMessageAllByWeight" resultType="com.cc.blog.model.Message">
         SELECT
-        *
+        message_id,message_private_id,message_username,message_main,message_time,message_weight
         FROM
         <include refid="table"/>
         WHERE
@@ -59,13 +59,23 @@
         DESC
     </select>
 
+    <select id="getMessageAllByAdmin" resultType="com.cc.blog.model.Message">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+        ORDER BY
+        message_id
+    </select>
+
     <insert id="insertMessage" parameterType="com.cc.blog.model.Message">
         INSERT INTO
         <include refid="table"/>
-        (message_id,message_private_id,message_username,message_main,message_time,message_ip,message_weight)
-        VALUE
+        (message_id,message_private_id,message_username,message_main,message_time,message_ip,message_system,
+        message_browser,message_weight)
+        VALUES
         (#{message_id},#{message_private_id},#{message_username},#{message_main},#{message_time},#{message_ip},
-        #{message_weight})
+        #{message_system},#{message_browser},#{message_weight})
     </insert>
 
     <delete id="deleteMessageByPrivateId" parameterType="com.cc.blog.model.Message">
@@ -81,7 +91,7 @@
         SET
         message_id = #{message_id},message_private_id = #{message_private_id},message_username = #{message_username},
         message_main = #{message_main},message_time = #{message_time},message_ip = #{message_ip},
-        message_weight = #{message_weight}
+        message_system = #{message_system},message_browser = #{message_browser},message_weight = #{message_weight}
     </update>
 
     <select id="getMessageCount" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">

@@ -188,7 +188,10 @@
             </div>
         </div>
         <div class="message-container" id="message-editor">
-            <textarea style="display: none"></textarea>
+            <textarea style="display: none" id="message-text"></textarea>
+        </div>
+        <div class="btn-container">
+            <button class="btn btn-info" onclick="addMessage()">提交</button>
         </div>
     </div>
 </div>
@@ -207,6 +210,7 @@
 
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
 <script type="text/javascript">
+
     $(function () {
         var editor = editormd("message-editor", {
             width: "100%",
@@ -223,6 +227,32 @@
             },
         });
     });
+
+
+    function addMessage() {
+        var messageText = $("#message-text").val();
+
+        alert(messageText);
+        $.ajax({
+            url: "/message/addMessageByAjax",
+            dataType: "JSON",
+            data: {
+                "messageText": messageText
+            },
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.result === "1") {
+                    alert("存取成功");
+                    window.location.reload();
+                } else if (data.result === "error") {
+                    alert("异常错误");
+                } else if (data.result === "0") {
+                    alert("未登录");
+                }
+
+            }
+        })
+    }
 </script>
 <script type="text/javascript" th:src="@{/static/editor.md/editormd.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>

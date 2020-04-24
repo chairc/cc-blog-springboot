@@ -9,6 +9,9 @@ public class Article {
     private String article_main;
     private String article_time;
     private int article_click_num;
+    private String article_system;
+    private String article_browser;
+    private String article_ip;
 
     public int getArticle_id() {
         return article_id;
@@ -66,6 +69,30 @@ public class Article {
         this.article_click_num = article_click_num;
     }
 
+    public String getArticle_system() {
+        return article_system;
+    }
+
+    public void setArticle_system(String article_system) {
+        this.article_system = article_system;
+    }
+
+    public String getArticle_browser() {
+        return article_browser;
+    }
+
+    public void setArticle_browser(String article_browser) {
+        this.article_browser = article_browser;
+    }
+
+    public String getArticle_ip() {
+        return article_ip;
+    }
+
+    public void setArticle_ip(String article_ip) {
+        this.article_ip = article_ip;
+    }
+
     @Override
     public String toString() {
         return "Article{" +
@@ -76,6 +103,9 @@ public class Article {
                 ", article_main='" + article_main + '\'' +
                 ", article_time='" + article_time + '\'' +
                 ", article_click_num=" + article_click_num +
+                ", article_system='" + article_system + '\'' +
+                ", article_browser='" + article_browser + '\'' +
+                ", article_ip='" + article_ip + '\'' +
                 '}';
     }
 }

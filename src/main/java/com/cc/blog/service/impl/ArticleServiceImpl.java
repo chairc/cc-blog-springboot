@@ -3,9 +3,11 @@ package com.cc.blog.service.impl;
 import com.cc.blog.mapper.ArticleDao;
 import com.cc.blog.model.Article;
 import com.cc.blog.service.ArticleService;
+import com.cc.blog.util.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -56,13 +58,29 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
+     * 管理员获取文章
+     *
+     * @param request
+     * @return
+     */
+
+    public List<Article> getArticleAllByAdmin(HttpServletRequest request){
+        if(Tools.usernameSessionIsAdminValidate(request)){
+            return articleDao.getArticleAllByAdmin();
+        }
+        return null;
+    }
+
+    /**
      * 新增文章
      *
      * @param article
      */
 
-    public void insertArticle(Article article) {
-        articleDao.insertArticle(article);
+    public void insertArticle(Article article,HttpServletRequest request) {
+        if(Tools.usernameSessionIsAdminValidate(request)){
+            articleDao.insertArticle(article);
+        }
     }
 
     /**
@@ -71,8 +89,10 @@ public class ArticleServiceImpl implements ArticleService {
      * @param privateId
      */
 
-    public void deleteArticleByPrivateId(String privateId) {
-        articleDao.deleteArticleByPrivateId(privateId);
+    public void deleteArticleByPrivateId(String privateId,HttpServletRequest request) {
+        if(Tools.usernameSessionIsAdminValidate(request)){
+            articleDao.deleteArticleByPrivateId(privateId);
+        }
     }
 
     /**
@@ -81,8 +101,11 @@ public class ArticleServiceImpl implements ArticleService {
      * @param article
      */
 
-    public void updateArticle(Article article) {
-        articleDao.updateArticle(article);
+    public void updateArticle(Article article,HttpServletRequest request) {
+        if(Tools.usernameSessionIsAdminValidate(request)){
+            articleDao.updateArticle(article);
+        }
+
     }
 
     /**

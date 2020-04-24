@@ -90,9 +90,9 @@ public class SuperAdminController {
 
     @RequestMapping("/superAdminLoginByAjax")
     @ResponseBody
-    public Map<String, String> superAdminLoginByAjax(@RequestParam("username") String username,
-                                                     @RequestParam("password") String password,
-                                                     @RequestParam("privateId") String privateId,
+    public Object superAdminLoginByAjax(@RequestParam(value = "username") String username,
+                                                     @RequestParam(value = "password") String password,
+                                                     @RequestParam(value = "privateId") String privateId,
                                                      HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
         if (mistakeNum < 5) {
@@ -140,9 +140,10 @@ public class SuperAdminController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public Object deleteUserInfoByAjax(@RequestParam(value = "deleteId") int deleteId) {
+    public Object deleteUserInfoByAjax(@RequestParam(value = "deleteId") int deleteId,
+                                       HttpServletRequest request) {
         Map<String, String> map = new HashMap<>();
-        superAdminService.deleteUserById(deleteId);
+        superAdminService.deleteUserById(deleteId,request);
         map.put("result", "1");
         return map;
     }
@@ -156,10 +157,11 @@ public class SuperAdminController {
 
     @RequestMapping("/showUser")
     @ResponseBody
-    public Object clickTest(@RequestParam("userId") String userId) {
+    public Object clickTest(@RequestParam(value = "userId") String userId,
+                            HttpServletRequest request) {
         System.out.println("待查询用户ID：" + userId);
         System.out.println("总条数：" + userService.getUserCount());
-        Map map = superAdminService.superAdminShowUser(userId);
+        Map map = superAdminService.superAdminShowUser(userId,request);
         System.out.println("返回结果：" + map);
         return map;
     }
@@ -174,14 +176,18 @@ public class SuperAdminController {
 
     @RequestMapping("/showUserList")
     @ResponseBody
-    public Object showUserList(@RequestParam("pageNum") int pageNum) throws JsonProcessingException {
+    public Object showUserList(@RequestParam(value = "pageNum") int pageNum,
+                               HttpServletRequest request) throws JsonProcessingException {
         Map<String, String> map = new HashMap<>();
-        Page<User> userPages = PageHelper.startPage(pageNum, 10);
-        //需修改到service层中
-        List<User> userList = userService.getUserAll();
-        ObjectMapper mapper = new ObjectMapper();
-        String userListToJson = mapper.writeValueAsString(userList);
-        map.put("result", userListToJson);
+        try {
+            Page<User> userPages = PageHelper.startPage(pageNum, 10);
+            List<User> userList = userService.getUserAll(request);
+            ObjectMapper mapper = new ObjectMapper();
+            String userListToJson = mapper.writeValueAsString(userList);
+            map.put("result", userListToJson);
+        }catch (NullPointerException e){
+            map.put("result","error");
+        }
         return map;
     }
 
@@ -195,14 +201,18 @@ public class SuperAdminController {
 
     @RequestMapping("/showArticleList")
     @ResponseBody
-    public Object showArticleList(@RequestParam("pageNum") int pageNum) throws JsonProcessingException {
+    public Object showArticleList(@RequestParam(value = "pageNum") int pageNum,
+                                  HttpServletRequest request) throws JsonProcessingException {
         Map<String, String> map = new HashMap<>();
-        Page<Article> articlePages = PageHelper.startPage(pageNum, 10);
-        //需修改到service层中
-        List<Article> articleList = articleService.getArticleAllByAscendingOrder();
-        ObjectMapper mapper = new ObjectMapper();
-        String articleListToJson = mapper.writeValueAsString(articleList);
-        map.put("result", articleListToJson);
+        try {
+            Page<Article> articlePages = PageHelper.startPage(pageNum, 10);
+            List<Article> articleList = articleService.getArticleAllByAdmin(request);
+            ObjectMapper mapper = new ObjectMapper();
+            String articleListToJson = mapper.writeValueAsString(articleList);
+            map.put("result", articleListToJson);
+        }catch (NullPointerException e){
+            map.put("result","error");
+        }
         return map;
     }
 
@@ -216,14 +226,18 @@ public class SuperAdminController {
 
     @RequestMapping("/showMessageList")
     @ResponseBody
-    public Object showMessageList(@RequestParam("pageNum") int pageNum) throws JsonProcessingException {
+    public Object showMessageList(@RequestParam(value = "pageNum") int pageNum,
+                                  HttpServletRequest request) throws JsonProcessingException {
         Map<String, String> map = new HashMap<>();
-        Page<Message> messagePages = PageHelper.startPage(pageNum, 10);
-        //需修改到service层中
-        List<Message> messageList = messageService.getMessageAllByAscendingOrder();
-        ObjectMapper mapper = new ObjectMapper();
-        String messageListToJson = mapper.writeValueAsString(messageList);
-        map.put("result", messageListToJson);
+        try {
+            Page<Message> messagePages = PageHelper.startPage(pageNum, 10);
+            List<Message> messageList = messageService.getMessageAllByAdmin(request);
+            ObjectMapper mapper = new ObjectMapper();
+            String messageListToJson = mapper.writeValueAsString(messageList);
+            map.put("result", messageListToJson);
+        }catch (NullPointerException e){
+            map.put("result","error");
+        }
         return map;
     }
 
@@ -236,7 +250,7 @@ public class SuperAdminController {
 
     @RequestMapping("/selectPageNumByPageName")
     @ResponseBody
-    public Object selectPageNumByPageName(@RequestParam("pageName") String pageName) {
+    public Object selectPageNumByPageName(@RequestParam(value = "pageName") String pageName) {
         Map<String, String> map = new HashMap<>();
         switch (pageName) {
             case "userList":

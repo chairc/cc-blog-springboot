@@ -2,6 +2,7 @@ package com.cc.blog.service;
 
 import com.cc.blog.model.User;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 public interface SuperAdminService {
@@ -23,7 +24,7 @@ public interface SuperAdminService {
      * @param id
      */
 
-    void deleteUserById(int id);
+    void deleteUserById(int id, HttpServletRequest request);
 
     /**
      * 更新用户信息
@@ -31,7 +32,7 @@ public interface SuperAdminService {
      * @param user
      */
 
-    void updateUser(User user);
+    void updateUser(User user, HttpServletRequest request);
 
     /**
      * 根据ID查询用户信息
@@ -39,5 +40,6 @@ public interface SuperAdminService {
      * @return
      */
 
-    Map superAdminShowUser(String userId);
+    Map superAdminShowUser(String userId, HttpServletRequest request);
+
 }

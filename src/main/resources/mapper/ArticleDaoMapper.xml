@@ -6,7 +6,7 @@
 
     <select id="getArticleAllToIndex" resultType="com.cc.blog.model.Article">
         SELECT
-        *
+        article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num
         FROM
         <include refid="table"/>
         ORDER BY
@@ -17,7 +17,7 @@
 
     <select id="getArticleAll" resultType="com.cc.blog.model.Article">
         SELECT
-        *
+        article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num
         FROM
         <include refid="table"/>
         ORDER BY
@@ -27,7 +27,7 @@
 
     <select id="getArticleAllByAscendingOrder" resultType="com.cc.blog.model.Article">
         SELECT
-        *
+        article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num
         FROM
         <include refid="table"/>
         ORDER BY
@@ -36,20 +36,30 @@
 
     <select id="getArticleByPrivateId" resultType="com.cc.blog.model.Article">
         SELECT
-        *
+        article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num
         FROM
         <include refid="table"/>
         WHERE
         article_private_id = #{articlePrivateId}
     </select>
 
+    <select id="getArticleAllByAdmin" resultType="com.cc.blog.model.Article">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+        ORDER BY
+        article_id
+    </select>
+
     <insert id="insertArticle" parameterType="com.cc.blog.model.Article">
         INSERT INTO
         <include refid="table"/>
-        (article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num)
-        VALUE
+        (article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num,
+        article_browser,article_system,article_ip)
+        VALUES
         (#{article_id},#{article_private_id},#{article_private_id},#{article_author},#{article_main},
-        #{article_time},#{article_click_num})
+        #{article_time},#{article_click_num},#{article_browser},#{article_system},#{article_ip})
     </insert>
 
     <delete id="deleteArticleByPrivateId" parameterType="com.cc.blog.model.Article">
@@ -65,7 +75,8 @@
         SET
         article_id = #{article_id},article_private_id = #{article_private_id},article_title = #{article_title},
         article_author = #{article_author},article_main = #{article_main},article_time = #{article_time},
-        article_click_num = #{article_click_num}
+        article_click_num = #{article_click_num},article_browser = #{article_browser},article_system = #{article_system},
+        article_ip = #{article_ip}
     </update>
 
     <select id="getArticleCount" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">

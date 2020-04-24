@@ -876,6 +876,9 @@
                     '<td>作者</td>' +
                     '<td>写作时间</td>' +
                     '<td>点击数</td>' +
+                    '<td>IP地址</td>' +
+                    '<td>系统</td>' +
+                    '<td>浏览器</td>' +
                     '</tr>';
                 for (var i = 0; i < 10; i++) {
                     try {
@@ -886,6 +889,9 @@
                             '<td>' + data1[i]["article_author"] + '</td>' +
                             '<td>' + data1[i]["article_time"] + '</td>' +
                             '<td>' + data1[i]["article_click_num"] + '</td>' +
+                            '<td>' + data1[i]["article_ip"] + '</td>' +
+                            '<td>' + data1[i]["article_system"] + '</td>' +
+                            '<td>' + data1[i]["article_browser"] + '</td>' +
                             '</tr>';
                     } catch (e) {
                         //异常处理，如果遍历不够十次则中断遍历直接输出
@@ -943,6 +949,8 @@
                     '<td>留言内容</td>' +
                     '<td>留言时间</td>' +
                     '<td>IP地址</td>' +
+                    '<td>系统</td>' +
+                    '<td>浏览器</td>' +
                     '<td>权重</td>' +
                     '</tr>';
                 for (var i = 0; i < 10; i++) {
@@ -954,6 +962,8 @@
                             '<td>' + data1[i]["message_main"] + '</td>' +
                             '<td>' + data1[i]["message_time"] + '</td>' +
                             '<td>' + data1[i]["message_ip"] + '</td>' +
+                            '<td>' + data1[i]["message_system"] + '</td>' +
+                            '<td>' + data1[i]["message_browser"] + '</td>' +
                             '<td>' + data1[i]["message_weight"] + '</td>' +
                             '</tr>';
                     } catch (e) {

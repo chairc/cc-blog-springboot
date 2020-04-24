@@ -42,6 +42,14 @@ public interface ArticleDao {
     List<Article> getArticleByPrivateId(String articlePrivateId);
 
     /**
+     * 管理员获取文章
+     *
+     * @return
+     */
+
+    List<Article> getArticleAllByAdmin();
+
+    /**
      * 新增文章
      *
      * @param article

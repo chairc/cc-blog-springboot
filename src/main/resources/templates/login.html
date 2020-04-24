@@ -130,7 +130,9 @@
         $.ajax({
             url: "/loginUserByAjax",
             dataType: "JSON",
-            data: {"username": username, "password": password},
+            data: {
+                "username": username, "password": password
+            },
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 if (data.result === "1") {

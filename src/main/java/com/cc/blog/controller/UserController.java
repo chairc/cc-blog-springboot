@@ -92,7 +92,7 @@ public class UserController {
                 user.setUser_safe_system(Tools.getSystemVersion(request));
                 user.setUser_safe_browser(Tools.getBrowserVersion(request));
                 System.out.println(user);
-                userService.insertUser(user);
+                userService.insertUser(user,request);
                 map.put("result", "1");
             } else {
                 map.put("result", "0");
@@ -151,8 +151,8 @@ public class UserController {
 
     @RequestMapping("/loginUserByAjax")
     @ResponseBody
-    public Map<String, String> userLoginByAjax(@RequestParam("username") String username,
-                                               @RequestParam("password") String password,
+    public Map<String, String> userLoginByAjax(@RequestParam(value = "username") String username,
+                                               @RequestParam(value = "password") String password,
                                                HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
 
@@ -177,11 +177,12 @@ public class UserController {
      */
 
     @RequestMapping("/user")
-    public String showMessagePage(Model model) {
+    public String showMessagePage(Model model,
+                                  HttpServletRequest request) {
         int page = 1;
         //第一页开始，一页十条数据
         Page<User> pages = PageHelper.startPage(1, 10);
-        List<User> list = userService.getUserAll();
+        List<User> list = userService.getUserAll(request);
         model.addAttribute("user", list);
         model.addAttribute("pageNum", page);
         //前一页设为1，下一页设为这一页+1
@@ -206,10 +207,11 @@ public class UserController {
 
     @RequestMapping("/user/{pageNum}")
     public String showMessagePageByPageHelper(Model model,
-                                              @PathVariable int pageNum) {
+                                              @PathVariable int pageNum,
+                                              HttpServletRequest request) {
         //pageNum传进来页面号
         Page<User> pages = PageHelper.startPage(pageNum, 10);
-        List<User> message = userService.getUserAll();
+        List<User> message = userService.getUserAll(request);
         model.addAttribute("user", message);
         if (pageNum == 1) {
             //如果当前页处于第一页，则上一页设为1
@@ -230,14 +232,16 @@ public class UserController {
     }
 
     @RequestMapping("/getUser1/{id}")
-    public String getUserById(@PathVariable int id) {
-        return userService.getUserById(id).toString();
+    public String getUserById(@PathVariable int id,
+                              HttpServletRequest request) {
+        return userService.getUserById(id,request).toString();
     }
 
     @RequestMapping("/getUser/{id}")
-    public ModelAndView getUserByIdTest1(@PathVariable int id) {
+    public ModelAndView getUserByIdTest1(@PathVariable int id,
+                                         HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("user");
-        mav.addObject("user", userService.getUserById(id));
+        mav.addObject("user", userService.getUserById(id,request));
         return mav;
     }
 
