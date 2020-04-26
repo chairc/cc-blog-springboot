@@ -3,17 +3,8 @@
 <mapper namespace="com.cc.blog.mapper.UserDao">
     <!--关于ResultMap 如果实体类与数据库的行相同则不用写，反之则需要写ResultMap-->
     <sql id="table">cc_blog_user</sql>
-
-    <select id="superAdminLogin" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
-        SELECT
-        COUNT(*)
-        FROM
-        <include refid="table"/>
-        WHERE
-        user_common_username = #{username},
-        user_common_password = #{password},
-        user_common_private_id = #{privateId}
-    </select>
+    <sql id="role_table">cc_blog_role</sql>
+    <sql id="permission_table">cc_blog_permission</sql>
 
     <select id="getUserAll" resultType="com.cc.blog.model.User">
         SELECT 
@@ -76,14 +67,15 @@
         user_common_nickname,user_secret_real_name,user_secret_phone,user_secret_email,user_secret_birthday,
         user_secret_sex,user_secret_age,user_secret_wechat,user_secret_qq,
         user_secret_weibo,user_secret_address,user_safe_logtime,user_safe_ip,
-        user_safe_question,user_safe_answer,user_safe_system,user_safe_browser,user_safe_weight)
+        user_safe_question,user_safe_answer,user_safe_system,user_safe_browser,user_safe_weight,
+        user_safe_permission,user_safe_role)
         VALUES
         (#{user_common_private_id},#{user_common_open_id},#{user_common_username},#{user_common_password},
         #{user_common_nickname},#{user_secret_real_name},
         #{user_secret_phone},#{user_secret_email},#{user_secret_birthday},#{user_secret_sex},#{user_secret_age},
         #{user_secret_wechat},#{user_secret_qq},#{user_secret_weibo},#{user_secret_address},
         #{user_safe_logtime},#{user_safe_ip},#{user_safe_question},#{user_safe_answer},#{user_safe_system},
-        #{user_safe_browser},#{user_safe_weight})
+        #{user_safe_browser},#{user_safe_weight},#{user_safe_permission},#{user_safe_role})
     </insert>
 
     <update id="updateUser" parameterType="com.cc.blog.model.User">
@@ -98,7 +90,8 @@
         user_secret_qq = #{user_secret_qq},user_secret_weibo = #{user_secret_weibo},
         user_secret_address = #{user_secret_address},user_safe_logtime = #{user_safe_logtime},
         user_safe_ip = #{user_safe_ip},user_safe_question = #{user_safe_question},user_safe_answer = #{user_safe_answer},
-        user_safe_system = #{user_safe_system},user_safe_browser = #{user_safe_browser},user_safe_weight = #{user_safe_weight}
+        user_safe_system = #{user_safe_system},user_safe_browser = #{user_safe_browser},user_safe_weight = #{user_safe_weight},
+        user_safe_permission = #{user_safe_permission},user_safe_role = #{user_safe_role}
         WHERE
         user_common_id = #{user_common_id}
     </update>
@@ -133,6 +126,24 @@
         COUNT(*)
         FROM
         <include refid="table"/>
+    </select>
+
+    <select id="getUserRole" resultType="com.cc.blog.model.Role">
+        SELECT
+        *
+        FROM
+        <include refid="role_table"/>
+        WHERE
+        role_id = #{role}
+    </select>
+
+    <select id="getUserPermission" resultType="com.cc.blog.model.Permission">
+        SELECT
+        *
+        FROM
+        <include refid="permission_table"/>
+        WHERE
+        permission_id = #{permission}
     </select>
 
 </mapper>

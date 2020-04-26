@@ -1,6 +1,8 @@
 package com.cc.blog.service.impl;
 
 import com.cc.blog.mapper.UserDao;
+import com.cc.blog.model.Permission;
+import com.cc.blog.model.Role;
 import com.cc.blog.model.User;
 import com.cc.blog.service.UserService;
 import com.cc.blog.util.Tools;
@@ -26,6 +28,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
 
+    @Override
     public List<User> getUserAll(HttpServletRequest request) {
         if (Tools.usernameSessionIsAdminValidate(request)) {
             return userDao.getUserAll();
@@ -40,6 +43,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
 
+    @Override
     public User getUserById(int id, HttpServletRequest request) {
         if (Tools.usernameSessionIsAdminValidate(request)) {
             return userDao.getUserById(id);
@@ -55,6 +59,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
 
+    @Override
     public Integer loginUser(String username, String password) {
         Integer flag = userDao.loginUser(username, password);
         System.out.println("登陆状态（1:success/2:failure）：" + flag);
@@ -68,6 +73,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
 
+    @Override
     public Integer getUserPrivateId(String privateId, HttpServletRequest request) {
         if (Tools.usernameSessionIsAdminValidate(request)) {
             return userDao.getUserPrivateId(privateId);
@@ -83,6 +89,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
 
+    @Override
     public User getUserByUsername(String username) {
         return userDao.getUserByUsername(username);
     }
@@ -94,6 +101,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
 
+    @Override
     public User getUserByOpenId(String openId) {
         return userDao.getUserByOpenId(openId);
     }
@@ -104,6 +112,7 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
 
+    @Override
     public void insertUser(User user, HttpServletRequest request) {
         Integer flag = userService.getUserPrivateId(user.getUser_common_private_id(), request);
         while (flag == 1) {
@@ -119,6 +128,7 @@ public class UserServiceImpl implements UserService {
      * @param id
      */
 
+    @Override
     public void deleteUserById(int id, HttpServletRequest request) {
         if (Tools.usernameSessionIsAdminValidate(request)) {
             userDao.deleteUserById(id);
@@ -132,6 +142,7 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
 
+    @Override
     public void updateUser(User user, HttpServletRequest request) {
         if (Tools.usernameSessionIsAdminValidate(request)) {
             userDao.updateUser(user);
@@ -146,6 +157,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
 
+    @Override
     public Integer usernameValidate(String username) {
         return userDao.usernameValidate(username);
     }
@@ -157,6 +169,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
 
+    @Override
     public Integer openIdValidate(String openId) {
         return userDao.openIdValidate(openId);
     }
@@ -167,8 +180,25 @@ public class UserServiceImpl implements UserService {
      * @return
      */
 
+    @Override
     public Integer getUserCount() {
         return userDao.getUserCount();
+    }
+
+    /**
+     * 获取用户权限
+     *
+     * @return
+     */
+
+    @Override
+    public Role getUserRole(String role) {
+        return userDao.getUserRole(role);
+    }
+
+    @Override
+    public Permission getUserPermission(String permission) {
+        return userDao.getUserPermission(permission);
     }
 
 }

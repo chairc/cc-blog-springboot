@@ -1,5 +1,6 @@
 package com.cc.blog.controller;
 
+import com.cc.blog.model.Role;
 import com.cc.blog.model.User;
 import com.cc.blog.service.UserService;
 import com.cc.blog.util.Tools;
@@ -125,14 +126,18 @@ public class UserController {
     public String showUserLoginPage(HttpServletRequest request) {
         String username = Tools.usernameSessionValidate(request);
         System.out.println("当前Session：" + username);
-        User user = userService.getUserByUsername(username);
-        if (username == null) {
+        try{
+            User user = userService.getUserByUsername(username);
+            Role role = userService.getUserRole(user.getUser_safe_role());
+            if (username == null) {
+                return "login";
+            } else if (role.getRole_name().equals("SuperAdmin")) {
+                return "redirect:/superAdmin/admin";
+            }
+            System.out.println("登录人员：" + username);
+        }catch (Exception e){
             return "login";
-        } else if (user.getUser_safe_weight() == 10) {
-            return "redirect:/superAdmin/admin";
         }
-        System.out.println("登录人员：" + username);
-
         return "redirect:/user/userIndex";
     }
 
@@ -159,7 +164,7 @@ public class UserController {
         //2.封装数据
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         //3.执行登陆方法
-        if (mistakeNum < 5 && user.getUser_safe_weight() == 10) {
+        if (mistakeNum < 5 && user.getUser_safe_role().equals("SuperAdmin")) {
             try {
                 subject.login(token);
                 request.getSession().setAttribute("username", username);
@@ -176,7 +181,7 @@ public class UserController {
                 map.put("result", "-1");
                 mistakeNum++;
             }
-        } else if (user.getUser_safe_weight() != 10) {
+        } else if (user.getUser_safe_weight() != 1) {
             try {
                 subject.login(token);
                 request.getSession().setAttribute("username", username);

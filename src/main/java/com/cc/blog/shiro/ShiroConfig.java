@@ -19,7 +19,7 @@ public class ShiroConfig {
         //设置安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
-        /**
+        /*
          * Shiro过滤器
          * anon:无需认证访问
          * authc：必须认证访问
@@ -35,9 +35,9 @@ public class ShiroConfig {
         filterMap.put("/superAdmin/login","anon");
 
         //授权过滤器
-        filterMap.put("/user/userIndex","perms[user:index]");
-        filterMap.put("/superAdmin/admin","perms[user:admin]");
-        filterMap.put("/superAdmin/*","perms[user:admin]");
+        //filterMap.put("/user/userIndex","perms[user:user]");
+        filterMap.put("/user/userIndex","perms[user:admin]");
+        filterMap.put("/superAdmin/*","perms[user:superAdmin]");
 
         //权限过滤器
         filterMap.put("/user/*", "authc");

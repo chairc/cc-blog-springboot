@@ -25,6 +25,8 @@ public class User {
     private String user_safe_system;
     private String user_safe_browser;
     private int user_safe_weight;
+    private String user_safe_permission;
+    private String user_safe_role;
 
     public int getUser_common_id() {
         return user_common_id;
@@ -210,6 +212,22 @@ public class User {
         this.user_safe_weight = user_safe_weight;
     }
 
+    public String getUser_safe_permission() {
+        return user_safe_permission;
+    }
+
+    public void setUser_safe_permission(String user_safe_permission) {
+        this.user_safe_permission = user_safe_permission;
+    }
+
+    public String getUser_safe_role() {
+        return user_safe_role;
+    }
+
+    public void setUser_safe_role(String user_safe_role) {
+        this.user_safe_role = user_safe_role;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -236,6 +254,8 @@ public class User {
                 ", user_safe_system='" + user_safe_system + '\'' +
                 ", user_safe_browser='" + user_safe_browser + '\'' +
                 ", user_safe_weight=" + user_safe_weight +
+                ", user_safe_permission='" + user_safe_permission + '\'' +
+                ", user_safe_role='" + user_safe_role + '\'' +
                 '}';
     }
 }

@@ -1,5 +1,7 @@
 package com.cc.blog.mapper;
 
+import com.cc.blog.model.Permission;
+import com.cc.blog.model.Role;
 import com.cc.blog.model.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -112,5 +114,13 @@ public interface UserDao {
 
     Integer getUserCount();
 
+    /**
+     * 获取用户等级
+     *
+     * @return
+     */
 
+    Role getUserRole(String role);
+
+    Permission getUserPermission(String permission);
 }

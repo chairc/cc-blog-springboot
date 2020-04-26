@@ -16,7 +16,8 @@
         user_secret_qq = #{user_secret_qq},user_secret_weibo = #{user_secret_weibo},
         user_secret_address = #{user_secret_address},user_safe_logtime = #{user_safe_logtime},
         user_safe_ip = #{user_safe_ip},user_safe_question = #{user_safe_question},user_safe_answer = #{user_safe_answer},
-        user_safe_system = #{user_safe_system},user_safe_browser = #{user_safe_browser},user_safe_weight = #{user_safe_weight}
+        user_safe_system = #{user_safe_system},user_safe_browser = #{user_safe_browser},user_safe_weight = #{user_safe_weight},
+        user_safe_permission = #{user_safe_permission},user_safe_role = #{user_safe_role}
         WHERE
         user_common_id = #{user_common_id}
     </update>

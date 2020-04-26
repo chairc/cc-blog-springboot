@@ -1,5 +1,7 @@
 package com.cc.blog.shiro;
 
+import com.cc.blog.model.Permission;
+import com.cc.blog.model.Role;
 import com.cc.blog.model.User;
 import com.cc.blog.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -28,23 +30,16 @@ public class UserRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
         //资源授权perms中的字符串
-        //simpleAuthorizationInfo.addStringPermission("user:index");
 
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getPrincipal();
-        String stringPermission = "";
+        Role role = userService.getUserRole(user.getUser_safe_role());
+        Permission permission = userService.getUserPermission(user.getUser_safe_permission());
 
-        System.out.println("权重为：" + user.getUser_safe_weight());
-        if (user.getUser_safe_weight() == 10) {
-            stringPermission = "user:admin";
-        } else {
-            stringPermission = "user:index";
-        }
+        System.out.println("当前用户等级为：" + role.getRole_name());
+        System.out.println("当前用户权限为：" + permission.getPermission_name());
 
-
-        System.out.println("perms为：" + stringPermission);
-        //未来单独设计权限表（待修改）
-        simpleAuthorizationInfo.addStringPermission(stringPermission);
+        simpleAuthorizationInfo.addStringPermission(permission.getPermission_name());
 
         return simpleAuthorizationInfo;
     }

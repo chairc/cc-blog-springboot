@@ -1,5 +1,7 @@
 package com.cc.blog.service;
 
+import com.cc.blog.model.Permission;
+import com.cc.blog.model.Role;
 import com.cc.blog.model.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -107,4 +109,14 @@ public interface UserService {
      */
 
     Integer getUserCount();
+
+    /**
+     * 获取用户权限
+     *
+     * @return
+     */
+
+    Role getUserRole(String role);
+
+    Permission getUserPermission(String permission);
 }
