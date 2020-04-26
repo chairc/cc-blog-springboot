@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -51,7 +52,7 @@ public class ArticleController {
      * @param model
      * @param pageNum
      * @return article页面
-     * @see MessageController#showMessagePageByPageHelper(Model, int)
+     * @see MessageController#showMessagePageByPageHelper(Model, int, HttpServletRequest) 
      */
 
     @RequestMapping("/article/{pageNum}")
@@ -87,7 +88,7 @@ public class ArticleController {
                                          @PathVariable String privateId) {
         List<Article> list = articleService.getArticleByPrivateId(privateId);
         model.addAttribute("article", list);
-        return "show_article";
+        return "article_show";
     }
 
     @RequestMapping("/articleTest")

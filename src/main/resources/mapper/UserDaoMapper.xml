@@ -31,6 +31,24 @@
         user_common_id = #{id}
     </select>
 
+    <select id="getUserByUsername" resultType="com.cc.blog.model.User">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+        WHERE
+        user_common_username = #{username}
+    </select>
+
+    <select id="getUserByOpenId" resultType="com.cc.blog.model.User">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+        WHERE
+        user_common_open_id = #{userId}
+    </select>
+
     <select id="loginUser" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
         SELECT
         COUNT(*)

@@ -12,6 +12,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +28,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/superAdmin")
 public class SuperAdminController {
-    //记录输入错误总数
-    private int mistakeNum = 0;
 
     @Autowired
     private SuperAdminService superAdminService;
@@ -41,26 +41,24 @@ public class SuperAdminController {
     @Autowired
     private MessageService messageService;
 
-    @RequestMapping("/admin")
-    public String showSuperAdmin() {
-        return "admin";
-    }
+    //登录相关
 
     /**
-     * 超级管理员登录
+     * 管理界面显示
      *
      * @param request
      * @return
      */
 
-    @RequestMapping("/login")
-    public String showSuperAdminLoginPage(HttpServletRequest request) {
-        String username = Tools.usernameSessionValidate(request);
-        if (username == null) {
-            return "super_admin_login";
+    @RequestMapping("/admin")
+    public String showSuperAdmin(HttpServletRequest request) {
+        try {
+            if (Tools.usernameSessionIsAdminValidate(request)) {
+                return "admin";
+            }
+        } catch (Exception e) {
+            return "redirect:/";
         }
-        System.out.println("登录人员：" + username);
-        //超级管理员登录界面
         return "redirect:/";
     }
 
@@ -74,60 +72,14 @@ public class SuperAdminController {
     @RequestMapping("/logout")
     public String superAdminLogout(HttpServletRequest request) {
         System.out.println("登出人员：" + Tools.usernameSessionValidate(request));
-        request.getSession().invalidate();
-
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
         return "redirect:/";
     }
 
-    /**
-     * 超级管理员Ajax登录
-     *
-     * @param username
-     * @param password
-     * @param request
-     * @return map
-     */
 
-    @RequestMapping("/superAdminLoginByAjax")
-    @ResponseBody
-    public Object superAdminLoginByAjax(@RequestParam(value = "username") String username,
-                                                     @RequestParam(value = "password") String password,
-                                                     @RequestParam(value = "privateId") String privateId,
-                                                     HttpServletRequest request) {
-        Map<String, String> map = new HashMap<String, String>();
-        if (mistakeNum < 5) {
-            if (username != null && password != null && privateId != null
-                    && !username.equals("") && !password.equals("") && !privateId.equals("")) {
-                if (superAdminService.superAdminLogin(username, password, privateId) == 1) {
-                    request.getSession().setAttribute("username", username);
-                    map.put("result", "1");
-                } else {
-                    mistakeNum++;
-                    map.put("result", "0");
-                }
-            } else {
-                mistakeNum++;
-                map.put("result", "-1");
-            }
-        } else {
-            map.put("result", "error");
-        }
-        System.out.println(mistakeNum);
 
-        return map;
-    }
 
-    /**
-     * 用于重置次数的作弊码
-     *
-     * @return
-     */
-
-    @RequestMapping("/help/clean")
-    public String cleanLimitSuperAdminLogin() {
-        mistakeNum = 0;
-        return "redirect:/superAdmin/login";
-    }
 
     //管理模块
 
@@ -143,7 +95,7 @@ public class SuperAdminController {
     public Object deleteUserInfoByAjax(@RequestParam(value = "deleteId") int deleteId,
                                        HttpServletRequest request) {
         Map<String, String> map = new HashMap<>();
-        superAdminService.deleteUserById(deleteId,request);
+        superAdminService.deleteUserById(deleteId, request);
         map.put("result", "1");
         return map;
     }
@@ -161,7 +113,7 @@ public class SuperAdminController {
                             HttpServletRequest request) {
         System.out.println("待查询用户ID：" + userId);
         System.out.println("总条数：" + userService.getUserCount());
-        Map map = superAdminService.superAdminShowUser(userId,request);
+        Map map = superAdminService.superAdminShowUser(userId, request);
         System.out.println("返回结果：" + map);
         return map;
     }
@@ -185,8 +137,8 @@ public class SuperAdminController {
             ObjectMapper mapper = new ObjectMapper();
             String userListToJson = mapper.writeValueAsString(userList);
             map.put("result", userListToJson);
-        }catch (NullPointerException e){
-            map.put("result","error");
+        } catch (NullPointerException e) {
+            map.put("result", "error");
         }
         return map;
     }
@@ -210,8 +162,8 @@ public class SuperAdminController {
             ObjectMapper mapper = new ObjectMapper();
             String articleListToJson = mapper.writeValueAsString(articleList);
             map.put("result", articleListToJson);
-        }catch (NullPointerException e){
-            map.put("result","error");
+        } catch (NullPointerException e) {
+            map.put("result", "error");
         }
         return map;
     }
@@ -235,8 +187,8 @@ public class SuperAdminController {
             ObjectMapper mapper = new ObjectMapper();
             String messageListToJson = mapper.writeValueAsString(messageList);
             map.put("result", messageListToJson);
-        }catch (NullPointerException e){
-            map.put("result","error");
+        } catch (NullPointerException e) {
+            map.put("result", "error");
         }
         return map;
     }

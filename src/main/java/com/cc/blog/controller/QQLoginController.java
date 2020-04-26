@@ -22,6 +22,11 @@ import com.cc.blog.service.UserService;
 
 import com.cc.blog.util.Tools;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -35,6 +40,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,7 +100,7 @@ public class QQLoginController {
 
     @RequestMapping("/loginByQQ")
     public void userLoginByQQ(HttpServletRequest request,
-                          HttpServletResponse response) throws IOException {
+                              HttpServletResponse response) throws IOException {
         String responseType = "code";
         String clientId = APP_ID;
         String redirectUrl = URLEncoder.encode(CALLBACK_URL, "UTF-8");
@@ -163,7 +169,7 @@ public class QQLoginController {
             User user = new User();
             user.setUser_common_private_id(Tools.CreateUserRandomPrivateId());
             user.setUser_common_open_id(openId);
-            user.setUser_common_username(username);
+            user.setUser_common_username(openId);
             user.setUser_common_password("null");
             user.setUser_common_nickname(username);
             user.setUser_secret_sex(sex);
@@ -174,9 +180,20 @@ public class QQLoginController {
             user.setUser_safe_system(Tools.getSystemVersion(request));
             user.setUser_safe_browser(Tools.getBrowserVersion(request));
             System.out.println(user);
-            userService.insertUser(user,request);
+            userService.insertUser(user, request);
         }
-        request.getSession().setAttribute("username", username);
+        //通过openId自动登录
+        User getUserByOpenId = userService.getUserByOpenId(openId);
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken usernamePasswordToken = new
+                UsernamePasswordToken(getUserByOpenId.getUser_common_username(), getUserByOpenId.getUser_common_password());
+
+        try {
+            subject.login(usernamePasswordToken);
+            request.getSession().setAttribute("username", username);
+        }catch (UnknownAccountException | IncorrectCredentialsException | NullPointerException e){
+            return "redirect:/user/login";
+        }
 
         return "redirect:/";
     }

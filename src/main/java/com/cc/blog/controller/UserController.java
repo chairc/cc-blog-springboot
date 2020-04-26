@@ -5,6 +5,11 @@ import com.cc.blog.service.UserService;
 import com.cc.blog.util.Tools;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,15 +17,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.websocket.SessionException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class UserController {
+    private int mistakeNum = 0;
 
     @Autowired
     private UserService userService;
+
+    //用户基本操作
 
     /**
      * 注册页面
@@ -92,7 +102,7 @@ public class UserController {
                 user.setUser_safe_system(Tools.getSystemVersion(request));
                 user.setUser_safe_browser(Tools.getBrowserVersion(request));
                 System.out.println(user);
-                userService.insertUser(user,request);
+                userService.insertUser(user, request);
                 map.put("result", "1");
             } else {
                 map.put("result", "0");
@@ -111,33 +121,19 @@ public class UserController {
      * @return 根据session判断页面跳转
      */
 
-    @RequestMapping("/login")
+    @RequestMapping("/user/login")
     public String showUserLoginPage(HttpServletRequest request) {
         String username = Tools.usernameSessionValidate(request);
         System.out.println("当前Session：" + username);
+        User user = userService.getUserByUsername(username);
         if (username == null) {
             return "login";
-        } else if (username.equals("SuperAdmin")) {
+        } else if (user.getUser_safe_weight() == 10) {
             return "redirect:/superAdmin/admin";
         }
         System.out.println("登录人员：" + username);
 
-        return "redirect:/user";
-    }
-
-    /**
-     * 登出
-     *
-     * @param request
-     * @return 重定向：主页
-     */
-
-    @RequestMapping("/logout")
-    public String userLogout(HttpServletRequest request) {
-        System.out.println("登出人员：" + Tools.usernameSessionValidate(request));
-        request.getSession().invalidate();
-
-        return "redirect:/";
+        return "redirect:/user/userIndex";
     }
 
     /**
@@ -156,18 +152,88 @@ public class UserController {
                                                HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
 
-        if (username != null && password != null && !username.equals("")
-                && !password.equals("") && !username.equals("SuperAdmin")) {
-            if (userService.loginUser(username, password) == 1) {
+        User user = userService.getUserByUsername(username);
+
+        //1.获取Shiro的Subject
+        Subject subject = SecurityUtils.getSubject();
+        //2.封装数据
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        //3.执行登陆方法
+        if (mistakeNum < 5 && user.getUser_safe_weight() == 10) {
+            try {
+                subject.login(token);
                 request.getSession().setAttribute("username", username);
                 map.put("result", "1");
-            } else {
+            } catch (UnknownAccountException e) {
+                //用户名不存在
                 map.put("result", "0");
+                mistakeNum++;
+            } catch (IncorrectCredentialsException e) {
+                //密码错误
+                map.put("result", "-2");
+                mistakeNum++;
+            } catch (NullPointerException e) {
+                map.put("result", "-1");
+                mistakeNum++;
             }
-        } else {
-            map.put("result", "-1");
+        } else if (user.getUser_safe_weight() != 10) {
+            try {
+                subject.login(token);
+                request.getSession().setAttribute("username", username);
+                map.put("result", "1");
+            } catch (UnknownAccountException e) {
+                //用户名不存在
+                map.put("result", "0");
+            } catch (IncorrectCredentialsException e) {
+                //密码错误
+                map.put("result", "-2");
+            } catch (NullPointerException e) {
+                map.put("result", "-1");
+            }
+        }else {
+            map.put("result","noAuth");
         }
+
+
         return map;
+    }
+
+    /**
+     * 用于重置次数的作弊码
+     *
+     * @return
+     */
+
+    @RequestMapping("/help/clean")
+    public String cleanLimitSuperAdminLogin() {
+        mistakeNum = 0;
+        return "redirect:/user/login";
+    }
+
+    /**
+     * 登出
+     *
+     * @param request
+     * @return 重定向：主页
+     */
+
+    @RequestMapping("/logout")
+    public String userLogout(HttpServletRequest request) {
+        System.out.println("登出人员：" + Tools.usernameSessionValidate(request));
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "redirect:/user/login";
+    }
+
+    /**
+     * 没有操作权限
+     *
+     * @return
+     */
+
+    @RequestMapping("/noAuth")
+    public String noAuth() {
+        return "no_auth";
     }
 
     /**
@@ -176,7 +242,7 @@ public class UserController {
      * @return mav
      */
 
-    @RequestMapping("/user")
+    @RequestMapping("/user/userIndex")
     public String showMessagePage(Model model,
                                   HttpServletRequest request) {
         int page = 1;
@@ -202,10 +268,10 @@ public class UserController {
      * @param model
      * @param pageNum
      * @return admin页面
-     * @see MessageController#showMessagePageByPageHelper(Model, int) (Model, int)
+     * @see MessageController#showMessagePageByPageHelper (Model, int, HttpServletRequest)
      */
 
-    @RequestMapping("/user/{pageNum}")
+    @RequestMapping("/user/userIndex/{pageNum}")
     public String showMessagePageByPageHelper(Model model,
                                               @PathVariable int pageNum,
                                               HttpServletRequest request) {
@@ -234,14 +300,14 @@ public class UserController {
     @RequestMapping("/getUser1/{id}")
     public String getUserById(@PathVariable int id,
                               HttpServletRequest request) {
-        return userService.getUserById(id,request).toString();
+        return userService.getUserById(id, request).toString();
     }
 
     @RequestMapping("/getUser/{id}")
     public ModelAndView getUserByIdTest1(@PathVariable int id,
                                          HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("user");
-        mav.addObject("user", userService.getUserById(id,request));
+        mav.addObject("user", userService.getUserById(id, request));
         return mav;
     }
 

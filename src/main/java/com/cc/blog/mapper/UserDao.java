@@ -54,6 +54,15 @@ public interface UserDao {
     User getUserByUsername(String username);
 
     /**
+     * 通过用户名获取用户名
+     *
+     * @param openId
+     * @return
+     */
+
+    User getUserByOpenId(String openId);
+
+    /**
      * 通过ID删除用户信息（暂时停用此接口）
      *
      * @param id

@@ -23,19 +23,6 @@ public class SuperAdminServiceImpl implements SuperAdminService {
     private UserService userService;
 
     /**
-     * 超级管理员登录
-     *
-     * @param username
-     * @param password
-     * @param privateId
-     * @return
-     */
-
-    public Integer superAdminLogin(String username, String password, String privateId) {
-        return superAdminDao.superAdminLogin(username, password, privateId);
-    }
-
-    /**
      * 通过ID删除用户信息
      *
      * @param id

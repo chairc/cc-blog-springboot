@@ -142,10 +142,7 @@ public class Tools {
     public static boolean usernameSessionIsAdminValidate(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String usernameIsAdmin =(String) session.getAttribute("username");
-        if(usernameIsAdmin.equals("admin") || usernameIsAdmin.equals("SuperAdmin")){
-            return true;
-        }
-        return false;
+        return usernameIsAdmin.equals("admin") || usernameIsAdmin.equals("SuperAdmin");
     }
 
 }

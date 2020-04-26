@@ -64,7 +64,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">
+                        <a class="nav-link" href="/user/login">
                             个人
                         </a>
                     </li>
@@ -93,7 +93,7 @@
                 <a href="">娱乐</a>
             </li>
             <li class="">
-                <a href="/login">个人</a>
+                <a href="/user/login">个人</a>
             </li>
         </ul>
         <!-- 手机导航栏结束 -->
@@ -136,7 +136,7 @@
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 if (data.result === "1") {
-                    $("#message-box-text").html("登录成功")
+                    $("#message-box-text").html("登录成功");
                     $("#message-box").css("color","#ffffff");
                     $("#message-box").css("background","#1a95ff");
                     setTimeout(function () {
@@ -144,12 +144,17 @@
                     }, 2000)
                 } else if (data.result === "0") {
                     //登录失败，用户名或密码错误
-                    $("#message-box-text").html("登录失败，用户名或密码错误")
+                    $("#message-box-text").html("登录失败，用户名不存在");
+                    $("#message-box").css("color","#a94442");
+                    $("#message-box").css("background","#f2dede");
+                }else if (data.result === "-2") {
+                    //登录失败，用户名或密码错误
+                    $("#message-box-text").html("登录失败，密码错误");
                     $("#message-box").css("color","#a94442");
                     $("#message-box").css("background","#f2dede");
                 } else {
-                    //登录失败，用户名或密码为null
-                    $("#message-box-text").html("提交失败，用户名、密码为null")
+                    //登录失败，用户禁止登录
+                    $("#message-box-text").html("提交失败，用户禁止登录");
                     $("#message-box").css("color","#a94442");
                     $("#message-box").css("background","#f2dede");
                 }

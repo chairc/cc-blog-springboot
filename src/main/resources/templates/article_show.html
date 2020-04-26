@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>留言板 | 小虚无的下午茶</title>
+    <title>归档 | 小虚无的下午茶</title>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
@@ -11,7 +11,6 @@
     <link rel="stylesheet" th:href="@{/static/css/animate.css}">
     <link rel="stylesheet" th:href="@{/static/css/main.css}">
     <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
-    <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.min.css}">
 
 </head>
 <body>
@@ -112,7 +111,7 @@
                     <div class="contents">
                         <h5 class="head-title-other wow fadeInUp animated" data-wow-delay="0.4s"
                             style="visibility: visible;-webkit-animation-delay: 0.4s; -moz-animation-delay: 0.4s; animation-delay: 0.4s;">
-                            留言板
+                            归档
                         </h5>
                     </div>
                 </div>
@@ -124,78 +123,29 @@
 </header>
 <!-- 头部结束 -->
 
-<!-- 留言展示开始 -->
-<div id="message" class="section-padding">
+<!-- 归档开始 -->
+<section id="article" class="article section-padding">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+            <div class="" style="width: 100%" th:each="item:${article}">
+                <div class="article-item wow fadeInDown animated" data-wow-delay="0.3s"
                      style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
-                    <ul class="timeline">
-                        <li>
-                            <i class="icon-graduation"></i>
-                            <h2 class="timelin-title">近期留言</h2>
-                        </li>
-
-                        <li th:each="item:${message}">
-                            <div class="content-text">
-                                <h3 class="line-title" th:text="${item.message_username}"></h3>
-                                <span th:text="${item.message_time}"></span>
-                                <p class="line-text" th:text="${item.message_main}"></p>
-                            </div>
-                        </li>
-
-                    </ul>
+                    <div class="icon">
+                        <i class="icon-grid"></i>
+                    </div>
+                    <div class="article-content article-content-small" style="text-align: justify">
+                        <h3 th:text="${item.article_title}">
+                        </h3>
+                        <p th:text="${item.article_author}"></p>
+                        <p th:text="${item.article_time}"></p>
+                        <p th:utext="${item.article_main}"></p>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="experience wow fadeInRight animated" data-wow-delay="0.6s"
-                     style="visibility: visible;-webkit-animation-delay: 0.6s; -moz-animation-delay: 0.6s; animation-delay: 0.6s;">
-                    <ul class="timeline">
-                        <li>
-                            <i class="icon-briefcase"></i>
-                            <h2 class="timelin-title">精选留言</h2>
-                        </li>
-
-                        <li th:each="item2:${message_weight}">
-                            <div class="content-text">
-                                <h3 class="line-title" th:text="${item2.message_username}"></h3>
-                                <span th:text="${item2.message_time}"></span>
-                                <p class="line-text" th:text="${item2.message_main}"></p>
-                            </div>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="btn-container">
-            <div class="btn-prev-or-next">
-                <a th:href="'/message/'+${pageNumPrev}" class="btn btn-primary">
-                    上一页
-                </a>
-            </div>
-            <div class="btn-prev-or-next">
-                <a th:href="'/message/'+${pageNumNext}" class="btn btn-primary">
-                    下一页
-                </a>
-            </div>
-            <div class="btn-prev-or-next">
-                <p>当前页：</p>
-                <p th:text="${pageNum}"></p>
-                <p>/总页数：</p>
-                <p th:text="${pageTotal}"></p>
-            </div>
-        </div>
-        <div class="message-container" id="message-editor">
-            <textarea style="display: none" id="message-text"></textarea>
-        </div>
-        <div class="btn-container">
-            <button class="btn btn-info" onclick="addMessage()">提交</button>
         </div>
     </div>
-</div>
-<!-- 留言展示结束 -->
+</section>
+<!-- 归档结束 -->
 
 <!-- 底部开始 -->
 <footer th:replace="footer.html"></footer>
@@ -207,57 +157,14 @@
         <p>UP</p>
     </i>
 </a>
+<a href="javascript:history.go(-1);" class="back-to-prev">
+    <i>
+        <p>BACK</p>
+    </i>
+</a>
+
 
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
-<script type="text/javascript">
-
-    $(function () {
-        var editor = editormd("message-editor", {
-            width: "100%",
-            height: 200,
-            emoji: true,
-            autofocus: false,
-            placeholder: "开始留言吧...",
-            syncScrolling: "single",
-            path: "/static/editor.md/lib/",
-            saveHTMLToTextarea: true,
-            watch: false,
-            toolbarIcons: function () {
-                return ["undo", "redo", "|", "emoji"]
-            },
-        });
-    });
-
-
-    function addMessage() {
-        var messageText = $("#message-text").val();
-
-        alert(messageText);
-        $.ajax({
-            url: "/message/addMessageByAjax",
-            dataType: "JSON",
-            data: {
-                "messageText": messageText
-            },
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                if (data.result === "1") {
-                    alert("存取成功");
-                    window.location.reload();
-                } else if (data.result === "error") {
-                    alert("异常错误");
-                } else if (data.result === "0") {
-                    alert("未登录");
-                }
-
-            }
-        })
-    }
-</script>
-<script type="text/javascript" th:src="@{/static/editor.md/editormd.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/editor.md/lib/prettify.min.js}"></script>
-
 <script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>
