@@ -22,6 +22,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
 
+    @Override
     public List<Article> getArticleAllToIndex() {
         return articleDao.getArticleAllToIndex();
     }
@@ -32,6 +33,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
 
+    @Override
     public List<Article> getArticleAll() {
         return articleDao.getArticleAll();
     }
@@ -42,6 +44,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
 
+    @Override
     public List<Article> getArticleAllByAscendingOrder() {
         return articleDao.getArticleAllByAscendingOrder();
     }
@@ -53,6 +56,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
 
+    @Override
     public List<Article> getArticleByPrivateId(String articlePrivateId) {
         return articleDao.getArticleByPrivateId(articlePrivateId);
     }
@@ -64,6 +68,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
 
+    @Override
     public List<Article> getArticleAllByAdmin(HttpServletRequest request){
         if(Tools.usernameSessionIsAdminValidate(request)){
             return articleDao.getArticleAllByAdmin();
@@ -77,6 +82,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @param article
      */
 
+    @Override
     public void insertArticle(Article article,HttpServletRequest request) {
         if(Tools.usernameSessionIsAdminValidate(request)){
             articleDao.insertArticle(article);
@@ -89,6 +95,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @param privateId
      */
 
+    @Override
     public void deleteArticleByPrivateId(String privateId,HttpServletRequest request) {
         if(Tools.usernameSessionIsAdminValidate(request)){
             articleDao.deleteArticleByPrivateId(privateId);
@@ -101,6 +108,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @param article
      */
 
+    @Override
     public void updateArticle(Article article,HttpServletRequest request) {
         if(Tools.usernameSessionIsAdminValidate(request)){
             articleDao.updateArticle(article);
@@ -114,6 +122,7 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
 
+    @Override
     public Integer getArticleCount(){
         return articleDao.getArticleCount();
     }

@@ -18,15 +18,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.websocket.SessionException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class UserController {
-    private int mistakeNum = 0;
 
     @Autowired
     private UserService userService;
@@ -126,7 +123,7 @@ public class UserController {
     public String showUserLoginPage(HttpServletRequest request) {
         String username = Tools.usernameSessionValidate(request);
         System.out.println("当前Session：" + username);
-        try{
+        try {
             User user = userService.getUserByUsername(username);
             Role role = userService.getUserRole(user.getUser_safe_role());
             if (username == null) {
@@ -135,7 +132,7 @@ public class UserController {
                 return "redirect:/superAdmin/admin";
             }
             System.out.println("登录人员：" + username);
-        }catch (Exception e){
+        } catch (Exception e) {
             return "login";
         }
         return "redirect:/user/userIndex";
@@ -152,66 +149,40 @@ public class UserController {
 
     @RequestMapping("/loginUserByAjax")
     @ResponseBody
-    public Map<String, String> userLoginByAjax(@RequestParam(value = "username") String username,
-                                               @RequestParam(value = "password") String password,
-                                               HttpServletRequest request) {
+    public Object userLoginByAjax(@RequestParam(value = "username") String username,
+                                  @RequestParam(value = "password") String password,
+                                  HttpServletRequest request) {
         Map<String, String> map = new HashMap<String, String>();
-
-        User user = userService.getUserByUsername(username);
-
         //1.获取Shiro的Subject
         Subject subject = SecurityUtils.getSubject();
         //2.封装数据
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         //3.执行登陆方法
-        if (mistakeNum < 5 && user.getUser_safe_role().equals("SuperAdmin")) {
-            try {
-                subject.login(token);
-                request.getSession().setAttribute("username", username);
-                map.put("result", "1");
-            } catch (UnknownAccountException e) {
-                //用户名不存在
-                map.put("result", "0");
-                mistakeNum++;
-            } catch (IncorrectCredentialsException e) {
-                //密码错误
-                map.put("result", "-2");
-                mistakeNum++;
-            } catch (NullPointerException e) {
-                map.put("result", "-1");
-                mistakeNum++;
-            }
-        } else if (user.getUser_safe_weight() != 1) {
-            try {
-                subject.login(token);
-                request.getSession().setAttribute("username", username);
-                map.put("result", "1");
-            } catch (UnknownAccountException e) {
-                //用户名不存在
-                map.put("result", "0");
-            } catch (IncorrectCredentialsException e) {
-                //密码错误
-                map.put("result", "-2");
-            } catch (NullPointerException e) {
-                map.put("result", "-1");
-            }
-        }else {
-            map.put("result","noAuth");
+        try {
+            subject.login(token);
+            request.getSession().setAttribute("username", username);
+            map.put("result", "1");
+            map.put("msg","登录成功");
+        } catch (UnknownAccountException e) {
+            //用户名不存在
+            map.put("result", "0");
+            map.put("msg","登录失败，用户名不存在");
+        } catch (IncorrectCredentialsException e) {
+            //密码错误
+            map.put("result", "0");
+            map.put("msg","登录失败，密码错误");
         }
-
-
         return map;
     }
 
     /**
-     * 用于重置次数的作弊码
+     * 用于重置次数的作弊码（暂时取消）
      *
      * @return
      */
 
     @RequestMapping("/help/clean")
     public String cleanLimitSuperAdminLogin() {
-        mistakeNum = 0;
         return "redirect:/user/login";
     }
 

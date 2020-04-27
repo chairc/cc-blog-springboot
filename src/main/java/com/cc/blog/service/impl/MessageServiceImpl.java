@@ -22,6 +22,7 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
 
+    @Override
     public List<Message> getMessageAllToIndex() {
         return messageDao.getMessageAllToIndex();
     }
@@ -32,6 +33,7 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
 
+    @Override
     public List<Message> getMessageAllToIndexByWeight() {
         return messageDao.getMessageAllToIndexByWeight();
     }
@@ -42,6 +44,7 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
 
+    @Override
     public List<Message> getMessageAllByAscendingOrder(HttpServletRequest request) {
         return messageDao.getMessageAllByAscendingOrder();
     }
@@ -52,6 +55,7 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
 
+    @Override
     public List<Message> getMessageAll(HttpServletRequest request) {
         return messageDao.getMessageAll();
     }
@@ -62,6 +66,7 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
 
+    @Override
     public List<Message> getMessageAllByWeight(HttpServletRequest request) {
         return messageDao.getMessageAllByWeight();
     }
@@ -73,6 +78,7 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
 
+    @Override
     public List<Message> getMessageAllByAdmin(HttpServletRequest request){
         if(Tools.usernameSessionIsAdminValidate(request)){
             return messageDao.getMessageAllByAdmin();
@@ -86,6 +92,7 @@ public class MessageServiceImpl implements MessageService {
      * @param message
      */
 
+    @Override
     public void insertMessage(Message message,HttpServletRequest request) {
         if(Tools.usernameSessionIsAdminValidate(request)){
             messageDao.insertMessage(message);
@@ -99,6 +106,7 @@ public class MessageServiceImpl implements MessageService {
      * @param privateId
      */
 
+    @Override
     public void deleteMessage(String privateId,HttpServletRequest request) {
         if(Tools.usernameSessionIsAdminValidate(request)){
             messageDao.deleteMessageByPrivateId(privateId);
@@ -112,6 +120,7 @@ public class MessageServiceImpl implements MessageService {
      * @param message
      */
 
+    @Override
     public void updateMessage(Message message,HttpServletRequest request) {
         if(Tools.usernameSessionIsAdminValidate(request)){
             messageDao.updateMessage(message);
@@ -125,6 +134,7 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
 
+    @Override
     public Integer getMessageCount() {
         return messageDao.getMessageCount();
     }

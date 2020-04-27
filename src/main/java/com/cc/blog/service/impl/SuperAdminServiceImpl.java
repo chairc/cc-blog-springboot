@@ -28,6 +28,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
      * @param id
      */
 
+    @Override
     public void deleteUserById(int id,HttpServletRequest request) {
         if(Tools.usernameSessionIsAdminValidate(request)){
             superAdminDao.deleteUserById(id);
@@ -41,6 +42,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
      * @param user
      */
 
+    @Override
     public void updateUser(User user,HttpServletRequest request) {
         if(Tools.usernameSessionIsAdminValidate(request)){
             superAdminDao.updateUser(user);
@@ -54,6 +56,7 @@ public class SuperAdminServiceImpl implements SuperAdminService {
      * @return
      */
 
+    @Override
     public Map superAdminShowUser(String userId, HttpServletRequest request){
         Map<String, String> map = new HashMap<>();
         try {
