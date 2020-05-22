@@ -57,6 +57,7 @@ public class UserRealm extends AuthorizingRealm {
 
         //判断用户名
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
+        System.out.println("getUsername:"+usernamePasswordToken.getUsername());
         //获取该用户的所有信息
         User user = userService.getUserByUsername(usernamePasswordToken.getUsername());
 

@@ -1,7 +1,10 @@
 package com.cc.blog.shiro;
 
+import org.apache.shiro.mgt.RememberMeManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -66,5 +69,17 @@ public class ShiroConfig {
     @Bean(name = "userRealm")
     public UserRealm getUserRealm() {
         return new UserRealm();
+    }
+
+    @Bean
+    public RememberMeManager rememberMeManager(){
+        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+        simpleCookie.setHttpOnly(true);
+        //cookie设置为7天
+        simpleCookie.setMaxAge(604800);
+        cookieRememberMeManager.setCookie(simpleCookie);
+
+        return cookieRememberMeManager;
     }
 }

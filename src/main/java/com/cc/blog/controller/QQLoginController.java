@@ -180,7 +180,7 @@ public class QQLoginController {
             user.setUser_safe_system(Tools.getSystemVersion(request));
             user.setUser_safe_browser(Tools.getBrowserVersion(request));
             System.out.println(user);
-            userService.insertUser(user, request);
+            userService.insertUser(user);
         }
         //通过openId自动登录
         User getUserByOpenId = userService.getUserByOpenId(openId);

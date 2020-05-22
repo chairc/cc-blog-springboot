@@ -99,14 +99,19 @@ public class UserController {
                 user.setUser_safe_ip(Tools.getUserIp(request));
                 user.setUser_safe_system(Tools.getSystemVersion(request));
                 user.setUser_safe_browser(Tools.getBrowserVersion(request));
+                user.setUser_safe_role("1");
+                user.setUser_safe_permission("1");
                 System.out.println(user);
-                userService.insertUser(user, request);
+                userService.insertUser(user);
                 map.put("result", "1");
+                map.put("msg","提交成功");
             } else {
                 map.put("result", "0");
+                map.put("msg","正确填写用户名、密码和安全答案");
             }
         } else {
-            map.put("result", "-1");
+            map.put("result", "0");
+            map.put("msg","提交失败，用户名存在");
         }
 
         return map;

@@ -70,15 +70,19 @@ public class SuperAdminServiceImpl implements SuperAdminService {
                 map.put("result", userToJson);
                 map.put("code", "1");
             } else if (getUserId < 0) {
-                map.put("code", "-1");
+                map.put("code", "0");
+                map.put("msg","提交失败，低于0值");
             } else if (getUserId > userService.getUserCount()) {
                 map.put("code", "-2");
+                map.put("msg","提交失败，超出范围");
             } else {
-                map.put("code", "error");
+                map.put("code", "0");
+                map.put("msg","提交失败，请正确输入");
             }
 
         }catch (Exception e){
-            map.put("code", "error");
+            map.put("code", "0");
+            map.put("msg","提交失败，请正确输入");
         }
         return map;
     }

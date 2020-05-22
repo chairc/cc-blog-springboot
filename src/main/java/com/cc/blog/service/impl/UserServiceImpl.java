@@ -74,12 +74,8 @@ public class UserServiceImpl implements UserService {
      */
 
     @Override
-    public Integer getUserPrivateId(String privateId, HttpServletRequest request) {
-        if (Tools.usernameSessionIsAdminValidate(request)) {
-            return userDao.getUserPrivateId(privateId);
-        }
-        return null;
-
+    public Integer getUserPrivateId(String privateId) {
+        return userDao.getUserPrivateId(privateId);
     }
 
     /**
@@ -113,11 +109,11 @@ public class UserServiceImpl implements UserService {
      */
 
     @Override
-    public void insertUser(User user, HttpServletRequest request) {
-        Integer flag = userService.getUserPrivateId(user.getUser_common_private_id(), request);
+    public void insertUser(User user) {
+        Integer flag = userService.getUserPrivateId(user.getUser_common_private_id());
         while (flag == 1) {
             user.setUser_common_private_id(Tools.CreateUserRandomPrivateId());
-            flag = userService.getUserPrivateId(user.getUser_common_private_id(), request);
+            flag = userService.getUserPrivateId(user.getUser_common_private_id());
         }
         userDao.insertUser(user);
     }
@@ -129,11 +125,8 @@ public class UserServiceImpl implements UserService {
      */
 
     @Override
-    public void deleteUserById(int id, HttpServletRequest request) {
-        if (Tools.usernameSessionIsAdminValidate(request)) {
-            userDao.deleteUserById(id);
-        }
-
+    public void deleteUserById(int id) {
+        userDao.deleteUserById(id);
     }
 
     /**
@@ -143,10 +136,9 @@ public class UserServiceImpl implements UserService {
      */
 
     @Override
-    public void updateUser(User user, HttpServletRequest request) {
-        if (Tools.usernameSessionIsAdminValidate(request)) {
-            userDao.updateUser(user);
-        }
+    public void updateUser(User user) {
+        userDao.updateUser(user);
+
 
     }
 

@@ -227,32 +227,6 @@
             },
         });
     });
-
-
-    function addMessage() {
-        var messageText = $("#message-text").val();
-
-        alert(messageText);
-        $.ajax({
-            url: "/message/addMessageByAjax",
-            dataType: "JSON",
-            data: {
-                "messageText": messageText
-            },
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                if (data.result === "1") {
-                    alert("存取成功");
-                    window.location.reload();
-                } else if (data.result === "error") {
-                    alert("异常错误");
-                } else if (data.result === "0") {
-                    alert("未登录");
-                }
-
-            }
-        })
-    }
 </script>
 <script type="text/javascript" th:src="@{/static/editor.md/editormd.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>

@@ -44,7 +44,7 @@ public interface UserService {
      * @return
      */
 
-    Integer getUserPrivateId(String privateId, HttpServletRequest request);
+    Integer getUserPrivateId(String privateId);
 
     /**
      * 通过用户名获取用户信息
@@ -70,21 +70,21 @@ public interface UserService {
      * @param user
      */
 
-    void insertUser(User user, HttpServletRequest request);
+    void insertUser(User user);
 
     /**
      * 通过ID删除用户信息（暂时停用此方法）
      *
      * @param id
      */
-    void deleteUserById(int id, HttpServletRequest request);
+    void deleteUserById(int id);
 
     /**
      * 更新用户信息（暂时停用此方法）
      *
      * @param user
      */
-    void updateUser(User user, HttpServletRequest request);
+    void updateUser(User user);
 
     /**
      * 用户名唯一性验证
