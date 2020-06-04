@@ -4,12 +4,18 @@ import com.cc.blog.model.Article;
 import com.cc.blog.model.Message;
 import com.cc.blog.service.ArticleService;
 import com.cc.blog.service.MessageService;
+import com.cc.blog.util.Tools;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class IndexController {

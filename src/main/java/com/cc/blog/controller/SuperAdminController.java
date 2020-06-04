@@ -2,6 +2,7 @@ package com.cc.blog.controller;
 
 import com.cc.blog.model.Article;
 import com.cc.blog.model.Message;
+import com.cc.blog.model.ResultSet;
 import com.cc.blog.model.User;
 import com.cc.blog.service.ArticleService;
 import com.cc.blog.service.MessageService;
@@ -92,12 +93,13 @@ public class SuperAdminController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public Object deleteUserInfoByAjax(@RequestParam(value = "deleteId") int deleteId,
+    public ResultSet deleteUserInfoByAjax(@RequestParam(value = "deleteId") int deleteId,
                                        HttpServletRequest request) {
-        Map<String, String> map = new HashMap<>();
+        ResultSet resultSet = new ResultSet();
         superAdminService.deleteUserById(deleteId, request);
-        map.put("result", "1");
-        return map;
+        resultSet.setCode("1");
+        resultSet.setMsg("删除成功");
+        return resultSet;
     }
 
     /**
@@ -109,13 +111,14 @@ public class SuperAdminController {
 
     @RequestMapping("/showUser")
     @ResponseBody
-    public Object clickTest(@RequestParam(value = "userId") String userId,
+    public ResultSet clickTest(@RequestParam(value = "userId") String userId,
                             HttpServletRequest request) {
+
         System.out.println("待查询用户ID：" + userId);
         System.out.println("总条数：" + userService.getUserCount());
-        Map map = superAdminService.superAdminShowUser(userId, request);
-        System.out.println("返回结果：" + map);
-        return map;
+        ResultSet resultSet = superAdminService.superAdminShowUser(userId, request);
+        System.out.println("返回结果：" + resultSet.getData());
+        return resultSet;
     }
 
     /**
@@ -128,19 +131,20 @@ public class SuperAdminController {
 
     @RequestMapping("/showUserList")
     @ResponseBody
-    public Object showUserList(@RequestParam(value = "pageNum") int pageNum,
+    public ResultSet showUserList(@RequestParam(value = "pageNum") int pageNum,
                                HttpServletRequest request) throws JsonProcessingException {
-        Map<String, String> map = new HashMap<>();
+        ResultSet resultSet = new ResultSet();
         try {
             Page<User> userPages = PageHelper.startPage(pageNum, 10);
             List<User> userList = userService.getUserAll(request);
-            ObjectMapper mapper = new ObjectMapper();
-            String userListToJson = mapper.writeValueAsString(userList);
-            map.put("result", userListToJson);
+            resultSet.setCode("1");
+            resultSet.setMsg("获取用户列表成功");
+            resultSet.setData(userList);
         } catch (NullPointerException e) {
-            map.put("result", "error");
+            resultSet.setCode("0");
+            resultSet.setMsg("获取用户列表失败");
         }
-        return map;
+        return resultSet;
     }
 
     /**
@@ -153,19 +157,20 @@ public class SuperAdminController {
 
     @RequestMapping("/showArticleList")
     @ResponseBody
-    public Object showArticleList(@RequestParam(value = "pageNum") int pageNum,
-                                  HttpServletRequest request) throws JsonProcessingException {
-        Map<String, String> map = new HashMap<>();
+    public ResultSet showArticleList(@RequestParam(value = "pageNum") int pageNum,
+                                     HttpServletRequest request) throws JsonProcessingException {
+        ResultSet resultSet = new ResultSet();
         try {
             Page<Article> articlePages = PageHelper.startPage(pageNum, 10);
             List<Article> articleList = articleService.getArticleAllByAdmin(request);
-            ObjectMapper mapper = new ObjectMapper();
-            String articleListToJson = mapper.writeValueAsString(articleList);
-            map.put("result", articleListToJson);
+            resultSet.setCode("1");
+            resultSet.setMsg("获取用户列表成功");
+            resultSet.setData(articleList);
         } catch (NullPointerException e) {
-            map.put("result", "error");
+            resultSet.setCode("0");
+            resultSet.setMsg("获取用户列表失败");
         }
-        return map;
+        return resultSet;
     }
 
     /**
@@ -178,19 +183,20 @@ public class SuperAdminController {
 
     @RequestMapping("/showMessageList")
     @ResponseBody
-    public Object showMessageList(@RequestParam(value = "pageNum") int pageNum,
+    public ResultSet showMessageList(@RequestParam(value = "pageNum") int pageNum,
                                   HttpServletRequest request) throws JsonProcessingException {
-        Map<String, String> map = new HashMap<>();
+        ResultSet resultSet = new ResultSet();
         try {
             Page<Message> messagePages = PageHelper.startPage(pageNum, 10);
             List<Message> messageList = messageService.getMessageAllByAdmin(request);
-            ObjectMapper mapper = new ObjectMapper();
-            String messageListToJson = mapper.writeValueAsString(messageList);
-            map.put("result", messageListToJson);
+            resultSet.setCode("1");
+            resultSet.setMsg("获取用户列表成功");
+            resultSet.setData(messageList);
         } catch (NullPointerException e) {
-            map.put("result", "error");
+            resultSet.setCode("0");
+            resultSet.setMsg("获取用户列表失败");
         }
-        return map;
+        return resultSet;
     }
 
     /**
@@ -203,19 +209,19 @@ public class SuperAdminController {
     @RequestMapping("/selectPageNumByPageName")
     @ResponseBody
     public Object selectPageNumByPageName(@RequestParam(value = "pageName") String pageName) {
-        Map<String, String> map = new HashMap<>();
+        ResultSet resultSet = new ResultSet();
         switch (pageName) {
             case "userList":
-                map.put("result", Integer.toString(userService.getUserCount() / 10 + 1));
+                resultSet.setData(Integer.toString(userService.getUserCount() / 10 + 1));
                 break;
             case "articleList":
-                map.put("result", Integer.toString(articleService.getArticleCount() / 10 + 1));
+                resultSet.setData(Integer.toString(articleService.getArticleCount() / 10 + 1));
                 break;
             case "messageList":
-                map.put("result", Integer.toString(messageService.getMessageCount() / 10 + 1));
+                resultSet.setData(Integer.toString(messageService.getMessageCount() / 10 + 1));
                 break;
         }
-        return map;
+        return resultSet;
     }
 
 }

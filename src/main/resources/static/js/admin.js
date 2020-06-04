@@ -15,7 +15,7 @@ function selectUser() {
             "userId": userId
         },
         success: function (data) {
-            console.log(JSON.stringify(data));
+            console.log(data);
             if (data.code === "0") {
                 $("#message-box-text").html(data.msg);
                 $("#message-box").css("color", "#a94442");
@@ -29,9 +29,9 @@ function selectUser() {
                     $('#message-box').slideUp(300);
                 }
             } else if(data.code === "1") {
-                test.html('<div id="p_test">' + data.result + '</div>');
-                var jsonVal = data.result;
-                data1 = (new Function("", "return " + jsonVal))();
+                test.html('<div id="p_test">' + data.data + '</div>');
+                //var jsonVal = data.result;
+                //data1 = (new Function("", "return " + jsonVal))();
 
                 $("#showData").html(
                     '<li id="showData">' +
@@ -40,42 +40,42 @@ function selectUser() {
                     '<p>公有ID:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
-                    'th:id="id' + data1['user_common_id'] + '" type="text"' +
-                    'value="' + data1['user_common_id'] + '">' +
+                    'th:id="id' + data.data['user_common_id'] + '" type="text"' +
+                    'value="' + data.data['user_common_id'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>私有ID:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="privateId" type="text"' +
-                    'value="' + data1['user_common_private_id'] + '">' +
+                    'value="' + data.data['user_common_private_id'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>OpenID:' +
                     '<label>' +
                     '<input style="background: transparent;border: none" id="openId" type="text"' +
-                    'value="' + data1['user_common_open_id'] + '">' +
+                    'value="' + data.data['user_common_open_id'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>用户名:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="username" type="text"' +
-                    'value="' + data1['user_common_username'] + '">' +
+                    'value="' + data.data['user_common_username'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>密码:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="password" type="text"' +
-                    'value="' + data1['user_common_password'] + '">' +
+                    'value="' + data.data['user_common_password'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>昵称:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="nickname" type="text"' +
-                    'value="' + data1['user_common_nickname'] + '">' +
+                    'value="' + data.data['user_common_nickname'] + '">' +
                     '</label>' +
                     '</p>' +
                     '</div>' +
@@ -84,42 +84,42 @@ function selectUser() {
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="realname" type="text"' +
-                    'value="' + data1['user_secret_real_name'] + '">' +
+                    'value="' + data.data['user_secret_real_name'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>电话:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="phone" type="text"' +
-                    'value="' + data1['user_secret_phone'] + '">' +
+                    'value="' + data.data['user_secret_phone'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>电子邮箱:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="email" type="text"' +
-                    'value="' + data1['user_secret_email'] + '">' +
+                    'value="' + data.data['user_secret_email'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>生日:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="birthday" type="text"' +
-                    'value="' + data1['user_secret_birthday'] + '">' +
+                    'value="' + data.data['user_secret_birthday'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>性别:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="sex" type="text"' +
-                    'value="' + data1['user_secret_sex'] + '">' +
+                    'value="' + data.data['user_secret_sex'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>年龄:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="age" type="text"' +
-                    'value="' + data1['user_secret_age'] + '">' +
+                    'value="' + data.data['user_secret_age'] + '">' +
                     '</label>' +
                     '</p>' +
                     '</div>' +
@@ -128,42 +128,42 @@ function selectUser() {
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="wechat" type="text"' +
-                    'value="' + data1['user_secret_wechat'] + '">' +
+                    'value="' + data.data['user_secret_wechat'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>QQ:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="qq" type="text"' +
-                    'value="' + data1['user_secret_qq'] + '">' +
+                    'value="' + data.data['user_secret_qq'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>微博:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="weibo" type="text"' +
-                    'value="' + data1['user_secret_weibo'] + '">' +
+                    'value="' + data.data['user_secret_weibo'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>地址:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="address" type="text"' +
-                    'value="' + data1['user_secret_address'] + '">' +
+                    'value="' + data.data['user_secret_address'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>登录时间:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="logtime" type="text"' +
-                    'value="' + data1['user_safe_logtime'] + '">' +
+                    'value="' + data.data['user_safe_logtime'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>IP地址:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="ip" type="text"' +
-                    'value="' + data1['user_safe_ip'] + '">' +
+                    'value="' + data.data['user_safe_ip'] + '">' +
                     '</label>' +
                     '</p>' +
                     '</div>' +
@@ -172,42 +172,42 @@ function selectUser() {
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="question" type="text"' +
-                    'value="' + data1['user_safe_question'] + '">' +
+                    'value="' + data.data['user_safe_question'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>安全答案:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="answer" type="text"' +
-                    'value="' + data1['user_safe_answer'] + '">' +
+                    'value="' + data.data['user_safe_answer'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>操作系统:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="system" type="text"' +
-                    'value="' + data1['user_safe_system'] + '">' +
+                    'value="' + data.data['user_safe_system'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>浏览器:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="browser" type="text"' +
-                    'value="' + data1['user_safe_browser'] + '">' +
+                    'value="' + data.data['user_safe_browser'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>权重:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="weight" type="text"' +
-                    'value="' + data1['user_safe_weight'] + '">' +
+                    'value="' + data.data['user_safe_weight'] + '">' +
                     '</label>' +
                     '</p>' +
                     '<p>权限:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
                     'id="permission" type="text"' +
-                    'value="' + data1['user_safe_permission'] + '">' +
+                    'value="' + data.data['user_safe_permission'] + '">' +
                     '</label>' +
                     '</p>' +
                     '</div>' +
@@ -215,8 +215,8 @@ function selectUser() {
                     '<p>角色:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
-                    'id="role' + data1['user_safe_role'] + '" type="text"' +
-                    'value="' + data1['user_safe_role'] + '">' +
+                    'id="role' + data.data['user_safe_role'] + '" type="text"' +
+                    'value="' + data.data['user_safe_role'] + '">' +
                     '</label>' +
                     '</p>' +
                     '</div>' +
@@ -224,7 +224,7 @@ function selectUser() {
                     '<div class="btn-container">' +
                     '<button class="btn btn-info" onclick="updateUser()">更新</button>' +
                     '<button class="btn btn-danger" onclick="deleteUser(this.value)" ' +
-                    'value="' + data1['user_common_id'] + '">删除' +
+                    'value="' + data.data['user_common_id'] + '">删除' +
                     '</button>' +
                     '</div>' +
                     '</li>');
@@ -262,9 +262,10 @@ function selectUserList(value) {
             "pageNum": userPageNum
         },
         success: function (data) {
-            var jsonVal = data.result;
-            data1 = (new Function("", "return " + jsonVal))();
-            console.log(JSON.stringify(data));
+            // var jsonVal = data.result;
+            // data1 = (new Function("", "return " + jsonVal))();
+            //console.log(JSON.stringify(data));
+            console.log(data);
             var html =
                 '<div class="education wow fadeInRight animated" data-wow-delay="0.3s"' +
                 'style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">' +
@@ -281,42 +282,42 @@ function selectUserList(value) {
                         '<p>公有ID:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
-                        'th:id="id' + data1[i]['user_common_id'] + '" type="text"' +
-                        'value="' + data1[i]['user_common_id'] + '">' +
+                        'th:id="id' + data.data[i]['user_common_id'] + '" type="text"' +
+                        'value="' + data.data[i]['user_common_id'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>私有ID:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="privateId" type="text"' +
-                        'value="' + data1[i]['user_common_private_id'] + '">' +
+                        'value="' + data.data[i]['user_common_private_id'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>OpenID:' +
                         '<label>' +
                         '<input style="background: transparent;border: none" id="openId" type="text"' +
-                        'value="' + data1[i]['user_common_open_id'] + '">' +
+                        'value="' + data.data[i]['user_common_open_id'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>用户名:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="username" type="text"' +
-                        'value="' + data1[i]['user_common_username'] + '">' +
+                        'value="' + data.data[i]['user_common_username'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>密码:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="password" type="text"' +
-                        'value="' + data1[i]['user_common_password'] + '">' +
+                        'value="' + data.data[i]['user_common_password'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>昵称:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="nickname" type="text"' +
-                        'value="' + data1[i]['user_common_nickname'] + '">' +
+                        'value="' + data.data[i]['user_common_nickname'] + '">' +
                         '</label>' +
                         '</p>' +
                         '</div>' +
@@ -325,42 +326,42 @@ function selectUserList(value) {
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="realname" type="text"' +
-                        'value="' + data1[i]['user_secret_real_name'] + '">' +
+                        'value="' + data.data[i]['user_secret_real_name'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>电话:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="phone" type="text"' +
-                        'value="' + data1[i]['user_secret_phone'] + '">' +
+                        'value="' + data.data[i]['user_secret_phone'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>电子邮箱:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="email" type="text"' +
-                        'value="' + data1[i]['user_secret_email'] + '">' +
+                        'value="' + data.data[i]['user_secret_email'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>生日:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="birthday" type="text"' +
-                        'value="' + data1[i]['user_secret_birthday'] + '">' +
+                        'value="' + data.data[i]['user_secret_birthday'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>性别:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="sex" type="text"' +
-                        'value="' + data1[i]['user_secret_sex'] + '">' +
+                        'value="' + data.data[i]['user_secret_sex'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>年龄:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="age" type="text"' +
-                        'value="' + data1[i]['user_secret_age'] + '">' +
+                        'value="' + data.data[i]['user_secret_age'] + '">' +
                         '</label>' +
                         '</p>' +
                         '</div>' +
@@ -369,42 +370,42 @@ function selectUserList(value) {
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="wechat" type="text"' +
-                        'value="' + data1[i]['user_secret_wechat'] + '">' +
+                        'value="' + data.data[i]['user_secret_wechat'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>QQ:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="qq" type="text"' +
-                        'value="' + data1[i]['user_secret_qq'] + '">' +
+                        'value="' + data.data[i]['user_secret_qq'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>微博:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="weibo" type="text"' +
-                        'value="' + data1[i]['user_secret_weibo'] + '">' +
+                        'value="' + data.data[i]['user_secret_weibo'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>地址:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="address" type="text"' +
-                        'value="' + data1[i]['user_secret_address'] + '">' +
+                        'value="' + data.data[i]['user_secret_address'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>登录时间:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="logtime" type="text"' +
-                        'value="' + data1[i]['user_safe_logtime'] + '">' +
+                        'value="' + data.data[i]['user_safe_logtime'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>IP地址:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="ip" type="text"' +
-                        'value="' + data1[i]['user_safe_ip'] + '">' +
+                        'value="' + data.data[i]['user_safe_ip'] + '">' +
                         '</label>' +
                         '</p>' +
                         '</div>' +
@@ -413,42 +414,42 @@ function selectUserList(value) {
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="question" type="text"' +
-                        'value="' + data1[i]['user_safe_question'] + '">' +
+                        'value="' + data.data[i]['user_safe_question'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>安全答案:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="answer" type="text"' +
-                        'value="' + data1[i]['user_safe_answer'] + '">' +
+                        'value="' + data.data[i]['user_safe_answer'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>操作系统:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="system" type="text"' +
-                        'value="' + data1[i]['user_safe_system'] + '">' +
+                        'value="' + data.data[i]['user_safe_system'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>浏览器:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="browser" type="text"' +
-                        'value="' + data1[i]['user_safe_browser'] + '">' +
+                        'value="' + data.data[i]['user_safe_browser'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>权重:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="weight" type="text"' +
-                        'value="' + data1[i]['user_safe_weight'] + '">' +
+                        'value="' + data.data[i]['user_safe_weight'] + '">' +
                         '</label>' +
                         '</p>' +
                         '<p>权限:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
                         'id="permission" type="text"' +
-                        'value="' + data1[i]['user_safe_permission'] + '">' +
+                        'value="' + data.data[i]['user_safe_permission'] + '">' +
                         '</label>' +
                         '</p>' +
                         '</div>' +
@@ -456,8 +457,8 @@ function selectUserList(value) {
                         '<p>角色:' +
                         '<label>' +
                         '<input style="background: transparent;border: none"' +
-                        'id="role' + data1[i]['user_safe_role'] + '" type="text"' +
-                        'value="' + data1[i]['user_safe_role'] + '">' +
+                        'id="role' + data.data[i]['user_safe_role'] + '" type="text"' +
+                        'value="' + data.data[i]['user_safe_role'] + '">' +
                         '</label>' +
                         '</p>' +
                         '</div>' +
@@ -465,7 +466,7 @@ function selectUserList(value) {
                         '<div class="btn-container">' +
                         '<button class="btn btn-info" onclick="updateUser()">更新</button>' +
                         '<button class="btn btn-danger" onclick="deleteUser(this.value)" ' +
-                        'value="' + data1[i]['user_common_id'] + '">删除' +
+                        'value="' + data.data[i]['user_common_id'] + '">删除' +
                         '</button>' +
                         '</div>' +
                         '</li>'
@@ -510,9 +511,9 @@ function selectArticleList(value) {
             "pageNum": articlePageNum
         },
         success: function (data) {
-            var jsonVal = data.result;
-            data1 = (new Function("", "return " + jsonVal))();
-            console.log(JSON.stringify(data));
+            // var jsonVal = data.result;
+            // data1 = (new Function("", "return " + jsonVal))();
+            console.log(data);
             var html =
                 '<div class="education wow fadeInRight animated" data-wow-delay="0.3s"' +
                 'style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">' +
@@ -532,15 +533,15 @@ function selectArticleList(value) {
             for (var i = 0; i < 10; i++) {
                 try {
                     html += '<tr class="border">' +
-                        '<td>' + data1[i]["article_id"] + '</td>' +
-                        '<td>' + data1[i]["article_private_id"] + '</td>' +
-                        '<td>' + data1[i]["article_title"] + '</td>' +
-                        '<td>' + data1[i]["article_author"] + '</td>' +
-                        '<td>' + data1[i]["article_time"] + '</td>' +
-                        '<td>' + data1[i]["article_click_num"] + '</td>' +
-                        '<td>' + data1[i]["article_ip"] + '</td>' +
-                        '<td>' + data1[i]["article_system"] + '</td>' +
-                        '<td>' + data1[i]["article_browser"] + '</td>' +
+                        '<td>' + data.data[i]["article_id"] + '</td>' +
+                        '<td>' + data.data[i]["article_private_id"] + '</td>' +
+                        '<td>' + data.data[i]["article_title"] + '</td>' +
+                        '<td>' + data.data[i]["article_author"] + '</td>' +
+                        '<td>' + data.data[i]["article_time"] + '</td>' +
+                        '<td>' + data.data[i]["article_click_num"] + '</td>' +
+                        '<td>' + data.data[i]["article_ip"] + '</td>' +
+                        '<td>' + data.data[i]["article_system"] + '</td>' +
+                        '<td>' + data.data[i]["article_browser"] + '</td>' +
                         '</tr>';
                 } catch (e) {
                     //异常处理，如果遍历不够十次则中断遍历直接输出
@@ -583,9 +584,9 @@ function selectMessageList(value) {
             "pageNum": messagePageNum
         },
         success: function (data) {
-            var jsonVal = data.result;
-            data1 = (new Function("", "return " + jsonVal))();
-            console.log(JSON.stringify(data));
+            // var jsonVal = data.result;
+            // data1 = (new Function("", "return " + jsonVal))();
+            console.log(data);
             var html =
                 '<div class="education wow fadeInRight animated" data-wow-delay="0.3s"' +
                 'style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">' +
@@ -605,15 +606,15 @@ function selectMessageList(value) {
             for (var i = 0; i < 10; i++) {
                 try {
                     html += '<tr class="border">' +
-                        '<td>' + data1[i]["message_id"] + '</td>' +
-                        '<td>' + data1[i]["message_private_id"] + '</td>' +
-                        '<td>' + data1[i]["message_username"] + '</td>' +
-                        '<td>' + data1[i]["message_main"] + '</td>' +
-                        '<td>' + data1[i]["message_time"] + '</td>' +
-                        '<td>' + data1[i]["message_ip"] + '</td>' +
-                        '<td>' + data1[i]["message_system"] + '</td>' +
-                        '<td>' + data1[i]["message_browser"] + '</td>' +
-                        '<td>' + data1[i]["message_weight"] + '</td>' +
+                        '<td>' + data.data[i]["message_id"] + '</td>' +
+                        '<td>' + data.data[i]["message_private_id"] + '</td>' +
+                        '<td>' + data.data[i]["message_username"] + '</td>' +
+                        '<td>' + data.data[i]["message_main"] + '</td>' +
+                        '<td>' + data.data[i]["message_time"] + '</td>' +
+                        '<td>' + data.data[i]["message_ip"] + '</td>' +
+                        '<td>' + data.data[i]["message_system"] + '</td>' +
+                        '<td>' + data.data[i]["message_browser"] + '</td>' +
+                        '<td>' + data.data[i]["message_weight"] + '</td>' +
                         '</tr>';
                 } catch (e) {
                     //异常处理，如果遍历不够十次则中断遍历直接输出
@@ -637,7 +638,7 @@ function pageNum(listName) {
             "pageName": listName
         },
         success: function (data) {
-            selectPages = data.result;
+            selectPages = data.data;
             if (listName === "userList") {
                 $("#userPageNow").html('<p id="userPageNow">' + userPageNum + '</p>');
                 $("#userPageTotal").html('<p id="userPageTotal">' + selectPages + '</p>');
@@ -694,12 +695,12 @@ function deleteUser(value) {
         contentType: "application/json; charset=utf-8",
         success: function (data) {
             if (data.result === "1") {
-                $("#message-box-text").html("删除成功");
+                $("#message-box-text").html(data.msg);
                 $("#message-box").css("color", "#d7f7ff");
                 $("#message-box").css("background", "#1a95ff");
                 selectUserList();
             } else {
-                $("#message-box-text").html("删除失败");
+                $("#message-box-text").html(data.msg);
                 $("#message-box").css("color", "#a94442");
                 $("#message-box").css("background", "#f2dede");
             }

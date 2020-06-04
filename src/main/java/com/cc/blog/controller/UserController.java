@@ -1,5 +1,6 @@
 package com.cc.blog.controller;
 
+import com.cc.blog.model.ResultSet;
 import com.cc.blog.model.Role;
 import com.cc.blog.model.User;
 import com.cc.blog.service.UserService;
@@ -18,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class UserController {
@@ -62,7 +61,7 @@ public class UserController {
 
     @RequestMapping("/registeredUserByAjax")
     @ResponseBody
-    public Map<String, String> registeredUserByAjax(@RequestParam(value = "username", required = false) String username,
+    public ResultSet registeredUserByAjax(@RequestParam(value = "username", required = false) String username,
                                                     @RequestParam(value = "password", required = false) String password,
                                                     @RequestParam(value = "nickname", required = false) String nickname,
                                                     @RequestParam(value = "phone", required = false) String phone,
@@ -75,8 +74,7 @@ public class UserController {
                                                     @RequestParam(value = "question", required = false) String question,
                                                     @RequestParam(value = "answer", required = false) String answer,
                                                     HttpServletRequest request) {
-        //map集合用来存放返回值
-        Map<String, String> map = new HashMap<String, String>();
+        ResultSet resultSet = new ResultSet();
         //验证username的唯一性
         if (userService.usernameValidate(username).equals(0)) {
             if (username != null && password != null && !username.equals("") && !password.equals("") && !answer.equals("")) {
@@ -103,18 +101,18 @@ public class UserController {
                 user.setUser_safe_permission("1");
                 System.out.println(user);
                 userService.insertUser(user);
-                map.put("result", "1");
-                map.put("msg","提交成功");
+                resultSet.setCode("1");
+                resultSet.setMsg("提交成功");
             } else {
-                map.put("result", "0");
-                map.put("msg","正确填写用户名、密码和安全答案");
+                resultSet.setCode("0");
+                resultSet.setMsg("正确填写用户名、密码和安全答案");
             }
         } else {
-            map.put("result", "0");
-            map.put("msg","提交失败，用户名存在");
+            resultSet.setCode("0");
+            resultSet.setMsg("提交失败，用户名存在");
         }
 
-        return map;
+        return resultSet;
     }
 
     /**
@@ -154,10 +152,10 @@ public class UserController {
 
     @RequestMapping("/loginUserByAjax")
     @ResponseBody
-    public Object userLoginByAjax(@RequestParam(value = "username") String username,
-                                  @RequestParam(value = "password") String password,
-                                  HttpServletRequest request) {
-        Map<String, String> map = new HashMap<String, String>();
+    public ResultSet userLoginByAjax(@RequestParam(value = "username") String username,
+                                     @RequestParam(value = "password") String password,
+                                     HttpServletRequest request) {
+        ResultSet resultSet = new ResultSet();
         //1.获取Shiro的Subject
         Subject subject = SecurityUtils.getSubject();
         //2.封装数据
@@ -166,18 +164,18 @@ public class UserController {
         try {
             subject.login(token);
             request.getSession().setAttribute("username", username);
-            map.put("result", "1");
-            map.put("msg","登录成功");
+            resultSet.setCode("1");
+            resultSet.setMsg("登录成功");
         } catch (UnknownAccountException e) {
             //用户名不存在
-            map.put("result", "0");
-            map.put("msg","登录失败，用户名不存在");
+            resultSet.setCode("0");
+            resultSet.setMsg("登录失败，用户名不存在");
         } catch (IncorrectCredentialsException e) {
             //密码错误
-            map.put("result", "0");
-            map.put("msg","登录失败，密码错误");
+            resultSet.setCode("0");
+            resultSet.setMsg("登录失败，密码错误");
         }
-        return map;
+        return resultSet;
     }
 
     /**

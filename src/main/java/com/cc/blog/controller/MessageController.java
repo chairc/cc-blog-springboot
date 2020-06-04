@@ -1,6 +1,7 @@
 package com.cc.blog.controller;
 
 import com.cc.blog.model.Message;
+import com.cc.blog.model.ResultSet;
 import com.cc.blog.service.MessageService;
 import com.cc.blog.util.Tools;
 import com.github.pagehelper.Page;
@@ -88,13 +89,14 @@ public class MessageController {
 
     @RequestMapping("/message/addMessageByAjax")
     @ResponseBody
-    public Object addMessageByAjax(@RequestParam(value = "messageText") String messageText,
+    public ResultSet addMessageByAjax(@RequestParam(value = "messageText") String messageText,
                                    HttpServletRequest request) {
-        Map<String, String> map = new HashMap<String, String>();
+        ResultSet resultSet = new ResultSet();
         String username = Tools.usernameSessionValidate(request);
         if(username == null){
             //未登录
-            map.put("request","0");//
+            resultSet.setCode("0");
+            resultSet.setMsg("用户未登录");
         }else {
             try {
                 System.out.println(messageText);
@@ -107,12 +109,13 @@ public class MessageController {
                 message.setMessage_browser(Tools.getBrowserVersion(request));
                 message.setMessage_system(Tools.getSystemVersion(request));
                 messageService.insertMessage(message,request);
-                map.put("result", "1");
+                resultSet.setCode("1");
+                resultSet.setMsg("存取成功");
             }catch (Exception e){
-                map.put("result", "error");
+                resultSet.setCode("0");
+                resultSet.setMsg("异常错误");
             }
         }
-
-        return map;
+        return resultSet;
     }
 }

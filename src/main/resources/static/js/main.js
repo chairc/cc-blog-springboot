@@ -94,18 +94,27 @@ function login() {
         },
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            if (data.result === "1") {
+            console.log(data);
+            if (data.code === "1") {
                 $("#message-box-text").html(data.msg);
                 $("#message-box").css("color", "#ffffff");
                 $("#message-box").css("background", "#1a95ff");
                 setTimeout(function () {
                     window.location.href = "/";
                 }, 2000)
-            } else if (data.result === "0") {
+            } else if (data.code === "0") {
                 //登录失败，用户名或密码错误
                 $("#message-box-text").html(data.msg);
                 $("#message-box").css("color", "#a94442");
                 $("#message-box").css("background", "#f2dede");
+            }
+            setTimeout(function () {
+                $('#message-box').slideUp(300);
+            }, 1000);
+            if ($("#message-box").is(":hidden")) {
+                $('#message-box').slideDown(300);
+            } else {
+                $('#message-box').slideUp(300);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -143,7 +152,7 @@ function registered() {
         /*data:$("#form1").serialize(),*/  //序列化表单
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            if (data.result === "1") {
+            if (data.code === "1") {
                 //提交成功
                 $("#message-box-text").html(data.msg)
                 $("#message-box").css("color", "#d7f7ff");
@@ -151,7 +160,7 @@ function registered() {
                 setTimeout(function () {
                     window.location.href = "/user/login";
                 }, 2000)
-            } else if (data.result === "0") {
+            } else if (data.code === "0") {
                 //提交失败，用户名存在
                 $("#message-box-text").html(data.msg)
                 $("#message-box").css("color", "#a94442");
@@ -182,13 +191,62 @@ function addMessage() {
         },
         contentType: "application/json; charset=utf-8",
         success: function (data) {
-            if (data.result === "1") {
-                alert("存取成功");
-                window.location.reload();
-            } else if (data.result === "error") {
-                alert("异常错误");
-            } else if (data.result === "0") {
-                alert("未登录");
+            if (data.code === "1") {
+                //提交成功
+                $("#message-box-text").html(data.msg)
+                $("#message-box").css("color", "#d7f7ff");
+                $("#message-box").css("background", "#1a95ff");
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000)
+            } else if (data.code === "0") {
+                $("#message-box-text").html(data.msg)
+                $("#message-box").css("color", "#a94442");
+                $("#message-box").css("background", "#f2dede");
+            }
+            setTimeout(function () {
+                $('#message-box').slideUp(300);
+            }, 1000);
+            if ($("#message-box").is(":hidden")) {
+                $('#message-box').slideDown(300);
+            } else {
+                $('#message-box').slideUp(300);
+            }
+        }
+    })
+}
+
+/*wps_invite.html*/
+function wps_invite() {
+    var uid = $("#uid").val();
+
+    $.ajax({
+        url: "/wpsAutoInviteByAjax",
+        dataType: "JSON",
+        contentType: "application/json; charset=utf-8",
+        data: {
+            "uid": uid
+        },
+        success: function (data) {
+            console.log(data);
+            // var jsonData = JSON.stringify(data);
+            // alert(jsonData);
+            if (data.code === "1") {
+                $("#message-box-text").html(data.msg)
+                $("#message-box").css("color", "#d7f7ff");
+                $("#message-box").css("background", "#1a95ff");
+            } else if (data.code === "0") {
+                $("#message-box-text").html(data.msg)
+                $("#message-box").css("color", "#a94442");
+                $("#message-box").css("background", "#f2dede");
+            }
+            setTimeout(function () {
+                $('#message-box').slideUp(300);
+            }, 1000);
+            if ($("#message-box").is(":hidden")) {
+                $('#message-box').slideDown(300);
+            } else {
+                $('#message-box').slideUp(300);
             }
         }
     })

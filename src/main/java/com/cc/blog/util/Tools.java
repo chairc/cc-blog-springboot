@@ -141,7 +141,7 @@ public class Tools {
 
     public static boolean usernameSessionIsAdminValidate(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        String usernameIsAdmin =(String) session.getAttribute("username");
+        String usernameIsAdmin = (String) session.getAttribute("username");
         return usernameIsAdmin.equals("admin") || usernameIsAdmin.equals("SuperAdmin");
     }
 

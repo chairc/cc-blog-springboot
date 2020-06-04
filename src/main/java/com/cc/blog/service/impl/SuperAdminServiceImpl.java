@@ -1,6 +1,7 @@
 package com.cc.blog.service.impl;
 
 import com.cc.blog.mapper.SuperAdminDao;
+import com.cc.blog.model.ResultSet;
 import com.cc.blog.model.User;
 import com.cc.blog.service.SuperAdminService;
 import com.cc.blog.service.UserService;
@@ -57,33 +58,30 @@ public class SuperAdminServiceImpl implements SuperAdminService {
      */
 
     @Override
-    public Map superAdminShowUser(String userId, HttpServletRequest request){
-        Map<String, String> map = new HashMap<>();
+    public ResultSet superAdminShowUser(String userId, HttpServletRequest request){
+        ResultSet resultSet = new ResultSet();
         try {
             int getUserId = Integer.parseInt(userId);
             if (getUserId >= 0 && getUserId <= userService.getUserCount()) {
                 User user = userService.getUserById(getUserId,request);
                 String username = user.getUser_common_username();
                 System.out.println(username);
-                ObjectMapper mapper = new ObjectMapper();
-                String userToJson = mapper.writeValueAsString(user);
-                map.put("result", userToJson);
-                map.put("code", "1");
+                resultSet.setCode("1");
+                resultSet.setData(user);
             } else if (getUserId < 0) {
-                map.put("code", "0");
-                map.put("msg","提交失败，低于0值");
+                resultSet.setCode("0");
+                resultSet.setMsg("提交失败，低于0值");
             } else if (getUserId > userService.getUserCount()) {
-                map.put("code", "-2");
-                map.put("msg","提交失败，超出范围");
+                resultSet.setCode("0");
+                resultSet.setMsg("提交失败，超出范围");
             } else {
-                map.put("code", "0");
-                map.put("msg","提交失败，请正确输入");
+                resultSet.setCode("0");
+                resultSet.setMsg("提交失败，请正确输入");
             }
-
         }catch (Exception e){
-            map.put("code", "0");
-            map.put("msg","提交失败，请正确输入");
+            resultSet.setCode("0");
+            resultSet.setMsg("提交失败，请正确输入");
         }
-        return map;
+        return resultSet;
     }
 }

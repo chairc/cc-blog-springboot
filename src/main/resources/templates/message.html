@@ -18,7 +18,6 @@
 
 <!-- 头部开始 -->
 <header id="header-wrap">
-    <!-- 导航栏开始 -->
     <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
         <div class="container">
             <div class="navbar-header">
@@ -72,8 +71,6 @@
                 </ul>
             </div>
         </div>
-
-        <!-- 手机导航栏开始 -->
         <ul class="onepage-nev mobile-menu">
             <li>
                 <a href="/">主页</a>
@@ -97,14 +94,9 @@
                 <a href="/user/login">个人</a>
             </li>
         </ul>
-        <!-- 手机导航栏结束 -->
     </nav>
-    <!-- 导航栏结束 -->
-
-    <!-- 主页壁纸开始 -->
     <div id="hero-area" class="hero-area-bg">
         <div class="overlay">
-
         </div>
         <div class="container">
             <div class="row">
@@ -119,12 +111,7 @@
             </div>
         </div>
     </div>
-    <!-- 主页壁纸结束 -->
-
 </header>
-<!-- 头部结束 -->
-
-<!-- 留言展示开始 -->
 <div id="message" class="section-padding">
     <div class="container">
         <div class="row">
@@ -195,22 +182,19 @@
         </div>
     </div>
 </div>
-<!-- 留言展示结束 -->
-
-<!-- 底部开始 -->
+<div class="message-box-warp">
+    <div id="message-box" class="message-box">
+        <p id="message-box-text"></p>
+    </div>
+</div>
 <footer th:replace="footer.html"></footer>
-<!-- 底部结束 -->
-
-<!-- 返回最顶层 -->
 <a href="" class="back-to-top" style="display: block;">
     <i>
         <p>UP</p>
     </i>
 </a>
-
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
 <script type="text/javascript">
-
     $(function () {
         var editor = editormd("message-editor", {
             width: "100%",
@@ -231,7 +215,6 @@
 <script type="text/javascript" th:src="@{/static/editor.md/editormd.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/prettify.min.js}"></script>
-
 <script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>
@@ -243,7 +226,5 @@
 <script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/main.js}"></script>
-
-
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>登录 | 小虚无的下午茶</title>
+    <title>娱乐 | WPS自动邀请</title>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
@@ -14,16 +14,11 @@
 </head>
 <body>
 <header th:replace="header.html"></header>
-<div class="login-container">
-    <div class="login-form">
-        <h2>登 录</h2>
-        <input type="text" id="username" name="username" placeholder="用户名"
-               required="required" onkeyup="value=value.replace(/[\W]/g,'')"/>
-        <input type="password" id="password" name="password" placeholder="密码"
-               required="required"/>
-        <button onclick="login()">登录</button>
-        <a class="login-registered" href="/registered">注册</a>
-        <a class="login-registered" href="/qqlogin/loginByQQ">qq快速登录</a>
+<div class="wps-container">
+    <div class="wps-form">
+        <h2>WPS自动邀请</h2>
+        <input id="uid" name="uid" type="text"/>
+        <button onclick="wps_invite()">提交</button>
     </div>
 </div>
 <div class="message-box-warp">
@@ -31,6 +26,8 @@
         <p id="message-box-text"></p>
     </div>
 </div>
+<footer th:replace="footer.html"></footer>
+</body>
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
@@ -43,5 +40,4 @@
 <script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/main.js}"></script>
-</body>
 </html>

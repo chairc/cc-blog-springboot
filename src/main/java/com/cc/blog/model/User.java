@@ -1,6 +1,6 @@
 package com.cc.blog.model;
 
-public class User {
+public class User{
 
     private int user_common_id;
     private String user_common_private_id;

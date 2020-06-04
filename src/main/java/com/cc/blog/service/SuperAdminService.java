@@ -1,5 +1,6 @@
 package com.cc.blog.service;
 
+import com.cc.blog.model.ResultSet;
 import com.cc.blog.model.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,6 @@ public interface SuperAdminService {
      * @return
      */
 
-    Map superAdminShowUser(String userId, HttpServletRequest request);
+    ResultSet superAdminShowUser(String userId, HttpServletRequest request);
 
 }

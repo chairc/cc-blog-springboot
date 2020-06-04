@@ -42,3 +42,7 @@ qqlogin:
   get-access-token: https://graph.qq.com/oauth2.0/token
   get-open-id: https://graph.qq.com/oauth2.0/me
   get-user-info: https://graph.qq.com/user/get_user_info
+
+wps:
+  #wps自动邀请
+  wps-invite-url: https://zt.wps.cn/2018/clock_in/api/invite
