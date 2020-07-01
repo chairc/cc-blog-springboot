@@ -69,18 +69,14 @@ public class SuperAdminServiceImpl implements SuperAdminService {
                 resultSet.setCode("1");
                 resultSet.setData(user);
             } else if (getUserId < 0) {
-                resultSet.setCode("0");
-                resultSet.setMsg("提交失败，低于0值");
+                resultSet.fail("提交失败，低于0值");
             } else if (getUserId > userService.getUserCount()) {
-                resultSet.setCode("0");
-                resultSet.setMsg("提交失败，超出范围");
+                resultSet.fail("提交失败，超出范围");
             } else {
-                resultSet.setCode("0");
-                resultSet.setMsg("提交失败，请正确输入");
+                resultSet.fail("提交失败，请正确输入");
             }
         }catch (Exception e){
-            resultSet.setCode("0");
-            resultSet.setMsg("提交失败，请正确输入");
+            resultSet.error();
         }
         return resultSet;
     }

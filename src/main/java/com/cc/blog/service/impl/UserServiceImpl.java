@@ -138,8 +138,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(User user) {
         userDao.updateUser(user);
-
-
     }
 
     /**
@@ -187,6 +185,13 @@ public class UserServiceImpl implements UserService {
     public Role getUserRole(String role) {
         return userDao.getUserRole(role);
     }
+
+    /**
+     * 获取用户身份许可
+     *
+     * @param permission
+     * @return
+     */
 
     @Override
     public Permission getUserPermission(String permission) {

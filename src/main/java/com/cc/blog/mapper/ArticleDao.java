@@ -39,7 +39,7 @@ public interface ArticleDao {
      * @return
      */
 
-    List<Article> getArticleByPrivateId(String articlePrivateId);
+    Article getArticleByPrivateId(String articlePrivateId);
 
     /**
      * 管理员获取文章

@@ -129,9 +129,9 @@ public class UserController {
         try {
             User user = userService.getUserByUsername(username);
             Role role = userService.getUserRole(user.getUser_safe_role());
-            if (username == null) {
+            if (username == null) {//用户名判空
                 return "login";
-            } else if (role.getRole_name().equals("SuperAdmin")) {
+            } else if (role.getRole_name().equals("SuperAdmin")) {//如果查找到的角色是SuperAdmin，则进入管理员页面
                 return "redirect:/superAdmin/admin";
             }
             System.out.println("登录人员：" + username);
@@ -164,16 +164,13 @@ public class UserController {
         try {
             subject.login(token);
             request.getSession().setAttribute("username", username);
-            resultSet.setCode("1");
-            resultSet.setMsg("登录成功");
+            resultSet.success("登录成功");
         } catch (UnknownAccountException e) {
             //用户名不存在
-            resultSet.setCode("0");
-            resultSet.setMsg("登录失败，用户名不存在");
+            resultSet.fail("登录失败，用户名不存在");
         } catch (IncorrectCredentialsException e) {
             //密码错误
-            resultSet.setCode("0");
-            resultSet.setMsg("登录失败，密码错误");
+            resultSet.fail("登录失败，密码错误");
         }
         return resultSet;
     }

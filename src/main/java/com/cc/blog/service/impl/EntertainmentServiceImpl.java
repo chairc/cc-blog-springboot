@@ -58,11 +58,22 @@ public class EntertainmentServiceImpl implements EntertainmentService {
                     writer.flush();
                 }
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"))) {
-                    String tmpLine;
+                    /*String tmpLine;
                     while ((tmpLine = reader.readLine()) != null) {
                         sb.append(tmpLine);
                     }
-                    System.out.println("sb:" + sb);
+                    System.out.println("sb:" + sb);*/
+                    String tmpLine  = reader.readLine();
+                    try{
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        HashMap hashMap = objectMapper.readValue(tmpLine, HashMap.class);
+                        String result = (String) hashMap.get("result");
+                        if(result.equals("ok")){
+                            System.out.println("当前返回值:" + tmpLine);
+                        }
+                    }catch (Exception e){
+                        System.out.println("当前sid:" + entertainment.getWps_sid() + "已失效");
+                    }
                 }
                 conn.disconnect();
             }

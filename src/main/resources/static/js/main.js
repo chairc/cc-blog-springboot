@@ -107,6 +107,11 @@ function login() {
                 $("#message-box-text").html(data.msg);
                 $("#message-box").css("color", "#a94442");
                 $("#message-box").css("background", "#f2dede");
+            } else if (data.code === "error") {
+                //登录失败，用户名或密码错误
+                $("#message-box-text").html(data.msg);
+                $("#message-box").css("color", "#a94442");
+                $("#message-box").css("background", "#f2dede");
             }
             setTimeout(function () {
                 $('#message-box').slideUp(300);
@@ -235,6 +240,46 @@ function wps_invite() {
                 $("#message-box-text").html(data.msg)
                 $("#message-box").css("color", "#d7f7ff");
                 $("#message-box").css("background", "#1a95ff");
+            } else if (data.code === "0") {
+                $("#message-box-text").html(data.msg)
+                $("#message-box").css("color", "#a94442");
+                $("#message-box").css("background", "#f2dede");
+            }
+            setTimeout(function () {
+                $('#message-box').slideUp(300);
+            }, 1000);
+            if ($("#message-box").is(":hidden")) {
+                $('#message-box').slideDown(300);
+            } else {
+                $('#message-box').slideUp(300);
+            }
+        }
+    })
+}
+
+/*article_test.html*/
+
+function addArticle() {
+    var articleTitle = $("#article-title").val();
+    var articleText = $("#article-text").val();
+    alert(articleTitle);
+    alert(articleText);
+    $.ajax({
+        url: "/article/addArticleByAjax",
+        dataType: "JSON",
+        data: {
+            "articleText": articleText,"articleTitle":articleTitle
+        },
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            if (data.code === "1") {
+                //提交成功
+                $("#message-box-text").html(data.msg)
+                $("#message-box").css("color", "#d7f7ff");
+                $("#message-box").css("background", "#1a95ff");
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000)
             } else if (data.code === "0") {
                 $("#message-box-text").html(data.msg)
                 $("#message-box").css("color", "#a94442");

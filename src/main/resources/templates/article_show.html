@@ -11,11 +11,10 @@
     <link rel="stylesheet" th:href="@{/static/css/animate.css}">
     <link rel="stylesheet" th:href="@{/static/css/main.css}">
     <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
-
+    <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.min.css}">
+    <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.preview.min.css}">
 </head>
 <body>
-
-<!-- 头部开始 -->
 <header id="header-wrap">
     <!-- 导航栏开始 -->
     <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
@@ -59,7 +58,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="/entertainment">
                             娱乐
                         </a>
                     </li>
@@ -90,7 +89,7 @@
                 <a href="">图片</a>
             </li>
             <li class="">
-                <a href="">娱乐</a>
+                <a href="/entertainment">娱乐</a>
             </li>
             <li class="">
                 <a href="/user/login">个人</a>
@@ -121,24 +120,24 @@
     <!-- 主页壁纸结束 -->
 
 </header>
-<!-- 头部结束 -->
 
-<!-- 归档开始 -->
 <section id="article" class="article section-padding">
     <div class="container">
         <div class="row">
-            <div class="" style="width: 100%" th:each="item:${article}">
+            <div class="" style="width: 100%">
                 <div class="article-item wow fadeInDown animated" data-wow-delay="0.3s"
                      style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
                     <div class="icon">
                         <i class="icon-grid"></i>
                     </div>
                     <div class="article-content article-content-small" style="text-align: justify">
-                        <h3 th:text="${item.article_title}">
+                        <h3 th:text="${articleTitle}">
                         </h3>
-                        <p th:text="${item.article_author}"></p>
-                        <p th:text="${item.article_time}"></p>
-                        <p th:utext="${item.article_main}"></p>
+                        <p th:text="${articleAuthor}"></p>
+                        <p th:text="${articleTime}"></p>
+                        <div id="markdown-view">
+                            <textarea style="display: none" th:text="${articleMain}"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -162,9 +161,30 @@
         <p>BACK</p>
     </i>
 </a>
-
-
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
+<script type="text/javascript">
+    $(function() {
+        var testView = editormd.markdownToHTML("markdown-view", {
+            /*htmlDecode: "style,script,iframe",
+            emoji: true,
+            taskList: true,
+            tocm: true,
+            tex: true, // 默认不解析
+            flowChart: true, // 默认不解析
+            sequenceDiagram: true, // 默认不解析
+*/
+            htmlDecode : true
+        });
+    });
+</script>
+<script type="text/javascript" th:src="@{/static/editor.md/editormd.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/prettify.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/raphael.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/underscore.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/sequence-diagram.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/flowchart.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/editor.md/lib/jquery.flowchart.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>

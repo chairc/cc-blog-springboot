@@ -15,8 +15,6 @@
 
 </head>
 <body>
-
-<!-- 头部开始 -->
 <header id="header-wrap">
     <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
         <div class="container">
@@ -59,7 +57,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="/entertainment">
                             娱乐
                         </a>
                     </li>
@@ -88,7 +86,7 @@
                 <a href="">图片</a>
             </li>
             <li class="">
-                <a href="">娱乐</a>
+                <a href="/entertainment">娱乐</a>
             </li>
             <li class="">
                 <a href="/user/login">个人</a>
@@ -131,7 +129,6 @@
                                 <p class="line-text" th:text="${item.message_main}"></p>
                             </div>
                         </li>
-
                     </ul>
                 </div>
             </div>
@@ -148,10 +145,9 @@
                             <div class="content-text">
                                 <h3 class="line-title" th:text="${item2.message_username}"></h3>
                                 <span th:text="${item2.message_time}"></span>
-                                <p class="line-text" th:text="${item2.message_main}"></p>
+                               <p class="line-text" th:text="${item2.message_main}"></p>
                             </div>
                         </li>
-
                     </ul>
                 </div>
             </div>

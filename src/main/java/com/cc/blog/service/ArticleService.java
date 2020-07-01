@@ -35,7 +35,7 @@ public interface ArticleService {
      * @param articlePrivateId
      * @return
      */
-    List<Article> getArticleByPrivateId(String articlePrivateId);
+    Article getArticleByPrivateId(String articlePrivateId);
 
     /**
      * 管理员获取文章

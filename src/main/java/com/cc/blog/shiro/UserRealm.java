@@ -34,11 +34,12 @@ public class UserRealm extends AuthorizingRealm {
         Subject subject = SecurityUtils.getSubject();
         User user = (User) subject.getPrincipal();
         Role role = userService.getUserRole(user.getUser_safe_role());
+        //获取用户身份许可
         Permission permission = userService.getUserPermission(user.getUser_safe_permission());
 
         System.out.println("当前用户等级为：" + role.getRole_name());
         System.out.println("当前用户权限为：" + permission.getPermission_name());
-
+        //根据许可名过滤权限（ShiroConfig.java权限过滤器）
         simpleAuthorizationInfo.addStringPermission(permission.getPermission_name());
 
         return simpleAuthorizationInfo;

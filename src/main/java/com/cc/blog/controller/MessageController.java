@@ -95,8 +95,7 @@ public class MessageController {
         String username = Tools.usernameSessionValidate(request);
         if(username == null){
             //未登录
-            resultSet.setCode("0");
-            resultSet.setMsg("用户未登录");
+            resultSet.fail("用户未登录");
         }else {
             try {
                 System.out.println(messageText);
@@ -109,11 +108,9 @@ public class MessageController {
                 message.setMessage_browser(Tools.getBrowserVersion(request));
                 message.setMessage_system(Tools.getSystemVersion(request));
                 messageService.insertMessage(message,request);
-                resultSet.setCode("1");
-                resultSet.setMsg("存取成功");
+                resultSet.success("存取成功");
             }catch (Exception e){
-                resultSet.setCode("0");
-                resultSet.setMsg("异常错误");
+                resultSet.error();
             }
         }
         return resultSet;

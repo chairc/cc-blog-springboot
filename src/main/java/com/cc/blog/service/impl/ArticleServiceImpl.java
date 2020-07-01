@@ -57,7 +57,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
 
     @Override
-    public List<Article> getArticleByPrivateId(String articlePrivateId) {
+    public Article getArticleByPrivateId(String articlePrivateId) {
         return articleDao.getArticleByPrivateId(articlePrivateId);
     }
 

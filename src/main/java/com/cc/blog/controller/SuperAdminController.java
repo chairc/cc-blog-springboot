@@ -97,8 +97,7 @@ public class SuperAdminController {
                                        HttpServletRequest request) {
         ResultSet resultSet = new ResultSet();
         superAdminService.deleteUserById(deleteId, request);
-        resultSet.setCode("1");
-        resultSet.setMsg("删除成功");
+        resultSet.success("删除成功");
         return resultSet;
     }
 
@@ -137,12 +136,10 @@ public class SuperAdminController {
         try {
             Page<User> userPages = PageHelper.startPage(pageNum, 10);
             List<User> userList = userService.getUserAll(request);
-            resultSet.setCode("1");
-            resultSet.setMsg("获取用户列表成功");
+            resultSet.success("获取用户列表成功");
             resultSet.setData(userList);
         } catch (NullPointerException e) {
-            resultSet.setCode("0");
-            resultSet.setMsg("获取用户列表失败");
+            resultSet.fail("获取用户列表失败");
         }
         return resultSet;
     }
@@ -163,12 +160,10 @@ public class SuperAdminController {
         try {
             Page<Article> articlePages = PageHelper.startPage(pageNum, 10);
             List<Article> articleList = articleService.getArticleAllByAdmin(request);
-            resultSet.setCode("1");
-            resultSet.setMsg("获取用户列表成功");
+            resultSet.success("获取文章列表成功");
             resultSet.setData(articleList);
         } catch (NullPointerException e) {
-            resultSet.setCode("0");
-            resultSet.setMsg("获取用户列表失败");
+            resultSet.fail("获取文章列表失败");
         }
         return resultSet;
     }
@@ -189,12 +184,10 @@ public class SuperAdminController {
         try {
             Page<Message> messagePages = PageHelper.startPage(pageNum, 10);
             List<Message> messageList = messageService.getMessageAllByAdmin(request);
-            resultSet.setCode("1");
-            resultSet.setMsg("获取用户列表成功");
+            resultSet.success("获取留言列表成功");
             resultSet.setData(messageList);
         } catch (NullPointerException e) {
-            resultSet.setCode("0");
-            resultSet.setMsg("获取用户列表失败");
+            resultSet.fail("获取用户列表失败");
         }
         return resultSet;
     }

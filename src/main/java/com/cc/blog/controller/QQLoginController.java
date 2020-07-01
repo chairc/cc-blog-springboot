@@ -211,7 +211,7 @@ public class QQLoginController {
         String grantType = "authorization_code";
         String clientId = APP_ID;
         String clientSecret = APP_KEY;
-//        String redirectUrl = URLEncoder.encode(CALLBACK_URL, "UTF-8"); 此处进行URLEncode会导致无法获取AccessToken
+//        String redirectUrl = URLEncoder.encode(CALLBACK_URL, "UTF-8"); //此处进行URLEncode会导致无法获取AccessToken
         String redirectUrl = CALLBACK_URL;
 
         return String.format(GET_ACCESS_TOKEN +

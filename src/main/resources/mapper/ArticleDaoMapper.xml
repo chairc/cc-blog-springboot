@@ -58,7 +58,7 @@
         (article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num,
         article_browser,article_system,article_ip)
         VALUES
-        (#{article_id},#{article_private_id},#{article_private_id},#{article_author},#{article_main},
+        (#{article_id},#{article_private_id},#{article_title},#{article_author},#{article_main},
         #{article_time},#{article_click_num},#{article_browser},#{article_system},#{article_ip})
     </insert>
 

@@ -118,5 +118,12 @@ public interface UserService {
 
     Role getUserRole(String role);
 
+    /**
+     * 获取用户身份许可
+     *
+     * @param permission
+     * @return
+     */
+
     Permission getUserPermission(String permission);
 }

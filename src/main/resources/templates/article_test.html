@@ -10,7 +10,6 @@
     <link rel="stylesheet" th:href="@{/static/css/animate.css}">
     <link rel="stylesheet" th:href="@{/static/css/main.css}">
     <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
-
     <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.min.css}">
     <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.preview.min.css}">
 </head>
@@ -58,7 +57,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="/entertainment">
                             娱乐
                         </a>
                     </li>
@@ -89,7 +88,7 @@
                 <a href="">图片</a>
             </li>
             <li class="">
-                <a href="">娱乐</a>
+                <a href="/entertainment">娱乐</a>
             </li>
             <li class="">
                 <a href="/logout">登出</a>
@@ -119,14 +118,25 @@
 </header>
 
 <div>
+    <div>
+        <p>文章题目：</p>
+        <input id="article-title" type="text">
+    </div>
     <div id="editor">
-        <textarea style="display: none">### Hello Editor.md !</textarea>
+        <textarea style="display: none" id="article-text">请输入文章内容...</textarea>
+    </div>
+    <div class="btn-container">
+        <button class="btn btn-info" onclick="addArticle()">提交</button>
     </div>
     <div id="markdown-view">
-        <textarea style="display: none">### Hello Editor.md !</textarea>
+        <textarea style="display: none" th:text="${articleMain}"></textarea>
     </div>
 </div>
-
+<div class="message-box-warp">
+    <div id="message-box" class="message-box">
+        <p id="message-box-text"></p>
+    </div>
+</div>
 <!-- 底部开始 -->
 <footer th:replace="footer.html"></footer>
 <!-- 底部结束 -->
@@ -159,21 +169,14 @@
         });
     });
 </script>
-
-
-
 <script type="text/javascript" th:src="@{/static/editor.md/editormd.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/prettify.min.js}"></script>
-
 <script type="text/javascript" th:src="@{/static/editor.md/lib/raphael.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/underscore.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/sequence-diagram.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/flowchart.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/jquery.flowchart.min.js}"></script>
-
-
-
 <script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>

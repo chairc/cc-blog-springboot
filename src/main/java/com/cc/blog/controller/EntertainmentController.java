@@ -16,6 +16,11 @@ public class EntertainmentController {
     @Autowired
     private EntertainmentService entertainmentService;
 
+    @RequestMapping("/entertainment")
+    public String showEntertainmentPage(){
+        return "entertainment";
+    }
+
     @RequestMapping("/wps")
     public String wpsLogin(){
         return "wps_invite";
@@ -26,11 +31,9 @@ public class EntertainmentController {
     public ResultSet wpsAutoInviteByAjax(@RequestParam(value = "uid", required = false) String uid){
         ResultSet resultSet = new ResultSet();
         if(entertainmentService.wpsAutoInvite(uid).equals("success")){
-            resultSet.setCode("1");
-            resultSet.setMsg("wps自动邀请成功");
+            resultSet.success("wps自动邀请成功");
         }else {
-            resultSet.setCode("0");
-            resultSet.setMsg("wps自动邀请成功");
+            resultSet.fail("wps自动邀请失败");
         }
         return resultSet;
     }
