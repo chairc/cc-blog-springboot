@@ -204,7 +204,7 @@ public class UserController {
     /**
      * 没有操作权限
      *
-     * @return
+     * @return no_auth.html
      */
 
     @RequestMapping("/noAuth")
@@ -286,6 +286,4 @@ public class UserController {
         mav.addObject("user", userService.getUserById(id, request));
         return mav;
     }
-
-
 }

@@ -2,8 +2,11 @@ package com.cc.blog.service.impl;
 
 import com.cc.blog.mapper.MessageDao;
 import com.cc.blog.model.Message;
+import com.cc.blog.model.ResultSet;
 import com.cc.blog.service.MessageService;
 import com.cc.blog.util.Tools;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,11 +82,21 @@ public class MessageServiceImpl implements MessageService {
      */
 
     @Override
-    public List<Message> getMessageAllByAdmin(HttpServletRequest request){
-        if(Tools.usernameSessionIsAdminValidate(request)){
-            return messageDao.getMessageAllByAdmin();
+    public ResultSet getMessageAllByAdmin(HttpServletRequest request,int pageNum){
+        ResultSet resultSet = new ResultSet();
+        Page<Message> messagePages = PageHelper.startPage(pageNum, 10);
+        try {
+            if(Tools.usernameSessionIsAdminValidate(request)){
+                List<Message> messageList = messageDao.getMessageAllByAdmin();
+                resultSet.success("超级管理员留言列表获取成功");
+                resultSet.setData(messageList);
+            }else {
+                resultSet.fail("超级管理员用户列表获取失败");
+            }
+        } catch (NullPointerException e) {
+            resultSet.error();
         }
-        return null;
+        return resultSet;
     }
 
     /**

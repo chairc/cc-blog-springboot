@@ -1,15 +1,16 @@
 package com.cc.blog.model;
 
 public class Message {
-    private int message_id;
-    private String message_private_id;
-    private String message_username;
-    private String message_main;
-    private String message_time;
-    private String message_ip;
-    private String message_system;
-    private String message_browser;
-    private String message_weight;
+
+    private int message_id;                 //  留言id
+    private String message_private_id;      //  留言私有id
+    private String message_username;        //  留言用户
+    private String message_main;            //  留言主体
+    private String message_time;            //  留言时间
+    private String message_ip;              //  留言时ip
+    private String message_system;          //  留言所用系统
+    private String message_browser;         //  留言所用浏览器
+    private String message_weight;          //  留言权重
 
     public int getMessage_id() {
         return message_id;

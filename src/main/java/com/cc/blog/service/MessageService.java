@@ -1,6 +1,7 @@
 package com.cc.blog.service;
 
 import com.cc.blog.model.Message;
+import com.cc.blog.model.ResultSet;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -51,28 +52,28 @@ public interface MessageService {
      * @return
      */
 
-    List<Message> getMessageAllByAdmin(HttpServletRequest request);
+    ResultSet getMessageAllByAdmin(HttpServletRequest request, int pageNum);
 
     /**
      * 新增留言
      *
      * @param message
      */
-    void insertMessage(Message message,HttpServletRequest request);
+    void insertMessage(Message message, HttpServletRequest request);
 
     /**
      * 通过私有ID删除留言
      *
      * @param privateId
      */
-    void deleteMessage(String privateId,HttpServletRequest request);
+    void deleteMessage(String privateId, HttpServletRequest request);
 
     /**
      * 更新留言
      *
      * @param message
      */
-    void updateMessage(Message message,HttpServletRequest request);
+    void updateMessage(Message message, HttpServletRequest request);
 
     /**
      * 获取留言数

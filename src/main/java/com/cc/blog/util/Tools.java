@@ -1,8 +1,10 @@
 package com.cc.blog.util;
 
+import com.github.pagehelper.Page;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
+import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,17 +18,18 @@ public class Tools {
      *
      * @return privateId
      */
-    public static String CreateRandomPrivateId(int type) {//0：article;1:message;
+
+    public static String CreateRandomPrivateId(int type) {  //0：article;1:message;2:friendLink
         String[] arr = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
                 "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C",
                 "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
                 "U", "V", "W", "X", "Y", "Z"};
-        String[] str = new String[]{"article_", "message_"};
+        String[] str = new String[]{"article_", "message_", "friendLink_"};
         int i = 0;
         StringBuilder privateId = new StringBuilder();
         while (i < 15) {
-            int randomNum = (int) (Math.random() * 52);
-            privateId.insert(0, arr[randomNum]);
+            int randomNum = (int) (Math.random() * 52);     //  随机选择
+            privateId.insert(0, arr[randomNum]);     //  拼接
             i++;
         }
         privateId.insert(0, str[type]);
@@ -38,6 +41,7 @@ public class Tools {
      *
      * @return privateId
      */
+
     public static String CreateUserRandomPrivateId() {
         String[] arr = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
         int i = 0;
@@ -56,6 +60,7 @@ public class Tools {
      *
      * @return time
      */
+
     public static String getServerTime() {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
     }
@@ -65,6 +70,7 @@ public class Tools {
      *
      * @return ip
      */
+
     public static String getUserIp(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -100,10 +106,11 @@ public class Tools {
      * @param request
      * @return browser
      */
+
     public static String getBrowserVersion(HttpServletRequest request) {
-        String ua = request.getHeader("User-Agent");//获取浏览器信息
-        UserAgent userAgent = UserAgent.parseUserAgentString(ua); //转成UserAgent对象
-        Browser browserInfo = userAgent.getBrowser();  //获取浏览器信息
+        String ua = request.getHeader("User-Agent");             //  获取浏览器信息
+        UserAgent userAgent = UserAgent.parseUserAgentString(ua);   //    转成UserAgent对象
+        Browser browserInfo = userAgent.getBrowser();               //   获取浏览器信息
         return browserInfo.getName();
     }
 
@@ -113,10 +120,11 @@ public class Tools {
      * @param request
      * @return system
      */
+
     public static String getSystemVersion(HttpServletRequest request) {
-        String ua = request.getHeader("User-Agent");//获取浏览器信息
-        UserAgent userAgent = UserAgent.parseUserAgentString(ua); //转成UserAgent对象
-        OperatingSystem os = userAgent.getOperatingSystem();//获取系统信息
+        String ua = request.getHeader("User-Agent");                 //  获取浏览器信息
+        UserAgent userAgent = UserAgent.parseUserAgentString(ua);       //  转成UserAgent对象
+        OperatingSystem os = userAgent.getOperatingSystem();            //  获取系统信息
         return os.getName();
     }
 
@@ -140,9 +148,43 @@ public class Tools {
      */
 
     public static boolean usernameSessionIsAdminValidate(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String usernameIsAdmin = (String) session.getAttribute("username");
-        return usernameIsAdmin.equals("admin") || usernameIsAdmin.equals("SuperAdmin");
+        try {
+            HttpSession session = request.getSession();
+            String usernameIsAdmin = (String) session.getAttribute("username");
+            if (usernameIsAdmin.equals("admin") || usernameIsAdmin.equals("SuperAdmin")) {
+                return true;
+            }
+        } catch (NullPointerException e) {//防止ShiroHttpServletRequest返回空指针
+            return false;
+        }
+        return false;
     }
 
+    /**
+     * 主页各个标签翻页选择
+     * 前端html的”pageNumPrev“、”pageNumNext“、”pageTotal“会出现红色下波浪线，可忽略
+     *
+     * @param model
+     * @param pageNum
+     * @param pages
+     * @param setPageNum
+     */
+
+    public static void indexPageHelperJudge(Model model, int pageNum, Page pages, int setPageNum) {
+        if (pageNum == 1) {
+            //如果当前页处于第一页，则上一页设为1
+            model.addAttribute("pageNumPrev", 1);
+        } else {
+            //否则上一页设为当前页-1
+            model.addAttribute("pageNumPrev", pageNum - 1);
+        }
+        if (pageNum == pages.getTotal() / setPageNum + 1) {
+            //如果当前页为最后一页，则下一页一直是最后一页
+            model.addAttribute("pageNumNext", pages.getTotal() / setPageNum + 1);
+        } else {
+            //否则，下一页为当前页+1
+            model.addAttribute("pageNumNext", pageNum + 1);
+        }
+        model.addAttribute("pageTotal", pages.getTotal() / setPageNum + 1);
+    }
 }

@@ -25,30 +25,6 @@ public class ArticleController {
     private ArticleService articleService;
 
     /**
-     * 文章列表显示
-     * <p>
-     * {@link MessageController}
-     * 注解参考see中MessageController#showMessage(Model)方法
-     *
-     * @param model
-     * @return article页面
-     * @see MessageController#showMessagePage (Model)
-     */
-
-    @RequestMapping("/article")
-    public String showArticlePage(Model model) {
-        int page = 1;
-        Page<Article> pages = PageHelper.startPage(1, 8);
-        List<Article> list = articleService.getArticleAll();
-        model.addAttribute("article", list);
-        model.addAttribute("pageNum", page);
-        model.addAttribute("pageNumPrev", 1);
-        model.addAttribute("pageNumNext", page + 1);
-        model.addAttribute("pageTotal", pages.getTotal() / 8 + 1);
-        return "article";
-    }
-
-    /**
      * 文章列表分页显示
      * <p>
      * {@link MessageController}
@@ -66,17 +42,7 @@ public class ArticleController {
         Page<Article> pages = PageHelper.startPage(pageNum, 8);
         List<Article> list = articleService.getArticleAll();
         model.addAttribute("article", list);
-        if (pageNum == 1) {
-            model.addAttribute("pageNumPrev", 1);
-        } else {
-            model.addAttribute("pageNumPrev", pageNum - 1);
-        }
-        if (pageNum == pages.getTotal() / 8 + 1) {
-            model.addAttribute("pageNumNext", pages.getTotal() / 8 + 1);
-        } else {
-            model.addAttribute("pageNumNext", pageNum + 1);
-        }
-        model.addAttribute("pageTotal", pages.getTotal() / 8 + 1);
+        Tools.indexPageHelperJudge(model,pageNum,pages,8);
         return "article";
     }
 

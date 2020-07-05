@@ -1,12 +1,12 @@
 package com.cc.blog.model;
 
-import java.io.Serializable;
 
 //返回前端的结果集
 public class ResultSet {
-    private String code;    //返回码
-    private String msg;     //返回信息
-    private Object data;    //返回数据
+
+    private String code;            //返回码
+    private String msg;             //返回信息
+    private Object data = null;     //返回数据，默认设为null，需要返回数据时，使用setData()方法
 
     public String getCode() {
         return code;
@@ -45,6 +45,5 @@ public class ResultSet {
     public void error() {
         this.code = "error";
         this.msg = "异常错误";
-        this.data = null;
     }
 }

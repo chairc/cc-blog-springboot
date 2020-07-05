@@ -1,9 +1,10 @@
 package com.cc.blog.model;
 
 public class Permission {
-    private int permission_id;
-    private String permission_name;
-    private String permission_description;
+
+    private int permission_id;              //  权限id
+    private String permission_name;         //  权限名称
+    private String permission_description;  //  权限描述
 
     public int getPermission_id() {
         return permission_id;

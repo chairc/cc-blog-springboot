@@ -4,13 +4,9 @@ import com.cc.blog.model.Article;
 import com.cc.blog.model.Message;
 import com.cc.blog.model.ResultSet;
 import com.cc.blog.model.User;
-import com.cc.blog.service.ArticleService;
-import com.cc.blog.service.MessageService;
-import com.cc.blog.service.SuperAdminService;
-import com.cc.blog.service.UserService;
+import com.cc.blog.service.*;
 import com.cc.blog.util.Tools;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.shiro.SecurityUtils;
@@ -22,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/superAdmin")
@@ -41,6 +35,9 @@ public class SuperAdminController {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private FriendLinkService friendLinkService;
 
     //登录相关
 
@@ -132,16 +129,7 @@ public class SuperAdminController {
     @ResponseBody
     public ResultSet showUserList(@RequestParam(value = "pageNum") int pageNum,
                                HttpServletRequest request) throws JsonProcessingException {
-        ResultSet resultSet = new ResultSet();
-        try {
-            Page<User> userPages = PageHelper.startPage(pageNum, 10);
-            List<User> userList = userService.getUserAll(request);
-            resultSet.success("获取用户列表成功");
-            resultSet.setData(userList);
-        } catch (NullPointerException e) {
-            resultSet.fail("获取用户列表失败");
-        }
-        return resultSet;
+        return userService.getUserAllByAdmin(request,pageNum);
     }
 
     /**
@@ -156,16 +144,7 @@ public class SuperAdminController {
     @ResponseBody
     public ResultSet showArticleList(@RequestParam(value = "pageNum") int pageNum,
                                      HttpServletRequest request) throws JsonProcessingException {
-        ResultSet resultSet = new ResultSet();
-        try {
-            Page<Article> articlePages = PageHelper.startPage(pageNum, 10);
-            List<Article> articleList = articleService.getArticleAllByAdmin(request);
-            resultSet.success("获取文章列表成功");
-            resultSet.setData(articleList);
-        } catch (NullPointerException e) {
-            resultSet.fail("获取文章列表失败");
-        }
-        return resultSet;
+        return articleService.getArticleAllByAdmin(request,pageNum);
     }
 
     /**
@@ -180,16 +159,22 @@ public class SuperAdminController {
     @ResponseBody
     public ResultSet showMessageList(@RequestParam(value = "pageNum") int pageNum,
                                   HttpServletRequest request) throws JsonProcessingException {
-        ResultSet resultSet = new ResultSet();
-        try {
-            Page<Message> messagePages = PageHelper.startPage(pageNum, 10);
-            List<Message> messageList = messageService.getMessageAllByAdmin(request);
-            resultSet.success("获取留言列表成功");
-            resultSet.setData(messageList);
-        } catch (NullPointerException e) {
-            resultSet.fail("获取用户列表失败");
-        }
-        return resultSet;
+        return messageService.getMessageAllByAdmin(request,pageNum);
+    }
+
+    /**
+     * 将json展示到friendLinkList
+     *
+     * @param pageNum
+     * @return
+     * @throws JsonProcessingException
+     */
+
+    @RequestMapping("/showfriendLinkList")
+    @ResponseBody
+    public ResultSet showFriendLinkPageByAdmin(@RequestParam(value = "pageNum") int pageNum,
+                                               HttpServletRequest request) throws JsonProcessingException{
+        return friendLinkService.getFriendLinkAllByAdmin(request,pageNum);
     }
 
     /**

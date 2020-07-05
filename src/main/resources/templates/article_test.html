@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" class="nivo-lightbox-notouch" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>个人空间 | 小虚无的下午茶</title>
+    <title>写文章啦 | 小虚无的下午茶</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
@@ -14,110 +14,9 @@
     <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.preview.min.css}">
 </head>
 <body>
-<header id="header-wrap">
-    <!-- 导航栏开始 -->
-    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
-        <div class="container">
-            <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
-                        aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                    <span class="icon-menu"></span>
-                    <span class="icon-menu"></span>
-                    <span class="icon-menu"></span>
-                </button>
-                <a href="https://www.chairc.cn" class="navbar-brand"><img
-                        src="./Home_files/logo.png" alt=""></a>
-            </div>
-            <div class="collapse navbar-collapse" id="main-navbar">
-                <ul class="onepage-nev navbar-nav mr-auto w-100 justify-content-end clearfix">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            主页
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/#about">
-                            关于
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/article">
-                            归档
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/message">
-                            留言
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">
-                            图片
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/entertainment">
-                            娱乐
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">
-                            登出
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+<header th:replace="header_home.html"></header>
 
-        <!-- 手机导航栏开始 -->
-        <ul class="onepage-nev mobile-menu">
-            <li>
-                <a href="/">主页</a>
-            </li>
-            <li class="">
-                <a href="/#about">关于</a>
-            </li>
-            <li class="">
-                <a href="/article">归档</a>
-            </li>
-            <li class="">
-                <a href="/message">留言</a>
-            </li>
-            <li class="">
-                <a href="">图片</a>
-            </li>
-            <li class="">
-                <a href="/entertainment">娱乐</a>
-            </li>
-            <li class="">
-                <a href="/logout">登出</a>
-            </li>
-        </ul>
-        <!-- 手机导航栏结束 -->
-    </nav>
-    <!-- 导航栏结束 -->
-
-    <!-- 主页壁纸开始 -->
-    <div id="hero-area" class="hero-area-bg">
-        <div class="overlay">
-
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-sm-12 text-center">
-                    <div class="contents">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 主页壁纸结束 -->
-
-</header>
-
-<div>
+<div style="padding-top:80px; ">
     <div>
         <p>文章题目：</p>
         <input id="article-title" type="text">

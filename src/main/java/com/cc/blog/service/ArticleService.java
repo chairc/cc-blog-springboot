@@ -1,6 +1,7 @@
 package com.cc.blog.service;
 
 import com.cc.blog.model.Article;
+import com.cc.blog.model.ResultSet;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -43,7 +44,7 @@ public interface ArticleService {
      * @return
      */
 
-    List<Article> getArticleAllByAdmin(HttpServletRequest request);
+    ResultSet getArticleAllByAdmin(HttpServletRequest request, int pageNum);
 
     /**
      * 新增文章

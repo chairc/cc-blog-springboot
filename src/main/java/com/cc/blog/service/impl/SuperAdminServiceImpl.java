@@ -34,7 +34,6 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         if(Tools.usernameSessionIsAdminValidate(request)){
             superAdminDao.deleteUserById(id);
         }
-
     }
 
     /**
@@ -48,13 +47,12 @@ public class SuperAdminServiceImpl implements SuperAdminService {
         if(Tools.usernameSessionIsAdminValidate(request)){
             superAdminDao.updateUser(user);
         }
-
     }
 
     /**
      * 根据ID查询用户信息
      * @param userId
-     * @return
+     * @return resultSet
      */
 
     @Override

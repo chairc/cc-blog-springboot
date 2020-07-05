@@ -1,8 +1,9 @@
 package com.cc.blog.model;
 
 public class Entertainment {
-    private int wps_id;
-    private String wps_sid;
+    //wps自动邀请（待更新）
+    private int wps_id;         //wps的id
+    private String wps_sid;     //wps邀请人的sid
 
     public int getWps_id() {
         return wps_id;

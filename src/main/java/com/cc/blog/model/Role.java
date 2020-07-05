@@ -1,9 +1,9 @@
 package com.cc.blog.model;
 
 public class Role {
-    private int role_id;
-    private String role_name;
-    private String role_description;
+    private int role_id;                //  角色id
+    private String role_name;           //  角色名称
+    private String role_description;    //  角色描述
 
     public int getRole_id() {
         return role_id;

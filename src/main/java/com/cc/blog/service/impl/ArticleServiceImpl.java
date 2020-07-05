@@ -2,8 +2,11 @@ package com.cc.blog.service.impl;
 
 import com.cc.blog.mapper.ArticleDao;
 import com.cc.blog.model.Article;
+import com.cc.blog.model.ResultSet;
 import com.cc.blog.service.ArticleService;
 import com.cc.blog.util.Tools;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,11 +72,21 @@ public class ArticleServiceImpl implements ArticleService {
      */
 
     @Override
-    public List<Article> getArticleAllByAdmin(HttpServletRequest request){
-        if(Tools.usernameSessionIsAdminValidate(request)){
-            return articleDao.getArticleAllByAdmin();
+    public ResultSet getArticleAllByAdmin(HttpServletRequest request,int pageNum){
+        ResultSet resultSet = new ResultSet();
+        Page<Article> articlePages = PageHelper.startPage(pageNum, 10);
+        try {
+            if(Tools.usernameSessionIsAdminValidate(request)){
+                List<Article> articleList = articleDao.getArticleAllByAdmin();
+                resultSet.success("超级管理员文章列表获取成功");
+                resultSet.setData(articleList);
+            }else {
+                resultSet.fail("超级管理员文章列表获取失败");
+            }
+        } catch (Exception e) {
+            resultSet.error();
         }
-        return null;
+        return resultSet;
     }
 
     /**
@@ -119,7 +132,7 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * 获取文章条数
      *
-     * @return
+     * @return 文章条数
      */
 
     @Override

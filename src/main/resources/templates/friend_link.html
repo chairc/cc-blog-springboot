@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>归档 | 小虚无的下午茶</title>
+    <title>友情链接 | 小虚无的下午茶</title>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
@@ -11,10 +11,9 @@
     <link rel="stylesheet" th:href="@{/static/css/animate.css}">
     <link rel="stylesheet" th:href="@{/static/css/main.css}">
     <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
-    <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.min.css}">
-    <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.preview.min.css}">
 </head>
 <body>
+
 <header id="header-wrap">
     <!-- 导航栏开始 -->
     <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
@@ -35,7 +34,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/">主页</a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/#about">关于</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#about">关于</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/article/1">归档</a>
@@ -81,7 +81,6 @@
     </nav>
     <div id="hero-area" class="hero-area-bg">
         <div class="overlay">
-
         </div>
         <div class="container">
             <div class="row">
@@ -89,7 +88,7 @@
                     <div class="contents">
                         <h5 class="head-title-other wow fadeInUp animated" data-wow-delay="0.4s"
                             style="visibility: visible;-webkit-animation-delay: 0.4s; -moz-animation-delay: 0.4s; animation-delay: 0.4s;">
-                            归档
+                            友人帐
                         </h5>
                     </div>
                 </div>
@@ -102,67 +101,53 @@
 <section id="article" class="article section-padding">
     <div class="container">
         <div class="row">
-            <div class="" style="width: 100%">
+            <div class="col-md-6 col-lg-3 col-xs-12" th:each="item:${friendLink}">
                 <div class="article-item wow fadeInDown animated" data-wow-delay="0.3s"
                      style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
                     <div class="icon">
                         <i class="icon-grid"></i>
                     </div>
-                    <div class="article-content article-content-small" style="text-align: justify">
-                        <h3 th:text="${articleTitle}">
+                    <div class="article-content">
+                        <h3>
+                            <p th:text="${item.friend_link_user}"></p>
                         </h3>
-                        <p th:text="${articleAuthor}"></p>
-                        <p th:text="${articleTime}"></p>
-                        <div id="markdown-view">
-                            <textarea style="display: none" th:text="${articleMain}"></textarea>
-                        </div>
+                        <a th:text="${item.friend_link_url}">
+                            <p th:text="${item.friend_link_url}"></p>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="btn-container">
+            <div class="btn-prev-or-next">
+                <a th:href="'/friendLink/'+${pageNumPrev}" class="btn btn-primary">
+                    上一页
+                </a>
+            </div>
+            <div class="btn-prev-or-next">
+                <a th:href="'/friendLink/'+${pageNumNext}" class="btn btn-primary">
+                    下一页
+                </a>
+            </div>
+            <div class="btn-prev-or-next">
+                <p>当前页：</p>
+                <p th:text="${pageNum}"></p>
+                <p>/总页数：</p>
+                <p th:text="${pageTotal}"></p>
+            </div>
+        </div>
     </div>
 </section>
-<!-- 归档结束 -->
 
-<!-- 底部开始 -->
 <footer th:replace="footer.html"></footer>
-<!-- 底部结束 -->
 
-<!-- 返回最顶层 -->
 <a href="" class="back-to-top" style="display: block;">
     <i>
         <p>UP</p>
     </i>
 </a>
-<a href="javascript:history.go(-1);" class="back-to-prev">
-    <i>
-        <p>BACK</p>
-    </i>
-</a>
+
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
-<script type="text/javascript">
-    $(function() {
-        var testView = editormd.markdownToHTML("markdown-view", {
-            /*htmlDecode: "style,script,iframe",
-            emoji: true,
-            taskList: true,
-            tocm: true,
-            tex: true, // 默认不解析
-            flowChart: true, // 默认不解析
-            sequenceDiagram: true, // 默认不解析
-*/
-            htmlDecode : true
-        });
-    });
-</script>
-<script type="text/javascript" th:src="@{/static/editor.md/editormd.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/editor.md/lib/prettify.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/editor.md/lib/raphael.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/editor.md/lib/underscore.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/editor.md/lib/sequence-diagram.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/editor.md/lib/flowchart.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/editor.md/lib/jquery.flowchart.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>
@@ -174,7 +159,5 @@
 <script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/main.js}"></script>
-
-
 </body>
 </html>

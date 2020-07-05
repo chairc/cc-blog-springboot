@@ -1,11 +1,11 @@
 package com.cc.blog.service.impl;
 
 import com.cc.blog.mapper.UserDao;
-import com.cc.blog.model.Permission;
-import com.cc.blog.model.Role;
-import com.cc.blog.model.User;
+import com.cc.blog.model.*;
 import com.cc.blog.service.UserService;
 import com.cc.blog.util.Tools;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 获取所有用户
      *
-     * @return
+     * @return List<User>
      */
 
     @Override
@@ -36,11 +36,29 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public ResultSet getUserAllByAdmin(HttpServletRequest request, int pageNum) {
+        ResultSet resultSet = new ResultSet();
+        Page<User> userPages = PageHelper.startPage(pageNum, 10);
+        try {
+            if(Tools.usernameSessionIsAdminValidate(request)){
+                List<User> userList = userDao.getUserAll();
+                resultSet.success("超级管理员用户列表获取成功");
+                resultSet.setData(userList);
+            }else {
+                resultSet.fail("超级管理员用户列表获取失败");
+            }
+        } catch (Exception e) {
+            resultSet.error();
+        }
+        return resultSet;
+    }
+
     /**
      * 通过ID获取用户
      *
      * @param id
-     * @return
+     * @return User
      */
 
     @Override
@@ -56,7 +74,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param username
      * @param password
-     * @return
+     * @return 1 或 0
      */
 
     @Override
@@ -70,7 +88,7 @@ public class UserServiceImpl implements UserService {
      * 查找私有ID获取用户
      *
      * @param privateId
-     * @return
+     * @return 1 或 0
      */
 
     @Override
@@ -82,7 +100,7 @@ public class UserServiceImpl implements UserService {
      * 通过用户名获取用户信息
      *
      * @param username
-     * @return
+     * @return User
      */
 
     @Override
@@ -94,7 +112,7 @@ public class UserServiceImpl implements UserService {
      * 通过OpenId获取用户名
      *
      * @param openId
-     * @return
+     * @return 用户名
      */
 
     @Override
@@ -144,7 +162,7 @@ public class UserServiceImpl implements UserService {
      * 用户名唯一性验证
      *
      * @param username
-     * @return
+     * @return 1 或 0
      */
 
     @Override
@@ -156,7 +174,7 @@ public class UserServiceImpl implements UserService {
      * 通过QQ快速登录来验证openId
      *
      * @param openId
-     * @return
+     * @return 1 或 0
      */
 
     @Override
@@ -167,7 +185,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 获取用户数
      *
-     * @return
+     * @return 用户数
      */
 
     @Override
@@ -178,7 +196,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 获取用户权限
      *
-     * @return
+     * @return 权限
      */
 
     @Override
@@ -190,7 +208,7 @@ public class UserServiceImpl implements UserService {
      * 获取用户身份许可
      *
      * @param permission
-     * @return
+     * @return 许可
      */
 
     @Override

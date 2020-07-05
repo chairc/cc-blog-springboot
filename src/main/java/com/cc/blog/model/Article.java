@@ -2,16 +2,16 @@ package com.cc.blog.model;
 
 public class Article {
 
-    private int article_id;
-    private String article_private_id;
-    private String article_title;
-    private String article_author;
-    private String article_main;
-    private String article_time;
-    private int article_click_num;
-    private String article_system;
-    private String article_browser;
-    private String article_ip;
+    private int article_id;                 //  文章id
+    private String article_private_id;      //  文章私有id
+    private String article_title;           //  文章题目
+    private String article_author;          //  文章作者
+    private String article_main;            //  文章主体
+    private String article_time;            //  文章写作时间
+    private int article_click_num;          //  文章点击数
+    private String article_system;          //  文章写作时用户所用系统
+    private String article_browser;         //  文章写作时用户所用浏览器
+    private String article_ip;              //  文章写作时用户所用ip
 
     public int getArticle_id() {
         return article_id;

@@ -50,9 +50,9 @@ public class IndexController {
 
     @RequestMapping("/randomJump")
     public String randomJumpPage() {
-        String[] randomPages = new String[]{"article", "message"};
+        String[] randomPages = new String[]{"article/1", "message/1", "friendLink/1"};
         String randomPage = "";
-        int randomNum = (int) (Math.random() * 2);
+        int randomNum = (int) (Math.random() * 3);
         randomPage = "redirect:/" + randomPages[randomNum];
         return randomPage;
     }

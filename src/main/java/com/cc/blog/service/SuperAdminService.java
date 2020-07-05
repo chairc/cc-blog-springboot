@@ -27,7 +27,7 @@ public interface SuperAdminService {
     /**
      * 根据ID查询用户信息
      * @param userId
-     * @return
+     * @return resultSet
      */
 
     ResultSet superAdminShowUser(String userId, HttpServletRequest request);
