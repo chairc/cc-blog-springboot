@@ -33,7 +33,6 @@ public class ArticleController {
      * @param model
      * @param pageNum
      * @return article页面
-     * @see MessageController#showMessagePageByPageHelper(Model, int, HttpServletRequest)
      */
 
     @RequestMapping("/article/{pageNum}")
@@ -79,7 +78,7 @@ public class ArticleController {
                                       @RequestParam("articleText") String articleText,
                                       HttpServletRequest request) {
         ResultSet resultSet = new ResultSet();
-        String username = Tools.usernameSessionValidate(request);
+        String username = Tools.usernameSessionValidate();
         if (username == null) {
             //未登录
             resultSet.fail("用户未登录");
@@ -95,7 +94,7 @@ public class ArticleController {
                 article.setArticle_system(Tools.getSystemVersion(request));
                 article.setArticle_click_num(0);
                 article.setArticle_ip(Tools.getUserIp(request));
-                articleService.insertArticle(article, request);
+                articleService.insertArticle(article);
                 resultSet.success("存取成功");
             } catch (Exception e) {
                 resultSet.error();

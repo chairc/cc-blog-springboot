@@ -1,13 +1,15 @@
 var userPageNum = 1;
 var articlePageNum = 1;
 var messagePageNum = 1;
+var userPageMobileNum = 1;
+var articlePageMobileNum = 1;
+var messagePageMobileNum = 1;
 var selectPages;
 
 //查找单一用户
 function selectUser() {
     var userId = $("#userId").val().trim();
     var test = $('#p_test');
-
     $.ajax({
         url: "/superAdmin/showUser",
         dataType: "JSON",
@@ -28,7 +30,7 @@ function selectUser() {
                 } else {
                     $('#message-box').slideUp(300);
                 }
-            } else if(data.code === "1") {
+            } else if (data.code === "1") {
                 test.html('<div id="p_test">' + data.data + '</div>');
                 //var jsonVal = data.result;
                 //data1 = (new Function("", "return " + jsonVal))();
@@ -234,32 +236,33 @@ function selectUser() {
 }
 
 //遍历输出用户表
-function selectUserList(value) {
-    let list = "userList";
+
+function selectUserMobileList(value) {
+    let list = "userMobileList";
     let userPageMax = pageNum(list);
     if (value === '-1') {
-        if (userPageNum > 1) {
-            userPageNum--;
+        if (userPageMobileNum > 1) {
+            userPageMobileNum--;
         } else {
             warningFirstPage();
         }
     } else if (value === '+1') {
-        if (userPageNum < userPageMax) {
-            userPageNum++;
+        if (userPageMobileNum < userPageMax) {
+            userPageMobileNum++;
         } else {
             warningLastPage();
         }
 
     } else {
-        userPageNum = 1;
+        userPageMobileNum = 1;
     }
-    console.log(userPageNum);
+    console.log(userPageMobileNum);
 
     $.ajax({
         url: "/superAdmin/showUserList",
         dataType: "JSON",
         data: {
-            "pageNum": userPageNum
+            "pageNum": userPageMobileNum
         },
         success: function (data) {
             // var jsonVal = data.result;
@@ -482,6 +485,92 @@ function selectUserList(value) {
     })
 }
 
+//遍历输出用户表
+function selectUserList(value) {
+    let list = "userList";
+    let userPageMax = pageNum(list);
+    if (value === '-1') {
+        if (userPageNum > 1) {
+            userPageNum--;
+        } else {
+            warningFirstPage();
+        }
+    } else if (value === '+1') {
+        if (userPageNum < userPageMax) {
+            userPageNum++;
+        } else {
+            warningLastPage();
+        }
+    } else {
+        userPageNum = 1;
+    }
+    console.log(userPageNum);
+
+    $.ajax({
+        url: "/superAdmin/showUserList",
+        dataType: "JSON",
+        data: {
+            "pageNum": userPageNum
+        },
+        success: function (data) {
+            console.log(data);
+            var html =
+                '<div class="education wow fadeInRight animated" data-wow-delay="0.3s"' +
+                'style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">' +
+                '<table cellpadding="0" cellspacing="0" style="width: 100%;table-layout: fixed;border: #000000 solid 1px;' +
+                'text-align: center;word-break:break-all;" ' +
+                '<tr class="border" style="text-align: center;">' +
+                '<td>序号</td>' +
+                '<td>个人识别号</td>' +
+                '<td>OpenId</td>' +
+                '<td>用户名</td>' +
+                '<td>密码</td>' +
+                '<td>昵称</td>' +
+                '<td>最后登录时间</td>' +
+                '<td>IP</td>' +
+                '<td>密保问题</td>' +
+                '<td>密保答案</td>' +
+                '<td>系统</td>' +
+                '<td>浏览器</td>' +
+                '<td>权重</td>' +
+                '<td>角色</td>' +
+                '<td>权限</td>' +
+                '<td>更多</td>' +
+                '</tr>';
+            for (var i = 0; i < 10; i++) {
+                try {
+                    html += '<tr class="border admin-table">' +
+                        '<td>' + data.data[i]["user_common_id"] + '</td>' +
+                        '<td>' + data.data[i]["user_common_private_id"] + '</td>' +
+                        '<td>' + data.data[i]["user_common_open_id"] + '</td>' +
+                        '<td>' + data.data[i]["user_common_username"] + '</td>' +
+                        '<td>' + data.data[i]["user_common_password"] + '</td>' +
+                        '<td>' + data.data[i]["user_common_nickname"] + '</td>' +
+                        '<td>' + data.data[i]["user_safe_logtime"] + '</td>' +
+                        '<td>' + data.data[i]["user_safe_ip"] + '</td>' +
+                        '<td>' + data.data[i]["user_safe_question"] + '</td>' +
+                        '<td>' + data.data[i]["user_safe_answer"] + '</td>' +
+                        '<td>' + data.data[i]["user_safe_system"] + '</td>' +
+                        '<td>' + data.data[i]["user_safe_browser"] + '</td>' +
+                        '<td>' + data.data[i]["user_safe_weight"] + '</td>' +
+                        '<td>' + data.data[i]["user_safe_role"] + '</td>' +
+                        '<td>' + data.data[i]["user_safe_permission"] + '</td>' +
+                        '<td><button class="btn btn-info" style="height: 100%;width: 100%;text-align: center;padding: 10%;"' +
+                        ' id="more-info-click" onclick="moreInfoClick(this.value)" value="' + data.data[i]["user_common_id"] + '" ">' +
+                        '详情</button></td>' +
+                        '</tr>';
+                } catch (e) {
+                    //异常处理，如果遍历不够十次则中断遍历直接输出
+                    break;
+                }
+            }
+            html += '</table>' +
+                '</div>';
+            $("#showUserData").html(html);
+        },
+    })
+}
+
 //遍历输出文章表
 function selectArticleList(value) {
     let list = "articleList";
@@ -517,9 +606,9 @@ function selectArticleList(value) {
             var html =
                 '<div class="education wow fadeInRight animated" data-wow-delay="0.3s"' +
                 'style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">' +
-                '<table cellpadding="0" cellspacing="0" width="100%"' +
-                'style="border: #000000 solid 1px;text-align: center;table-layout: fixed;word-break:break-all;">' +
-                '<tr class="border">' +
+                '<table cellpadding="0" cellspacing="0" style="width: 100%;table-layout: fixed;border: #000000 solid 1px;' +
+                'text-align: center;word-break:break-all;" ' +
+                '<tr class="border" style="text-align: center;">' +
                 '<td>序号</td>' +
                 '<td>文章识别号</td>' +
                 '<td>文章题目</td>' +
@@ -532,7 +621,7 @@ function selectArticleList(value) {
                 '</tr>';
             for (var i = 0; i < 10; i++) {
                 try {
-                    html += '<tr class="border">' +
+                    html += '<tr class="border admin-table">' +
                         '<td>' + data.data[i]["article_id"] + '</td>' +
                         '<td>' + data.data[i]["article_private_id"] + '</td>' +
                         '<td>' + data.data[i]["article_title"] + '</td>' +
@@ -590,9 +679,9 @@ function selectMessageList(value) {
             var html =
                 '<div class="education wow fadeInRight animated" data-wow-delay="0.3s"' +
                 'style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">' +
-                '<table cellpadding="0" cellspacing="0" width="100%"' +
-                'style="border: #000000 solid 1px;text-align: center;table-layout: fixed;word-break:break-all;">' +
-                '<tr class="border">' +
+                '<table cellpadding="0" cellspacing="0" style="width: 100%;table-layout: fixed;border: #000000 solid 1px;' +
+                'text-align: center;word-break:break-all;" ' +
+                '<tr class="border" style="text-align: center;">' +
                 '<td>序号</td>' +
                 '<td>留言识别号</td>' +
                 '<td>用户名</td>' +
@@ -605,7 +694,7 @@ function selectMessageList(value) {
                 '</tr>';
             for (var i = 0; i < 10; i++) {
                 try {
-                    html += '<tr class="border">' +
+                    html += '<tr class="border admin-table">' +
                         '<td>' + data.data[i]["message_id"] + '</td>' +
                         '<td>' + data.data[i]["message_private_id"] + '</td>' +
                         '<td>' + data.data[i]["message_username"] + '</td>' +
@@ -648,6 +737,15 @@ function pageNum(listName) {
             } else if (listName === "messageList") {
                 $("#messagePageNow").html('<p id="messagePageNow">' + messagePageNum + '</p>');
                 $("#messagePageTotal").html('<p id="messagePageTotal">' + selectPages + '</p>');
+            } else if (listName === "userMobileList") {
+                $("#userPageMobileNow").html('<p id="userPageMobileNow">' + userPageMobileNum + '</p>');
+                $("#userPageMobileTotal").html('<p id="userPageMobileTotal">' + selectPages + '</p>');
+            } else if (listName === "articleMobileList") {
+                $("#articlePageMobileNow").html('<p id="articlePageMobileNow">' + articlePageMobileNum + '</p>');
+                $("#articlePageMobileTotal").html('<p id="articlePageMobileTotal">' + selectPages + '</p>');
+            } else if (listName === "messageMobileList") {
+                $("#messagePageMobileNow").html('<p id="messagePageMobileNow">' + messagePageMobileNum + '</p>');
+                $("#messagePageMobileTotal").html('<p id="messagePageMobileTotal">' + selectPages + '</p>');
             }
         }
     });
@@ -742,8 +840,6 @@ function updateUser() {
     var system = $("#system").val();
     var browser = $("#browser").val();
     var weight = $("#weight").val();
-
-
     $.ajax({
         url: "/superAdmin/update",
         dataType: "JSON",
@@ -777,4 +873,234 @@ function updateUser() {
 
         },
     })
+}
+
+function moreInfoClick(value) {
+    $("#more-info-dialog").css("display","block");
+    $("#more-info-dialog-background").css("display","block");
+    var userId = value;
+    $.ajax({
+        url: "/superAdmin/showUser",
+        dataType: "JSON",
+        data: {
+            "userId": userId
+        },
+        success: function (data) {
+            console.log(data);
+            if (data.code === "0") {
+                $("#message-box-text").html(data.msg);
+                $("#message-box").css("color", "#a94442");
+                $("#message-box").css("background", "#f2dede");
+                setTimeout(function () {
+                    $('#message-box').slideUp(300);
+                }, 1000);
+                if ($("#message-box").is(":hidden")) {
+                    $('#message-box').slideDown(300);
+                } else {
+                    $('#message-box').slideUp(300);
+                }
+            } else if (data.code === "1") {
+                $("#moreInfoData").html(
+                    '<li id="moreInfoData">' +
+                    '<div class="content-text" style="display: inline-block;width: 100%;align-content: center">' +
+                    '<div style="float: left;">' +
+                    '<p>公有ID:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'th:id="id' + data.data['user_common_id'] + '" type="text"' +
+                    'value="' + data.data['user_common_id'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>私有ID:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="privateId" type="text"' +
+                    'value="' + data.data['user_common_private_id'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>OpenID:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none" id="openId" type="text"' +
+                    'value="' + data.data['user_common_open_id'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>用户名:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="username" type="text"' +
+                    'value="' + data.data['user_common_username'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>密码:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="password" type="text"' +
+                    'value="' + data.data['user_common_password'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>昵称:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="nickname" type="text"' +
+                    'value="' + data.data['user_common_nickname'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '</div>' +
+                    '<div style="float: left;">' +
+                    '<p>真实姓名:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="realname" type="text"' +
+                    'value="' + data.data['user_secret_real_name'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>电话:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="phone" type="text"' +
+                    'value="' + data.data['user_secret_phone'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>电子邮箱:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="email" type="text"' +
+                    'value="' + data.data['user_secret_email'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>生日:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="birthday" type="text"' +
+                    'value="' + data.data['user_secret_birthday'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>性别:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="sex" type="text"' +
+                    'value="' + data.data['user_secret_sex'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>年龄:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="age" type="text"' +
+                    'value="' + data.data['user_secret_age'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '</div>' +
+                    '<div style="float: left">' +
+                    '<p>微信:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="wechat" type="text"' +
+                    'value="' + data.data['user_secret_wechat'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>QQ:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="qq" type="text"' +
+                    'value="' + data.data['user_secret_qq'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>微博:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="weibo" type="text"' +
+                    'value="' + data.data['user_secret_weibo'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>地址:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="address" type="text"' +
+                    'value="' + data.data['user_secret_address'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>登录时间:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="logtime" type="text"' +
+                    'value="' + data.data['user_safe_logtime'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>IP地址:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="ip" type="text"' +
+                    'value="' + data.data['user_safe_ip'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '</div>' +
+                    '<div style="float: left">' +
+                    '<p>安全问题:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="question" type="text"' +
+                    'value="' + data.data['user_safe_question'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>安全答案:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="answer" type="text"' +
+                    'value="' + data.data['user_safe_answer'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>操作系统:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="system" type="text"' +
+                    'value="' + data.data['user_safe_system'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>浏览器:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="browser" type="text"' +
+                    'value="' + data.data['user_safe_browser'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>权重:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="weight" type="text"' +
+                    'value="' + data.data['user_safe_weight'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>权限:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="permission" type="text"' +
+                    'value="' + data.data['user_safe_permission'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '</div>' +
+                    '<div style="float: left;">' +
+                    '<p>角色:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="role' + data.data['user_safe_role'] + '" type="text"' +
+                    'value="' + data.data['user_safe_role'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="btn-container">' +
+                    '<button class="btn btn-info" onclick="updateUser()">更新</button>' +
+                    '<button class="btn btn-danger" onclick="deleteUser(this.value)" ' +
+                    'value="' + data.data['user_common_id'] + '">删除</button>' +
+                    '<button class="btn btn-primary" onclick="closeMoreInfoDialog()">返回</button>' +
+                    '</div>' +
+                    '</li>');
+            }
+        },
+    })
+}
+
+function closeMoreInfoDialog() {
+    $("#more-info-dialog").css("display","none");
+    $("#more-info-dialog-background").css("display","none");
 }

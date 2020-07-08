@@ -35,12 +35,11 @@ public class MessageController {
 
     @RequestMapping("/message/{pageNum}")
     public String showMessagePageByPageHelper(Model model,
-                                              @PathVariable int pageNum,
-                                              HttpServletRequest request) {
+                                              @PathVariable int pageNum) {
         //pageNum传进来页面号
         Page<Message> pages = PageHelper.startPage(pageNum, 10);
-        List<Message> message = messageService.getMessageAll(request);
-        List<Message> messageWeight = messageService.getMessageAllByWeight(request);
+        List<Message> message = messageService.getMessageAll();
+        List<Message> messageWeight = messageService.getMessageAllByWeight();
         model.addAttribute("message", message);
         model.addAttribute("message_weight", messageWeight);
         Tools.indexPageHelperJudge(model,pageNum,pages,10);
@@ -52,7 +51,7 @@ public class MessageController {
     public ResultSet addMessageByAjax(@RequestParam(value = "messageText") String messageText,
                                       HttpServletRequest request) {
         ResultSet resultSet = new ResultSet();
-        String username = Tools.usernameSessionValidate(request);
+        String username = Tools.usernameSessionValidate();
         if (username == null) {
             //未登录
             resultSet.fail("用户未登录");
@@ -67,7 +66,7 @@ public class MessageController {
                 message.setMessage_time(Tools.getServerTime());
                 message.setMessage_browser(Tools.getBrowserVersion(request));
                 message.setMessage_system(Tools.getSystemVersion(request));
-                messageService.insertMessage(message, request);
+                messageService.insertMessage(message);
                 resultSet.success("存取成功");
             } catch (Exception e) {
                 resultSet.error();

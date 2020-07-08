@@ -7,6 +7,9 @@ import com.cc.blog.service.SuperAdminService;
 import com.cc.blog.service.UserService;
 import com.cc.blog.util.Tools;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +33,10 @@ public class SuperAdminServiceImpl implements SuperAdminService {
      */
 
     @Override
-    public void deleteUserById(int id,HttpServletRequest request) {
-        if(Tools.usernameSessionIsAdminValidate(request)){
+    public void deleteUserById(int id) {
+        String username = Tools.usernameSessionValidate();
+        User admin = userService.getUserByUsername(username);
+        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
             superAdminDao.deleteUserById(id);
         }
     }
@@ -43,8 +48,10 @@ public class SuperAdminServiceImpl implements SuperAdminService {
      */
 
     @Override
-    public void updateUser(User user,HttpServletRequest request) {
-        if(Tools.usernameSessionIsAdminValidate(request)){
+    public void updateUser(User user) {
+        String username = Tools.usernameSessionValidate();
+        User admin = userService.getUserByUsername(username);
+        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
             superAdminDao.updateUser(user);
         }
     }
@@ -56,12 +63,12 @@ public class SuperAdminServiceImpl implements SuperAdminService {
      */
 
     @Override
-    public ResultSet superAdminShowUser(String userId, HttpServletRequest request){
+    public ResultSet superAdminShowUser(String userId){
         ResultSet resultSet = new ResultSet();
         try {
             int getUserId = Integer.parseInt(userId);
             if (getUserId >= 0 && getUserId <= userService.getUserCount()) {
-                User user = userService.getUserById(getUserId,request);
+                User user = userService.getUserById(getUserId);
                 String username = user.getUser_common_username();
                 System.out.println(username);
                 resultSet.setCode("1");

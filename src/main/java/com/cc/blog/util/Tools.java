@@ -4,10 +4,12 @@ import com.github.pagehelper.Page;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -19,12 +21,12 @@ public class Tools {
      * @return privateId
      */
 
-    public static String CreateRandomPrivateId(int type) {  //0：article;1:message;2:friendLink
+    public static String CreateRandomPrivateId(int type) {  //0：article;1:message;2:friendLink;3:entertainment
         String[] arr = new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
                 "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C",
                 "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
                 "U", "V", "W", "X", "Y", "Z"};
-        String[] str = new String[]{"article_", "message_", "friendLink_"};
+        String[] str = new String[]{"article_", "message_", "friendLink_","entertainment_"};
         int i = 0;
         StringBuilder privateId = new StringBuilder();
         while (i < 15) {
@@ -131,27 +133,28 @@ public class Tools {
     /**
      * 用户Session验证
      *
-     * @param request
-     * @return
+     * @return username
      */
 
-    public static String usernameSessionValidate(HttpServletRequest request) {
+    public static String usernameSessionValidate() {
+        /*servlet自带session
         HttpSession session = request.getSession();
+        */
+        //Shiro获取session
+        Subject currentUser = SecurityUtils.getSubject();
+        Session session = currentUser.getSession();
         return (String) session.getAttribute("username");
     }
 
     /**
-     * 用户是否为管理员Session验证
+     * 用户是否为超管管理员Session验证
      *
-     * @param request
      * @return
      */
 
-    public static boolean usernameSessionIsAdminValidate(HttpServletRequest request) {
+    public static boolean usernameSessionIsAdminValidate(String role) {
         try {
-            HttpSession session = request.getSession();
-            String usernameIsAdmin = (String) session.getAttribute("username");
-            if (usernameIsAdmin.equals("admin") || usernameIsAdmin.equals("SuperAdmin")) {
+            if (role.equals("2") || role.equals("1")) {
                 return true;
             }
         } catch (NullPointerException e) {//防止ShiroHttpServletRequest返回空指针

@@ -3,7 +3,9 @@ package com.cc.blog.service.impl;
 import com.cc.blog.mapper.FriendLinkDao;
 import com.cc.blog.model.FriendLink;
 import com.cc.blog.model.ResultSet;
+import com.cc.blog.model.User;
 import com.cc.blog.service.FriendLinkService;
+import com.cc.blog.service.UserService;
 import com.cc.blog.util.Tools;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -17,7 +19,10 @@ import java.util.List;
 public class FriendLinkServiceImpl implements FriendLinkService {
 
     @Autowired
-    FriendLinkDao friendLinkDao;
+    private FriendLinkDao friendLinkDao;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 主页获取所有友链
@@ -37,11 +42,14 @@ public class FriendLinkServiceImpl implements FriendLinkService {
      */
 
     @Override
-    public ResultSet getFriendLinkAllByAdmin(HttpServletRequest request,int pageNum) {
+    public ResultSet getFriendLinkAllByAdmin(int pageNum) {
         ResultSet resultSet = new ResultSet();
         Page<FriendLink> messagePages = PageHelper.startPage(pageNum, 10);
         try{
-            if(Tools.usernameSessionIsAdminValidate(request)){//管理员获取
+            //管理员获取
+            String username = Tools.usernameSessionValidate();
+            User admin = userService.getUserByUsername(username);
+            if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
                 resultSet.success("超级管理员友链列表获取成功");
                 resultSet.setData(friendLinkDao.getFriendLinkAllByAdmin());
             }else {

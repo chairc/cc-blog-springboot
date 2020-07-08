@@ -998,6 +998,116 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
 }
 
+/* friendLink Item */
+.friendLink {
+  background: #F0F0F0;
+}
+
+.friendLink-item {
+  background: #fff;
+  border-radius: 4px;
+  padding: 48px 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: all 0.3s ease-in-out 0s;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  -o-transition: all 0.3s ease-in-out 0s;
+}
+
+.friendLink-item .icon i {
+  font-size: 42px;
+  margin-bottom: 15px;
+  text-align: center;
+  width: 48px;
+  display: block;
+  margin: 0 auto;
+  height: 48px;
+  color: #00b4d9;
+}
+
+.friendLink-item .friendLink-content h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.friendLink-item .friendLink-content h3 a {
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.friendLink-item .friendLink-content h3 a:hover {
+  color: #00b4d9;
+}
+
+.friendLink-item .friendLink-content p {
+  line-height: 22px;
+}
+
+.friendLink-content img {
+  width: 100%;
+}
+
+.friendLink-item:hover {
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* entertainment Item */
+.entertainment {
+  background: #F0F0F0;
+}
+
+.entertainment-item {
+  background: #fff;
+  border-radius: 4px;
+  padding: 48px 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: all 0.3s ease-in-out 0s;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  -o-transition: all 0.3s ease-in-out 0s;
+}
+
+.entertainment-item .icon i {
+  font-size: 42px;
+  margin-bottom: 15px;
+  text-align: center;
+  width: 48px;
+  display: block;
+  margin: 0 auto;
+  height: 48px;
+  color: #00b4d9;
+}
+
+.entertainment-item .entertainment-content h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.entertainment-item .entertainment-content h3 a {
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.entertainment-item .entertainment-content h3 a:hover {
+  color: #00b4d9;
+}
+
+.entertainment-item .entertainment-content p {
+  line-height: 22px;
+}
+
+.entertainment-content img {
+  width: 100%;
+}
+
+.entertainment-item:hover {
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+}
+
 .form-control {
   width: 100%;
   margin-bottom: 20px;
@@ -1619,4 +1729,47 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
   transition: 1s;
   transform: translateX(320px);
   opacity: 1;
+}
+
+/*admin.html*/
+.admin-table td{
+  text-overflow:ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.more-info-dialog {
+  display: none;
+  background-color:#ffffff;
+  z-index: 9999;
+  width: 80%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin-top: 70px;
+  margin-bottom: 60px;
+  margin-right: auto;
+  margin-left: auto;
+  overflow-y: scroll;
+  border-radius: 10px;
+}
+
+.more-info-dialog-background {
+  display: none;
+  background-color: #202020;
+  /* position: absolute; */
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9998;
+  -moz-opacity: 0.8;
+  opacity:.50;
+  filter: alpha(opacity=80);/* 只支持IE6、7、8、9 */
 }

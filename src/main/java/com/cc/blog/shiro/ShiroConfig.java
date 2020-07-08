@@ -35,11 +35,10 @@ public class ShiroConfig {
 
         //放行页面
         filterMap.put("/user/login", "anon");
-        filterMap.put("/superAdmin/login","anon");
 
         //授权过滤器
-        //filterMap.put("/user/userIndex","perms[user:user]");
-        filterMap.put("/user/userIndex","perms[user:admin]");
+        filterMap.put("/user/userIndex","perms[user:user]");
+        //filterMap.put("/user/userIndex","perms[user:admin]");
         filterMap.put("/superAdmin/*","perms[user:superAdmin]");
 
         //权限过滤器

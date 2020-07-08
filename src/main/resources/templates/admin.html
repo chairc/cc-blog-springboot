@@ -12,22 +12,20 @@
     <link rel="stylesheet" th:href="@{/static/css/main.css}">
     <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
     <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.min.css}">
-
 </head>
 <body>
-
 <header th:replace="header_home.html"></header>
-
 <div id="user" class="section-padding">
     <div class="container">
         <div class="row">
             <div style="padding-top: 60px;width: 100%;">
                 <ul class="nav nav-tabs">
                     <li class="user-li-style">
-                        <a href="#admin_home_look" data-toggle="tab" style="color: #000000">用户信息查看</a>
+                        <a onclick="selectUserList(1)" href="#admin_home_look" data-toggle="tab"
+                           style="color: #000000">用户信息查看</a>
                     </li>
                     <li class="user-li-style">
-                        <a onclick="selectUserList(1)" href="#admin_home_edit" data-toggle="tab"
+                        <a onclick="selectUserMobileList(1)" href="#admin_home_edit" data-toggle="tab"
                            style="color: #000000">用户信息操作</a>
                     </li>
                     <li class="user-li-style">
@@ -52,79 +50,29 @@
                         <a href="#admin_settings" data-toggle="tab" style="color: #000000">设置</a>
                     </li>
                 </ul>
-
                 <div class="tab-content" style="width: 100%">
                     <div class="tab-pane" id="admin_home_look">
-                        <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
-                             style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
-                            <table cellpadding="0" cellspacing="0" width="100%"
-                                   style="border: #000000 solid 1px;text-align: center;table-layout: fixed;word-break:break-all;">
-                                <tr class="border">
-                                    <td>序号</td>
-                                    <td>个人识别号</td>
-                                    <td>用户名</td>
-                                    <td>密码</td>
-                                    <td>昵称</td>
-                                    <td>真实姓名</td>
-                                    <td>电话</td>
-                                    <td>邮箱</td>
-                                    <td>生日</td>
-                                    <td>性别</td>
-                                    <td>年龄</td>
-                                    <td>微信</td>
-                                    <td>QQ</td>
-                                    <td>微博</td>
-                                    <td>地址</td>
-                                    <td>最后登录时间</td>
-                                    <td>IP地址</td>
-                                    <td>密保问题</td>
-                                    <td>密保答案</td>
-                                    <td>系统</td>
-                                    <td>浏览器</td>
-                                    <td>权重</td>
-                                </tr>
-                                <tr class="border" th:each="item:${adminUser}">
-                                    <td th:text="${item.user_common_id}"></td>
-                                    <td th:text="${item.user_common_private_id}"></td>
-                                    <td th:text="${item.user_common_username}"></td>
-                                    <td th:text="${item.user_common_password}"></td>
-                                    <td th:text="${item.user_common_nickname}"></td>
-                                    <td th:text="${item.user_secret_real_name}"></td>
-                                    <td th:text="${item.user_secret_phone}"></td>
-                                    <td th:text="${item.user_secret_email}"></td>
-                                    <td th:text="${item.user_secret_birthday}"></td>
-                                    <td th:text="${item.user_secret_sex}"></td>
-                                    <td th:text="${item.user_secret_age}"></td>
-                                    <td th:text="${item.user_secret_wechat}"></td>
-                                    <td th:text="${item.user_secret_qq}"></td>
-                                    <td th:text="${item.user_secret_weibo}"></td>
-                                    <td th:text="${item.user_secret_address}"></td>
-                                    <td th:text="${item.user_safe_logtime}"></td>
-                                    <td th:text="${item.user_safe_ip}"></td>
-                                    <td th:text="${item.user_safe_question}"></td>
-                                    <td th:text="${item.user_safe_answer}"></td>
-                                    <td th:text="${item.user_safe_system}"></td>
-                                    <td th:text="${item.user_safe_browser}"></td>
-                                    <td th:text="${item.user_safe_weight}"></td>
-                                </tr>
-                            </table>
-                            <div class="btn-container">
-                                <div class="btn-prev-or-next">
-                                    <a th:href="'/superAdmin/admin/'+${userPageNumPrev}" class="btn btn-primary">
-                                        上一页
-                                    </a>
-                                </div>
-                                <div class="btn-prev-or-next">
-                                    <a th:href="'/superAdmin/admin/'+${userPageNumNext}" class="btn btn-primary">
-                                        下一页
-                                    </a>
-                                </div>
-                                <div class="btn-prev-or-next">
-                                    <p>当前页：</p>
-                                    <p th:text="${pageNum}"></p>
-                                    <p>/总页数：</p>
-                                    <p th:text="${userPageTotal}"></p>
-                                </div>
+                        <div id="showUserData">
+
+                        </div>
+                        <div class="btn-container">
+                            <div class="btn-prev-or-next">
+                                <button class="btn btn-primary" id="userPrev"
+                                        onclick="selectUserList(this.value)" value="-1">
+                                    上一页
+                                </button>
+                            </div>
+                            <div class="btn-prev-or-next">
+                                <button class="btn btn-primary" id="userNext"
+                                        onclick="selectUserList(this.value)" value="+1">
+                                    下一页
+                                </button>
+                            </div>
+                            <div class="btn-prev-or-next">
+                                <p>当前页：</p>
+                                <p id="userPageNow"></p>
+                                <p>/总页数：</p>
+                                <p id="userPageTotal"></p>
                             </div>
                         </div>
                     </div>
@@ -135,22 +83,22 @@
                             </div>
                             <div class="btn-container">
                                 <div class="btn-prev-or-next">
-                                    <button class="btn btn-primary" id="userPrev"
-                                            onclick="selectUserList(this.value)" value="-1">
+                                    <button class="btn btn-primary" id="userMobilePrev"
+                                            onclick="selectUserMobileList(this.value)" value="-1">
                                         上一页
                                     </button>
                                 </div>
                                 <div class="btn-prev-or-next">
-                                    <button class="btn btn-primary" id="userNext"
-                                            onclick="selectUserList(this.value)" value="+1">
+                                    <button class="btn btn-primary" id="userMobileNext"
+                                            onclick="selectUserMobileList(this.value)" value="+1">
                                         下一页
                                     </button>
                                 </div>
                                 <div class="btn-prev-or-next">
                                     <p>当前页：</p>
-                                    <p id="userPageNow"></p>
+                                    <p id="userPageMobileNow"></p>
                                     <p>/总页数：</p>
-                                    <p id="userPageTotal"></p>
+                                    <p id="userPageMobileTotal"></p>
                                 </div>
                             </div>
                         </div>
@@ -246,31 +194,39 @@
         </div>
     </div>
 </div>
-<!-- 管理员展示结束 -->
-
-<!-- 底部开始 -->
 <footer th:replace="footer.html"></footer>
-<!-- 底部结束 -->
+<div id="more-info-dialog" class="more-info-dialog">
+    <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+         style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+        <ul class="timeline">
+            <li>
+                <i class="icon-graduation"></i>
+                <h2 class="timelin-title">用户信息</h2>
+            </li>
+            <div id="moreInfoData">
 
-<!-- 返回最顶层 -->
+            </div>
+        </ul>
+    </div>
+</div>
+<!--遮罩层-->
+<div id="more-info-dialog-background" class="more-info-dialog-background">
+</div>
 <a href="" class="back-to-top" style="display: block;">
     <i>
         <p>UP</p>
     </i>
 </a>
-
 <div class="message-box-warp">
     <div id="message-box" class="message-box">
         <p id="message-box-text"></p>
     </div>
 </div>
-
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/admin.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/editormd.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/prettify.min.js}"></script>
-
 <script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>
@@ -282,7 +238,5 @@
 <script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/main.js}"></script>
-
-
 </body>
 </html>

@@ -16,7 +16,6 @@
 </head>
 <body>
 <header id="header-wrap">
-    <!-- 导航栏开始 -->
     <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
         <div class="container">
             <div class="navbar-header">
@@ -47,7 +46,7 @@
                         <a class="nav-link" href="/friendLink/1">友人帐</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/entertainment">娱乐</a>
+                        <a class="nav-link" href="/entertainment/1">娱乐</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/user/login">个人</a>
@@ -72,7 +71,7 @@
                 <a href="/friendLink/1">友人帐</a>
             </li>
             <li class="">
-                <a href="/entertainment">娱乐</a>
+                <a href="/entertainment/1">娱乐</a>
             </li>
             <li class="">
                 <a href="/user/login">个人</a>
@@ -81,7 +80,6 @@
     </nav>
     <div id="hero-area" class="hero-area-bg">
         <div class="overlay">
-
         </div>
         <div class="container">
             <div class="row">
@@ -122,13 +120,7 @@
         </div>
     </div>
 </section>
-<!-- 归档结束 -->
-
-<!-- 底部开始 -->
 <footer th:replace="footer.html"></footer>
-<!-- 底部结束 -->
-
-<!-- 返回最顶层 -->
 <a href="" class="back-to-top" style="display: block;">
     <i>
         <p>UP</p>
@@ -143,15 +135,15 @@
 <script type="text/javascript">
     $(function() {
         var testView = editormd.markdownToHTML("markdown-view", {
-            /*htmlDecode: "style,script,iframe",
+            htmlDecode: "style,script,iframe",
             emoji: true,
             taskList: true,
             tocm: true,
             tex: true, // 默认不解析
             flowChart: true, // 默认不解析
             sequenceDiagram: true, // 默认不解析
-*/
-            htmlDecode : true
+
+            /*htmlDecode : true*/
         });
     });
 </script>

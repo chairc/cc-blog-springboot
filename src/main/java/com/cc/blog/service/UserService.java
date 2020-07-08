@@ -17,17 +17,16 @@ public interface UserService {
      * @return List<User>
      */
 
-    List<User> getUserAll(HttpServletRequest request);
+    List<User> getUserAll();
 
     /**
      * 管理员获取用户列表
      *
-     * @param request
      * @param pageNum
      * @return
      */
 
-    ResultSet getUserAllByAdmin(HttpServletRequest request, int pageNum);
+    ResultSet getUserAllByAdmin(int pageNum);
 
     /**
      * 通过ID获取用户
@@ -36,7 +35,7 @@ public interface UserService {
      * @return User
      */
 
-    User getUserById(int id, HttpServletRequest request);
+    User getUserById(int id);
 
     /**
      * 用户登录（已废弃，使用shiro验证）

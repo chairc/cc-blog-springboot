@@ -226,7 +226,7 @@ function wps_invite() {
     var uid = $("#uid").val();
 
     $.ajax({
-        url: "/wpsAutoInviteByAjax",
+        url: "/entertainment/wps/wpsAutoInviteByAjax",
         dataType: "JSON",
         contentType: "application/json; charset=utf-8",
         data: {

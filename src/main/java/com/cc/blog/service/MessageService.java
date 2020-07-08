@@ -29,51 +29,50 @@ public interface MessageService {
      *
      * @return
      */
-    List<Message> getMessageAllByAscendingOrder(HttpServletRequest request);
+    List<Message> getMessageAllByAscendingOrder();
 
     /**
      * 获取留言（升序）
      *
      * @return
      */
-    List<Message> getMessageAll(HttpServletRequest request);
+    List<Message> getMessageAll();
 
     /**
      * 获取精选留言
      *
      * @return
      */
-    List<Message> getMessageAllByWeight(HttpServletRequest request);
+    List<Message> getMessageAllByWeight();
 
     /**
      * 管理员获取留言
      *
-     * @param request
      * @return
      */
 
-    ResultSet getMessageAllByAdmin(HttpServletRequest request, int pageNum);
+    ResultSet getMessageAllByAdmin(int pageNum);
 
     /**
      * 新增留言
      *
      * @param message
      */
-    void insertMessage(Message message, HttpServletRequest request);
+    void insertMessage(Message message);
 
     /**
      * 通过私有ID删除留言
      *
      * @param privateId
      */
-    void deleteMessage(String privateId, HttpServletRequest request);
+    void deleteMessage(String privateId);
 
     /**
      * 更新留言
      *
      * @param message
      */
-    void updateMessage(Message message, HttpServletRequest request);
+    void updateMessage(Message message);
 
     /**
      * 获取留言数

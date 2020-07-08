@@ -23,7 +23,7 @@ public interface FriendLinkService {
      * @return ResultSet
      */
 
-    ResultSet getFriendLinkAllByAdmin(HttpServletRequest request,int pageNum);
+    ResultSet getFriendLinkAllByAdmin(int pageNum);
 
     /**
      * 通过私有id获取友链

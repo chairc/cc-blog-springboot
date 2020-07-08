@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -51,7 +52,11 @@ public class SuperAdminController {
     @RequestMapping("/admin")
     public String showSuperAdmin(HttpServletRequest request) {
         try {
-            if (Tools.usernameSessionIsAdminValidate(request)) {
+            HttpSession session = request.getSession();
+            String usernameIsAdmin = (String) session.getAttribute("username");
+            User user = userService.getUserByUsername(usernameIsAdmin);
+            //管理员登录需要验证角色，以防止空指针异常
+            if (Tools.usernameSessionIsAdminValidate(user.getUser_safe_role())) {
                 return "admin";
             }
         } catch (Exception e) {
@@ -63,13 +68,12 @@ public class SuperAdminController {
     /**
      * 超级管理员登出
      *
-     * @param request
      * @return 重定向：主页
      */
 
     @RequestMapping("/logout")
-    public String superAdminLogout(HttpServletRequest request) {
-        System.out.println("登出人员：" + Tools.usernameSessionValidate(request));
+    public String superAdminLogout() {
+        System.out.println("登出人员：" + Tools.usernameSessionValidate());
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return "redirect:/";
@@ -82,6 +86,20 @@ public class SuperAdminController {
     //管理模块
 
     /**
+     * 更新用户
+     *
+     * @return
+     */
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public ResultSet updateUserInfoByAjax(@RequestParam(value = "id") int id) {
+        ResultSet resultSet = new ResultSet();
+        resultSet.success("删除成功");
+        return resultSet;
+    }
+
+    /**
      * 删除用户
      *
      * @param deleteId
@@ -90,10 +108,9 @@ public class SuperAdminController {
 
     @RequestMapping("/delete")
     @ResponseBody
-    public ResultSet deleteUserInfoByAjax(@RequestParam(value = "deleteId") int deleteId,
-                                       HttpServletRequest request) {
+    public ResultSet deleteUserInfoByAjax(@RequestParam(value = "deleteId") int deleteId) {
         ResultSet resultSet = new ResultSet();
-        superAdminService.deleteUserById(deleteId, request);
+        superAdminService.deleteUserById(deleteId);
         resultSet.success("删除成功");
         return resultSet;
     }
@@ -107,12 +124,11 @@ public class SuperAdminController {
 
     @RequestMapping("/showUser")
     @ResponseBody
-    public ResultSet clickTest(@RequestParam(value = "userId") String userId,
-                            HttpServletRequest request) {
+    public ResultSet clickTest(@RequestParam(value = "userId") String userId) {
 
         System.out.println("待查询用户ID：" + userId);
         System.out.println("总条数：" + userService.getUserCount());
-        ResultSet resultSet = superAdminService.superAdminShowUser(userId, request);
+        ResultSet resultSet = superAdminService.superAdminShowUser(userId);
         System.out.println("返回结果：" + resultSet.getData());
         return resultSet;
     }
@@ -127,9 +143,8 @@ public class SuperAdminController {
 
     @RequestMapping("/showUserList")
     @ResponseBody
-    public ResultSet showUserList(@RequestParam(value = "pageNum") int pageNum,
-                               HttpServletRequest request) throws JsonProcessingException {
-        return userService.getUserAllByAdmin(request,pageNum);
+    public ResultSet showUserList(@RequestParam(value = "pageNum") int pageNum) throws JsonProcessingException {
+        return userService.getUserAllByAdmin(pageNum);
     }
 
     /**
@@ -142,9 +157,8 @@ public class SuperAdminController {
 
     @RequestMapping("/showArticleList")
     @ResponseBody
-    public ResultSet showArticleList(@RequestParam(value = "pageNum") int pageNum,
-                                     HttpServletRequest request) throws JsonProcessingException {
-        return articleService.getArticleAllByAdmin(request,pageNum);
+    public ResultSet showArticleList(@RequestParam(value = "pageNum") int pageNum) throws JsonProcessingException {
+        return articleService.getArticleAllByAdmin(pageNum);
     }
 
     /**
@@ -159,7 +173,7 @@ public class SuperAdminController {
     @ResponseBody
     public ResultSet showMessageList(@RequestParam(value = "pageNum") int pageNum,
                                   HttpServletRequest request) throws JsonProcessingException {
-        return messageService.getMessageAllByAdmin(request,pageNum);
+        return messageService.getMessageAllByAdmin(pageNum);
     }
 
     /**
@@ -172,9 +186,8 @@ public class SuperAdminController {
 
     @RequestMapping("/showfriendLinkList")
     @ResponseBody
-    public ResultSet showFriendLinkPageByAdmin(@RequestParam(value = "pageNum") int pageNum,
-                                               HttpServletRequest request) throws JsonProcessingException{
-        return friendLinkService.getFriendLinkAllByAdmin(request,pageNum);
+    public ResultSet showFriendLinkPageByAdmin(@RequestParam(value = "pageNum") int pageNum) throws JsonProcessingException{
+        return friendLinkService.getFriendLinkAllByAdmin(pageNum);
     }
 
     /**
@@ -190,13 +203,22 @@ public class SuperAdminController {
         ResultSet resultSet = new ResultSet();
         switch (pageName) {
             case "userList":
-                resultSet.setData(Integer.toString(userService.getUserCount() / 10 + 1));
+                resultSet.setData(Integer.toString((userService.getUserCount() - 1) / 10 + 1));
                 break;
             case "articleList":
-                resultSet.setData(Integer.toString(articleService.getArticleCount() / 10 + 1));
+                resultSet.setData(Integer.toString((articleService.getArticleCount() - 1) / 10 + 1));
                 break;
             case "messageList":
-                resultSet.setData(Integer.toString(messageService.getMessageCount() / 10 + 1));
+                resultSet.setData(Integer.toString((messageService.getMessageCount() - 1) / 10 + 1));
+                break;
+            case "userMobileList":
+                resultSet.setData(Integer.toString((userService.getUserCount() - 1) / 10 + 1));
+                break;
+            case "articleMobileList":
+                resultSet.setData(Integer.toString((articleService.getArticleCount() - 1) / 10 + 1));
+                break;
+            case "messageMobileList":
+                resultSet.setData(Integer.toString((messageService.getMessageCount() - 1) / 10 + 1));
                 break;
         }
         return resultSet;

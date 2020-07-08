@@ -11,7 +11,10 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
+import org.apache.shiro.web.servlet.ShiroHttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,8 +100,8 @@ public class UserController {
                 user.setUser_safe_ip(Tools.getUserIp(request));
                 user.setUser_safe_system(Tools.getSystemVersion(request));
                 user.setUser_safe_browser(Tools.getBrowserVersion(request));
-                user.setUser_safe_role("1");
-                user.setUser_safe_permission("1");
+                user.setUser_safe_role("5");
+                user.setUser_safe_permission("6");
                 System.out.println(user);
                 userService.insertUser(user);
                 resultSet.setCode("1");
@@ -124,21 +127,33 @@ public class UserController {
 
     @RequestMapping("/user/login")
     public String showUserLoginPage(HttpServletRequest request) {
-        String username = Tools.usernameSessionValidate(request);
-        System.out.println("当前Session：" + username);
         try {
-            User user = userService.getUserByUsername(username);
-            Role role = userService.getUserRole(user.getUser_safe_role());
-            if (username == null) {//用户名判空
+            String username = Tools.usernameSessionValidate();
+            System.out.println("当前Session1：" + username);
+            User user;
+            try {
+                user = userService.getUserByUsername(username);
+            }catch (NullPointerException e){
+                System.out.println("空指针异常1");
                 return "login";
-            } else if (role.getRole_name().equals("SuperAdmin")) {//如果查找到的角色是SuperAdmin，则进入管理员页面
-                return "redirect:/superAdmin/admin";
             }
+            Role role = userService.getUserRole(user.getUser_safe_role());
             System.out.println("登录人员：" + username);
-        } catch (Exception e) {
+            if (username == null) {//用户名判空
+                System.out.println("用户名判空");
+                return "login";
+            } else if (role.getRole_name().equals("SuperAdmin")) {
+                //如果查找到的角色是SuperAdmin，则进入管理员页面
+                System.out.println("超级管理员登录");
+                return "redirect:/superAdmin/admin";
+            }else {
+                System.out.println("普通用户");
+                return "redirect:/user/userIndex";
+            }
+        }catch (Exception e){
+            System.out.println("异常1");
             return "login";
         }
-        return "redirect:/user/userIndex";
     }
 
     /**
@@ -146,15 +161,13 @@ public class UserController {
      *
      * @param username
      * @param password
-     * @param request
      * @return map
      */
 
     @RequestMapping("/loginUserByAjax")
     @ResponseBody
     public ResultSet userLoginByAjax(@RequestParam(value = "username") String username,
-                                     @RequestParam(value = "password") String password,
-                                     HttpServletRequest request) {
+                                     @RequestParam(value = "password") String password) {
         ResultSet resultSet = new ResultSet();
         //1.获取Shiro的Subject
         Subject subject = SecurityUtils.getSubject();
@@ -163,7 +176,9 @@ public class UserController {
         //3.执行登陆方法
         try {
             subject.login(token);
-            request.getSession().setAttribute("username", username);
+            //Shiro记录session
+            Session session = subject.getSession();
+            session.setAttribute("username",username);
             resultSet.success("登录成功");
         } catch (UnknownAccountException e) {
             //用户名不存在
@@ -172,6 +187,7 @@ public class UserController {
             //密码错误
             resultSet.fail("登录失败，密码错误");
         }
+        System.out.println(resultSet);
         return resultSet;
     }
 
@@ -189,13 +205,12 @@ public class UserController {
     /**
      * 登出
      *
-     * @param request
      * @return 重定向：主页
      */
 
     @RequestMapping("/logout")
-    public String userLogout(HttpServletRequest request) {
-        System.out.println("登出人员：" + Tools.usernameSessionValidate(request));
+    public String userLogout() {
+        System.out.println("登出人员：" + Tools.usernameSessionValidate());
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return "redirect:/user/login";
@@ -219,12 +234,11 @@ public class UserController {
      */
 
     @RequestMapping("/user/userIndex")
-    public String showMessagePage(Model model,
-                                  HttpServletRequest request) {
+    public String showMessagePage(Model model) {
         int page = 1;
         //第一页开始，一页十条数据
         Page<User> pages = PageHelper.startPage(1, 10);
-        List<User> list = userService.getUserAll(request);
+        List<User> list = userService.getUserAll();
         model.addAttribute("user", list);
         model.addAttribute("pageNum", page);
         //前一页设为1，下一页设为这一页+1
@@ -249,41 +263,24 @@ public class UserController {
 
     @RequestMapping("/user/userIndex/{pageNum}")
     public String showMessagePageByPageHelper(Model model,
-                                              @PathVariable int pageNum,
-                                              HttpServletRequest request) {
+                                              @PathVariable int pageNum) {
         //pageNum传进来页面号
         Page<User> pages = PageHelper.startPage(pageNum, 10);
-        List<User> message = userService.getUserAll(request);
+        List<User> message = userService.getUserAll();
         model.addAttribute("user", message);
-        if (pageNum == 1) {
-            //如果当前页处于第一页，则上一页设为1
-            model.addAttribute("pageNumPrev", 1);
-        } else {
-            //否则上一页设为当前页-1
-            model.addAttribute("pageNumPrev", pageNum - 1);
-        }
-        if (pageNum == pages.getTotal() / 10 + 1) {
-            //如果当前页为最后一页，则下一页一直是最后一页
-            model.addAttribute("pageNumNext", pages.getTotal() / 10 + 1);
-        } else {
-            //否则，下一页为当前页+1
-            model.addAttribute("pageNumNext", pageNum + 1);
-        }
-        model.addAttribute("pageTotal", pages.getTotal() / 10 + 1);
+        Tools.indexPageHelperJudge(model,pageNum,pages,10);
         return "user";
     }
 
     @RequestMapping("/getUser1/{id}")
-    public String getUserById(@PathVariable int id,
-                              HttpServletRequest request) {
-        return userService.getUserById(id, request).toString();
+    public String getUserById(@PathVariable int id) {
+        return userService.getUserById(id).toString();
     }
 
     @RequestMapping("/getUser/{id}")
-    public ModelAndView getUserByIdTest1(@PathVariable int id,
-                                         HttpServletRequest request) {
+    public ModelAndView getUserByIdTest1(@PathVariable int id) {
         ModelAndView mav = new ModelAndView("user");
-        mav.addObject("user", userService.getUserById(id, request));
+        mav.addObject("user", userService.getUserById(id));
         return mav;
     }
 }

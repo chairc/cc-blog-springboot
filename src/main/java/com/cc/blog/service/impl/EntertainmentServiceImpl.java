@@ -2,12 +2,17 @@ package com.cc.blog.service.impl;
 
 import com.cc.blog.mapper.EntertainmentDao;
 import com.cc.blog.model.Entertainment;
+import com.cc.blog.model.ResultSet;
+import com.cc.blog.model.User;
 import com.cc.blog.service.EntertainmentService;
+import com.cc.blog.service.UserService;
+import com.cc.blog.util.Tools;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -20,11 +25,57 @@ public class EntertainmentServiceImpl implements EntertainmentService {
     @Autowired
     private EntertainmentDao entertainmentDao;
 
+    @Autowired
+    private UserService userService;
+
     @Value("${wps.wps-invite-url}")
     private String WPS_INVITE_URL;
 
+    /**
+     * 主页获取所有娱乐功能
+     *
+     * @return List<Entertainment>
+     */
+
     @Override
-    public String wpsAutoInvite(String uid) {
+    public List<Entertainment> getEntertainmentAll() {
+        return entertainmentDao.getEntertainmentAll();
+    }
+
+    /**
+     * 管理员获取所有娱乐功能
+     *
+     * @return resultSet
+     */
+
+    @Override
+    public ResultSet getEntertainmentAllByAdmin() {
+        ResultSet resultSet = new ResultSet();
+        try {
+            String username = Tools.usernameSessionValidate();
+            User admin = userService.getUserByUsername(username);
+            if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
+                resultSet.success("超级管理员娱乐列表获取成功");
+                resultSet.setData(entertainmentDao.getEntertainmentAll());
+            }else {
+                resultSet.fail("超级管理员娱乐列表获取失败");
+            }
+        }catch (Exception e){
+            resultSet.error();
+        }
+        return null;
+    }
+
+    /**
+     * wps自动邀请
+     *
+     * @param uid
+     * @return resultSet
+     */
+
+    @Override
+    public ResultSet wpsAutoInvite(String uid) {
+        ResultSet resultSet = new ResultSet();
         try {
             //从数据库中读取wps的sid
             List<Entertainment> list = entertainmentDao.getWpsSidAll();
@@ -36,9 +87,9 @@ public class EntertainmentServiceImpl implements EntertainmentService {
             StringBuilder sb = new StringBuilder();
             URL urlObj = new URL(WPS_INVITE_URL);
 
-            //循环n次由sid进行邀请（实际数据库中有11个数据）
+            //循环n次由sid进行邀请
             for (Entertainment entertainment : list) {
-                System.out.println("当前sid为:" + entertainment);
+                System.out.println("当前sid为:" + entertainment.getWps_sid());
                 HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
                 //post请求不能使用缓存
                 conn.setUseCaches(false);
@@ -77,10 +128,11 @@ public class EntertainmentServiceImpl implements EntertainmentService {
                 }
                 conn.disconnect();
             }
-            return "success";
+            resultSet.success("wps自动邀请成功");
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            resultSet.fail("wps自动邀请失败");
         }
+        return resultSet;
     }
 }

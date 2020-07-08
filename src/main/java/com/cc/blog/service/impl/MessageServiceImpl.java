@@ -3,7 +3,9 @@ package com.cc.blog.service.impl;
 import com.cc.blog.mapper.MessageDao;
 import com.cc.blog.model.Message;
 import com.cc.blog.model.ResultSet;
+import com.cc.blog.model.User;
 import com.cc.blog.service.MessageService;
+import com.cc.blog.service.UserService;
 import com.cc.blog.util.Tools;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -18,6 +20,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Autowired
     private MessageDao messageDao;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 主页获取留言
@@ -48,7 +53,7 @@ public class MessageServiceImpl implements MessageService {
      */
 
     @Override
-    public List<Message> getMessageAllByAscendingOrder(HttpServletRequest request) {
+    public List<Message> getMessageAllByAscendingOrder() {
         return messageDao.getMessageAllByAscendingOrder();
     }
 
@@ -59,7 +64,7 @@ public class MessageServiceImpl implements MessageService {
      */
 
     @Override
-    public List<Message> getMessageAll(HttpServletRequest request) {
+    public List<Message> getMessageAll() {
         return messageDao.getMessageAll();
     }
 
@@ -70,23 +75,24 @@ public class MessageServiceImpl implements MessageService {
      */
 
     @Override
-    public List<Message> getMessageAllByWeight(HttpServletRequest request) {
+    public List<Message> getMessageAllByWeight() {
         return messageDao.getMessageAllByWeight();
     }
 
     /**
      * 管理员获取留言
      *
-     * @param request
      * @return
      */
 
     @Override
-    public ResultSet getMessageAllByAdmin(HttpServletRequest request,int pageNum){
+    public ResultSet getMessageAllByAdmin(int pageNum){
         ResultSet resultSet = new ResultSet();
-        Page<Message> messagePages = PageHelper.startPage(pageNum, 10);
         try {
-            if(Tools.usernameSessionIsAdminValidate(request)){
+            String username = Tools.usernameSessionValidate();
+            User admin = userService.getUserByUsername(username);
+            if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
+                Page<Message> messagePages = PageHelper.startPage(pageNum, 10);
                 List<Message> messageList = messageDao.getMessageAllByAdmin();
                 resultSet.success("超级管理员留言列表获取成功");
                 resultSet.setData(messageList);
@@ -106,8 +112,10 @@ public class MessageServiceImpl implements MessageService {
      */
 
     @Override
-    public void insertMessage(Message message,HttpServletRequest request) {
-        if(Tools.usernameSessionIsAdminValidate(request)){
+    public void insertMessage(Message message) {
+        String username = Tools.usernameSessionValidate();
+        User admin = userService.getUserByUsername(username);
+        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
             messageDao.insertMessage(message);
         }
 
@@ -120,8 +128,10 @@ public class MessageServiceImpl implements MessageService {
      */
 
     @Override
-    public void deleteMessage(String privateId,HttpServletRequest request) {
-        if(Tools.usernameSessionIsAdminValidate(request)){
+    public void deleteMessage(String privateId) {
+        String username = Tools.usernameSessionValidate();
+        User admin = userService.getUserByUsername(username);
+        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
             messageDao.deleteMessageByPrivateId(privateId);
         }
 
@@ -134,8 +144,10 @@ public class MessageServiceImpl implements MessageService {
      */
 
     @Override
-    public void updateMessage(Message message,HttpServletRequest request) {
-        if(Tools.usernameSessionIsAdminValidate(request)){
+    public void updateMessage(Message message) {
+        String username = Tools.usernameSessionValidate();
+        User admin = userService.getUserByUsername(username);
+        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
             messageDao.updateMessage(message);
         }
 

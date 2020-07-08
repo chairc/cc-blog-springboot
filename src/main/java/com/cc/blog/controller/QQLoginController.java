@@ -126,7 +126,6 @@ public class QQLoginController {
      */
 
     @RequestMapping("/callback")
-    @ResponseBody
     public String callbackHandler(HttpServletRequest request,
                                   HttpServletResponse response) throws IOException {
         //获取回调的authorization
@@ -156,7 +155,7 @@ public class QQLoginController {
         }
         String userInfo = getUserInfo(openId, accessToken);
 
-        //System.out.println(userInfo);
+        System.out.println(userInfo);
 
         //将userInfo从Json格式中解析并传入service层
         ObjectMapper objectMapper = new ObjectMapper();
@@ -179,6 +178,8 @@ public class QQLoginController {
             user.setUser_safe_ip(Tools.getUserIp(request));
             user.setUser_safe_system(Tools.getSystemVersion(request));
             user.setUser_safe_browser(Tools.getBrowserVersion(request));
+            user.setUser_safe_role("5");
+            user.setUser_safe_permission("6");
             System.out.println(user);
             userService.insertUser(user);
         }
@@ -190,7 +191,7 @@ public class QQLoginController {
 
         try {
             subject.login(usernamePasswordToken);
-            request.getSession().setAttribute("username", username);
+            request.getSession().setAttribute("username", openId);
         }catch (UnknownAccountException | IncorrectCredentialsException | NullPointerException e){
             return "redirect:/user/login";
         }
@@ -263,13 +264,14 @@ public class QQLoginController {
         if (!matcher.find()) {
             throw new RuntimeException("异常的回调值: " + secondCallbackInfo);
         }
-
+        System.out.println("matcher = " + matcher);
         //调用jackson
         ObjectMapper objectMapper = new ObjectMapper();
         HashMap hashMap = objectMapper.readValue(matcher.group(0), HashMap.class);
+        String openId = (String) hashMap.get("openid");
 
-        //return "获取到的openId为：" + openId;
-        return ((String) hashMap.get("openId"));
+        System.out.println("openid = " + openId);
+        return openId;
     }
 
     /**

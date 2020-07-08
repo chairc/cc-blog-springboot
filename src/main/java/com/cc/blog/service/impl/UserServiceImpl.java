@@ -29,19 +29,23 @@ public class UserServiceImpl implements UserService {
      */
 
     @Override
-    public List<User> getUserAll(HttpServletRequest request) {
-        if (Tools.usernameSessionIsAdminValidate(request)) {
+    public List<User> getUserAll() {
+        String username = Tools.usernameSessionValidate();
+        User admin = userService.getUserByUsername(username);
+        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
             return userDao.getUserAll();
         }
         return null;
     }
 
     @Override
-    public ResultSet getUserAllByAdmin(HttpServletRequest request, int pageNum) {
+    public ResultSet getUserAllByAdmin(int pageNum) {
         ResultSet resultSet = new ResultSet();
-        Page<User> userPages = PageHelper.startPage(pageNum, 10);
         try {
-            if(Tools.usernameSessionIsAdminValidate(request)){
+            String username = Tools.usernameSessionValidate();
+            User admin = userService.getUserByUsername(username);
+            if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
+                Page<User> userPages = PageHelper.startPage(pageNum, 10);
                 List<User> userList = userDao.getUserAll();
                 resultSet.success("超级管理员用户列表获取成功");
                 resultSet.setData(userList);
@@ -62,8 +66,10 @@ public class UserServiceImpl implements UserService {
      */
 
     @Override
-    public User getUserById(int id, HttpServletRequest request) {
-        if (Tools.usernameSessionIsAdminValidate(request)) {
+    public User getUserById(int id) {
+        String username = Tools.usernameSessionValidate();
+        User admin = userService.getUserByUsername(username);
+        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
             return userDao.getUserById(id);
         }
         return null;

@@ -44,28 +44,28 @@ public interface ArticleService {
      * @return
      */
 
-    ResultSet getArticleAllByAdmin(HttpServletRequest request, int pageNum);
+    ResultSet getArticleAllByAdmin(int pageNum);
 
     /**
      * 新增文章
      *
      * @param article
      */
-    void insertArticle(Article article,HttpServletRequest request);
+    void insertArticle(Article article);
 
     /**
      * 通过私有ID删除文章
      *
      * @param privateId
      */
-    void deleteArticleByPrivateId(String privateId,HttpServletRequest request);
+    void deleteArticleByPrivateId(String privateId);
 
     /**
      * 更新文章
      *
      * @param article
      */
-    void updateArticle(Article article,HttpServletRequest request);
+    void updateArticle(Article article);
 
     /**
      * 获取文章条数

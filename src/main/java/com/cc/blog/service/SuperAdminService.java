@@ -14,7 +14,7 @@ public interface SuperAdminService {
      * @param id
      */
 
-    void deleteUserById(int id, HttpServletRequest request);
+    void deleteUserById(int id);
 
     /**
      * 更新用户信息
@@ -22,7 +22,7 @@ public interface SuperAdminService {
      * @param user
      */
 
-    void updateUser(User user, HttpServletRequest request);
+    void updateUser(User user);
 
     /**
      * 根据ID查询用户信息
@@ -30,6 +30,6 @@ public interface SuperAdminService {
      * @return resultSet
      */
 
-    ResultSet superAdminShowUser(String userId, HttpServletRequest request);
+    ResultSet superAdminShowUser(String userId);
 
 }

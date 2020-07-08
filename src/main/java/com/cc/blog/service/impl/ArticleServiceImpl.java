@@ -3,7 +3,9 @@ package com.cc.blog.service.impl;
 import com.cc.blog.mapper.ArticleDao;
 import com.cc.blog.model.Article;
 import com.cc.blog.model.ResultSet;
+import com.cc.blog.model.User;
 import com.cc.blog.service.ArticleService;
+import com.cc.blog.service.UserService;
 import com.cc.blog.util.Tools;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -18,6 +20,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleDao articleDao;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 主页获取文章
@@ -67,16 +72,17 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * 管理员获取文章
      *
-     * @param request
      * @return
      */
 
     @Override
-    public ResultSet getArticleAllByAdmin(HttpServletRequest request,int pageNum){
+    public ResultSet getArticleAllByAdmin(int pageNum){
         ResultSet resultSet = new ResultSet();
-        Page<Article> articlePages = PageHelper.startPage(pageNum, 10);
         try {
-            if(Tools.usernameSessionIsAdminValidate(request)){
+            String username = Tools.usernameSessionValidate();
+            User admin = userService.getUserByUsername(username);
+            if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
+                Page<Article> articlePages = PageHelper.startPage(pageNum, 10);
                 List<Article> articleList = articleDao.getArticleAllByAdmin();
                 resultSet.success("超级管理员文章列表获取成功");
                 resultSet.setData(articleList);
@@ -96,8 +102,10 @@ public class ArticleServiceImpl implements ArticleService {
      */
 
     @Override
-    public void insertArticle(Article article,HttpServletRequest request) {
-        if(Tools.usernameSessionIsAdminValidate(request)){
+    public void insertArticle(Article article) {
+        String username = Tools.usernameSessionValidate();
+        User admin = userService.getUserByUsername(username);
+        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
             articleDao.insertArticle(article);
         }
     }
@@ -109,8 +117,10 @@ public class ArticleServiceImpl implements ArticleService {
      */
 
     @Override
-    public void deleteArticleByPrivateId(String privateId,HttpServletRequest request) {
-        if(Tools.usernameSessionIsAdminValidate(request)){
+    public void deleteArticleByPrivateId(String privateId) {
+        String username = Tools.usernameSessionValidate();
+        User admin = userService.getUserByUsername(username);
+        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
             articleDao.deleteArticleByPrivateId(privateId);
         }
     }
@@ -122,8 +132,10 @@ public class ArticleServiceImpl implements ArticleService {
      */
 
     @Override
-    public void updateArticle(Article article,HttpServletRequest request) {
-        if(Tools.usernameSessionIsAdminValidate(request)){
+    public void updateArticle(Article article) {
+        String username = Tools.usernameSessionValidate();
+        User admin = userService.getUserByUsername(username);
+        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
             articleDao.updateArticle(article);
         }
 

@@ -1,10 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" class="nivo-lightbox-notouch" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>娱乐 | 小虚无的下午茶</title>
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
+    <link rel="stylesheet" th:href="@{/static/css/nivo-lightbox.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/static/css/main.css}">
+    <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
 </head>
 <body>
 
+<header id="header-wrap">
+    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo top-nav-collapse">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
+                        aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                </button>
+                <a href="https://www.chairc.cn" class="navbar-brand"><img
+                        src="./Home_files/logo.png" alt=""></a>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <ul class="onepage-nev navbar-nav mr-auto w-100 justify-content-end clearfix">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">主页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#about">关于</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/article/1">归档</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/message/1">留言</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/friendLink/1">友人帐</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/entertainment/1">娱乐</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/login">个人</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul class="onepage-nev mobile-menu">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="">
+                <a href="/#about">关于</a>
+            </li>
+            <li class="">
+                <a href="/article/1">归档</a>
+            </li>
+            <li class="">
+                <a href="/message/1">留言</a>
+            </li>
+            <li class="">
+                <a href="/friendLink/1">友人帐</a>
+            </li>
+            <li class="">
+                <a href="/entertainment/1">娱乐</a>
+            </li>
+            <li class="">
+                <a href="/user/login">个人</a>
+            </li>
+        </ul>
+    </nav>
+    <div id="hero-area" class="hero-area-bg">
+        <div class="overlay">
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 text-center">
+                    <div class="contents">
+                        <h5 class="head-title-other wow fadeInUp animated" data-wow-delay="0.4s"
+                            style="visibility: visible;-webkit-animation-delay: 0.4s; -moz-animation-delay: 0.4s; animation-delay: 0.4s;">
+                            娱乐
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="entertainment" class="entertainment section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-3 col-xs-12" th:each="item:${entertainment}">
+                <div class="entertainment-item wow fadeInDown animated" data-wow-delay="0.3s"
+                     style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                    <div class="icon">
+                        <i class="icon-grid"></i>
+                    </div>
+                    <div class="entertainment-content">
+                        <a th:href="'/entertainment/' + ${item.entertainment_name}">
+                            <p th:text="${item.entertainment_name}"></p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-container">
+            <div class="btn-prev-or-next">
+                <a th:href="'/entertainment/'+${pageNumPrev}" class="btn btn-primary">
+                    上一页
+                </a>
+            </div>
+            <div class="btn-prev-or-next">
+                <a th:href="'/entertainment/'+${pageNumNext}" class="btn btn-primary">
+                    下一页
+                </a>
+            </div>
+            <div class="btn-prev-or-next">
+                <p>当前页：</p>
+                <p th:text="${pageNum}"></p>
+                <p>/总页数：</p>
+                <p th:text="${pageTotal}"></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="footer.html"></footer>
+
+<a href="" class="back-to-top" style="display: block;">
+    <i>
+        <p>UP</p>
+    </i>
+</a>
+
+<script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.mixitup.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.counterup.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/waypoints.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/wow.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.nav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
 </body>
 </html>
