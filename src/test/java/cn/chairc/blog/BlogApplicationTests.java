@@ -1,7 +1,6 @@
-package com.cc.blog;
+package cn.chairc.blog;
 
-import com.cc.blog.model.ResultSet;
-import com.cc.blog.util.Tools;
+import cn.chairc.blog.util.Tools;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
