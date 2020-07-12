@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cc.blog.mapper.MessageDao">
+<mapper namespace="cn.chairc.blog.mapper.MessageDao">
     <!--关于ResultMap 如果实体类与数据库的行相同则不用写，反之则需要写ResultMap-->
     <sql id="table">cc_blog_message</sql>
 
-    <select id="getMessageAllToIndex" resultType="com.cc.blog.model.Message">
+    <select id="getMessageAllToIndex" resultType="cn.chairc.blog.model.Message">
         SELECT
         message_id,message_private_id,message_username,message_main,message_time,message_weight
         FROM
@@ -15,7 +15,7 @@
         LIMIT 0,3
     </select>
 
-    <select id="getMessageAllToIndexByWeight" resultType="com.cc.blog.model.Message">
+    <select id="getMessageAllToIndexByWeight" resultType="cn.chairc.blog.model.Message">
         SELECT
         message_id,message_private_id,message_username,message_main,message_time,message_weight
         FROM
@@ -28,7 +28,7 @@
         LIMIT 0,3
     </select>
 
-    <select id="getMessageAll" resultType="com.cc.blog.model.Message">
+    <select id="getMessageAll" resultType="cn.chairc.blog.model.Message">
         SELECT
         message_id,message_private_id,message_username,message_main,message_time,message_weight
         FROM
@@ -38,7 +38,7 @@
         DESC
     </select>
 
-    <select id="getMessageAllByAscendingOrder" resultType="com.cc.blog.model.Message">
+    <select id="getMessageAllByAscendingOrder" resultType="cn.chairc.blog.model.Message">
         SELECT
         message_id,message_private_id,message_username,message_main,message_time,message_weight
         FROM
@@ -47,7 +47,7 @@
         message_id
     </select>
 
-    <select id="getMessageAllByWeight" resultType="com.cc.blog.model.Message">
+    <select id="getMessageAllByWeight" resultType="cn.chairc.blog.model.Message">
         SELECT
         message_id,message_private_id,message_username,message_main,message_time,message_weight
         FROM
@@ -59,7 +59,7 @@
         DESC
     </select>
 
-    <select id="getMessageAllByAdmin" resultType="com.cc.blog.model.Message">
+    <select id="getMessageAllByAdmin" resultType="cn.chairc.blog.model.Message">
         SELECT
         *
         FROM
@@ -68,7 +68,7 @@
         message_id
     </select>
 
-    <insert id="insertMessage" parameterType="com.cc.blog.model.Message">
+    <insert id="insertMessage" parameterType="cn.chairc.blog.model.Message">
         INSERT INTO
         <include refid="table"/>
         (message_id,message_private_id,message_username,message_main,message_time,message_ip,message_system,
@@ -78,14 +78,14 @@
         #{message_system},#{message_browser},#{message_weight})
     </insert>
 
-    <delete id="deleteMessageByPrivateId" parameterType="com.cc.blog.model.Message">
+    <delete id="deleteMessageByPrivateId" parameterType="cn.chairc.blog.model.Message">
         DELETE FROM
         <include refid="table"/>
         WHERE
         message_private_id = #{message_private_id}
     </delete>
 
-    <update id="updateMessage" parameterType="com.cc.blog.model.Message">
+    <update id="updateMessage" parameterType="cn.chairc.blog.model.Message">
         UPDATE
         <include refid="table"/>
         SET
@@ -94,7 +94,7 @@
         message_system = #{message_system},message_browser = #{message_browser},message_weight = #{message_weight}
     </update>
 
-    <select id="getMessageCount" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+    <select id="getMessageCount" resultType="java.lang.Integer" parameterType="cn.chairc.blog.model.User">
         SELECT
         COUNT(*)
         FROM

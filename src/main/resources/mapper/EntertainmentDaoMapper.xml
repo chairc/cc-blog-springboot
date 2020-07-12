@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cc.blog.mapper.EntertainmentDao">
+<mapper namespace="cn.chairc.blog.mapper.EntertainmentDao">
     <!--关于ResultMap 如果实体类与数据库的行相同则不用写，反之则需要写ResultMap-->
     <sql id="table_entertainment">cc_blog_entertainment</sql>
     <sql id="table_wps">cc_blog_wps</sql>
 
-    <select id="getEntertainmentAll" resultType="com.cc.blog.model.Entertainment">
+    <select id="getEntertainmentAllToIndex" resultType="cn.chairc.blog.model.Entertainment">
+        SELECT
+        *
+        FROM
+        <include refid="table_entertainment"/>
+        ORDER BY
+        entertainment_id
+        DESC
+        LIMIT 0,8
+    </select>
+
+    <select id="getEntertainmentAll" resultType="cn.chairc.blog.model.Entertainment">
         SELECT
         *
         FROM
         <include refid="table_entertainment"/>
     </select>
 
-    <select id="getWpsSidAll" resultType="com.cc.blog.model.Entertainment">
+    <select id="getWpsSidAll" resultType="cn.chairc.blog.model.Entertainment">
         SELECT
         *
         FROM

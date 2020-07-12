@@ -239,12 +239,10 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
 <!-- 归档结束 -->
-
 <!-- 留言展示开始 -->
 <div id="message" class="section-padding">
     <h2 class="section-title wow flipInX animated" data-wow-delay="0.4s"
@@ -289,7 +287,6 @@
                                 <p class="line-text" th:text="${item2.message_main}"></p>
                             </div>
                         </li>
-
                     </ul>
                 </div>
             </div>
@@ -297,7 +294,59 @@
     </div>
 </div>
 <!-- 留言展示结束 -->
-
+<!-- 友人帐开始 -->
+<section id="friendLink" class="friendLink section-padding">
+    <h2 class="section-title wow flipInX animated" data-wow-delay="0.4s"
+        style="visibility: visible;-webkit-animation-delay: 0.4s; -moz-animation-delay: 0.4s; animation-delay: 0.4s;">
+        友人帐
+    </h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-3 col-xs-12" th:each="item:${friendLink}">
+                <div class="friendLink-item wow fadeInDown animated" data-wow-delay="0.3s"
+                     style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                    <div class="icon">
+                        <i class="icon-grid"></i>
+                    </div>
+                    <div class="friendLink-content">
+                        <h3>
+                            <p th:text="${item.friend_link_user}"></p>
+                        </h3>
+                        <a target="_blank" th:href="${item.friend_link_url}">
+                            <p th:text="${item.friend_link_url}"></p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 友人帐结束 -->
+<!--娱乐开始-->
+<section id="entertainment" class="entertainment section-padding">
+    <h2 class="section-title wow flipInX animated" data-wow-delay="0.4s"
+        style="visibility: visible;-webkit-animation-delay: 0.4s; -moz-animation-delay: 0.4s; animation-delay: 0.4s;">
+        娱乐
+    </h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-3 col-xs-12" th:each="item:${entertainment}">
+                <div class="entertainment-item wow fadeInDown animated" data-wow-delay="0.3s"
+                     style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                    <div class="icon">
+                        <i class="icon-grid"></i>
+                    </div>
+                    <div class="entertainment-content">
+                        <a th:href="'/entertainment/' + ${item.entertainment_name}">
+                            <p th:text="${item.entertainment_name}"></p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--娱乐结束-->
 <!-- 图片开始 -->
 <section id="pictures" class="section-padding">
     <div class="container">
@@ -350,14 +399,11 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </section>
 <!-- 图片结束 -->
-
-
 <!-- 底部开始 -->
 <footer th:replace="footer.html"></footer>
 <!-- 底部结束 -->
@@ -381,7 +427,6 @@
 <script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/main.js}"></script>
-
 
 </body>
 </html>

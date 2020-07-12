@@ -13,7 +13,7 @@
     <link rel="stylesheet" th:href="@{/static/css/responsive.css}">
     <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.min.css}">
 </head>
-<body>
+<body id="target">
 <header th:replace="header_home.html"></header>
 <div id="user" class="section-padding">
     <div class="container">
@@ -21,145 +21,65 @@
             <div style="padding-top: 60px;width: 100%;">
                 <ul class="nav nav-tabs">
                     <li class="user-li-style">
-                        <a onclick="selectUserList(1)" href="#admin_home_look" data-toggle="tab"
+                        <a onclick="selectUserList(1)" href="#admin-home-look" data-toggle="tab"
                            style="color: #000000">用户信息查看</a>
                     </li>
                     <li class="user-li-style">
-                        <a onclick="selectUserMobileList(1)" href="#admin_home_edit" data-toggle="tab"
+                        <a onclick="selectUserMobileList(1)" href="#admin-home-edit" data-toggle="tab"
                            style="color: #000000">用户信息操作</a>
                     </li>
                     <li class="user-li-style">
-                        <a onclick="selectArticleList(1)" href="#admin_article_edit" data-toggle="tab"
+                        <a onclick="selectArticleList(1)" href="#admin-article-edit" data-toggle="tab"
                            style="color: #000000">归档操作</a>
                     </li>
                     <li class="user-li-style">
-                        <a onclick="selectMessageList(1)" href="#admin_message_edit" data-toggle="tab"
+                        <a onclick="selectMessageList(1)" href="#admin-message-edit" data-toggle="tab"
                            style="color: #000000">留言操作</a>
                     </li>
                     <li class="user-li-style">
-                        <a href="#admin_picture_edit" data-toggle="tab" style="color: #000000">图片操作</a>
+                        <a href="#admin-picture-edit" data-toggle="tab" style="color: #000000">图片操作</a>
                     </li>
                     <li class="user-li-style">
-                        <a href="#admin_info" data-toggle="tab"
+                        <a href="#admin-info" data-toggle="tab"
                            style="color: #000000">查询数据</a>
                     </li>
                     <li class="user-li-style">
                         <a href="/articleTest" style="color: #000000">写文章</a>
                     </li>
                     <li class="user-li-style">
-                        <a href="#admin_settings" data-toggle="tab" style="color: #000000">设置</a>
+                        <a href="#admin-settings" data-toggle="tab" style="color: #000000">设置</a>
                     </li>
                 </ul>
                 <div class="tab-content" style="width: 100%">
-                    <div class="tab-pane" id="admin_home_look">
+                    <div class="tab-pane" id="admin-home-look">
                         <div id="showUserData">
 
                         </div>
-                        <div class="btn-container">
-                            <div class="btn-prev-or-next">
-                                <button class="btn btn-primary" id="userPrev"
-                                        onclick="selectUserList(this.value)" value="-1">
-                                    上一页
-                                </button>
-                            </div>
-                            <div class="btn-prev-or-next">
-                                <button class="btn btn-primary" id="userNext"
-                                        onclick="selectUserList(this.value)" value="+1">
-                                    下一页
-                                </button>
-                            </div>
-                            <div class="btn-prev-or-next">
-                                <p>当前页：</p>
-                                <p id="userPageNow"></p>
-                                <p>/总页数：</p>
-                                <p id="userPageTotal"></p>
-                            </div>
-                        </div>
                     </div>
-                    <div class="tab-pane" id="admin_home_edit">
+                    <div class="tab-pane" id="admin-home-edit">
                         <div style="width: 100%">
                             <div id="showData2">
 
                             </div>
-                            <div class="btn-container">
-                                <div class="btn-prev-or-next">
-                                    <button class="btn btn-primary" id="userMobilePrev"
-                                            onclick="selectUserMobileList(this.value)" value="-1">
-                                        上一页
-                                    </button>
-                                </div>
-                                <div class="btn-prev-or-next">
-                                    <button class="btn btn-primary" id="userMobileNext"
-                                            onclick="selectUserMobileList(this.value)" value="+1">
-                                        下一页
-                                    </button>
-                                </div>
-                                <div class="btn-prev-or-next">
-                                    <p>当前页：</p>
-                                    <p id="userPageMobileNow"></p>
-                                    <p>/总页数：</p>
-                                    <p id="userPageMobileTotal"></p>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="admin_article_edit">
+                    <div class="tab-pane" id="admin-article-edit">
                         <div id="showArticleData">
 
                         </div>
-                        <div class="btn-container">
-                            <div class="btn-prev-or-next">
-                                <button class="btn btn-primary" id="articlePrev"
-                                        onclick="selectArticleList(this.value)" value="-1">
-                                    上一页
-                                </button>
-                            </div>
-                            <div class="btn-prev-or-next">
-                                <button class="btn btn-primary" id="articleNext"
-                                        onclick="selectArticleList(this.value)" value="+1">
-                                    下一页
-                                </button>
-                            </div>
-                            <div class="btn-prev-or-next">
-                                <p>当前页：</p>
-                                <p id="articlePageNow"></p>
-                                <p>/总页数：</p>
-                                <p id="articlePageTotal"></p>
-                            </div>
-                        </div>
                     </div>
-                    <div class="tab-pane user-tab-pane-height" id="admin_message_edit">
+                    <div class="tab-pane user-tab-pane-height" id="admin-message-edit">
                         <div id="showMessageData">
 
                         </div>
-                        <div class="btn-container">
-                            <div class="btn-prev-or-next">
-                                <button class="btn btn-primary" id="messagePrev"
-                                        onclick="selectMessageList(this.value)" value="-1">
-                                    上一页
-                                </button>
-                            </div>
-                            <div class="btn-prev-or-next">
-                                <button class="btn btn-primary" id="messageNext"
-                                        onclick="selectMessageList(this.value)" value="+1">
-                                    下一页
-                                </button>
-                            </div>
-                            <div class="btn-prev-or-next">
-                                <p>当前页：</p>
-                                <p id="messagePageNow"></p>
-                                <p>/总页数：</p>
-                                <p id="messagePageTotal"></p>
-                            </div>
-                        </div>
                     </div>
-                    <div class="tab-pane user-tab-pane-height" id="admin_picture_edit">
+                    <div class="tab-pane user-tab-pane-height" id="admin-picture-edit">
                         <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
                              style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
                             <p>图片</p>
                         </div>
                     </div>
-                    <div class="tab-pane" id="admin_info">
+                    <div class="tab-pane" id="admin-info">
                         <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
                              style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
                             <div style="width: 100%">
@@ -183,7 +103,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane user-tab-pane-height" id="admin_settings">
+                    <div class="tab-pane user-tab-pane-height" id="admin-settings">
                         <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
                              style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
                             <p>设置</p>
@@ -196,19 +116,19 @@
 </div>
 <footer th:replace="footer.html"></footer>
 <div id="more-info-dialog" class="more-info-dialog">
-    <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
-         style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
-        <ul class="timeline">
-            <li>
-                <i class="icon-graduation"></i>
-                <h2 class="timelin-title">用户信息</h2>
-            </li>
-            <div id="moreInfoData">
+    <div class="more-info-dialog-warp">
+        <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+             style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+            <div style="width: 100%;height: 50px;line-height: 50px;text-align: right;">
+                <button class="btn btn-transparent" onclick="closeMoreInfoDialog()" style="height: 50px;width: 50px">╳</button>
+            </div>
+            <div id="moreInfoData" style="margin: auto;width: 80%;">
 
             </div>
-        </ul>
+        </div>
     </div>
 </div>
+
 <!--遮罩层-->
 <div id="more-info-dialog-background" class="more-info-dialog-background">
 </div>

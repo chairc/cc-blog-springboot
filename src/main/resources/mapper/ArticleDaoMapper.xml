@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cc.blog.mapper.ArticleDao">
+<mapper namespace="cn.chairc.blog.mapper.ArticleDao">
     <!--关于ResultMap 如果实体类与数据库的行相同则不用写，反之则需要写ResultMap-->
     <sql id="table">cc_blog_article</sql>
 
-    <select id="getArticleAllToIndex" resultType="com.cc.blog.model.Article">
+    <select id="getArticleAllToIndex" resultType="cn.chairc.blog.model.Article">
         SELECT
         article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num
         FROM
@@ -15,7 +15,7 @@
         LIMIT 0,8
     </select>
 
-    <select id="getArticleAll" resultType="com.cc.blog.model.Article">
+    <select id="getArticleAll" resultType="cn.chairc.blog.model.Article">
         SELECT
         article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num
         FROM
@@ -25,7 +25,7 @@
         DESC
     </select>
 
-    <select id="getArticleAllByAscendingOrder" resultType="com.cc.blog.model.Article">
+    <select id="getArticleAllByAscendingOrder" resultType="cn.chairc.blog.model.Article">
         SELECT
         article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num
         FROM
@@ -34,7 +34,7 @@
         article_id
     </select>
 
-    <select id="getArticleByPrivateId" resultType="com.cc.blog.model.Article">
+    <select id="getArticleByPrivateId" resultType="cn.chairc.blog.model.Article">
         SELECT
         article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num
         FROM
@@ -43,7 +43,7 @@
         article_private_id = #{articlePrivateId}
     </select>
 
-    <select id="getArticleAllByAdmin" resultType="com.cc.blog.model.Article">
+    <select id="getArticleAllByAdmin" resultType="cn.chairc.blog.model.Article">
         SELECT
         *
         FROM
@@ -52,7 +52,7 @@
         article_id
     </select>
 
-    <insert id="insertArticle" parameterType="com.cc.blog.model.Article">
+    <insert id="insertArticle" parameterType="cn.chairc.blog.model.Article">
         INSERT INTO
         <include refid="table"/>
         (article_id,article_private_id,article_title,article_author,article_main,article_time,article_click_num,
@@ -62,14 +62,14 @@
         #{article_time},#{article_click_num},#{article_browser},#{article_system},#{article_ip})
     </insert>
 
-    <delete id="deleteArticleByPrivateId" parameterType="com.cc.blog.model.Article">
+    <delete id="deleteArticleByPrivateId" parameterType="cn.chairc.blog.model.Article">
         DELETE FROM
         <include refid="table"/>
         WHERE
         article_private_id = #{article_private_id}
     </delete>
 
-    <update id="updateArticle" parameterType="com.cc.blog.model.Article">
+    <update id="updateArticle" parameterType="cn.chairc.blog.model.Article">
         UPDATE
         <include refid="table"/>
         SET
@@ -79,7 +79,7 @@
         article_ip = #{article_ip}
     </update>
 
-    <select id="getArticleCount" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+    <select id="getArticleCount" resultType="java.lang.Integer" parameterType="cn.chairc.blog.model.User">
         SELECT
         COUNT(*)
         FROM

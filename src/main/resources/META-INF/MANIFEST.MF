@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: com.cc.blog.BlogApplication
+Main-Class: cn.chairc.blog.BlogApplication
 Class-Path: log4j-api-2.12.1.jar spring-boot-starter-json-2.2.1.RELEASE.
  jar spring-jdbc-5.2.1.RELEASE.jar mybatis-spring-boot-autoconfigure-1.3
  .2.jar logback-core-1.2.3.jar spring-tx-5.2.1.RELEASE.jar mybatis-sprin

@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cc.blog.mapper.FriendLinkDao">
+<mapper namespace="cn.chairc.blog.mapper.FriendLinkDao">
     <!--关于ResultMap 如果实体类与数据库的行相同则不用写，反之则需要写ResultMap-->
     <sql id="table">cc_blog_friend_link</sql>
 
-    <select id="getFriendLinkAllByAdmin" resultType="com.cc.blog.model.FriendLink">
+    <select id="getFriendLinkAllToIndex" resultType="cn.chairc.blog.model.FriendLink">
+        SELECT
+        *
+        FROM
+        <include refid="table" />
+        ORDER BY
+        friend_link_id
+        DESC
+        LIMIT 0,8
+    </select>
+
+    <select id="getFriendLinkAllByAdmin" resultType="cn.chairc.blog.model.FriendLink">
         SELECT 
         *
         FROM 
         <include refid="table" />
     </select>
 
-    <select id="getFriendLinkAll" resultType="com.cc.blog.model.FriendLink">
+    <select id="getFriendLinkAll" resultType="cn.chairc.blog.model.FriendLink">
         SELECT
         friend_link_id,friend_link_private_id,friend_link_user,friend_link_url
         FROM
         <include refid="table" />
     </select>
 
-    <select id="getFriendLink" resultType="com.cc.blog.model.FriendLink">
+    <select id="getFriendLink" resultType="cn.chairc.blog.model.FriendLink">
         SELECT
         *
         FROM
@@ -27,7 +38,7 @@
         friend_link_private_id = #{privateId}
     </select>
     
-    <insert id="insertFriendLink" parameterType="com.cc.blog.model.FriendLink">
+    <insert id="insertFriendLink" parameterType="cn.chairc.blog.model.FriendLink">
         INSERT INTO
         <include refid="table"/>
         (friend_link_private_id,friend_link_user,friend_link_url)
@@ -35,7 +46,7 @@
         (#{friend_link_private_id},#{friend_link_user},#{friend_link_url})
     </insert>
 
-    <update id="updateFriendLink" parameterType="com.cc.blog.model.FriendLink">
+    <update id="updateFriendLink" parameterType="cn.chairc.blog.model.FriendLink">
         UPDATE
         <include refid="table"/>
         SET
@@ -45,7 +56,7 @@
         friend_link_id = #{friend_link_id}
     </update>
 
-    <delete id="deleteFriendLink" parameterType="com.cc.blog.model.FriendLink">
+    <delete id="deleteFriendLink" parameterType="cn.chairc.blog.model.FriendLink">
         DELETE FROM
         <include refid="table"/>
         WHERE

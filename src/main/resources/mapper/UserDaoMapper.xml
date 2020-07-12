@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cc.blog.mapper.UserDao">
+<mapper namespace="cn.chairc.blog.mapper.UserDao">
     <!--关于ResultMap 如果实体类与数据库的行相同则不用写，反之则需要写ResultMap-->
     <sql id="table">cc_blog_user</sql>
     <sql id="role_table">cc_blog_role</sql>
     <sql id="permission_table">cc_blog_permission</sql>
 
-    <select id="getUserAll" resultType="com.cc.blog.model.User">
+    <select id="getUserAll" resultType="cn.chairc.blog.model.User">
         SELECT 
         * 
         FROM 
         <include refid="table"/>
     </select>
 
-    <select id="getUserById" resultType="com.cc.blog.model.User">
+    <select id="getUserById" resultType="cn.chairc.blog.model.User">
         SELECT
         *
         FROM
@@ -22,7 +22,7 @@
         user_common_id = #{id}
     </select>
 
-    <select id="getUserByUsername" resultType="com.cc.blog.model.User">
+    <select id="getUserByUsername" resultType="cn.chairc.blog.model.User">
         SELECT
         *
         FROM
@@ -31,7 +31,7 @@
         user_common_username = #{username}
     </select>
 
-    <select id="getUserByOpenId" resultType="com.cc.blog.model.User">
+    <select id="getUserByOpenId" resultType="cn.chairc.blog.model.User">
         SELECT
         *
         FROM
@@ -40,7 +40,7 @@
         user_common_open_id = #{userId}
     </select>
 
-    <select id="loginUser" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+    <select id="loginUser" resultType="java.lang.Integer" parameterType="cn.chairc.blog.model.User">
         SELECT
         COUNT(*)
         FROM
@@ -51,7 +51,7 @@
         user_common_password = #{password}
     </select>
 
-    <select id="getUserPrivateId" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+    <select id="getUserPrivateId" resultType="java.lang.Integer" parameterType="cn.chairc.blog.model.User">
         SELECT
         COUNT(*)
         FROM
@@ -60,7 +60,7 @@
         user_common_private_id = #{privateId}
     </select>
 
-    <insert id="insertUser" parameterType="com.cc.blog.model.User">
+    <insert id="insertUser" parameterType="cn.chairc.blog.model.User">
         INSERT INTO
         <include refid="table"/>
         (user_common_private_id,user_common_open_id,user_common_username,user_common_password,
@@ -78,7 +78,7 @@
         #{user_safe_browser},#{user_safe_weight},#{user_safe_permission},#{user_safe_role})
     </insert>
 
-    <update id="updateUser" parameterType="com.cc.blog.model.User">
+    <update id="updateUser" parameterType="cn.chairc.blog.model.User">
         UPDATE
         <include refid="table"/>
         SET
@@ -96,14 +96,14 @@
         user_common_id = #{user_common_id}
     </update>
 
-    <delete id="deleteUserById" parameterType="com.cc.blog.model.User">
+    <delete id="deleteUserById" parameterType="cn.chairc.blog.model.User">
         DELETE FROM
         <include refid="table"/>
         WHERE
         user_common_id = #{user_common_id}
     </delete>
 
-    <select id="usernameValidate" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+    <select id="usernameValidate" resultType="java.lang.Integer" parameterType="cn.chairc.blog.model.User">
         SELECT
         COUNT(*)
         FROM
@@ -112,7 +112,7 @@
         user_common_username = #{username}
     </select>
 
-    <select id="openIdValidate" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+    <select id="openIdValidate" resultType="java.lang.Integer" parameterType="cn.chairc.blog.model.User">
         SELECT
         COUNT(*)
         FROM
@@ -121,14 +121,14 @@
         user_common_open_id = #{openId}
     </select>
 
-    <select id="getUserCount" resultType="java.lang.Integer" parameterType="com.cc.blog.model.User">
+    <select id="getUserCount" resultType="java.lang.Integer" parameterType="cn.chairc.blog.model.User">
         SELECT
         COUNT(*)
         FROM
         <include refid="table"/>
     </select>
 
-    <select id="getUserRole" resultType="com.cc.blog.model.Role">
+    <select id="getUserRole" resultType="cn.chairc.blog.model.Role">
         SELECT
         *
         FROM
@@ -137,7 +137,7 @@
         role_id = #{role}
     </select>
 
-    <select id="getUserPermission" resultType="com.cc.blog.model.Permission">
+    <select id="getUserPermission" resultType="cn.chairc.blog.model.Permission">
         SELECT
         *
         FROM

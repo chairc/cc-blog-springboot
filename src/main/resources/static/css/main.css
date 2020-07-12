@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Shadows+Into+Light|Source+Sans+Pro:400,700");
 html {
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
 }
 
 body {
@@ -154,6 +154,11 @@ ul li, ol li {
   transition: all .2s ease-in-out;
   -moz-transition: all .2s ease-in-out;
   -webkit-transition: all .2s ease-in-out;
+}
+
+.btn-transparent{
+  background-color: transparent;
+  color: #000000;
 }
 
 .btn-border {
@@ -1005,7 +1010,7 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
 
 .friendLink-item {
   background: #fff;
-  border-radius: 4px;
+  border-radius: 100%;
   padding: 48px 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
@@ -1055,12 +1060,12 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
 
 /* entertainment Item */
 .entertainment {
-  background: #F0F0F0;
+  background: #FFFFFF;
 }
 
 .entertainment-item {
   background: #fff;
-  border-radius: 4px;
+  border-radius: 40px;
   padding: 48px 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
@@ -1738,23 +1743,28 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
   white-space: nowrap;
 }
 
-.more-info-dialog {
+.more-info-dialog{
   display: none;
-  background-color:#ffffff;
-  z-index: 9999;
-  width: 80%;
-  height: auto;
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
+  z-index: 9999;
+  outline: 0;
+  overflow: auto;
+}
+
+.more-info-dialog-warp {
+  background-color:#ffffff;
+  width: 80%;
+  height: auto;
   margin-top: 70px;
   margin-bottom: 60px;
   margin-right: auto;
   margin-left: auto;
-  overflow-y: scroll;
   border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 .more-info-dialog-background {
