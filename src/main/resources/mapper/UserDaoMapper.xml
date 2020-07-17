@@ -146,4 +146,14 @@
         permission_id = #{permission}
     </select>
 
+    <update id="updateUserLoginLog" parameterType="cn.chairc.blog.model.User">
+        UPDATE
+        <include refid="table"/>
+        SET
+        user_safe_logtime = #{user_safe_logtime},user_safe_ip = #{user_safe_ip},
+        user_safe_system = #{user_safe_system},user_safe_browser = #{user_safe_browser}
+        WHERE
+        user_common_username = #{user_common_username} AND user_common_password = #{user_common_password}
+    </update>
+
 </mapper>

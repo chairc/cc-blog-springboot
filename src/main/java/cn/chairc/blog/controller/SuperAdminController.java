@@ -1,5 +1,6 @@
 package cn.chairc.blog.controller;
 
+import cn.chairc.blog.model.Article;
 import cn.chairc.blog.model.DataResultSet;
 import cn.chairc.blog.model.ResultSet;
 import cn.chairc.blog.model.User;
@@ -10,6 +11,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -76,18 +79,17 @@ public class SuperAdminController {
     }
 
 
-
-
-
     //管理模块
+
+    //用户操作
 
     /**
      * 更新用户
      *
-     * @return
+     * @return resultSet
      */
 
-    @RequestMapping("/update")
+    @RequestMapping("/updateUser")
     @ResponseBody
     public ResultSet updateUserInfoByAjax(@RequestParam(value = "id") int id) {
         ResultSet resultSet = new ResultSet();
@@ -99,10 +101,10 @@ public class SuperAdminController {
      * 删除用户
      *
      * @param deleteId
-     * @return
+     * @return resultSet
      */
 
-    @RequestMapping("/delete")
+    @RequestMapping("/deleteUser")
     @ResponseBody
     public ResultSet deleteUserInfoByAjax(@RequestParam(value = "deleteId") int deleteId) {
         ResultSet resultSet = new ResultSet();
@@ -112,15 +114,15 @@ public class SuperAdminController {
     }
 
     /**
-     * 测试点击Ajax替换数据
+     * 展示用户数据
      *
      * @param userId
-     * @return
+     * @return resultSet
      */
 
     @RequestMapping("/showUser")
     @ResponseBody
-    public ResultSet clickTest(@RequestParam(value = "userId") String userId) {
+    public ResultSet showUser(@RequestParam(value = "userId") String userId) {
 
         System.out.println("待查询用户ID：" + userId);
         System.out.println("总条数：" + userService.getUserCount());
@@ -133,7 +135,7 @@ public class SuperAdminController {
      * 将json展示到userList
      *
      * @param pageNum
-     * @return
+     * @return DataResultSet
      * @throws JsonProcessingException
      */
 
@@ -143,11 +145,77 @@ public class SuperAdminController {
         return userService.getUserAllByAdmin(pageNum);
     }
 
+
+    //文章操作
+
+
+    /**
+     * 展示文章数据
+     *
+     * @param articlePrivateId
+     * @return resultSet
+     */
+
+    @RequestMapping("/showArticle")
+    @ResponseBody
+    public ResultSet showArticle(@RequestParam(value = "articlePrivateId") String articlePrivateId) {
+
+        ResultSet resultSet = new ResultSet();
+        System.out.println("待查询用户ID：" + articlePrivateId);
+        Article article = articleService.getArticleByPrivateId(articlePrivateId);
+        resultSet.success("获取文章" + articlePrivateId + "成功");
+        resultSet.setData(article);
+        return resultSet;
+    }
+
+    /**
+     * 展示编辑文章界面
+     *
+     * @param model
+     * @param articlePrivateId
+     * @return article_edit.html
+     */
+
+    @RequestMapping("/editArticle/{articlePrivateId}")
+    public String showEditArticle(Model model,
+                                  @PathVariable String articlePrivateId) {
+        Article article = articleService.getArticleByPrivateId(articlePrivateId);
+        model.addAttribute("articlePrivateId", articlePrivateId);
+        model.addAttribute("articleTitle", article.getArticle_title());
+        model.addAttribute("articleAuthor", article.getArticle_author());
+        model.addAttribute("articleMain", article.getArticle_main());
+        return "article_edit";
+    }
+
+    /**
+     * 编辑文章内容
+     *
+     * @param articlePrivateId
+     * @param articleTitle
+     * @param articleAuthor
+     * @param articleText
+     * @return
+     */
+
+    @RequestMapping("/editArticleByAjax")
+    @ResponseBody
+    public ResultSet editArticle(@RequestParam(value = "articlePrivateId") String articlePrivateId,
+                                 @RequestParam(value = "articleTitle") String articleTitle,
+                                 @RequestParam(value = "articleAuthor") String articleAuthor,
+                                 @RequestParam(value = "articleText") String articleText) {
+        Article article = new Article();
+        article.setArticle_private_id(articlePrivateId);
+        article.setArticle_title(articleTitle);
+        article.setArticle_author(articleAuthor);
+        article.setArticle_main(articleText);
+        return articleService.editArticleByPrivateId(article);
+    }
+
     /**
      * 将json展示到articleList
      *
      * @param pageNum
-     * @return
+     * @return DataResultSet
      * @throws JsonProcessingException
      */
 
@@ -157,32 +225,36 @@ public class SuperAdminController {
         return articleService.getArticleAllByAdmin(pageNum);
     }
 
+    //留言操作
+
     /**
      * 将json展示到messageList
      *
      * @param pageNum
-     * @return
+     * @return DataResultSet
      * @throws JsonProcessingException
      */
 
     @RequestMapping("/showMessageList")
     @ResponseBody
     public DataResultSet showMessageList(@RequestParam(value = "pageNum") int pageNum,
-                                  HttpServletRequest request) throws JsonProcessingException {
+                                         HttpServletRequest request) throws JsonProcessingException {
         return messageService.getMessageAllByAdmin(pageNum);
     }
+
+    //友人账操作
 
     /**
      * 将json展示到friendLinkList
      *
      * @param pageNum
-     * @return
+     * @return DataResultSet
      * @throws JsonProcessingException
      */
 
-    @RequestMapping("/showfriendLinkList")
+    @RequestMapping("/showFriendLinkList")
     @ResponseBody
-    public DataResultSet showFriendLinkPageByAdmin(@RequestParam(value = "pageNum") int pageNum) throws JsonProcessingException{
+    public DataResultSet showFriendLinkPageByAdmin(@RequestParam(value = "pageNum") int pageNum) throws JsonProcessingException {
         return friendLinkService.getFriendLinkAllByAdmin(pageNum);
     }
 }

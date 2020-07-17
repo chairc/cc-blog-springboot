@@ -122,5 +122,20 @@ public interface UserDao {
 
     Role getUserRole(String role);
 
+    /**
+     * 获取用户权限
+     *
+     * @param permission
+     * @return
+     */
+
     Permission getUserPermission(String permission);
+
+    /**
+     * 更新用户登录日志
+     *
+     * @param user
+     */
+
+    void updateUserLoginLog(User user);
 }

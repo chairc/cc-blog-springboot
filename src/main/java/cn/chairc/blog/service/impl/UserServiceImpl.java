@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -228,6 +229,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Permission getUserPermission(String permission) {
         return userDao.getUserPermission(permission);
+    }
+
+
+
+    @Override
+    public void updateUserLoginLog(User user) {
+        userDao.updateUserLoginLog(user);
     }
 
 

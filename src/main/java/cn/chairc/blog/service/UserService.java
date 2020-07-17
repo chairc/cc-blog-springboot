@@ -2,6 +2,7 @@ package cn.chairc.blog.service;
 
 import cn.chairc.blog.model.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface UserService {
@@ -131,5 +132,13 @@ public interface UserService {
      */
 
     Permission getUserPermission(String permission);
+
+    /**
+     * 更新用户登录日志
+     *
+     * @param user
+     */
+
+    void updateUserLoginLog(User user);
 
 }

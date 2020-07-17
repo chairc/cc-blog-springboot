@@ -127,12 +127,12 @@ public class UserController {
     public String showUserLoginPage(HttpServletRequest request) {
         try {
             String username = Tools.usernameSessionValidate();
-            System.out.println("当前Session1：" + username);
+            System.out.println("当前Session：" + username);
             User user;
             try {
                 user = userService.getUserByUsername(username);
             }catch (NullPointerException e){
-                System.out.println("空指针异常1");
+                System.out.println("空指针异常");
                 return "login";
             }
             Role role = userService.getUserRole(user.getUser_safe_role());
@@ -165,7 +165,8 @@ public class UserController {
     @RequestMapping("/loginUserByAjax")
     @ResponseBody
     public ResultSet userLoginByAjax(@RequestParam(value = "username") String username,
-                                     @RequestParam(value = "password") String password) {
+                                     @RequestParam(value = "password") String password,
+                                     HttpServletRequest request) {
         ResultSet resultSet = new ResultSet();
         //1.获取Shiro的Subject
         Subject subject = SecurityUtils.getSubject();
@@ -177,6 +178,15 @@ public class UserController {
             //Shiro记录session
             Session session = subject.getSession();
             session.setAttribute("username",username);
+            //更新用户登录记录
+            User user = new User();
+            user.setUser_common_username(username);
+            user.setUser_common_password(password);
+            user.setUser_safe_ip(Tools.getUserIp(request));
+            user.setUser_safe_logtime(Tools.getServerTime());
+            user.setUser_safe_browser(Tools.getBrowserVersion(request));
+            user.setUser_safe_system(Tools.getSystemVersion(request));
+            userService.updateUserLoginLog(user);
             resultSet.success("登录成功");
         } catch (UnknownAccountException e) {
             //用户名不存在

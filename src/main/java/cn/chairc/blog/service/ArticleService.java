@@ -61,11 +61,21 @@ public interface ArticleService {
     void deleteArticleByPrivateId(String privateId);
 
     /**
-     * 更新文章
+     * 更新文章基本信息（不编辑文章内容）
      *
      * @param article
+     * @return ResultSet
      */
-    void updateArticle(Article article);
+    ResultSet updateArticle(Article article);
+
+    /**
+     * 编辑文章内容
+     *
+     * @param article
+     * @return ResultSet
+     */
+
+    ResultSet editArticleByPrivateId(Article article);
 
     /**
      * 获取文章条数

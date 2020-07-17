@@ -74,9 +74,19 @@
         <include refid="table"/>
         SET
         article_id = #{article_id},article_private_id = #{article_private_id},article_title = #{article_title},
-        article_author = #{article_author},article_main = #{article_main},article_time = #{article_time},
+        article_author = #{article_author},article_time = #{article_time},
         article_click_num = #{article_click_num},article_browser = #{article_browser},article_system = #{article_system},
         article_ip = #{article_ip}
+        WHERE
+    </update>
+
+    <update id="editArticleByPrivateId" parameterType="cn.chairc.blog.model.Article">
+        UPDATE
+        <include refid="table"/>
+        SET
+        article_title = #{article_title}, article_author = #{article_author},article_main = #{article_main}
+        WHERE
+        article_private_id = #{article_private_id}
     </update>
 
     <select id="getArticleCount" resultType="java.lang.Integer" parameterType="cn.chairc.blog.model.User">

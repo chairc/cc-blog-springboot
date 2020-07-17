@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" class="nivo-lightbox-notouch" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>写文章啦 | 小虚无的下午茶</title>
+    <title>编辑文章啦 | 小虚无的下午茶</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
@@ -15,20 +15,19 @@
 </head>
 <body>
 <header th:replace="header_home.html"></header>
-
 <div style="padding-top:80px; ">
     <div>
         <p>文章题目：</p>
-        <input id="article-title" type="text">
+        <input id="edit-article-title" th:value="${articleTitle}" type="text">
+        <p>作者：</p>
+        <input id="edit-article-author" th:value="${articleAuthor}" type="text">
     </div>
     <div id="editor">
-        <textarea style="display: none" id="article-text">请输入文章内容...</textarea>
+        <textarea style="display: none" id="edit-article-text" th:text="${articleMain}"></textarea>
     </div>
     <div class="btn-container">
-        <button class="btn btn-info" onclick="addArticle()">提交</button>
-    </div>
-    <div id="markdown-view">
-        <textarea style="display: none" th:text="${articleMain}"></textarea>
+        <button class="btn btn-info" th:value="${articlePrivateId}" onclick="editArticle(this.value)">提交</button>
+        <a class="btn btn-info" href="javascript:history.go(-1);">返回</a>
     </div>
 </div>
 <div class="message-box-warp">
@@ -56,15 +55,6 @@
         });
     });
 </script>
-<script type="text/javascript">
-    $(function() {
-        var testView = editormd.markdownToHTML("markdown-view", {
-            // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
-            htmlDecode : true,  // Enable / disable HTML tag encode.
-            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
-        });
-    });
-</script>
 <script type="text/javascript" th:src="@{/static/editor.md/editormd.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/marked.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/editor.md/lib/prettify.min.js}"></script>
@@ -83,6 +73,6 @@
 <script type="text/javascript" th:src="@{/static/js/jquery.easing.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/nivo-lightbox.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/jquery.slicknav.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin.js}"></script>
 </body>
 </html>

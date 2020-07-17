@@ -64,7 +64,7 @@ public class ArticleController {
         return "article_show";
     }
 
-    @RequestMapping("/articleTest")
+    @RequestMapping("/articleEdit")
     public String articleTest(Model model) {
         Article article = articleService.getArticleByPrivateId("article_mCHAvnbTBpaazfd");
         model.addAttribute("articleMain", article.getArticle_main());

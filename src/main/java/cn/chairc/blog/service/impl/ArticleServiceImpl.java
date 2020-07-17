@@ -76,12 +76,12 @@ public class ArticleServiceImpl implements ArticleService {
      */
 
     @Override
-    public DataResultSet getArticleAllByAdmin(int pageNum){
+    public DataResultSet getArticleAllByAdmin(int pageNum) {
         DataResultSet dataResultSet = new DataResultSet();
         try {
             String username = Tools.usernameSessionValidate();
             User admin = userService.getUserByUsername(username);
-            if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
+            if (Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
                 Page<Article> articlePages = PageHelper.startPage(pageNum, 10);
                 List<Article> articleList = articleDao.getArticleAllByAdmin();
                 dataResultSet.success("超级管理员文章列表获取成功");
@@ -89,7 +89,7 @@ public class ArticleServiceImpl implements ArticleService {
                 dataResultSet.setPage_num(pageNum);
                 dataResultSet.setPage_count((int) articlePages.getTotal());
                 dataResultSet.setPage_total((int) ((articlePages.getTotal() - 1) / 10 + 1));
-            }else {
+            } else {
                 dataResultSet.fail("超级管理员文章列表获取失败");
             }
         } catch (Exception e) {
@@ -108,7 +108,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void insertArticle(Article article) {
         String username = Tools.usernameSessionValidate();
         User admin = userService.getUserByUsername(username);
-        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
+        if (Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
             articleDao.insertArticle(article);
         }
     }
@@ -123,25 +123,58 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteArticleByPrivateId(String privateId) {
         String username = Tools.usernameSessionValidate();
         User admin = userService.getUserByUsername(username);
-        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
+        if (Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
             articleDao.deleteArticleByPrivateId(privateId);
         }
     }
 
     /**
-     * 更新文章
+     * 更新文章基本信息（不编辑文章）
      *
      * @param article
      */
 
     @Override
-    public void updateArticle(Article article) {
+    public ResultSet updateArticle(Article article) {
+        ResultSet resultSet = new ResultSet();
         String username = Tools.usernameSessionValidate();
         User admin = userService.getUserByUsername(username);
-        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
-            articleDao.updateArticle(article);
+        if (Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
+            try {
+                articleDao.updateArticle(article);
+                resultSet.success("更新文章" + article.getArticle_private_id() + "基本信息成功");
+            } catch (Exception e) {
+                resultSet.error();
+            }
+        } else {
+            resultSet.fail("更新文章" + article.getArticle_private_id() + "基本信息失败");
         }
+        return resultSet;
+    }
 
+    /**
+     * 编辑文章内容
+     *
+     * @param article
+     * @return
+     */
+
+    @Override
+    public ResultSet editArticleByPrivateId(Article article) {
+        ResultSet resultSet = new ResultSet();
+        String username = Tools.usernameSessionValidate();
+        User admin = userService.getUserByUsername(username);
+        if (Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
+            try {
+                articleDao.editArticleByPrivateId(article);
+                resultSet.success("更新文章" + article.getArticle_private_id() + "成功");
+            } catch (Exception e) {
+                resultSet.error();
+            }
+        } else {
+            resultSet.fail("更新文章" + article.getArticle_private_id() + "失败");
+        }
+        return resultSet;
     }
 
     /**
@@ -151,7 +184,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
 
     @Override
-    public Integer getArticleCount(){
+    public Integer getArticleCount() {
         return articleDao.getArticleCount();
     }
 }

@@ -66,12 +66,19 @@ public interface ArticleDao {
     void deleteArticleByPrivateId(String articlePrivateId);
 
     /**
-     * 更新文章
+     * 更新文章基本信息（不编辑文章）
      *
      * @param article
      */
 
     void updateArticle(Article article);
+
+    /**
+     * 编辑文章
+     * @param article
+     */
+
+    void editArticleByPrivateId(Article article);
 
     /**
      * 获取文章条数
