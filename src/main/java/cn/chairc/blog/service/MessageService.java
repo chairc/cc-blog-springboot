@@ -80,4 +80,12 @@ public interface MessageService {
      * @return
      */
     Integer getMessageCount();
+
+    /**
+     * 通过私有Id获取留言
+     * @param privateId
+     * @return
+     */
+
+    ResultSet getMessageByPrivateId(String privateId);
 }

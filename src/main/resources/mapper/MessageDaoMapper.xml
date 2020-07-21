@@ -101,4 +101,12 @@
         <include refid="table"/>
     </select>
 
+    <select id="getMessageByPrivateId" resultType="cn.chairc.blog.model.Message">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+        WHERE
+        message_private_id = #{privateId}
+    </select>
 </mapper>

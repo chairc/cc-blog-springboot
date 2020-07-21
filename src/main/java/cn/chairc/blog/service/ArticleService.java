@@ -51,14 +51,14 @@ public interface ArticleService {
      *
      * @param article
      */
-    void insertArticle(Article article);
+    ResultSet insertArticle(Article article);
 
     /**
      * 通过私有ID删除文章
      *
      * @param privateId
      */
-    void deleteArticleByPrivateId(String privateId);
+    ResultSet deleteArticleByPrivateId(String privateId);
 
     /**
      * 更新文章基本信息（不编辑文章内容）

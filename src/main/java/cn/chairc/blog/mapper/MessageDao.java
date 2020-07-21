@@ -45,7 +45,7 @@ public interface MessageDao {
      * @param username
      */
 
-    Article getMessageByUsername(String username);
+    Message getMessageByUsername(String username);
 
     /**
      * 管理员获取留言
@@ -76,4 +76,10 @@ public interface MessageDao {
      */
 
     Integer getMessageCount();
+
+    /**
+     * 通过私有ID获取留言
+     */
+
+    Message getMessageByPrivateId(String privateId);
 }

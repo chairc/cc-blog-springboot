@@ -24,9 +24,11 @@
 
     <select id="getFriendLinkAll" resultType="cn.chairc.blog.model.FriendLink">
         SELECT
-        friend_link_id,friend_link_private_id,friend_link_user,friend_link_url
+        *
         FROM
         <include refid="table" />
+        WHERE
+        friend_link_check = 1
     </select>
 
     <select id="getFriendLink" resultType="cn.chairc.blog.model.FriendLink">
@@ -62,5 +64,14 @@
         WHERE
         friend_link_private_id = #{privateId}
     </delete>
+
+    <select id="getUserFriendLink" resultType="cn.chairc.blog.model.FriendLink">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+        WHERE
+        friend_link_id = #{id}
+    </select>
 
 </mapper>

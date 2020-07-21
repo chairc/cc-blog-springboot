@@ -1,15 +1,13 @@
 package cn.chairc.blog.controller;
 
-import cn.chairc.blog.model.Article;
-import cn.chairc.blog.model.DataResultSet;
-import cn.chairc.blog.model.ResultSet;
-import cn.chairc.blog.model.User;
+import cn.chairc.blog.model.*;
 import cn.chairc.blog.service.*;
 import cn.chairc.blog.util.Tools;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +37,18 @@ public class SuperAdminController {
     @Autowired
     private FriendLinkService friendLinkService;
 
+    @Autowired
+    private HeadImageService headImageService;
+
+    @Value("${head-image.default-head-image}")
+    private String DEFAULT_HEAD_IMAGE;
+
+    @Value("${head-image.default-head-image-man}")
+    private String DEFAULT_HEAD_IMAGE_MAN;
+
+    @Value("${head-image.default-head-image-woman}")
+    private String DEFAULT_HEAD_IMAGE_WOMAN;
+
     //登录相关
 
     /**
@@ -49,13 +59,50 @@ public class SuperAdminController {
      */
 
     @RequestMapping("/admin")
-    public String showSuperAdmin(HttpServletRequest request) {
+    public String showSuperAdmin(HttpServletRequest request,
+                                 Model model) {
         try {
             HttpSession session = request.getSession();
             String usernameIsAdmin = (String) session.getAttribute("username");
             User user = userService.getUserByUsername(usernameIsAdmin);
             //管理员登录需要验证角色，以防止空指针异常
             if (Tools.usernameSessionIsAdminValidate(user.getUser_safe_role())) {
+                String userHeadImage, userFriendLink;
+                model.addAttribute("privateId", user.getUser_common_private_id());
+                model.addAttribute("openId", user.getUser_common_open_id());
+                model.addAttribute("username", user.getUser_common_username());
+                model.addAttribute("nickname", user.getUser_common_nickname());
+                if (user.getUser_common_head_image_id() != 0) {
+                    HeadImage headImage = headImageService.getUserHeadImage(user.getUser_common_head_image_id());
+                    userHeadImage = headImage.getHead_image_url();
+                } else {
+                    if (user.getUser_secret_sex().equals("男")) {
+                        userHeadImage = DEFAULT_HEAD_IMAGE_MAN;
+                    } else if (user.getUser_secret_sex().equals("女")) {
+                        userHeadImage = DEFAULT_HEAD_IMAGE_WOMAN;
+                    } else {
+                        userHeadImage = DEFAULT_HEAD_IMAGE;
+                    }
+                }
+                model.addAttribute("headImage", userHeadImage);
+                if (user.getUser_common_friend_link_id() != 0) {
+                    FriendLink friendLink = friendLinkService.getUserFriendLink(user.getUser_common_friend_link_id());
+                    userFriendLink = friendLink.getFriend_link_url();
+                } else {
+                    userFriendLink = "暂无友链";
+                }
+                model.addAttribute("friendLink", userFriendLink);
+                model.addAttribute("realName", user.getUser_secret_real_name());
+                model.addAttribute("phone", user.getUser_secret_phone());
+                model.addAttribute("email", user.getUser_secret_email());
+                model.addAttribute("birthday", user.getUser_secret_birthday());
+                model.addAttribute("sex", user.getUser_secret_sex());
+                model.addAttribute("age", user.getUser_secret_age());
+                model.addAttribute("wechat", user.getUser_secret_wechat());
+                model.addAttribute("qq", user.getUser_secret_qq());
+                model.addAttribute("weibo", user.getUser_secret_weibo());
+                model.addAttribute("address", user.getUser_secret_address());
+                model.addAttribute("logtime", user.getUser_safe_logtime());
                 return "admin";
             }
         } catch (Exception e) {
@@ -141,7 +188,7 @@ public class SuperAdminController {
 
     @RequestMapping("/showUserList")
     @ResponseBody
-    public DataResultSet showUserList(@RequestParam(value = "pageNum") int pageNum) throws JsonProcessingException {
+    public DataResultSet showUserList(@RequestParam(value = "pageNum") int pageNum) {
         return userService.getUserAllByAdmin(pageNum);
     }
 
@@ -166,6 +213,58 @@ public class SuperAdminController {
         resultSet.success("获取文章" + articlePrivateId + "成功");
         resultSet.setData(article);
         return resultSet;
+    }
+
+    /**
+     * 将json展示到articleList
+     *
+     * @param pageNum
+     * @return DataResultSet
+     * @throws JsonProcessingException
+     */
+
+    @RequestMapping("/showArticleList")
+    @ResponseBody
+    public DataResultSet showArticleList(@RequestParam(value = "pageNum") int pageNum) {
+        return articleService.getArticleAllByAdmin(pageNum);
+    }
+
+    /**
+     * 更新文章基本信息（不编辑文章内容）
+     *
+     * @param id
+     * @param privateId
+     * @param title
+     * @param author
+     * @param time
+     * @param click
+     * @param ip
+     * @param system
+     * @param browser
+     * @return
+     */
+
+    @RequestMapping("/updateArticle")
+    public ResultSet updateArticle(@RequestParam(value = "id") int id, @RequestParam(value = "privateId") String privateId,
+                                   @RequestParam(value = "title") String title, @RequestParam(value = "author") String author,
+                                   @RequestParam(value = "time") String time, @RequestParam(value = "click") int click,
+                                   @RequestParam(value = "ip") String ip, @RequestParam(value = "system") String system,
+                                   @RequestParam(value = "browser") String browser) {
+        Article article = new Article();
+        article.setArticle_id(id);
+        article.setArticle_private_id(privateId);
+        article.setArticle_title(title);
+        article.setArticle_author(author);
+        article.setArticle_time(time);
+        article.setArticle_click_num(click);
+        article.setArticle_ip(ip);
+        article.setArticle_system(system);
+        article.setArticle_browser(browser);
+        return articleService.updateArticle(article);
+    }
+
+    public ResultSet deleteArticle(@RequestParam(value = "deletePrivateId") String deletePrivateId){
+        return articleService.deleteArticleByPrivateId(deletePrivateId);
     }
 
     /**
@@ -211,20 +310,6 @@ public class SuperAdminController {
         return articleService.editArticleByPrivateId(article);
     }
 
-    /**
-     * 将json展示到articleList
-     *
-     * @param pageNum
-     * @return DataResultSet
-     * @throws JsonProcessingException
-     */
-
-    @RequestMapping("/showArticleList")
-    @ResponseBody
-    public DataResultSet showArticleList(@RequestParam(value = "pageNum") int pageNum) throws JsonProcessingException {
-        return articleService.getArticleAllByAdmin(pageNum);
-    }
-
     //留言操作
 
     /**
@@ -238,8 +323,21 @@ public class SuperAdminController {
     @RequestMapping("/showMessageList")
     @ResponseBody
     public DataResultSet showMessageList(@RequestParam(value = "pageNum") int pageNum,
-                                         HttpServletRequest request) throws JsonProcessingException {
+                                         HttpServletRequest request) {
         return messageService.getMessageAllByAdmin(pageNum);
+    }
+
+    /**
+     * 展示留言数据
+     *
+     * @param messagePrivateId
+     * @return
+     */
+
+    @RequestMapping("/showMessage")
+    @ResponseBody
+    public ResultSet showMessage(@RequestParam(value = "messagePrivateId") String messagePrivateId) {
+        return messageService.getMessageByPrivateId(messagePrivateId);
     }
 
     //友人账操作
@@ -249,12 +347,11 @@ public class SuperAdminController {
      *
      * @param pageNum
      * @return DataResultSet
-     * @throws JsonProcessingException
      */
 
     @RequestMapping("/showFriendLinkList")
     @ResponseBody
-    public DataResultSet showFriendLinkPageByAdmin(@RequestParam(value = "pageNum") int pageNum) throws JsonProcessingException {
+    public DataResultSet showFriendLinkPageByAdmin(@RequestParam(value = "pageNum") int pageNum) {
         return friendLinkService.getFriendLinkAllByAdmin(pageNum);
     }
 }

@@ -139,6 +139,6 @@ public interface UserService {
      * @param user
      */
 
-    void updateUserLoginLog(User user);
+    void updateUserLoginLog(User user,String loginMethod);
 
 }

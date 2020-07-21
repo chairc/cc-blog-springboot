@@ -62,4 +62,13 @@ public interface FriendLinkService {
      */
     void deleteFriendLink(String privateId);
 
+    /**
+     * 通过id获取友链
+     *
+     * @param id
+     * @return
+     */
+
+    FriendLink getUserFriendLink(int id);
+
 }

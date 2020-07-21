@@ -231,12 +231,18 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserPermission(permission);
     }
 
-
+    /**
+     * 更新用户登录日志
+     *
+     * @param user
+     */
 
     @Override
-    public void updateUserLoginLog(User user) {
-        userDao.updateUserLoginLog(user);
+    public void updateUserLoginLog(User user,String loginMethod) {
+        if(loginMethod.equals("normalLogin")){
+            userDao.updateUserLoginLogByNormalLogin(user);
+        }else if(loginMethod.equals("qqLogin")){
+            userDao.updateUserLoginLogByQQLogin(user);
+        }
     }
-
-
 }

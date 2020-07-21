@@ -7,6 +7,7 @@ public class Entertainment {
     private String entertainment_private_id;
     private String entertainment_name;
     private String entertainment_update_time;
+    private String entertainment_image_url;
 
     //wps自动邀请（待更新）
     private int wps_id;         //wps的id
@@ -42,6 +43,14 @@ public class Entertainment {
 
     public void setEntertainment_update_time(String entertainment_update_time) {
         this.entertainment_update_time = entertainment_update_time;
+    }
+
+    public String getEntertainment_image_url() {
+        return entertainment_image_url;
+    }
+
+    public void setEntertainment_image_url(String entertainment_image_url) {
+        this.entertainment_image_url = entertainment_image_url;
     }
 
     public int getWps_id() {

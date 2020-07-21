@@ -388,8 +388,22 @@ function selectUserMobileList(value) {
                             'value="' + data.data[i]['user_common_nickname'] + '">' +
                             '</label>' +
                             '</p>' +
+                            '<p>头像编号:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="headImage" type="text"' +
+                            'value="' + data.data[i]['user_common_head_image_id'] + '">' +
+                            '</label>' +
+                            '</p>' +
                             '</div>' +
                             '<div style="float: left;">' +
+                            '<p>友人帐编号:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="friendLink" type="text"' +
+                            'value="' + data.data[i]['user_common_friend_link_id'] + '">' +
+                            '</label>' +
+                            '</p>' +
                             '<p>真实姓名:' +
                             '<label>' +
                             '<input style="background: transparent;border: none"' +
@@ -476,6 +490,13 @@ function selectUserMobileList(value) {
                             'value="' + data.data[i]['user_safe_ip'] + '">' +
                             '</label>' +
                             '</p>' +
+                            '<p>权重:' +
+                            '<label>' +
+                            '<input style="background: transparent;border: none"' +
+                            'id="weight" type="text"' +
+                            'value="' + data.data[i]['user_safe_weight'] + '">' +
+                            '</label>' +
+                            '</p>' +
                             '</div>' +
                             '<div style="float: left">' +
                             '<p>安全问题:' +
@@ -506,13 +527,6 @@ function selectUserMobileList(value) {
                             'value="' + data.data[i]['user_safe_browser'] + '">' +
                             '</label>' +
                             '</p>' +
-                            '<p>权重:' +
-                            '<label>' +
-                            '<input style="background: transparent;border: none"' +
-                            'id="weight" type="text"' +
-                            'value="' + data.data[i]['user_safe_weight'] + '">' +
-                            '</label>' +
-                            '</p>' +
                             '<p>权限:' +
                             '<label>' +
                             '<input style="background: transparent;border: none"' +
@@ -520,8 +534,6 @@ function selectUserMobileList(value) {
                             'value="' + data.data[i]['user_safe_permission'] + '">' +
                             '</label>' +
                             '</p>' +
-                            '</div>' +
-                            '<div style="float: left;">' +
                             '<p>角色:' +
                             '<label>' +
                             '<input style="background: transparent;border: none"' +
@@ -676,6 +688,7 @@ function selectMessageList(value) {
                     '<td>系统</td>' +
                     '<td>浏览器</td>' +
                     '<td>权重</td>' +
+                    '<td>更多</td>' +
                     '</tr>';
                 for (var i = 0; i < 10; i++) {
                     try {
@@ -689,6 +702,9 @@ function selectMessageList(value) {
                             '<td title="' + data.data[i]["message_system"] + '">' + data.data[i]["message_system"] + '</td>' +
                             '<td title="' + data.data[i]["message_browser"] + '">' + data.data[i]["message_browser"] + '</td>' +
                             '<td title="' + data.data[i]["message_weight"] + '">' + data.data[i]["message_weight"] + '</td>' +
+                            '<td><button class="btn btn-info" style="height: 100%;width: 100%;text-align: center;padding: 10%;"' +
+                            ' id="more-info-click" onclick="moreMessageInfoClick(this.value)" value="' + data.data[i]["message_private_id"] + '" ">' +
+                            '详情</button></td>' +
                             '</tr>';
                     } catch (e) {
                         //异常处理，如果遍历不够十次则中断遍历直接输出
@@ -822,8 +838,22 @@ function moreUserInfoClick(value) {
                     'value="' + data.data['user_common_nickname'] + '">' +
                     '</label>' +
                     '</p>' +
+                    '<p>头像编号:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="headImage" type="text"' +
+                    'value="' + data.data['user_common_head_image_id'] + '">' +
+                    '</label>' +
+                    '</p>' +
                     '</div>' +
                     '<div style="float: left;">' +
+                    '<p>友人帐编号:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="friendLink" type="text"' +
+                    'value="' + data.data['user_common_friend_link_id'] + '">' +
+                    '</label>' +
+                    '</p>' +
                     '<p>真实姓名:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
@@ -910,6 +940,13 @@ function moreUserInfoClick(value) {
                     'value="' + data.data['user_safe_ip'] + '">' +
                     '</label>' +
                     '</p>' +
+                    '<p>权重:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="weight" type="text"' +
+                    'value="' + data.data['user_safe_weight'] + '">' +
+                    '</label>' +
+                    '</p>' +
                     '</div>' +
                     '<div style="float: left">' +
                     '<p>安全问题:' +
@@ -940,13 +977,6 @@ function moreUserInfoClick(value) {
                     'value="' + data.data['user_safe_browser'] + '">' +
                     '</label>' +
                     '</p>' +
-                    '<p>权重:' +
-                    '<label>' +
-                    '<input style="background: transparent;border: none"' +
-                    'id="weight" type="text"' +
-                    'value="' + data.data['user_safe_weight'] + '">' +
-                    '</label>' +
-                    '</p>' +
                     '<p>权限:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
@@ -954,8 +984,6 @@ function moreUserInfoClick(value) {
                     'value="' + data.data['user_safe_permission'] + '">' +
                     '</label>' +
                     '</p>' +
-                    '</div>' +
-                    '<div style="float: left;">' +
                     '<p>角色:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
@@ -1076,6 +1104,106 @@ function moreArticleInfoClick(value) {
     })
 }
 
+function moreMessageInfoClick(value) {
+    $("#more-info-dialog").css("display", "block");
+    $("#more-info-dialog-background").css("display", "block");
+    $("#target").css("overflow", "hidden");
+    var messagePrivateId = value;
+    $.ajax({
+        url: "/superAdmin/showMessage",
+        dataType: "JSON",
+        data: {
+            "messagePrivateId": messagePrivateId
+        },
+        success: function (data) {
+            console.log(data);
+            if (data.code === "0") {
+                $("#message-box-text").html(data.msg);
+                $("#message-box").css("color", "#a94442");
+                $("#message-box").css("background", "#f2dede");
+                setTimeout(function () {
+                    $('#message-box').slideUp(300);
+                }, 1000);
+                if ($("#message-box").is(":hidden")) {
+                    $('#message-box').slideDown(300);
+                } else {
+                    $('#message-box').slideUp(300);
+                }
+            } else if (data.code === "1") {
+                $("#moreInfoData").html(
+                    '<div class="content-text" style="display: inline-block;width: 100%;align-content: center">' +
+                    '<div style="float: left;width: 33.3%;">' +
+                    '<p>序号:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'th:id="messageId' + data.data['message_id'] + '" type="text"' +
+                    'value="' + data.data['message_id'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>留言识别号:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none" id="messagePrivateId" type="text"' +
+                    'value="' + data.data['message_private_id'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>留言用户:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none" id="messageUsername" type="text"' +
+                    'value="' + data.data['message_username'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '</div>' +
+                    '<div style="float: left;width: 33.3%;">' +
+                    '<p>留言内容:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none" id="messageMain" type="text"' +
+                    'value="' + data.data['message_main'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>留言时间:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none" id="messageTime" type="text"' +
+                    'value="' + data.data['message_time'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>权重:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none" id="messageWeight" type="text"' +
+                    'value="' + data.data['message_weight'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '</div>' +
+                    '<div style="float: left;width: 33.3%;">' +
+                    '<p>IP地址:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none" id="messageIp" type="text"' +
+                    'value="' + data.data['message_ip'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>系统:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none" id="messageSystem" type="text"' +
+                    'value="' + data.data['message_system'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '<p>浏览器:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="messageBrowser" type="text"' +
+                    'value="' + data.data['message_browser'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '</div>' +
+                    '<div class="btn-container">' +
+                    '<button class="btn btn-danger" onclick="deleteMessage(this.value)" ' +
+                    'value="' + data.data['message_private_id'] + '">删除</button>' +
+                    '</div>' +
+                    '</div>');
+            }
+        },
+    })
+}
+
 //删除用户
 function deleteUser(value) {
     $.ajax({
@@ -1137,6 +1265,7 @@ function updateUser() {
     $.ajax({
         url: "/superAdmin/updateUser",
         dataType: "JSON",
+        type: "POST",
         data: {
             "id": id, "privateId": privateId, "openId": openId, "username": username, "password": password,
             "nickname": nickname, "realname": realname, "phone": phone, "email": email, "sex": sex,
@@ -1175,7 +1304,7 @@ function deleteArticle(value) {
         url: "/superAdmin/deleteArticle",
         dataType: "JSON",
         data: {
-            "deleteId": value
+            "deletePrivateId": value
         },
         contentType: "application/json; charset=utf-8",
         success: function (data) {
@@ -1215,6 +1344,7 @@ function updateArticle() {
     var browser = $("#articleBrowser").val();
     $.ajax({
         url: "/superAdmin/updateArticle",
+        type: "POST",
         dataType: "JSON",
         data: {
             "id": id, "privateId": privateId, "title": title, "author": author, "time": time,
@@ -1257,6 +1387,7 @@ function editArticle(value) {
     $.ajax({
         url: "/superAdmin/editArticleByAjax",
         dataType: "JSON",
+        type: "POST",
         data: {
             "articlePrivateId": articlePrivateId, "articleText": articleText, "articleAuthor": articleAuthor,
             "articleTitle": articleTitle
@@ -1286,5 +1417,10 @@ function editArticle(value) {
             }
         }
     })
+}
+
+//删除留言
+function deleteMessage(value) {
+
 }
 

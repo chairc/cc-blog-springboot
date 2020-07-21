@@ -102,14 +102,16 @@
             <div class="col-md-6 col-lg-3 col-xs-12" th:each="item:${entertainment}">
                 <div class="entertainment-item wow fadeInDown animated" data-wow-delay="0.3s"
                      style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
-                    <div class="icon">
-                        <i class="icon-grid"></i>
-                    </div>
-                    <div class="entertainment-content">
-                        <a th:href="'/entertainment/' + ${item.entertainment_name}">
-                            <p th:text="${item.entertainment_name}"></p>
-                        </a>
-                    </div>
+                    <a th:href="'/entertainment/' + ${item.entertainment_name}">
+                        <div class="entertainment-pic" style="width: 80px;height: 80px;margin:auto">
+                            <img th:src="${item.entertainment_image_url}" style="width: 100%;height: 100%;border-radius: 10px;">
+                        </div>
+                        <div class="entertainment-content">
+                            <h3>
+                                <p th:text="${item.entertainment_name}" style="font-weight: bolder;font-size: medium;"></p>
+                            </h3>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>

@@ -7,6 +7,8 @@ public class User{
     private String user_common_open_id;
     private String user_common_username;
     private String user_common_password;
+    private int user_common_head_image_id;
+    private int user_common_friend_link_id;
     private String user_common_nickname;
     private String user_secret_real_name;
     private String user_secret_phone;
@@ -66,6 +68,22 @@ public class User{
 
     public void setUser_common_password(String user_common_password) {
         this.user_common_password = user_common_password;
+    }
+
+    public int getUser_common_head_image_id() {
+        return user_common_head_image_id;
+    }
+
+    public void setUser_common_head_image_id(int user_common_head_image_id) {
+        this.user_common_head_image_id = user_common_head_image_id;
+    }
+
+    public int getUser_common_friend_link_id() {
+        return user_common_friend_link_id;
+    }
+
+    public void setUser_common_friend_link_id(int user_common_friend_link_id) {
+        this.user_common_friend_link_id = user_common_friend_link_id;
     }
 
     public String getUser_common_nickname() {
@@ -236,6 +254,8 @@ public class User{
                 ", user_common_open_id='" + user_common_open_id + '\'' +
                 ", user_common_username='" + user_common_username + '\'' +
                 ", user_common_password='" + user_common_password + '\'' +
+                ", user_common_head_image_id='" + user_common_head_image_id + '\'' +
+                ", user_common_friend_link_id='" + user_common_friend_link_id + '\'' +
                 ", user_common_nickname='" + user_common_nickname + '\'' +
                 ", user_secret_real_name='" + user_secret_real_name + '\'' +
                 ", user_secret_phone='" + user_secret_phone + '\'' +

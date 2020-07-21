@@ -166,4 +166,28 @@ public class MessageServiceImpl implements MessageService {
     public Integer getMessageCount() {
         return messageDao.getMessageCount();
     }
+
+    /**
+     * 通过私有Id获取留言
+     * @param privateId
+     * @return
+     */
+
+    @Override
+    public ResultSet getMessageByPrivateId(String privateId) {
+        ResultSet resultSet = new ResultSet();
+        try {
+            String username = Tools.usernameSessionValidate();
+            User admin = userService.getUserByUsername(username);
+            if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
+                resultSet.success("获取留言信息成功");
+                resultSet.setData(messageDao.getMessageByPrivateId(privateId));
+            }else {
+                resultSet.fail("操作用户无权限");
+            }
+        }catch (Exception e){
+            resultSet.error();
+        }
+        return resultSet;
+    }
 }

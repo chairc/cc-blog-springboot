@@ -129,4 +129,16 @@ public class FriendLinkServiceImpl implements FriendLinkService {
     public void deleteFriendLink(String privateId) {
         friendLinkDao.deleteFriendLink(privateId);
     }
+
+    /**
+     * 通过id获取友链
+     *
+     * @param id
+     * @return
+     */
+
+    @Override
+    public FriendLink getUserFriendLink(int id) {
+        return friendLinkDao.getUserFriendLink(id);
+    }
 }

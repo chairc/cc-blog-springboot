@@ -64,7 +64,7 @@ public class ArticleController {
         return "article_show";
     }
 
-    @RequestMapping("/articleEdit")
+    @RequestMapping("/article/articleEdit")
     public String articleTest(Model model) {
         Article article = articleService.getArticleByPrivateId("article_mCHAvnbTBpaazfd");
         model.addAttribute("articleMain", article.getArticle_main());
@@ -82,22 +82,17 @@ public class ArticleController {
             //未登录
             resultSet.fail("用户未登录");
         } else {
-            try {
-                Article article = new Article();
-                article.setArticle_private_id(Tools.CreateRandomPrivateId(0));
-                article.setArticle_author(username);
-                article.setArticle_title(articleTitle);
-                article.setArticle_main(articleText);
-                article.setArticle_time(Tools.getServerTime());
-                article.setArticle_browser(Tools.getBrowserVersion(request));
-                article.setArticle_system(Tools.getSystemVersion(request));
-                article.setArticle_click_num(0);
-                article.setArticle_ip(Tools.getUserIp(request));
-                articleService.insertArticle(article);
-                resultSet.success("存取成功");
-            } catch (Exception e) {
-                resultSet.error();
-            }
+            Article article = new Article();
+            article.setArticle_private_id(Tools.CreateRandomPrivateId(0));
+            article.setArticle_author(username);
+            article.setArticle_title(articleTitle);
+            article.setArticle_main(articleText);
+            article.setArticle_time(Tools.getServerTime());
+            article.setArticle_browser(Tools.getBrowserVersion(request));
+            article.setArticle_system(Tools.getSystemVersion(request));
+            article.setArticle_click_num(0);
+            article.setArticle_ip(Tools.getUserIp(request));
+            resultSet = articleService.insertArticle(article);
         }
         return resultSet;
     }

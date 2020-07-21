@@ -43,6 +43,7 @@ public class ShiroConfig {
 
         //权限过滤器
         filterMap.put("/user/*", "authc");
+        filterMap.put("/article/addArticleByAjax","authc");
         //filterMap.put("/superAdmin/*", "authc");
 
         //设置未授权页面

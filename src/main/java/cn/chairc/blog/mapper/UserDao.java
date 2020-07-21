@@ -13,7 +13,7 @@ public interface UserDao {
     /**
      * 获取所有用户
      *
-     * @return
+     * @return List<User>
      */
 
     List<User> getUserAll();
@@ -22,7 +22,7 @@ public interface UserDao {
      * 通过ID获取用户
      *
      * @param id
-     * @return
+     * @return User
      */
 
     User getUserById(int id);
@@ -32,7 +32,7 @@ public interface UserDao {
      *
      * @param username
      * @param password
-     * @return
+     * @return Integer
      */
 
     Integer loginUser(String username, String password);
@@ -41,7 +41,7 @@ public interface UserDao {
      * 查找私有ID获取用户
      *
      * @param privateId
-     * @return
+     * @return Integer
      */
 
     Integer getUserPrivateId(String privateId);
@@ -50,7 +50,7 @@ public interface UserDao {
      * 通过用户名获取用户信息
      *
      * @param username
-     * @return
+     * @return User
      */
 
     User getUserByUsername(String username);
@@ -59,7 +59,7 @@ public interface UserDao {
      * 通过用户名获取用户名
      *
      * @param openId
-     * @return
+     * @return User
      */
 
     User getUserByOpenId(String openId);
@@ -92,7 +92,7 @@ public interface UserDao {
      * 用户名唯一性验证
      *
      * @param username
-     * @return
+     * @return Integer
      */
 
     Integer usernameValidate(String username);
@@ -101,7 +101,7 @@ public interface UserDao {
      * 通过QQ快速登录来验证openId
      *
      * @param openId
-     * @return
+     * @return Integer
      */
 
     Integer openIdValidate(String openId);
@@ -109,7 +109,7 @@ public interface UserDao {
     /**
      * 获取用户数
      *
-     * @return
+     * @return Integer
      */
 
     Integer getUserCount();
@@ -117,7 +117,7 @@ public interface UserDao {
     /**
      * 获取用户等级
      *
-     * @return
+     * @return Role
      */
 
     Role getUserRole(String role);
@@ -126,16 +126,24 @@ public interface UserDao {
      * 获取用户权限
      *
      * @param permission
-     * @return
+     * @return Permission
      */
 
     Permission getUserPermission(String permission);
 
     /**
-     * 更新用户登录日志
+     * 更新用户登录日志（普通登录）
      *
      * @param user
      */
 
-    void updateUserLoginLog(User user);
+    void updateUserLoginLogByNormalLogin(User user);
+
+    /**
+     * 更新用户登录日志（qq登录）
+     *
+     * @param user
+     */
+
+    void updateUserLoginLogByQQLogin(User user);
 }

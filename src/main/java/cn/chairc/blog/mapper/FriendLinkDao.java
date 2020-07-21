@@ -10,7 +10,6 @@ public interface FriendLinkDao {
 
     /**
      * 主页获取文章
-     *
      */
 
     List<FriendLink> getFriendLinkAllToIndex();
@@ -50,5 +49,14 @@ public interface FriendLinkDao {
      */
 
     void deleteFriendLink(String privateId);
+
+    /**
+     * 通过id获取友链
+     *
+     * @param id
+     * @return
+     */
+
+    FriendLink getUserFriendLink(int id);
 
 }

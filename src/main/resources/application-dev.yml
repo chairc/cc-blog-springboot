@@ -1,6 +1,6 @@
 ﻿server:
   port: 8080
-  max-http-header-size: 100000
+  max-http-header-size: 10000000
 
 spring:
   thymeleaf:
@@ -15,7 +15,7 @@ spring:
     url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 
+    password: '*19980424*'
 
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
@@ -28,15 +28,16 @@ pagehelper:
   support-methods-arguments: true
 
 qqlogin:
+  #qq快速登录
   #主要
-  #call-back-url: 
-  #app-id: 
-  #app-key: 
-
-  #开发测试
-  call-back-url: http://127.0.0.1:8080/qqlogin
+  call-back-url: 
   app-id: 
   app-key: 
+
+  #开发测试
+  #call-back-url: http://127.0.0.1:8080/qqlogin
+  #app-id: 
+  #app-key: 
 
   get-authorizaion-code: https://graph.qq.com/oauth2.0/authorize
   get-access-token: https://graph.qq.com/oauth2.0/token
@@ -46,3 +47,9 @@ qqlogin:
 wps:
   #wps自动邀请
   wps-invite-url: https://zt.wps.cn/2018/clock_in/api/invite
+
+head-image:
+  #默认头像地址
+  default-head-image: https://chairc.cn/pic/HeadImage/default/default-head.svg
+  default-head-image-man: https://chairc.cn/pic/HeadImage/default/default-head-man.svg
+  default-head-image-woman: https://chairc.cn/pic/HeadImage/default/default-head-woman.svg

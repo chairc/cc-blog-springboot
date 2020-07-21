@@ -105,12 +105,21 @@ public class ArticleServiceImpl implements ArticleService {
      */
 
     @Override
-    public void insertArticle(Article article) {
+    public ResultSet insertArticle(Article article) {
+        ResultSet resultSet = new ResultSet();
         String username = Tools.usernameSessionValidate();
         User admin = userService.getUserByUsername(username);
         if (Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
-            articleDao.insertArticle(article);
+            try {
+                articleDao.insertArticle(article);
+                resultSet.success("新增文章《" + article.getArticle_title() + "》成功");
+            }catch (Exception e){
+                resultSet.error();
+            }
+        }else {
+            resultSet.fail("新增文章《" + article.getArticle_title() + "》失败");
         }
+        return resultSet;
     }
 
     /**
@@ -120,12 +129,21 @@ public class ArticleServiceImpl implements ArticleService {
      */
 
     @Override
-    public void deleteArticleByPrivateId(String privateId) {
+    public ResultSet deleteArticleByPrivateId(String privateId) {
+        ResultSet resultSet = new ResultSet();
         String username = Tools.usernameSessionValidate();
         User admin = userService.getUserByUsername(username);
         if (Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
-            articleDao.deleteArticleByPrivateId(privateId);
+            try {
+                articleDao.deleteArticleByPrivateId(privateId);
+                resultSet.success("删除文章" + privateId + "成功");
+            }catch (Exception e){
+                resultSet.error();
+            }
+        }else {
+            resultSet.fail("删除文章" + privateId + "失败");
         }
+        return resultSet;
     }
 
     /**

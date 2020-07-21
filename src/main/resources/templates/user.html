@@ -2,7 +2,8 @@
 <html lang="zh-CN" class="nivo-lightbox-notouch" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>个人空间 | 小虚无的下午茶</title>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
@@ -18,106 +19,162 @@
 </head>
 <body>
 <header th:replace="header_home.html"></header>
-
 <div class="section-padding">
     <div class="container">
         <div class="row">
             <div style="padding-top: 60px;">
                 <ul class="nav nav-tabs">
-                    <li class="active user-li-style">
-                        <a href="#user_home" data-toggle="tab" style="color: #000000">用户信息</a>
+                    <li class="user-li-style">
+                        <a href="#user_home" data-toggle="tab" style="color: #000000">用户主页</a>
                     </li>
                     <li class="user-li-style">
                         <a href="#user_info" data-toggle="tab" style="color: #000000">最新信息</a>
                     </li>
                     <li class="user-li-style">
-                        <a href="#user_registered" data-toggle="tab" style="color: #000000">添加注册成员</a>
-                    </li>
-                    <li class="user-li-style">
-                        <a href="/articleTest" style="color: #000000">写文章</a>
-                    </li>
-                    <li class="user-li-style">
-                        <a href="#user_settings" data-toggle="tab" style="color: #000000">设置</a>
+                        <a href="#user_settings" data-toggle="tab" style="color: #000000">个人</a>
                     </li>
                 </ul>
-
                 <div class="tab-content" style="width: 100%">
                     <div class="tab-pane active" id="user_home">
-                        <table cellpadding="0" cellspacing="0" width="100%"
-                               style="border: #000000 solid 1px;text-align: center;table-layout: fixed;word-break:break-all;">
-                            <tr class="border">
-                                <td>序号</td>
-                                <td>个人识别号</td>
-                                <td>用户名</td>
-                                <td>密码</td>
-                                <td>昵称</td>
-                                <td>真实姓名</td>
-                                <td>电话</td>
-                                <td>邮箱</td>
-                                <td>生日</td>
-                                <td>性别</td>
-                                <td>年龄</td>
-                                <td>微信</td>
-                                <td>QQ</td>
-                                <td>微博</td>
-                                <td>地址</td>
-                                <td>最后登录时间</td>
-                                <td>IP地址</td>
-                                <td>密保问题</td>
-                                <td>密保答案</td>
-                                <td>系统</td>
-                                <td>浏览器</td>
-                                <td>权重</td>
-                            </tr>
-                            <tr class="border" th:each="item:${user}">
-                                <td th:text="${item.user_common_id}"></td>
-                                <td th:text="${item.user_common_private_id}"></td>
-                                <td th:text="${item.user_common_username}"></td>
-                                <td th:text="${item.user_common_password}"></td>
-                                <td th:text="${item.user_common_nickname}"></td>
-                                <td th:text="${item.user_secret_real_name}"></td>
-                                <td th:text="${item.user_secret_phone}"></td>
-                                <td th:text="${item.user_secret_email}"></td>
-                                <td th:text="${item.user_secret_birthday}"></td>
-                                <td th:text="${item.user_secret_sex}"></td>
-                                <td th:text="${item.user_secret_age}"></td>
-                                <td th:text="${item.user_secret_wechat}"></td>
-                                <td th:text="${item.user_secret_qq}"></td>
-                                <td th:text="${item.user_secret_weibo}"></td>
-                                <td th:text="${item.user_secret_address}"></td>
-                                <td th:text="${item.user_safe_logtime}"></td>
-                                <td th:text="${item.user_safe_ip}"></td>
-                                <td th:text="${item.user_safe_question}"></td>
-                                <td th:text="${item.user_safe_answer}"></td>
-                                <td th:text="${item.user_safe_system}"></td>
-                                <td th:text="${item.user_safe_browser}"></td>
-                                <td th:text="${item.user_safe_weight}"></td>
-                            </tr>
-                        </table>
-                        <div class="btn-container">
-                            <div class="btn-prev-or-next">
-                                <a th:href="'/user/userIndex/'+${pageNumPrev}" class="btn btn-primary">
-                                    上一页
-                                </a>
-                            </div>
-                            <div class="btn-prev-or-next">
-                                <a th:href="'/user/userIndex/'+${pageNumNext}" class="btn btn-primary">
-                                    下一页
-                                </a>
-                            </div>
-                            <div class="btn-prev-or-next">
-                                <p>当前页：</p>
-                                <p th:text="${pageNum}"></p>
-                                <p>/总页数：</p>
-                                <p th:text="${pageTotal}"></p>
+                        <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                             style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                            <div style="width: 100%">
+                                <div style="width: 100%">
+                                    <div class="education wow fadeInRight animated" data-wow-delay="0.3s"
+                                         style="visibility: visible;-webkit-animation-delay: 0.3s; -moz-animation-delay: 0.3s; animation-delay: 0.3s;">
+                                        <ul class="timeline">
+                                            <li>
+                                                <i class="icon-graduation"></i>
+                                                <h2 class="timelin-title" th:text="'欢迎用户' + ${username}"></h2>
+                                            </li>
+                                            <li>
+                                                <div class="content-text"
+                                                     style="display: inline-block;width: 100%;align-content: center">
+                                                    <div style="float: left;">
+                                                        <div style="width: 140px;height: 140px;padding: 20px;">
+                                                            <img th:src="${headImage}"
+                                                                 style="width: 100px;height: 100px;border-radius: 60px;">
+                                                        </div>
+                                                    </div>
+                                                    <div style="float: left;">
+                                                        <p>私有ID:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="privateId" type="text"
+                                                                       th:value="${privateId}">
+                                                            </label>
+                                                        </p>
+                                                        <p>OpenID:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="openId" type="text" th:value="${openId}">
+                                                            </label>
+                                                        </p>
+                                                        <p>用户名:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="username" type="text" th:value="${username}">
+                                                            </label>
+                                                        </p>
+                                                        <p>昵称:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="nickname" type="text" th:value="${nickname}">
+                                                            </label>
+                                                        </p>
+                                                    </div>
+                                                    <div style="float: left;">
+                                                        <p>友链:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="friendLink" type="text"
+                                                                       th:value="${friendLink}">
+                                                            </label>
+                                                        </p>
+                                                        <p>真实姓名:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="realname" type="text" th:value="${realName}">
+                                                            </label>
+                                                        </p>
+                                                        <p>电话:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="phone"
+                                                                       type="text" th:value="${phone}">
+                                                            </label>
+                                                        </p>
+                                                        <p>邮箱:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="email" type="text" th:value="${email}">
+                                                            </label>
+                                                        </p>
+                                                    </div>
+                                                    <div style="float: left;">
+                                                        <p>生日:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="birthday" type="text" th:value="${birthday}">
+                                                            </label>
+                                                        </p>
+                                                        <p>性别:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="sex" type="text" th:value="${sex}">
+                                                            </label>
+                                                        </p>
+                                                        <p>年龄:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="age" type="text"
+                                                                       th:value="${age}">
+                                                            </label>
+                                                        </p>
+                                                        <p>微信:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="wechat" type="text" th:value="${wechat}">
+                                                            </label>
+                                                        </p>
+                                                    </div>
+                                                    <div style="float: left;">
+                                                        <p>QQ:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="qq" type="text" th:value="${qq}">
+                                                            </label>
+                                                        </p>
+                                                        <p>微博:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="weibo" type="text" th:value="${weibo}">
+                                                            </label>
+                                                        </p>
+                                                        <p>地址:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="address"
+                                                                       type="text" th:value="${address}">
+                                                            </label>
+                                                        </p>
+                                                        <p>最后登录时间:
+                                                            <label>
+                                                                <input style="background: transparent;border: none"
+                                                                       id="logtime" type="text" th:value="${logtime}">
+                                                            </label>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane user-tab-pane-height" id="user_info">
                         <p> 我是最新信息 </p>
-                    </div>
-                    <div class="tab-pane user-tab-pane-height" id="user_registered">
-
                     </div>
                     <div class="tab-pane user-tab-pane-height" id="user_settings">
                         <p>设置</p>
@@ -127,18 +184,15 @@
         </div>
     </div>
 </div>
-
 <!-- 底部开始 -->
 <footer th:replace="footer.html"></footer>
 <!-- 底部结束 -->
-
 <!-- 返回最顶层 -->
 <a href="" class="back-to-top" style="display: block;">
     <i>
         <p>UP</p>
     </i>
 </a>
-
 <script type="text/javascript" th:src="@{/static/js/jquery-min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>

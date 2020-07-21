@@ -168,6 +168,8 @@ public class QQLoginController {
             user.setUser_common_open_id(openId);
             user.setUser_common_username(openId);
             user.setUser_common_password("null");
+            user.setUser_common_friend_link_id(0);
+            user.setUser_common_head_image_id(0);
             user.setUser_common_nickname(username);
             user.setUser_secret_sex(sex);
             user.setUser_safe_question("QQ快速登录");
@@ -190,7 +192,15 @@ public class QQLoginController {
         try {
             subject.login(usernamePasswordToken);
             request.getSession().setAttribute("username", openId);
-        }catch (UnknownAccountException | IncorrectCredentialsException | NullPointerException e){
+            //更新用户登录记录
+            User user = new User();
+            user.setUser_common_open_id(openId);
+            user.setUser_safe_ip(Tools.getUserIp(request));
+            user.setUser_safe_logtime(Tools.getServerTime());
+            user.setUser_safe_browser(Tools.getBrowserVersion(request));
+            user.setUser_safe_system(Tools.getSystemVersion(request));
+            userService.updateUserLoginLog(user, "qqLogin");
+        } catch (UnknownAccountException | IncorrectCredentialsException | NullPointerException e) {
             return "redirect:/user/login";
         }
 
