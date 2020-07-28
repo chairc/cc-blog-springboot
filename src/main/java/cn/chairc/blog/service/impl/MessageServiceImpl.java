@@ -32,7 +32,19 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getMessageAllToIndex() {
-        return messageDao.getMessageAllToIndex();
+        List<Message> messageList = messageDao.getMessageAllToIndex();
+        //对每个对象进行循环
+        for (Message message : messageList) {
+            //如果查找的用户privateId不为空值，那么就通过私有ID使用cc_blog_user中的nickname
+            if (message.getMessage_user_private_id() != null){
+                User user = userService.getUserByPrivateId(message.getMessage_user_private_id());
+                if (user.getUser_common_nickname() != null){
+                    message.setMessage_username(user.getUser_common_nickname());
+                }
+                //后期自动分配（挖坑！）
+            }
+        }
+        return messageList;
     }
 
     /**
@@ -43,7 +55,19 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getMessageAllToIndexByWeight() {
-        return messageDao.getMessageAllToIndexByWeight();
+        List<Message> messageList = messageDao.getMessageAllToIndexByWeight();
+        //对每个对象进行循环
+        for (Message message : messageList) {
+            //如果查找的用户privateId不为空值，那么就通过私有ID使用cc_blog_user中的nickname
+            if (message.getMessage_user_private_id() != null){
+                User user = userService.getUserByPrivateId(message.getMessage_user_private_id());
+                if (user.getUser_common_nickname() != null){
+                    message.setMessage_username(user.getUser_common_nickname());
+                }
+                //后期自动分配（挖坑！）
+            }
+        }
+        return messageList;
     }
 
     /**
@@ -54,7 +78,19 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getMessageAllByAscendingOrder() {
-        return messageDao.getMessageAllByAscendingOrder();
+        List<Message> messageList = messageDao.getMessageAllByAscendingOrder();
+        //对每个对象进行循环
+        for (Message message : messageList) {
+            //如果查找的用户privateId不为空值，那么就通过私有ID使用cc_blog_user中的nickname
+            if (message.getMessage_user_private_id() != null){
+                User user = userService.getUserByPrivateId(message.getMessage_user_private_id());
+                if (user.getUser_common_nickname() != null){
+                    message.setMessage_username(user.getUser_common_nickname());
+                }
+                //后期自动分配（挖坑！）
+            }
+        }
+        return messageList;
     }
 
     /**
@@ -65,7 +101,19 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getMessageAll() {
-        return messageDao.getMessageAll();
+        List<Message> messageList = messageDao.getMessageAll();
+        //对每个对象进行循环
+        for (Message message : messageList) {
+            //如果查找的用户privateId不为空值，那么就通过私有ID使用cc_blog_user中的nickname
+            if (message.getMessage_user_private_id() != null){
+                User user = userService.getUserByPrivateId(message.getMessage_user_private_id());
+                if (user.getUser_common_nickname() != null){
+                    message.setMessage_username(user.getUser_common_nickname());
+                }
+                //后期自动分配（挖坑！）
+            }
+        }
+        return messageList;
     }
 
     /**
@@ -86,12 +134,12 @@ public class MessageServiceImpl implements MessageService {
      */
 
     @Override
-    public DataResultSet getMessageAllByAdmin(int pageNum){
+    public DataResultSet getMessageAllByAdmin(int pageNum) {
         DataResultSet dataResultSet = new DataResultSet();
         try {
-            String username = Tools.usernameSessionValidate();
-            User admin = userService.getUserByUsername(username);
-            if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
+            String privateIdVal = Tools.sessionValidate("privateId");
+            User admin = userService.getUserByPrivateId(privateIdVal);
+            if (Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
                 Page<Message> messagePages = PageHelper.startPage(pageNum, 10);
                 List<Message> messageList = messageDao.getMessageAllByAdmin();
                 dataResultSet.success("超级管理员留言列表获取成功");
@@ -99,7 +147,7 @@ public class MessageServiceImpl implements MessageService {
                 dataResultSet.setPage_num(pageNum);
                 dataResultSet.setPage_count((int) messagePages.getTotal());
                 dataResultSet.setPage_total((int) ((messagePages.getTotal() - 1) / 10 + 1));
-            }else {
+            } else {
                 dataResultSet.fail("超级管理员用户列表获取失败");
             }
         } catch (NullPointerException e) {
@@ -115,13 +163,20 @@ public class MessageServiceImpl implements MessageService {
      */
 
     @Override
-    public void insertMessage(Message message) {
-        String username = Tools.usernameSessionValidate();
-        User admin = userService.getUserByUsername(username);
-        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
-            messageDao.insertMessage(message);
+    public ResultSet insertMessage(Message message) {
+        ResultSet resultSet = new ResultSet();
+        if (message.getMessage_username() == null) {
+            //未登录
+            resultSet.fail("用户未登录");
+        } else {
+            try {
+                messageDao.insertMessage(message);
+                resultSet.success("存取成功");
+            } catch (Exception e) {
+                resultSet.error();
+            }
         }
-
+        return resultSet;
     }
 
     /**
@@ -131,13 +186,21 @@ public class MessageServiceImpl implements MessageService {
      */
 
     @Override
-    public void deleteMessage(String privateId) {
-        String username = Tools.usernameSessionValidate();
-        User admin = userService.getUserByUsername(username);
-        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
-            messageDao.deleteMessageByPrivateId(privateId);
+    public ResultSet deleteMessage(String privateId) {
+        ResultSet resultSet = new ResultSet();
+        String privateIdVal = Tools.sessionValidate("privateId");
+        User admin = userService.getUserByPrivateId(privateIdVal);
+        if (Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
+            try {
+                messageDao.deleteMessageByPrivateId(privateId);
+                resultSet.success("删除留言" + privateId + "成功");
+            }catch (Exception e){
+                resultSet.error();
+            }
+        }else {
+            resultSet.fail("删除留言" + privateId + "失败");
         }
-
+        return resultSet;
     }
 
     /**
@@ -147,13 +210,21 @@ public class MessageServiceImpl implements MessageService {
      */
 
     @Override
-    public void updateMessage(Message message) {
-        String username = Tools.usernameSessionValidate();
-        User admin = userService.getUserByUsername(username);
-        if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())){
-            messageDao.updateMessage(message);
+    public ResultSet updateMessage(Message message) {
+        ResultSet resultSet = new ResultSet();
+        String privateIdVal = Tools.sessionValidate("privateId");
+        User admin = userService.getUserByPrivateId(privateIdVal);
+        if (Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
+            try {
+                messageDao.updateMessage(message);
+                resultSet.success("更新文章" + message.getMessage_private_id() + "基本信息成功");
+            } catch (Exception e) {
+                resultSet.error();
+            }
+        } else {
+            resultSet.fail("更新文章" + message.getMessage_private_id() + "基本信息失败");
         }
-
+        return resultSet;
     }
 
     /**
@@ -169,6 +240,7 @@ public class MessageServiceImpl implements MessageService {
 
     /**
      * 通过私有Id获取留言
+     *
      * @param privateId
      * @return
      */
@@ -177,15 +249,15 @@ public class MessageServiceImpl implements MessageService {
     public ResultSet getMessageByPrivateId(String privateId) {
         ResultSet resultSet = new ResultSet();
         try {
-            String username = Tools.usernameSessionValidate();
-            User admin = userService.getUserByUsername(username);
-            if(Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
+            String privateIdVal = Tools.sessionValidate("privateId");
+            User admin = userService.getUserByPrivateId(privateIdVal);
+            if (Tools.usernameSessionIsAdminValidate(admin.getUser_safe_role())) {
                 resultSet.success("获取留言信息成功");
                 resultSet.setData(messageDao.getMessageByPrivateId(privateId));
-            }else {
+            } else {
                 resultSet.fail("操作用户无权限");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             resultSet.error();
         }
         return resultSet;

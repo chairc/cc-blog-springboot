@@ -19,13 +19,10 @@ public class FriendLinkController {
     @Autowired
     FriendLinkService friendLinkService;
 
-    @RequestMapping("/friendLink/{pageNum}")
-    public String showFriendLinkPageByPageHelper(Model model,
-                                                 @PathVariable int pageNum){
-        Page<FriendLink> pages = PageHelper.startPage(pageNum, 20);
+    @RequestMapping("/friendLink")
+    public String showFriendLinkPageByPageHelper(Model model){
         List<FriendLink> list = friendLinkService.getFriendLinkAll();
         model.addAttribute("friendLink", list);
-        Tools.indexPageHelperJudge(model,pageNum,pages,20);
         return "friend_link";
     }
 }

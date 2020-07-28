@@ -1031,7 +1031,7 @@ function moreArticleInfoClick(value) {
             } else if (data.code === "1") {
                 $("#moreInfoData").html(
                     '<div class="content-text" style="display: inline-block;width: 100%;align-content: center">' +
-                    '<div style="float: left;width: 33.3%;">' +
+                    '<div style="float: left;">' +
                     '<p>序号:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
@@ -1052,7 +1052,7 @@ function moreArticleInfoClick(value) {
                     '</label>' +
                     '</p>' +
                     '</div>' +
-                    '<div style="float: left;width: 33.3%;">' +
+                    '<div style="float: left;">' +
                     '<p>作者:' +
                     '<label>' +
                     '<input style="background: transparent;border: none" id="articleAuthor" type="text"' +
@@ -1072,7 +1072,7 @@ function moreArticleInfoClick(value) {
                     '</label>' +
                     '</p>' +
                     '</div>' +
-                    '<div style="float: left;width: 33.3%;">' +
+                    '<div style="float: left;">' +
                     '<p>IP地址:' +
                     '<label>' +
                     '<input style="background: transparent;border: none" id="articleIp" type="text"' +
@@ -1093,11 +1093,11 @@ function moreArticleInfoClick(value) {
                     '</label>' +
                     '</p>' +
                     '</div>' +
+                    '</div>' +
                     '<div class="btn-container">' +
                     '<button class="btn btn-info" onclick="updateArticle()">更新</button>' +
                     '<button class="btn btn-danger" onclick="deleteArticle(this.value)" ' +
                     'value="' + data.data['article_private_id'] + '">删除</button>' +
-                    '</div>' +
                     '</div>');
             }
         },
@@ -1132,7 +1132,7 @@ function moreMessageInfoClick(value) {
             } else if (data.code === "1") {
                 $("#moreInfoData").html(
                     '<div class="content-text" style="display: inline-block;width: 100%;align-content: center">' +
-                    '<div style="float: left;width: 33.3%;">' +
+                    '<div style="float: left;">' +
                     '<p>序号:' +
                     '<label>' +
                     '<input style="background: transparent;border: none"' +
@@ -1153,7 +1153,7 @@ function moreMessageInfoClick(value) {
                     '</label>' +
                     '</p>' +
                     '</div>' +
-                    '<div style="float: left;width: 33.3%;">' +
+                    '<div style="float: left;">' +
                     '<p>留言内容:' +
                     '<label>' +
                     '<input style="background: transparent;border: none" id="messageMain" type="text"' +
@@ -1173,7 +1173,7 @@ function moreMessageInfoClick(value) {
                     '</label>' +
                     '</p>' +
                     '</div>' +
-                    '<div style="float: left;width: 33.3%;">' +
+                    '<div style="float: left;">' +
                     '<p>IP地址:' +
                     '<label>' +
                     '<input style="background: transparent;border: none" id="messageIp" type="text"' +
@@ -1194,10 +1194,19 @@ function moreMessageInfoClick(value) {
                     '</label>' +
                     '</p>' +
                     '</div>' +
+                    '<div style="float: left;">' +
+                    '<p>留言用户私有ID:' +
+                    '<label>' +
+                    '<input style="background: transparent;border: none"' +
+                    'id="messageUserPrivateId" type="text"' +
+                    'value="' + data.data['message_user_private_id'] + '">' +
+                    '</label>' +
+                    '</p>' +
+                    '</div>' +
+                    '</div>' +
                     '<div class="btn-container">' +
                     '<button class="btn btn-danger" onclick="deleteMessage(this.value)" ' +
                     'value="' + data.data['message_private_id'] + '">删除</button>' +
-                    '</div>' +
                     '</div>');
             }
         },
@@ -1312,7 +1321,6 @@ function deleteArticle(value) {
                 $("#message-box-text").html(data.msg);
                 $("#message-box").css("color", "#d7f7ff");
                 $("#message-box").css("background", "#1a95ff");
-                selectUserList();
             } else {
                 $("#message-box-text").html(data.msg);
                 $("#message-box").css("color", "#a94442");
@@ -1421,6 +1429,32 @@ function editArticle(value) {
 
 //删除留言
 function deleteMessage(value) {
-
+    $.ajax({
+        url: "/superAdmin/deleteMessage",
+        dataType: "JSON",
+        data: {
+            "deletePrivateId": value
+        },
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            if (data.result === "1") {
+                $("#message-box-text").html(data.msg);
+                $("#message-box").css("color", "#d7f7ff");
+                $("#message-box").css("background", "#1a95ff");
+            } else {
+                $("#message-box-text").html(data.msg);
+                $("#message-box").css("color", "#a94442");
+                $("#message-box").css("background", "#f2dede");
+            }
+            setTimeout(function () {
+                $('#message-box').slideUp(300);
+            }, 1000);
+            if ($("#message-box").is(":hidden")) {
+                $('#message-box').slideDown(300);
+            } else {
+                $('#message-box').slideUp(300);
+            }
+        },
+    })
 }
 

@@ -40,7 +40,7 @@ public class ArticleController {
         Page<Article> pages = PageHelper.startPage(pageNum, 8);
         List<Article> list = articleService.getArticleAll();
         model.addAttribute("article", list);
-        Tools.indexPageHelperJudge(model,pageNum,pages,8);
+        Tools.indexPageHelperJudge(model, pageNum, pages, 8);
         return "article";
     }
 
@@ -57,12 +57,19 @@ public class ArticleController {
                                                @PathVariable String privateId) {
         Article article = articleService.getArticleByPrivateId(privateId);
         model.addAttribute("articleTitle", article.getArticle_title());
-        model.addAttribute("articleAuthor",article.getArticle_author());
-        model.addAttribute("articleTime",article.getArticle_time());
-        model.addAttribute("articleMain",article.getArticle_main());
-        model.addAttribute("articleClickNum",article.getArticle_click_num());
+        model.addAttribute("articleAuthor", article.getArticle_author());
+        model.addAttribute("articleTime", article.getArticle_time());
+        model.addAttribute("articleMain", article.getArticle_main());
+        model.addAttribute("articleClickNum", article.getArticle_click_num());
         return "article_show";
     }
+
+    /**
+     * 显示写文章页面
+     *
+     * @param model
+     * @return
+     */
 
     @RequestMapping("/article/articleEdit")
     public String articleTest(Model model) {
@@ -71,29 +78,31 @@ public class ArticleController {
         return "article_test";
     }
 
+    /**
+     * 写文章
+     *
+     * @param articleTitle
+     * @param articleText
+     * @param request
+     * @return
+     */
+
     @RequestMapping("/article/addArticleByAjax")
     @ResponseBody
     public ResultSet addArticleByAjax(@RequestParam("articleTitle") String articleTitle,
                                       @RequestParam("articleText") String articleText,
                                       HttpServletRequest request) {
-        ResultSet resultSet = new ResultSet();
         String username = Tools.usernameSessionValidate();
-        if (username == null) {
-            //未登录
-            resultSet.fail("用户未登录");
-        } else {
-            Article article = new Article();
-            article.setArticle_private_id(Tools.CreateRandomPrivateId(0));
-            article.setArticle_author(username);
-            article.setArticle_title(articleTitle);
-            article.setArticle_main(articleText);
-            article.setArticle_time(Tools.getServerTime());
-            article.setArticle_browser(Tools.getBrowserVersion(request));
-            article.setArticle_system(Tools.getSystemVersion(request));
-            article.setArticle_click_num(0);
-            article.setArticle_ip(Tools.getUserIp(request));
-            resultSet = articleService.insertArticle(article);
-        }
-        return resultSet;
+        Article article = new Article();
+        article.setArticle_private_id(Tools.CreateRandomPrivateId(0));
+        article.setArticle_author(username);
+        article.setArticle_title(articleTitle);
+        article.setArticle_main(articleText);
+        article.setArticle_time(Tools.getServerTime());
+        article.setArticle_browser(Tools.getBrowserVersion(request));
+        article.setArticle_system(Tools.getSystemVersion(request));
+        article.setArticle_click_num(0);
+        article.setArticle_ip(Tools.getUserIp(request));
+        return articleService.insertArticle(article);
     }
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -137,12 +138,11 @@ public class UserController {
     /**
      * 登录页面
      *
-     * @param request
      * @return 根据session判断页面跳转
      */
 
     @RequestMapping("/user/login")
-    public String showUserLoginPage(HttpServletRequest request) {
+    public String showUserLoginPage() {
         try {
             String username = Tools.usernameSessionValidate();
             System.out.println("当前Session：" + username);
@@ -156,7 +156,7 @@ public class UserController {
                 //如果查找到的角色是SuperAdmin，则进入管理员页面
                 System.out.println("超级管理员登录");
                 return "redirect:/superAdmin/admin";
-            } else {
+            } else if (!role.getRole_name().equals("SuperAdmin")) {
                 System.out.println("普通用户");
                 return "redirect:/user/userIndex";
             }
@@ -164,6 +164,7 @@ public class UserController {
             System.out.println("异常1");
             return "login";
         }
+        return "login";
     }
 
     /**
@@ -190,6 +191,10 @@ public class UserController {
             //Shiro记录session
             Session session = subject.getSession();
             session.setAttribute("username", username);
+            //记录privateID
+            //HttpSession httpSession = request.getSession();
+            String privateId = userService.getUserByUsername(username).getUser_common_private_id();
+            session.setAttribute("privateId", privateId);
             //更新用户登录记录
             User user = new User();
             user.setUser_common_username(username);
@@ -199,6 +204,7 @@ public class UserController {
             user.setUser_safe_browser(Tools.getBrowserVersion(request));
             user.setUser_safe_system(Tools.getSystemVersion(request));
             userService.updateUserLoginLog(user, "normalLogin");
+            System.out.println("登录用户为：" + username + "用户私有ID为：" + privateId);
             resultSet.success("登录成功");
         } catch (UnknownAccountException e) {
             //用户名不存在

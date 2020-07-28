@@ -136,6 +136,30 @@ public class Tools {
      * @return username
      */
 
+    public static String sessionValidate(String key) {
+        /*servlet自带session
+        HttpSession session = request.getSession();
+        */
+        //Shiro获取session
+        String returnVal = null;
+        Subject currentUser = SecurityUtils.getSubject();
+        Session session = currentUser.getSession();
+        if(key.equals("username")){
+            returnVal = (String) session.getAttribute("username");
+            System.out.println("当前获取用户名值为：" + returnVal);
+        }else if(key.equals("privateId")){
+            returnVal = (String) session.getAttribute("privateId");
+            System.out.println("当前获取私有ID值为：" + returnVal);
+        }
+        return returnVal;
+    }
+
+    /**
+     * 用户Session验证（暂时，后期删除并换sessionValidate方法）
+     *
+     * @return username
+     */
+
     public static String usernameSessionValidate() {
         /*servlet自带session
         HttpSession session = request.getSession();

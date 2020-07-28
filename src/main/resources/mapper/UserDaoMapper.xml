@@ -166,4 +166,13 @@
         user_common_open_id = #{user_common_open_id}
     </update>
 
+    <select id="getUserByPrivateId" resultType="cn.chairc.blog.model.User">
+        SELECT
+        *
+        FROM
+        <include refid="table"/>
+        WHERE
+        user_common_private_id = #{privateId}
+    </select>
+
 </mapper>

@@ -58,21 +58,21 @@ public interface MessageService {
      *
      * @param message
      */
-    void insertMessage(Message message);
+    ResultSet insertMessage(Message message);
 
     /**
      * 通过私有ID删除留言
      *
      * @param privateId
      */
-    void deleteMessage(String privateId);
+    ResultSet deleteMessage(String privateId);
 
     /**
      * 更新留言
      *
      * @param message
      */
-    void updateMessage(Message message);
+    ResultSet updateMessage(Message message);
 
     /**
      * 获取留言数

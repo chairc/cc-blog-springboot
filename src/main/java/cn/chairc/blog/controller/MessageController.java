@@ -48,28 +48,18 @@ public class MessageController {
     @ResponseBody
     public ResultSet addMessageByAjax(@RequestParam(value = "messageText") String messageText,
                                       HttpServletRequest request) {
-        ResultSet resultSet = new ResultSet();
-        String username = Tools.usernameSessionValidate();
-        if (username == null) {
-            //未登录
-            resultSet.fail("用户未登录");
-        } else {
-            try {
-                System.out.println(messageText);
-                Message message = new Message();
-                message.setMessage_private_id(Tools.CreateRandomPrivateId(1));
-                message.setMessage_username(username);
-                message.setMessage_main(messageText);
-                message.setMessage_ip(Tools.getUserIp(request));
-                message.setMessage_time(Tools.getServerTime());
-                message.setMessage_browser(Tools.getBrowserVersion(request));
-                message.setMessage_system(Tools.getSystemVersion(request));
-                messageService.insertMessage(message);
-                resultSet.success("存取成功");
-            } catch (Exception e) {
-                resultSet.error();
-            }
-        }
-        return resultSet;
+        String privateId = Tools.sessionValidate("privateId");
+        String username = Tools.sessionValidate("username");
+        System.out.println(messageText);
+        Message message = new Message();
+        message.setMessage_private_id(Tools.CreateRandomPrivateId(1));
+        message.setMessage_username(username);
+        message.setMessage_main(messageText);
+        message.setMessage_ip(Tools.getUserIp(request));
+        message.setMessage_time(Tools.getServerTime());
+        message.setMessage_browser(Tools.getBrowserVersion(request));
+        message.setMessage_system(Tools.getSystemVersion(request));
+        message.setMessage_user_private_id(privateId);
+        return messageService.insertMessage(message);
     }
 }

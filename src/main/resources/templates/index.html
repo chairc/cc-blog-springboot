@@ -44,7 +44,7 @@
                         <a class="nav-link" href="/message/1">留言</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/friendLink/1">友人帐</a>
+                        <a class="nav-link" href="/friendLink">友人帐</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/entertainment/1">娱乐</a>
@@ -70,7 +70,7 @@
                 <a href="/message/1">留言</a>
             </li>
             <li class="">
-                <a href="/friendLink/1">友人帐</a>
+                <a href="/friendLink">友人帐</a>
             </li>
             <li class="">
                 <a href="/entertainment/1">娱乐</a>
@@ -133,12 +133,6 @@
                                 </a>
                             </li>
                         </ul>
-                        <div class="header-button wow fadeInUp animated" data-wow-delay="1s"
-                             style="visibility: visible;-webkit-animation-delay: 1s; -moz-animation-delay: 1s; animation-delay: 1s;">
-                            <a href="" class="btn btn-common">
-                                进入
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -308,7 +302,6 @@
                             <h3>
                                 <p th:text="${item.friend_link_user}" style="font-weight: bolder;color: #666;"></p>
                             </h3>
-                            <p th:text="${item.friend_link_url}"></p>
                         </div>
                     </a>
                 </div>

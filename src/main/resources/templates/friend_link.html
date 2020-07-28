@@ -43,7 +43,7 @@
                         <a class="nav-link" href="/message/1">留言</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/friendLink/1">友人帐</a>
+                        <a class="nav-link" href="/friendLink">友人帐</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/entertainment/1">娱乐</a>
@@ -68,7 +68,7 @@
                 <a href="/message/1">留言</a>
             </li>
             <li class="">
-                <a href="/friendLink/1">友人帐</a>
+                <a href="/friendLink">友人帐</a>
             </li>
             <li class="">
                 <a href="/entertainment/1">娱乐</a>
@@ -110,28 +110,9 @@
                             <h3>
                                 <p th:text="${item.friend_link_user}" style="font-weight: bolder;color: #666;"></p>
                             </h3>
-                            <p th:text="${item.friend_link_url}"></p>
                         </div>
                     </a>
                 </div>
-            </div>
-        </div>
-        <div class="btn-container">
-            <div class="btn-prev-or-next">
-                <a th:href="'/friendLink/'+${pageNumPrev}" class="btn btn-primary">
-                    上一页
-                </a>
-            </div>
-            <div class="btn-prev-or-next">
-                <a th:href="'/friendLink/'+${pageNumNext}" class="btn btn-primary">
-                    下一页
-                </a>
-            </div>
-            <div class="btn-prev-or-next">
-                <p>当前页：</p>
-                <p th:text="${pageNum}"></p>
-                <p>/总页数：</p>
-                <p th:text="${pageTotal}"></p>
             </div>
         </div>
     </div>

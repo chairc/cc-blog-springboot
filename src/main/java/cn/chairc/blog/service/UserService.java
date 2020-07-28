@@ -141,4 +141,12 @@ public interface UserService {
 
     void updateUserLoginLog(User user,String loginMethod);
 
+    /**
+     * 通过私有ID获得用户
+     * @param privateId
+     * @return
+     */
+
+    User getUserByPrivateId(String privateId);
+
 }

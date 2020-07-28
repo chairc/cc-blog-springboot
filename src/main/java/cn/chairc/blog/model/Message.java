@@ -11,6 +11,7 @@ public class Message {
     private String message_system;          //  留言所用系统
     private String message_browser;         //  留言所用浏览器
     private String message_weight;          //  留言权重
+    private String message_user_private_id; //  留言用户的私有ID
 
     public int getMessage_id() {
         return message_id;
@@ -84,6 +85,14 @@ public class Message {
         this.message_weight = message_weight;
     }
 
+    public String getMessage_user_private_id() {
+        return message_user_private_id;
+    }
+
+    public void setMessage_user_private_id(String message_user_private_id) {
+        this.message_user_private_id = message_user_private_id;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -96,6 +105,7 @@ public class Message {
                 ", message_system='" + message_system + '\'' +
                 ", message_browser='" + message_browser + '\'' +
                 ", message_weight='" + message_weight + '\'' +
+                ", message_user_private_id='" + message_user_private_id + '\'' +
                 '}';
     }
 }

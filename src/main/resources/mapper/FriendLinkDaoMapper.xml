@@ -9,6 +9,8 @@
         *
         FROM
         <include refid="table" />
+        WHERE
+        friend_link_check = 1
         ORDER BY
         friend_link_id
         DESC

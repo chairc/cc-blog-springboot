@@ -245,4 +245,9 @@ public class UserServiceImpl implements UserService {
             userDao.updateUserLoginLogByQQLogin(user);
         }
     }
+
+    @Override
+    public User getUserByPrivateId(String privateId) {
+        return userDao.getUserByPrivateId(privateId);
+    }
 }

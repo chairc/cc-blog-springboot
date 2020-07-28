@@ -6,7 +6,7 @@
 
     <select id="getMessageAllToIndex" resultType="cn.chairc.blog.model.Message">
         SELECT
-        message_id,message_private_id,message_username,message_main,message_time,message_weight
+        message_id,message_private_id,message_username,message_main,message_time,message_weight,message_user_private_id
         FROM
         <include refid="table"/>
         ORDER BY
@@ -17,7 +17,7 @@
 
     <select id="getMessageAllToIndexByWeight" resultType="cn.chairc.blog.model.Message">
         SELECT
-        message_id,message_private_id,message_username,message_main,message_time,message_weight
+        message_id,message_private_id,message_username,message_main,message_time,message_weight,message_user_private_id
         FROM
         <include refid="table"/>
         WHERE
@@ -30,7 +30,7 @@
 
     <select id="getMessageAll" resultType="cn.chairc.blog.model.Message">
         SELECT
-        message_id,message_private_id,message_username,message_main,message_time,message_weight
+        message_id,message_private_id,message_username,message_main,message_time,message_weight,message_user_private_id
         FROM
         <include refid="table"/>
         ORDER BY
@@ -40,7 +40,7 @@
 
     <select id="getMessageAllByAscendingOrder" resultType="cn.chairc.blog.model.Message">
         SELECT
-        message_id,message_private_id,message_username,message_main,message_time,message_weight
+        message_id,message_private_id,message_username,message_main,message_time,message_weight,message_user_private_id
         FROM
         <include refid="table"/>
         ORDER BY
@@ -49,7 +49,7 @@
 
     <select id="getMessageAllByWeight" resultType="cn.chairc.blog.model.Message">
         SELECT
-        message_id,message_private_id,message_username,message_main,message_time,message_weight
+        message_id,message_private_id,message_username,message_main,message_time,message_weight,message_user_private_id
         FROM
         <include refid="table"/>
         WHERE
@@ -72,10 +72,10 @@
         INSERT INTO
         <include refid="table"/>
         (message_id,message_private_id,message_username,message_main,message_time,message_ip,message_system,
-        message_browser,message_weight)
+        message_browser,message_weight,message_user_private_id)
         VALUES
         (#{message_id},#{message_private_id},#{message_username},#{message_main},#{message_time},#{message_ip},
-        #{message_system},#{message_browser},#{message_weight})
+        #{message_system},#{message_browser},#{message_weight},#{message_user_private_id})
     </insert>
 
     <delete id="deleteMessageByPrivateId" parameterType="cn.chairc.blog.model.Message">
@@ -89,9 +89,11 @@
         UPDATE
         <include refid="table"/>
         SET
-        message_id = #{message_id},message_private_id = #{message_private_id},message_username = #{message_username},
+        message_id = #{message_id},message_username = #{message_username},
         message_main = #{message_main},message_time = #{message_time},message_ip = #{message_ip},
         message_system = #{message_system},message_browser = #{message_browser},message_weight = #{message_weight}
+        WHERE
+        message_private_id = #{message_private_id}
     </update>
 
     <select id="getMessageCount" resultType="java.lang.Integer" parameterType="cn.chairc.blog.model.User">

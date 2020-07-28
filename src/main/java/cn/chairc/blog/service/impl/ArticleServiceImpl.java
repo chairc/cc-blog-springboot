@@ -116,8 +116,9 @@ public class ArticleServiceImpl implements ArticleService {
             }catch (Exception e){
                 resultSet.error();
             }
-        }else {
-            resultSet.fail("新增文章《" + article.getArticle_title() + "》失败");
+        }else if (username == null) {
+            //未登录
+            resultSet.fail("用户未登录，新增文章失败");
         }
         return resultSet;
     }

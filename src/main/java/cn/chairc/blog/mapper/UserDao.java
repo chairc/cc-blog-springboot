@@ -146,4 +146,13 @@ public interface UserDao {
      */
 
     void updateUserLoginLogByQQLogin(User user);
+
+    /**
+     * 通过私有Id获取用户
+     * @param privateId
+     * @return
+     */
+
+    User getUserByPrivateId(String privateId);
+
 }

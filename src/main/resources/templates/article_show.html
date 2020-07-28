@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>归档 | 小虚无的下午茶</title>
+    <title th:text="${articleTitle} + ' | 归档 | 小虚无的下午茶'"></title>
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/slicknav.css}">
@@ -43,7 +43,7 @@
                         <a class="nav-link" href="/message/1">留言</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/friendLink/1">友人帐</a>
+                        <a class="nav-link" href="/friendLink">友人帐</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/entertainment/1">娱乐</a>
@@ -68,7 +68,7 @@
                 <a href="/message/1">留言</a>
             </li>
             <li class="">
-                <a href="/friendLink/1">友人帐</a>
+                <a href="/friendLink">友人帐</a>
             </li>
             <li class="">
                 <a href="/entertainment/1">娱乐</a>

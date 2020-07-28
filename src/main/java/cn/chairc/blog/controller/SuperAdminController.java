@@ -183,7 +183,6 @@ public class SuperAdminController {
      *
      * @param pageNum
      * @return DataResultSet
-     * @throws JsonProcessingException
      */
 
     @RequestMapping("/showUserList")
@@ -220,7 +219,6 @@ public class SuperAdminController {
      *
      * @param pageNum
      * @return DataResultSet
-     * @throws JsonProcessingException
      */
 
     @RequestMapping("/showArticleList")
@@ -263,7 +261,16 @@ public class SuperAdminController {
         return articleService.updateArticle(article);
     }
 
-    public ResultSet deleteArticle(@RequestParam(value = "deletePrivateId") String deletePrivateId){
+    /**
+     * 删除文章
+     *
+     * @param deletePrivateId
+     * @return
+     */
+
+    @RequestMapping("/deleteArticle")
+    @ResponseBody
+    public ResultSet deleteArticle(@RequestParam(value = "deletePrivateId") String deletePrivateId) {
         return articleService.deleteArticleByPrivateId(deletePrivateId);
     }
 
@@ -317,7 +324,6 @@ public class SuperAdminController {
      *
      * @param pageNum
      * @return DataResultSet
-     * @throws JsonProcessingException
      */
 
     @RequestMapping("/showMessageList")
@@ -339,6 +345,20 @@ public class SuperAdminController {
     public ResultSet showMessage(@RequestParam(value = "messagePrivateId") String messagePrivateId) {
         return messageService.getMessageByPrivateId(messagePrivateId);
     }
+
+    /**
+     * 删除留言操作
+     *
+     * @param deletePrivateId
+     * @return
+     */
+
+    @RequestMapping("/deleteMessage")
+    @ResponseBody
+    public ResultSet deleteMessage(@RequestParam(value = "deletePrivateId") String deletePrivateId) {
+        return messageService.deleteMessage(deletePrivateId);
+    }
+
 
     //友人账操作
 
