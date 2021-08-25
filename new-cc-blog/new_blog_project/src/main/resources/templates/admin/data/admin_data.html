@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员页面</title>
+    <link rel="icon" th:href="@{/static/images/ico/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+</head>
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+<div class="wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">仪表面板</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">博客后台</li>
+                        <li class="breadcrumb-item active">数据统计</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-default btn-sm float-right" onclick="refreshPage()">
+                        <i class="fas fa-refresh"></i> 刷新
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-info card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">最近一周访问量折线图表
+                                <i class="fas fa-question-circle" title="说明：该访问量的统计区分用户对链接的点击，记录为用户点击总量"></i></h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart" id="current-visitor-number-line" style="min-height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-info card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">最近一周活跃度数据柱状图表
+                                <i class="fas fa-question-circle" title="说明：该活跃度的统计不重复记录同一用户"></i></h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart" id="current-active-data-bar" style="min-height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/echarts.min.js}"></script>
+<script th:inline="javascript">
+
+    /**
+     * 参数叠加方法
+     * @param obj 数据
+     * @param objX 需要放在图表x轴信息
+     * @param objY 需要放在图表y轴信息
+     */
+
+    function dataAdd(obj, objX, objY) {
+        for (var i = 0; i < obj.length; i++) {
+            objX.push(obj[i].objectName);
+            objY.push(obj[i].objectNumber);
+        }
+    }
+
+    //  最近一周访问量折线图表
+    var currentVisitor = [[${currentVisitorData}]];
+    var currentVisitorWeekData = [];
+    var currentVisitorData = [];
+    dataAdd(currentVisitor, currentVisitorWeekData, currentVisitorData);
+    var currentVisitorLineChart = echarts.init($("#current-visitor-number-line")[0]);
+    currentVisitorLineChart.showLoading();
+    var currentVisitorLineChartOption = {
+        title: {
+            text: ''
+        },
+        tooltip: {},
+        legend: {
+            data: ['访问量']
+        },
+        xAxis: {
+            data: currentVisitorWeekData
+        },
+        yAxis: {},
+        series: [{
+            name: '访问量',
+            type: 'line',
+            data: currentVisitorData
+        }]
+    };
+    setTimeout(function () {
+        currentVisitorLineChart.hideLoading();
+    }, 1500);
+    if (currentVisitorLineChartOption && typeof currentVisitorLineChartOption === 'object') {
+        currentVisitorLineChart.setOption(currentVisitorLineChartOption);
+    }
+
+    //  最近一周活跃度柱状图表
+    var currentActive = [[${currentActiveData}]];
+    var currentActiveWeekData = [];
+    var currentActiveData = [];
+    dataAdd(currentActive, currentActiveWeekData, currentActiveData);
+    var currentActiveBarChart = echarts.init($("#current-active-data-bar")[0]);
+    currentActiveBarChart.showLoading();
+    var currentActiveBarChartOption = {
+        title: {
+            text: ''
+        },
+        tooltip: {},
+        legend: {
+            data: ['活跃量']
+        },
+        xAxis: {
+            data: currentActiveWeekData
+        },
+        yAxis: {},
+        series: [{
+            name: '活跃量',
+            type: 'bar',
+            data: currentActiveData,
+            animation: true,
+            animationDuration: 1000,
+            animationType: 'scale',
+            animationEasing: 'cubicOut',
+            showBackground: true
+        }]
+    };
+    setTimeout(function () {
+        currentActiveBarChart.hideLoading();
+    }, 1500);
+    if (currentActiveBarChartOption && typeof currentActiveBarChartOption === 'object') {
+        currentActiveBarChart.setOption(currentActiveBarChartOption);
+    }
+
+    window.onresize = function () {
+        currentVisitorLineChart.resize();
+        currentActiveBarChart.resize();
+    }
+</script>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.chairc.blog.mapper.log.LogArticleMapper">
+    <resultMap id="logArticleResultMap" type="cn.chairc.blog.entity.log.LogArticleEntity">
+        <id column="id" property="id"></id>
+        <result column="log_article_private_id" property="logArticlePrivateId"></result>
+        <result column="log_article_user_private_id" property="logArticleUserPrivateId"></result>
+        <result column="log_article_method_name" property="logArticleMethodName"></result>
+        <result column="log_article_operate" property="logArticleOperate"></result>
+        <result column="log_article_level" property="logArticleLevel"></result>
+        <result column="log_article_description" property="logArticleDescription"></result>
+        <result column="log_article_ip" property="logArticleIp"></result>
+        <result column="log_article_browser_version" property="logArticleBrowserVersion"></result>
+        <result column="log_article_system_version" property="logArticleSystemVersion"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <sql id="table_log_article">log_article</sql>
+
+    <select id="listLogArticle" resultMap="logArticleResultMap" resultType="cn.chairc.blog.entity.log.LogArticleEntity">
+        SELECT * FROM
+        <include refid="table_log_article"/>
+        ORDER BY
+        id DESC
+    </select>
+
+    <select id="getLogArticle" resultMap="logArticleResultMap" resultType="cn.chairc.blog.entity.log.LogArticleEntity">
+        SELECT * FROM
+        <include refid="table_log_article"/>
+        WHERE
+        log_article_private_id = #{logArticlePrivateId}
+    </select>
+
+    <insert id="insertLogArticle" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="table_log_article"/>
+        (log_article_private_id,log_article_user_private_id,log_article_method_name,log_article_operate,log_article_level,
+        log_article_description,log_article_ip,log_article_browser_version,log_article_system_version,create_time,update_time)
+        VALUES
+        (#{logArticlePrivateId},#{logArticleUserPrivateId},#{logArticleMethodName},#{logArticleOperate},#{logArticleLevel},
+        #{logArticleDescription},#{log_article_ip},#{log_article_browser_version},#{log_article_system_version},#{createTime},#{updateTime})
+    </insert>
+</mapper>

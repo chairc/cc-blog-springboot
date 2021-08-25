@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员页面</title>
+    <link rel="icon" th:href="@{/static/images/ico/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+</head>
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+<div class="wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>权限列表</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">博客后台</li>
+                        <li class="breadcrumb-item">人员管理</li>
+                        <li class="breadcrumb-item active">权限列表</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <button class="btn btn-info btn-sm" onclick="addPermissionDialog()">
+                                <i class="fas fa-plus-square"></i> 新增权限
+                            </button>
+                            <button class="btn btn-info btn-sm" onclick="updatePermissionDialog()">
+                                <i class="fas fa-pencil-alt"></i> 修改权限
+                            </button>
+                            <button class="btn btn-default btn-sm float-right" onclick="refreshPage()">
+                                <i class="fas fa-refresh"></i> 刷新
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="row table-responsive">
+                                <div class="col-sm-12">
+                                    <table class="table table-bordered" role="grid">
+                                        <thead>
+                                        <tr role="row">
+                                            <th class="sorting" rowspan="1" colspan="1">用户私有ID</th>
+                                            <th class="sorting" rowspan="1" colspan="1">用户名</th>
+                                            <th class="sorting" rowspan="1" colspan="1">权限</th>
+                                            <th class="sorting" rowspan="1" colspan="1">状态</th>
+                                            <th class="sorting" rowspan="1" colspan="1">权限生成时间</th>
+                                            <th class="sorting" rowspan="1" colspan="1">权限更新时间</th>
+                                            <th class="sorting" rowspan="1" colspan="1"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="odd" th:each="userPermission:${userPermissionList}">
+                                            <td class="dtr-control sorting_1" th:text="${userPermission.getUserPrivateId()}"></td>
+                                            <td th:text="${userPermission.getUsername()}"></td>
+                                            <td><span class="badge badge-info" th:text="${userPermission.getUserPermission()}"></span></td>
+                                            <td th:if="${userPermission.getUserPermissionStatus()!=1}">
+                                                <span class="badge badge-danger">注销</span></td>
+                                            <td th:if="${userPermission.getUserPermissionStatus()==1}">
+                                                <span class="badge badge-info">正常</span></td>
+                                            <td th:text="${userPermission.getUserPermissionCreateTime()}"></td>
+                                            <td th:text="${userPermission.getUserPermissionUpdateTime()}"></td>
+                                            <td class="text-center">
+                                                <a class="btn btn-info btn-sm" href="javascript:void(0);"
+                                                    onclick="showUserPermissionInfo(this)" th:id="${userPermission.getUserPrivateId()}">
+                                                    <i class="fas fa-pencil-alt"></i> 编辑
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="javascript:void(0);">
+                                                    <i class="fas fa-trash"></i> 删除
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4">
+                                    <div class="dataTables_info"
+                                         th:text="'当前显示第'+${currentPage}+'页 共'+${totalPage}+'页'">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="paginate">
+                                        <ul class="pagination">
+                                            <li th:if="${currentPage - 1} <= 1"
+                                                class="paginate_button page-item previous">
+                                                <a href="/admin/userPermissionsData/1#paginate" class="page-link">上一页</a>
+                                            </li>
+                                            <li th:if="${currentPage - 1} > 1"
+                                                class="paginate_button page-item previous">
+                                                <a th:href="'/admin/userPermissionsData/'+${currentPage - 1}+'#paginate'"
+                                                   class="page-link">上一页</a>
+                                            </li>
+                                            <li th:if="${currentPage - 1} >= 1" class="paginate_button page-item">
+                                                <a th:href="'/admin/userPermissionsData/'+${currentPage - 1}+'#paginate'"
+                                                   th:text="${currentPage - 1}" class="page-link"></a>
+                                            </li>
+                                            <li class="paginate_button page-item">
+                                                <a th:href="'/admin/userPermissionsData/'+${currentPage}+'#paginate'"
+                                                   th:text="${currentPage}" class="page-link"></a>
+                                            </li>
+                                            <li th:if="${currentPage + 1} <= ${totalPage}"
+                                                class="paginate_button page-item">
+                                                <a th:href="'/admin/userPermissionsData/'+${currentPage + 1}+'#paginate'"
+                                                   th:text="${currentPage + 1}" class="page-link"></a>
+                                            </li>
+                                            <li th:if="${currentPage + 1} > ${totalPage}"
+                                                class="paginate_button page-item next">
+                                                <a th:href="'/admin/userPermissionsData/'+${totalPage}+'#paginate'"
+                                                   class="page-link">下一页</a>
+                                            </li>
+                                            <li th:if="${currentPage + 1} <= ${totalPage}"
+                                                class="paginate_button page-item next">
+                                                <a th:href="'/admin/userPermissionsData/'+${currentPage + 1}+'#paginate'"
+                                                   class="page-link">下一页</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2">
+                                    <div class="input-group input-group-sm">
+                                        <input  type="number" id="admin-permission-page-number" class="form-control"
+                                                th:max="${totalPage}" min="1">
+                                        <span class="input-group-append">
+                                            <button class="btn btn-primary btn-flat" onclick="jumpToPage(this)"
+                                                    id="admin-permission-jump">跳转</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="modal fade" id="admin-user-permission-edit" style="display: none;" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">编辑用户权限信息</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div id="admin-user-permission-info-dialog">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="admin-permissions-add" style="display: none;" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">新增权限</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="admin-permission-add-permission-name">权限名称</label>
+                    <input type="text" class="form-control" id="admin-permission-add-permission-name" placeholder="请输入权限名称"
+                           autocomplete="new-permission-role-name">
+                </div>
+                <div class="form-group">
+                    <label for="admin-permission-add-description">权限描述</label>
+                    <input type="text" class="form-control" id="admin-permission-add-description" placeholder="请输入权限描述"
+                           autocomplete="new-permission-description">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="insertPermission()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="admin-permissions-edit" style="display: none;" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">修改权限表信息</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="admin-permission-edit-permission-name-before">待修改权限</label>
+                    <select type="text" class="form-control" id="admin-permission-edit-permission-name-before">
+                        <option th:each="permission:${permissionList}" th:text="${permission.getPermissionName()}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="admin-permission-edit-permission-name">修改后权限</label>
+                    <input type="text" class="form-control" id="admin-permission-edit-permission-name" placeholder="请输入权限名称"
+                           autocomplete="new-role-description">
+                </div>
+                <div class="form-group">
+                    <label for="admin-permission-edit-description">权限描述（不修改可不填写）</label>
+                    <input type="text" class="form-control" id="admin-permission-edit-description" placeholder="请输入权限描述"
+                           autocomplete="new-role-description">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="updatePermission()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/toastr.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
+</html>

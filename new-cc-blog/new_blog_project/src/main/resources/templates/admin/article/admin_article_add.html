@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>新建归档 | 管理员页面</title>
+    <link rel="icon" th:href="@{/static/images/ico/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/static/editor.md/css/editormd.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+</head>
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+<div class="wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>新建归档</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">博客后台</li>
+                        <li class="breadcrumb-item">归档管理</li>
+                        <li class="breadcrumb-item active">新建归档</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="col-md-12">
+            <div class="card card-info">
+                <div class="card-header">
+                    <button class="btn btn-danger btn-sm" onclick="">
+                        <i class="fas fa-rocket"></i> 清空
+                    </button>
+                    <button class="btn btn-default btn-sm float-right" onclick="refreshPage()">
+                        <i class="fas fa-refresh"></i> 刷新
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>文章标题</label>
+                                <input id="article-add-title" type="text" class="form-control" placeholder="请输入文章标题">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>文章私有ID</label>
+                                <input type="text" class="form-control" th:value="${articlePrivateId}"
+                                       placeholder="文章私有ID不可删除" disabled="" id="article-add-private-id">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>文章简要介绍</label>
+                                <textarea id="article-add-introduction" class="form-control" rows="2" placeholder="请输入简要介绍..."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>文章作者</label>
+                                <input id="article-add-author" type="text" class="form-control" placeholder="随便编个名字呗？">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>文章是否公开</label>
+                                <select class="form-control" id="article-add-is-hide">
+                                    <option>是</option>
+                                    <option>否</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>文章分类</label>
+                                <select class="form-control" id="article-add-type">
+                                    <option th:each="type:${articleType}" th:value="${type.getArticleTypeName()}"
+                                            th:text="${type.getArticleTypeName()}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>文章标签-1</label>
+                                <select class="form-control" id="article-add-label-1">
+                                    <option th:each="label:${articleLabel}" th:value="${label.getLabelName()}"
+                                            th:text="${label.getLabelName()}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>文章标签-2</label>
+                                <select class="form-control" id="article-add-label-2">
+                                    <option th:each="label:${articleLabel}" th:value="${label.getLabelName()}"
+                                            th:text="${label.getLabelName()}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>文章内容</label>
+                                <div id="editor">
+                                    <textarea style="display: none" id="article-add-context"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button class="btn btn-info float-right" onclick="insertArticle()">发布文章</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        var editor = editormd("editor", {
+            placeholder: "开始写文章吧...",
+            width: "100%",
+            height: 500,
+            saveHTMLToTextarea: true,
+            syncScrolling: "single",
+            path: "/static/editor.md/lib/",
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: "/api/upload/uploadArticleFile",//上传图片服务地址
+            toolbarIcons: function () {
+                return editormd.toolbarModes["full"]
+            }
+        });
+    });
+</script>
+<script type="text/javascript" th:src="@{/static/editor.md/editormd.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/toastr.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.chairc.blog.mapper.log.LogVisitorMapper">
+    <resultMap id="logVisitorResultMap" type="cn.chairc.blog.entity.log.LogVisitorEntity">
+        <id column="id" property="id"></id>
+        <result column="log_visitor_private_id" property="logVisitorPrivateId"></result>
+        <result column="log_visitor_method_name" property="logVisitorMethodName"></result>
+        <result column="log_visitor_request_uri" property="logVisitorRequestUri"></result>
+        <result column="log_visitor_request_url" property="logVisitorRequestUrl"></result>
+        <result column="log_visitor_parameter" property="logVisitorParameter"></result>
+        <result column="log_visitor_value" property="logVisitorValue"></result>
+        <result column="log_visitor_username" property="logVisitorUsername"></result>
+        <result column="log_visitor_ip" property="logVisitorIp"></result>
+        <result column="log_visitor_browser_version" property="logVisitorBrowserVersion"></result>
+        <result column="log_visitor_system_version" property="logVisitorSystemVersion"></result>
+        <result column="log_visitor_level" property="logVisitorLevel"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <sql id="table_log_visitor">log_visitor</sql>
+
+    <select id="listLogVisitor" resultMap="logVisitorResultMap" resultType="cn.chairc.blog.entity.log.LogVisitorEntity">
+        SELECT * FROM
+        <include refid="table_log_visitor"/>
+        ORDER BY
+        id DESC
+    </select>
+
+    <select id="getLogVisitor" resultMap="logVisitorResultMap" resultType="cn.chairc.blog.entity.log.LogVisitorEntity">
+        SELECT * FROM
+        <include refid="table_log_visitor"/>
+        WHERE
+        log_visitor_private_id = #{logVisitorPrivateId}
+    </select>
+
+    <insert id="insertLogVisitor" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="table_log_visitor"/>
+        (log_visitor_private_id,log_visitor_method_name,log_visitor_request_uri,log_visitor_request_url,log_visitor_parameter,
+        log_visitor_value,log_visitor_username,log_visitor_ip,log_visitor_browser_version,log_visitor_system_version,
+        log_visitor_level,create_time,update_time)
+        VALUES
+        (#{logVisitorPrivateId},#{logVisitorMethodName},#{logVisitorRequestUri},#{logVisitorRequestUrl},#{logVisitorParameter},
+        #{logVisitorValue},#{logVisitorUsername},#{logVisitorIp},#{logVisitorBrowserVersion},#{logVisitorSystemVersion},
+        #{logVisitorLevel},#{createTime},#{updateTime})
+    </insert>
+
+    <!--&lt;为小于号的实体引用-->
+    <select id="getCurrentVisitorNumber" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT log_visitor_ip,log_visitor_username) FROM
+        <include refid="table_log_visitor"/>
+        WHERE DATE_SUB(CURDATE(),INTERVAL #{day} DAY) &lt;= date(create_time)
+    </select>
+
+    <select id="listCurrentVisitorNumber" resultType="cn.chairc.blog.entity.statistics.StatisticsDataResultSet">
+        SELECT DATE_FORMAT(create_time,'%Y-%m-%d') AS objectName , count(*) AS objectNumber FROM
+        <include refid="table_log_visitor"/>
+        where DATE_SUB(CURDATE(),INTERVAL #{day} DAY) &lt;= date(create_time)
+        GROUP BY objectName
+    </select>
+</mapper>

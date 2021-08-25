@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>小虚无的下午茶</title>
+    <link rel="icon" th:href="@{/static/images/ico/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+</head>
+<body>
+<div class="wrapper" style="min-height: 337px;">
+    <section class="content-header"></section>
+    <section class="content">
+        <div class="error-page">
+            <h2 class="headline text-warning" th:text="${errorType}"></h2>
+            <div class="error-content">
+                <h3><i class="fas fa-exclamation-triangle text-warning"></i><span th:text="${errorTitle}"></span></h3>
+                <p th:if="${errorType=='401'}">
+                    <span th:text="${errorContent}"></span>
+                    ，你可以尝试<a href="/">回到主页</a>或<a href="/login">进行登录</a>
+                </p>
+                <p th:if="${errorType!='401'}">
+                    <span th:text="${errorContent}"></span>
+                    ，你可以尝试<a href="/">回到主页</a>或<a href="javascript:history.back();">回到上一页</a>
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
+</html>

@@ -1,0 +1,13 @@
+ _____                   _
+|  __ \                 (_)                        
+| |__) |   _ _ __  _ __  _ _ __   __ _             
+|  _  / | | | '_ \| '_ \| | '_ \ / _` |            
+| | \ \ |_| | | | | | | | | | | | (_| |  _   _   _ 
+|_|  \_\__,_|_| |_|_| |_|_|_| |_|\__, | (_) (_) (_)
+                                  __/ |            
+                                 |___/
+
+------springboot version------${spring-boot.formatted-version}
+Project Author : chairc
+Project GitHub : https://github.com/chairc/cc-blog-springboot
+Author  blog   : https://chairc.cn

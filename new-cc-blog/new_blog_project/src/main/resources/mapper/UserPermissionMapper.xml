@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.chairc.blog.mapper.user.UserPermissionMapper">
+    <resultMap id="userPermissionResultMap" type="cn.chairc.blog.entity.user.UserPermissionEntity">
+        <id column="id" property="id"></id>
+        <result column="user_private_id" property="userPrivateId"></result>
+        <result column="user_permission" property="userPermission"></result>
+        <result column="user_permission_status" property="userPermissionStatus"></result>
+        <result column="user_permission_is_delete" property="userPermissionIsDelete"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <sql id="table_user_permission">user_permission</sql>
+
+    <select id="getUserPermission" resultMap="userPermissionResultMap" resultType="cn.chairc.blog.entity.user.UserPermissionEntity">
+        SELECT
+        *
+        FROM
+        <include refid="table_user_permission"/>
+        WHERE
+        user_private_id = #{userPrivateId} AND user_permission_is_delete = 1
+    </select>
+
+    <select id="listUserPermission" resultMap="userPermissionResultMap" resultType="cn.chairc.blog.entity.user.UserPermissionEntity">
+        SELECT
+        *
+        FROM
+        <include refid="table_user_permission"/>
+        WHERE
+        user_permission_is_delete = 1
+    </select>
+
+    <select id="getUserPermissionIsExist" resultType="java.lang.Boolean" parameterType="java.lang.String">
+
+    </select>
+
+    <insert id="insertUserPermission" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="table_user_permission"/>
+        (user_private_id,user_permission,user_permission_status,user_permission_is_delete,create_time,update_time)
+        VALUES
+        (#{userPrivateId},#{userPermission},#{userPermissionStatus},#{userPermissionIsDelete},#{createTime},#{updateTime})
+    </insert>
+
+    <update id="updateUserPermission" parameterType="cn.chairc.blog.entity.user.UserPermissionEntity">
+        UPDATE
+        <include refid="table_user_permission"/>
+        <set>
+            <if test="userPermission != null and userPermission != ''">
+                user_permission = #{userPermission},
+            </if>
+            <if test="userPermissionStatus != 0">
+                user_permission_status = #{userPermissionStatus},
+            </if>
+            <if test="userPermissionIsDelete != 0">
+                user_permission_is_delete = #{userPermissionIsDelete}
+            </if>
+        </set>
+        WHERE
+        user_private_id = #{userPrivateId}
+    </update>
+
+    <delete id="deleteUserPermission">
+
+    </delete>
+
+</mapper>

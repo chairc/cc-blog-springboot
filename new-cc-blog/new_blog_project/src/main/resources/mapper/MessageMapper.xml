@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.chairc.blog.mapper.message.MessageMapper">
+    <resultMap id="messageResultMap" type="cn.chairc.blog.entity.message.MessageEntity">
+        <id column="id" property="id"></id>
+        <result column="message_private_id" property="messagePrivateId"></result>
+        <result column="message_user_private_id" property="messageUserPrivateId"></result>
+        <result column="message_content" property="messageContent"></result>
+        <result column="message_is_delete" property="messageIsDelete"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <sql id="table_message_info">message_info</sql>
+
+    <select id="listMessage" resultMap="messageResultMap" resultType="cn.chairc.blog.entity.message.MessageEntity"
+            parameterType="java.lang.String">
+        SELECT * FROM
+        <include refid="table_message_info"/>
+        WHERE
+        message_is_delete = 1
+        ORDER BY
+        id DESC
+    </select>
+
+    <select id="getMessage" resultMap="messageResultMap" resultType="cn.chairc.blog.entity.message.MessageEntity">
+        SELECT * FROM
+        <include refid="table_message_info"/>
+        WHERE
+        message_private_id = #{messagePrivateId} AND message_is_delete = 1
+    </select>
+
+    <insert id="insertMessage" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="table_message_info"/>
+        (message_private_id,message_user_private_id,message_content,message_is_delete,create_time,update_time)
+        VALUES
+        (#{messagePrivateId},#{messageUserPrivateId},#{messageContent},#{messageIsDelete},#{createTime},#{updateTime})
+    </insert>
+
+    <delete id="deleteMessage">
+
+    </delete>
+
+    <update id="updateMessage" parameterType="cn.chairc.blog.entity.message.MessageEntity">
+        UPDATE
+        <include refid="table_message_info"/>
+        <set>
+            <if test="messageUserPrivateId != null and messageUserPrivateId != ''">
+                message_user_private_id = #{messageUserPrivateId},
+            </if>
+            <if test="messageContent != null and messageContent != ''">
+                message_content = #{messageContent},
+            </if>
+            <if test="messageIsDelete != 0">
+                message_is_delete = #{messageIsDelete},
+            </if>
+        </set>
+        WHERE
+        message_private_id = #{messagePrivateId}
+    </update>
+
+</mapper>

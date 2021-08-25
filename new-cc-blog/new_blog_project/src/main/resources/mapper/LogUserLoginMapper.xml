@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.chairc.blog.mapper.log.LogUserLoginMapper">
+    <resultMap id="logUserLoginResultMap" type="cn.chairc.blog.entity.log.LogUserLoginEntity">
+        <id column="id" property="id"></id>
+        <result column="user_private_id" property="userPrivateId"></result>
+        <result column="user_ip" property="userIp"></result>
+        <result column="user_browser" property="userBrowser"></result>
+        <result column="user_system" property="userSystem"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <sql id="table_log_user_login">log_user_login</sql>
+
+    <select id="listUserLoginLog" resultMap="logUserLoginResultMap" resultType="cn.chairc.blog.entity.log.LogUserLoginEntity">
+        SELECT * FROM
+        <include refid="table_log_user_login"/>
+        WHERE
+        user_private_id = #{userPrivateId}
+        ORDER BY
+        id DESC
+    </select>
+
+    <select id="getCurrentUserLoginLog" resultMap="logUserLoginResultMap" resultType="cn.chairc.blog.entity.log.LogUserLoginEntity">
+        SELECT * FROM
+        <include refid="table_log_user_login"/>
+        WHERE
+        user_private_id = #{userPrivateId}
+        ORDER BY
+        id DESC
+        LIMIT 1
+    </select>
+
+    <insert id="insertUserLoginLog">
+        INSERT INTO
+        <include refid="table_log_user_login"/>
+        (user_private_id,user_ip,user_browser,user_system,create_time,update_time)
+        VALUES
+        (#{userPrivateId},#{userIp},#{userBrowser},#{userSystem},#{createTime},#{updateTime})
+    </insert>
+
+    <select id="getUserActiveData" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT user_private_id) FROM
+        <include refid="table_log_user_login"/>
+        WHERE DATE_SUB(CURDATE(),INTERVAL #{day} DAY) &lt;= date(create_time)
+    </select>
+
+    <select id="listCurrentActiveData" resultType="cn.chairc.blog.entity.statistics.StatisticsDataResultSet">
+        SELECT DATE_FORMAT(create_time,'%Y-%m-%d') AS objectName , count(DISTINCT user_private_id) AS objectNumber FROM
+        <include refid="table_log_user_login"/>
+        where DATE_SUB(CURDATE(),INTERVAL #{day} DAY) &lt;= date(create_time)
+        GROUP BY objectName
+    </select>
+
+</mapper>

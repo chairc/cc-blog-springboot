@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.chairc.blog.mapper.user.UserMapper">
+    <!--数据库common_user中权限表对应的User实体类映射-->
+    <resultMap id="userResultMap" type="cn.chairc.blog.entity.user.UserEntity">
+        <id column="id" property="id"></id>
+        <result column="user_private_id" property="userPrivateId"></result>
+        <result column="user_username" property="username"></result>
+        <result column="user_email" property="userEmail"></result>
+        <result column="user_password" property="password"></result>
+        <result column="user_is_banned" property="userIsBanned"></result>
+        <result column="user_is_activity" property="userIsActivity"></result>
+        <result column="user_is_delete" property="userIsDelete"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <sql id="table_user">user_info</sql>
+
+    <select id="listUser" resultMap="userResultMap" resultType="cn.chairc.blog.entity.user.UserEntity">
+        SELECT * FROM
+        <include refid="table_user"/>
+        WHERE
+        user_is_delete = 1
+    </select>
+
+    <select id="getUserByPrivateId" resultMap="userResultMap" resultType="cn.chairc.blog.entity.user.UserEntity">
+        SELECT * FROM
+        <include refid="table_user"/>
+        WHERE
+        user_private_id = #{userPrivateId} AND user_is_delete = 1
+    </select>
+
+    <select id="getUserByEmail" resultMap="userResultMap" resultType="cn.chairc.blog.entity.user.UserEntity">
+        SELECT * FROM
+        <include refid="table_user"/>
+        WHERE
+        user_email = #{userEmail} AND user_is_delete = 1
+    </select>
+
+    <select id="getUserEmailIsExist" resultType="java.lang.Boolean" parameterType="java.lang.String">
+        SELECT COUNT(id) FROM
+        <include refid="table_user"/>
+        WHERE
+        user_email = #{userEmail} AND user_is_delete = 1
+    </select>
+
+    <select id="getUsernameIsExist" resultType="java.lang.Boolean" parameterType="java.lang.String">
+        SELECT COUNT(id) FROM
+        <include refid="table_user"/>
+        WHERE
+        user_username = #{username} AND user_is_delete = 1
+    </select>
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="table_user"/>
+        (user_private_id,user_username,user_email,user_password,
+        user_is_banned,user_is_activity,user_is_delete,create_time,update_time)
+        VALUES
+        (#{userPrivateId},#{username},#{userEmail},#{password},
+        #{userIsBanned},#{userIsActivity},#{userIsDelete},#{createTime},#{updateTime})
+    </insert>
+
+    <update id="updateUser" parameterType="cn.chairc.blog.entity.user.UserEntity">
+        UPDATE
+        <include refid="table_user"/>
+        <set>
+            <if test="username != null and username != ''">
+                user_username = #{username},
+            </if>
+            <if test="userEmail != null and userEmail != ''">
+                user_email = #{userEmail},
+            </if>
+            <if test="password != null and password != ''">
+                user_password = #{password},
+            </if>
+            <if test="userIsBanned != 0">
+                user_is_banned = #{userIsBanned},
+            </if>
+            <if test="userIsActivity != 0">
+                user_is_activity = #{userIsActivity},
+            </if>
+            <if test="userIsDelete != 0">
+                user_is_delete = #{userIsDelete}
+            </if>
+        </set>
+        WHERE
+        user_private_id = #{userPrivateId}
+    </update>
+
+    <delete id="deleteUser">
+
+    </delete>
+
+    <select id="getUserTotal" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM
+        <include refid="table_user"/>
+        WHERE
+        user_is_delete = 1 AND user_is_activity
+    </select>
+
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.chairc.blog.mapper.user.UserHeadPictureMapper">
+    <resultMap id="userHeadPictureResultMap" type="cn.chairc.blog.entity.user.UserHeadPictureEntity">
+        <id column="id" property="id"></id>
+        <result column="user_private_id" property="userPrivateId"></result>
+        <result column="user_head_mapping_url" property="userHeadMappingUrl"></result>
+        <result column="user_head_mapping_thumbnail_url" property="userHeadMappingThumbnailUrl"></result>
+        <result column="user_head_is_delete" property="userHeadIsDelete"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <sql id="table_user_head">user_head</sql>
+
+    <select id="getUserHeadPicture" resultType="cn.chairc.blog.entity.user.UserHeadPictureEntity" resultMap="userHeadPictureResultMap">
+        SELECT * FROM
+        <include refid="table_user_head"/>
+        WHERE
+        user_private_id = #{userPrivateId} AND user_head_is_delete = 1
+    </select>
+
+    <select id="getUserHeadPictureIsExist" resultType="java.lang.Boolean" parameterType="java.lang.String">
+        SELECT COUNT(id) FROM
+        <include refid="table_user_head"/>
+        WHERE
+        user_private_id = #{userPrivateId} AND user_head_is_delete = 1
+    </select>
+
+    <insert id="insertUserHeadPicture" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="table_user_head"/>
+        (user_private_id,user_head_mapping_url,user_head_mapping_thumbnail_url,user_head_is_delete,create_time,update_time)
+        VALUES
+        (#{userPrivateId},#{userHeadMappingUrl},#{userHeadMappingThumbnailUrl},#{userHeadIsDelete},#{createTime},#{updateTime})
+    </insert>
+
+    <update id="updateUserHeadPicture" parameterType="cn.chairc.blog.entity.user.UserHeadPictureEntity">
+        UPDATE
+        <include refid="table_user_head"/>
+        <set>
+            <if test="userHeadMappingUrl != null and userHeadMappingUrl != ''">
+                user_head_mapping_url = #{userHeadMappingUrl},
+            </if>
+            <if test="userHeadMappingThumbnailUrl != null and userHeadMappingThumbnailUrl != ''">
+                user_head_mapping_thumbnail_url = #{userHeadMappingThumbnailUrl},
+            </if>
+            <if test="userHeadIsDelete != 0">
+                user_head_is_delete = #{userHeadIsDelete}
+            </if>
+        </set>
+        WHERE
+        user_private_id = #{userPrivateId}
+    </update>
+</mapper>

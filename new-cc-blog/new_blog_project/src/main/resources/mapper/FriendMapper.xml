@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.chairc.blog.mapper.friend.FriendMapper">
+    <resultMap id="friendResultMap" type="cn.chairc.blog.entity.friend.FriendEntity">
+        <id column="id" property="id"></id>
+        <result column="friend_user_private_id" property="friendUserPrivateId"></result>
+        <result column="friend_name" property="friendName"></result>
+        <result column="friend_head_url" property="friendHeadUrl"></result>
+        <result column="friend_introduction" property="friendIntroduction"></result>
+        <result column="friend_email" property="friendEmail"></result>
+        <result column="friend_website" property="friendWebsite"></result>
+        <result column="friend_is_delete" property="friendIsDelete"></result>
+        <result column="friend_is_hide" property="friendIsHide"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <sql id="friend_info_table">friend_info</sql>
+
+    <select id="listFriendByIndex" resultMap="friendResultMap" resultType="cn.chairc.blog.entity.friend.FriendEntity">
+        SELECT
+        friend_name,friend_head_url,friend_introduction,friend_email,friend_website
+        FROM
+        <include refid="friend_info_table"/>
+        WHERE
+        friend_is_delete = 1 AND friend_is_hide = 1
+    </select>
+
+    <select id="listFriendByAdmin" resultMap="friendResultMap" resultType="cn.chairc.blog.entity.friend.FriendEntity">
+        SELECT * FROM
+        <include refid="friend_info_table"/>
+        WHERE
+        friend_is_delete = 1
+    </select>
+
+    <select id="getFriendByEmail" resultMap="friendResultMap" resultType="cn.chairc.blog.entity.friend.FriendEntity">
+        SELECT * FROM
+        <include refid="friend_info_table"/>
+        WHERE
+        friend_website = #{userEmail} AND friend_is_delete = 1
+    </select>
+
+    <select id="getFriendByWebsite" resultMap="friendResultMap" resultType="cn.chairc.blog.entity.friend.FriendEntity">
+        SELECT * FROM
+        <include refid="friend_info_table"/>
+        WHERE
+        friend_website = #{userWebsite} AND friend_is_delete = 1
+    </select>
+
+    <select id="getFriendIsExist" resultType="java.lang.Boolean" parameterType="java.lang.String">
+        SELECT COUNT(id) FROM
+        <include refid="friend_info_table"/>
+        WHERE
+        friend_user_private_id = #{userPrivateId}
+    </select>
+
+    <insert id="insertFriend" useGeneratedKeys="true" keyProperty="id">
+
+    </insert>
+
+    <delete id="deleteFriend">
+
+    </delete>
+
+    <update id="updateFriend" parameterType="cn.chairc.blog.entity.friend.FriendEntity">
+        UPDATE
+        <include refid="friend_info_table"/>
+        <set>
+            <if test="friendName != null and friendName != ''">
+                friend_name = #{friendName},
+            </if>
+            <if test="friendHeadUrl != null and friendHeadUrl != ''">
+                friend_head_url = #{friendHeadUrl},
+            </if>
+            <if test="friendIntroduction != null and friendIntroduction != ''">
+                friend_introduction = #{friendIntroduction},
+            </if>
+            <if test="friendEmail != null and friendEmail != ''">
+                friend_email = #{friendEmail},
+            </if>
+            <if test="friendWebsite != null and friendWebsite != ''">
+                friend_website = #{friendWebsite},
+            </if>
+            <if test="friendIsDelete != 0">
+                friend_is_delete = #{friendIsDelete},
+            </if>
+            <if test="friendIsHide != 0">
+                friend_is_hide = #{friendIsHide}
+            </if>
+        </set>
+        WHERE
+        friend_user_private_id = #{friendUserPrivateId}
+    </update>
+
+</mapper>

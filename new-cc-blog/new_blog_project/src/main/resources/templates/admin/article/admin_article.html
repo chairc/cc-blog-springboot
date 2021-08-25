@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员页面</title>
+    <link rel="icon" th:href="@{/static/images/ico/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+</head>
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+<div class="wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>归档列表</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">博客后台</li>
+                        <li class="breadcrumb-item">归档管理</li>
+                        <li class="breadcrumb-item active">归档列表</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="card card-solid">
+            <div class="card-header">
+                <button class="btn btn-info btn-sm" onclick="selectArticleDialog()">
+                    <i class="fas fa-search"></i> 按条件查找
+                </button>
+                <button class="btn btn-default btn-sm float-right" onclick="refreshPage()">
+                    <i class="fas fa-refresh"></i> 刷新
+                </button>
+            </div>
+            <div class="card-body pb-0">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column"
+                         th:each="articleData:${articleList}">
+                        <div class="ribbon-wrapper" style="margin-right: 7px;" th:if="${articleData.getArticleIsHide()!=1}">
+                            <div class="ribbon bg-danger">未公开</div>
+                        </div>
+                        <div class="card bg-light d-flex flex-fill">
+                            <div class="card-header text-muted border-bottom-0"
+                                 th:text="'编号：'+${articleData.getArticlePrivateId()}">
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h2 class="lead"><b th:text="'《'+${articleData.getArticleTitle()}+'》'"></b></h2>
+                                        <p class="text-muted text-sm"><b>作者: </b><span
+                                                th:text="${articleData.getArticleAuthor()}"></span></p>
+                                        <ul class="ml-4 mb-0 fa-ul text-muted">
+                                            <li class="small"><span class="fa-li"><i
+                                                    class="fas fa-lg fa-clock"></i></span>
+                                                写作时间: <span th:text="${articleData.getArticleCreateTime()}"></span></li>
+                                            <li class="small"><span class="fa-li"><i
+                                                    class="fas fa-lg fa-clock"></i></span>
+                                                更新时间: <span th:text="${articleData.getArticleUpdateTime()}"></span></li>
+                                            <li class="small"><span class="fa-li"><i
+                                                    class="fas fa-lg fa-folder"></i></span>
+                                                分类: <span th:text="${articleData.getArticleType()}"></span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="text-right">
+                                    <a th:href="'/admin/articleEdit/'+${articleData.getArticlePrivateId()}"
+                                       class="btn btn-info btn-sm" th:id="${articleData.getArticlePrivateId()}">
+                                        <i class="fas fa-pencil-alt"></i> 编辑
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-sm"
+                                       th:id="${articleData.getArticlePrivateId()}">
+                                        <i class="fas fa-trash"></i> 删除
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="dataTables_info"
+                             th:text="'当前显示第'+${currentPage}+'页 共'+${totalPage}+'页'">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_paginate paging_simple_numbers" id="paginate">
+                            <ul class="pagination">
+                                <li th:if="${currentPage - 1} <= 1"
+                                    class="paginate_button page-item previous">
+                                    <a th:href="'/admin/articleData?page=1&type='+${currentType}+'&searchType='+${currentSearchType}"
+                                       class="page-link">上一页</a>
+                                </li>
+                                <li th:if="${currentPage - 1} > 1"
+                                    class="paginate_button page-item previous">
+                                    <a th:href="'/admin/articleData?page='+${currentPage - 1}+'&type='+${currentType}+'&searchType='+${currentSearchType}"
+                                       class="page-link">上一页</a>
+                                </li>
+                                <li class="paginate_button page-item">
+                                    <a th:href="'/admin/articleData?page='+${currentPage}+'&type='+${currentType}+'&searchType='+${currentSearchType}"
+                                       th:text="${currentPage}" class="page-link"></a>
+                                </li>
+                                <li th:if="${currentPage + 1} > ${totalPage}"
+                                    class="paginate_button page-item next">
+                                    <a th:href="'/admin/articleData?page='+${totalPage}+'&type='+${currentType}+'&searchType='+${currentSearchType}"
+                                       class="page-link">下一页</a>
+                                </li>
+                                <li th:if="${currentPage + 1} <= ${totalPage}"
+                                    class="paginate_button page-item next">
+                                    <a th:href="'/admin/articleData?page='+${currentPage + 1}+'&type='+${currentType}+'&searchType='+${currentSearchType}"
+                                       class="page-link">下一页</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-2">
+                        <div class="input-group input-group-sm">
+                            <input type="number" id="admin-article-page-number" class="form-control"
+                                   th:max="${totalPage}" th:data-type="${currentType}"
+                                   th:data-search-type="${currentSearchType}">
+                            <span class="input-group-append">
+                                <button class="btn btn-primary btn-flat" onclick="jumpToPage(this)"
+                                        id="admin-article-jump">跳转</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="modal fade" id="admin-article-search" style="display: none;" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">按条件查找文章</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" name="check-select" value="all" id="article-radio1">
+                        <label for="article-radio1" class="custom-control-label">所有文章查询</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" name="check-select" value="type" id="article-radio2">
+                        <label for="article-radio2" class="custom-control-label">文章分类查询</label>
+                    </div>
+                    <select class="form-control" id="article-select-type">
+                        <option th:each="type:${articleType}" th:value="${type.getArticleTypeName()}"
+                                th:text="${type.getArticleTypeName()}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" name="check-select" value="label" id="article-radio3">
+                        <label for="article-radio3" class="custom-control-label">标签分类查询</label>
+                    </div>
+                    <select class="form-control" id="article-select-label">
+                        <option th:each="label:${articleLabel}" th:value="${label.getLabelName()}"
+                                th:text="${label.getLabelName()}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="selectArticle()">查询</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/toastr.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
+</html>

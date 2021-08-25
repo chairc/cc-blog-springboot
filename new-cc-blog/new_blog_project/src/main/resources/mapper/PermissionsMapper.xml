@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.chairc.blog.mapper.permission.PermissionMapper">
+    <resultMap id="permissionResultMap" type="cn.chairc.blog.entity.permission.PermissionEntity">
+        <id column="id" property="id"></id>
+        <result column="permission_name" property="permissionName"></result>
+        <result column="permission_description" property="permissionDescription"></result>
+        <result column="permission_is_delete" property="permissionIsDelete"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <sql id="table_permission">permission_info</sql>
+
+    <select id="listPermission" resultMap="permissionResultMap" resultType="cn.chairc.blog.entity.permission.PermissionEntity">
+        SELECT * FROM
+        <include refid="table_permission"/>
+        WHERE
+        permission_is_delete = 1
+    </select>
+
+    <select id="getPermission" resultMap="permissionResultMap" resultType="cn.chairc.blog.entity.permission.PermissionEntity">
+
+    </select>
+
+    <select id="getPermissionIsExist" resultType="java.lang.Boolean" parameterType="java.lang.String">
+        SELECT COUNT(id) FROM
+        <include refid="table_permission"/>
+        WHERE
+        permission_name = #{permissionName} AND permission_is_delete = 1
+    </select>
+
+    <insert id="insertPermission" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="table_permission"/>
+        (permission_name,permission_description,permission_is_delete,create_time,update_time)
+        VALUES
+        (#{permissionName},#{permissionDescription},#{permissionIsDelete},#{createTime},#{updateTime})
+    </insert>
+
+    <update id="updatePermission" parameterType="cn.chairc.blog.entity.permission.PermissionEntity">
+        UPDATE
+        <include refid="table_permission"/>
+        <set>
+            <if test="permissionName != null and permissionName != ''">
+                permission_name = #{permissionName},
+            </if>
+            <if test="permissionDescription != null and permissionDescription != ''">
+                permission_description = #{permissionDescription},
+            </if>
+            <if test="permissionIsDelete != 0">
+                permission_is_delete = #{permissionIsDelete}
+            </if>
+        </set>
+        WHERE
+        permission_name = #{permissionNameBefore}
+    </update>
+
+    <delete id="deletePermission">
+
+    </delete>
+
+</mapper>

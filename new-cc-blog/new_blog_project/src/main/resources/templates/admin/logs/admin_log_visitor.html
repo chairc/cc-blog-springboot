@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员页面</title>
+    <link rel="icon" th:href="@{/static/images/ico/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+</head>
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+<div class="wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>访问日志列表</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">博客后台</li>
+                        <li class="breadcrumb-item">日志管理</li>
+                        <li class="breadcrumb-item active">访问日志列表</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <button class="btn btn-default btn-sm float-right" onclick="refreshPage()">
+                                <i class="fas fa-refresh"></i> 刷新
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="row table-responsive">
+                                <div class="col-sm-12">
+                                    <table class="table table-bordered" role="grid">
+                                        <thead>
+                                        <tr role="row">
+                                            <th class="sorting" rowspan="1" colspan="1">访问用户</th>
+                                            <th class="sorting" rowspan="1" colspan="1">访问链接</th>
+                                            <th class="sorting" rowspan="1" colspan="1">访问IP</th>
+                                            <th class="sorting" rowspan="1" colspan="1">访问等级</th>
+                                            <th class="sorting" rowspan="1" colspan="1">访问时间</th>
+                                            <th class="sorting" rowspan="1" colspan="1"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="odd" th:each="logVisitor:${logVisitorList}">
+                                            <td th:text="${logVisitor.getLogVisitorUsername()}"></td>
+                                            <td th:if="${logVisitor.getLogVisitorParameter()!='无数据'&&logVisitor.getLogVisitorParameter()!='已隐藏'}">
+                                                <span class="badge badge-info"
+                                                      th:utext="${logVisitor.getLogVisitorRequestUri()+'?'+logVisitor.getLogVisitorParameter()}"></span>
+                                            </td>
+                                            <td th:if="${logVisitor.getLogVisitorParameter()=='无数据'||logVisitor.getLogVisitorParameter()=='已隐藏'}">
+                                                <span class="badge badge-info"
+                                                      th:text="${logVisitor.getLogVisitorRequestUri()}"></span></td>
+                                            <td th:text="${logVisitor.getLogVisitorIp()}"></td>
+                                            <td th:switch="${logVisitor.getLogVisitorLevel()}">
+                                                <span th:case="LEVEL-0" class="badge badge-secondary"
+                                                      th:text="${logVisitor.getLogVisitorLevel()}"></span>
+                                                <span th:case="LEVEL-1" class="badge badge-info"
+                                                      th:text="${logVisitor.getLogVisitorLevel()}"></span>
+                                                <span th:case="LEVEL-2" class="badge badge-warning"
+                                                      th:text="${logVisitor.getLogVisitorLevel()}"></span>
+                                                <span th:case="LEVEL-3" class="badge badge-danger"
+                                                      th:text="${logVisitor.getLogVisitorLevel()}"></span>
+                                            </td>
+                                            <td th:text="${logVisitor.getLogVisitorCreateTime()}"></td>
+                                            <td class="text-center">
+                                                <a class="btn btn-info btn-sm" href="#"
+                                                   th:id="${logVisitor.getLogVisitorPrivateId()}">
+                                                    <i class="fas fa-search"></i> 详情
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="#"
+                                                   th:id="${logVisitor.getLogVisitorPrivateId()}">
+                                                    <i class="fas fa-trash"></i> 删除
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4">
+                                    <div class="dataTables_info"
+                                         th:text="'当前显示第'+${currentPage}+'页 共'+${totalPage}+'页'">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="paginate">
+                                        <ul class="pagination">
+                                            <li th:if="${currentPage - 1} <= 1"
+                                                class="paginate_button page-item previous">
+                                                <a href="/admin/logVisitorData/1#paginate" class="page-link">上一页</a>
+                                            </li>
+                                            <li th:if="${currentPage - 1} > 1"
+                                                class="paginate_button page-item previous">
+                                                <a th:href="'/admin/logVisitorData/'+${currentPage - 1}+'#paginate'"
+                                                   class="page-link">上一页</a>
+                                            </li>
+                                            <li th:if="${currentPage - 1} >= 1" class="paginate_button page-item">
+                                                <a th:href="'/admin/logVisitorData/'+${currentPage - 1}+'#paginate'"
+                                                   th:text="${currentPage - 1}" class="page-link"></a>
+                                            </li>
+                                            <li class="paginate_button page-item">
+                                                <a th:href="'/admin/logVisitorData/'+${currentPage}+'#paginate'"
+                                                   th:text="${currentPage}" class="page-link"></a>
+                                            </li>
+                                            <li th:if="${currentPage + 1} <= ${totalPage}"
+                                                class="paginate_button page-item">
+                                                <a th:href="'/admin/logVisitorData/'+${currentPage + 1}+'#paginate'"
+                                                   th:text="${currentPage + 1}" class="page-link"></a>
+                                            </li>
+                                            <li th:if="${currentPage + 1} > ${totalPage}"
+                                                class="paginate_button page-item next">
+                                                <a th:href="'/admin/logVisitorData/'+${totalPage}+'#paginate'"
+                                                   class="page-link">下一页</a>
+                                            </li>
+                                            <li th:if="${currentPage + 1} <= ${totalPage}"
+                                                class="paginate_button page-item next">
+                                                <a th:href="'/admin/logVisitorData/'+${currentPage + 1}+'#paginate'"
+                                                   class="page-link">下一页</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2">
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" id="admin-visitor-log-page-number" class="form-control"
+                                               th:max="${totalPage}" min="1">
+                                        <span class="input-group-append">
+                                            <button class="btn btn-primary btn-flat" onclick="jumpToPage(this)"
+                                                    id="admin-visitor-jump">跳转</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="modal fade" id="admin-log-info" style="display: none;" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">日志详情</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div id="admin-log-info-dialog">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/toastr.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
+</html>

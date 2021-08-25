@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员页面</title>
+    <link rel="icon" th:href="@{/static/images/ico/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+</head>
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+<div class="wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>人员列表</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">博客后台</li>
+                        <li class="breadcrumb-item">人员管理</li>
+                        <li class="breadcrumb-item active">人员列表</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <button class="btn btn-info btn-sm" onclick="addUserDialog()">
+                                <i class="fas fa-plus-square"></i> 新增人员
+                            </button>
+                            <button class="btn btn-default btn-sm float-right" onclick="refreshPage()">
+                                <i class="fas fa-refresh"></i> 刷新
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="row table-responsive">
+                                <div class="col-sm-12">
+                                    <table class="table table-bordered" role="grid">
+                                        <thead>
+                                        <tr role="row">
+                                            <th class="sorting" rowspan="1" colspan="1">用户名</th>
+                                            <th class="sorting" rowspan="1" colspan="1">邮箱</th>
+                                            <th class="sorting" rowspan="1" colspan="1">最近登录IP</th>
+                                            <th class="sorting" rowspan="1" colspan="1">最近登录浏览器</th>
+                                            <th class="sorting" rowspan="1" colspan="1">最近登录系统</th>
+                                            <th class="sorting" rowspan="1" colspan="1">是否封禁</th>
+                                            <th class="sorting" rowspan="1" colspan="1">是否激活</th>
+                                            <th class="sorting" rowspan="1" colspan="1">注册时间</th>
+                                            <th class="sorting" rowspan="1" colspan="1"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="odd" th:each="userList:${adminUserList}">
+                                            <td th:text="${userList.getUsername()}"></td>
+                                            <td th:text="${userList.getUserEmail()}"></td>
+                                            <td th:text="${userList.getUserIp()}"></td>
+                                            <td th:text="${userList.getUserBrowser()}"></td>
+                                            <td th:text="${userList.getUserSystem()}"></td>
+                                            <td th:if="${userList.getUserIsBanned() == 1}"><span
+                                                    class="badge badge-success">未禁用</span></td>
+                                            <td th:if="${userList.getUserIsBanned() == -1}"><span
+                                                    class="badge badge-danger">已禁用</span></td>
+                                            <td th:if="${userList.getUserIsActivity() == 1}"><span
+                                                    class="badge badge-success">已激活</span></td>
+                                            <td th:if="${userList.getUserIsActivity() == -1}"><span
+                                                    class="badge badge-danger">未激活</span></td>
+                                            <td th:text="${userList.getUserCreateTime()}"></td>
+                                            <td class="text-center">
+                                                <a class="btn btn-info btn-sm" href="javascript:void(0);"
+                                                   onclick="showUserInfo(this)" th:id="${userList.getUserPrivateId()}">
+                                                    <i class="fas fa-pencil-alt"></i> 编辑
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteUser(this)"
+                                                   th:id="${userList.getUserPrivateId()}">
+                                                    <i class="fas fa-trash"></i> 删除
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4">
+                                    <div class="dataTables_info"
+                                         th:text="'当前显示第'+${currentPage}+'页 共'+${totalPage}+'页'">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="paginate">
+                                        <ul class="pagination">
+                                            <li th:if="${currentPage - 1} <= 1"
+                                                class="paginate_button page-item previous">
+                                                <a href="/admin/userData/1#paginate" class="page-link">上一页</a>
+                                            </li>
+                                            <li th:if="${currentPage - 1} > 1"
+                                                class="paginate_button page-item previous">
+                                                <a th:href="'/admin/userData/'+${currentPage - 1}+'#paginate'"
+                                                   class="page-link">上一页</a>
+                                            </li>
+                                            <li th:if="${currentPage - 1} >= 1" class="paginate_button page-item">
+                                                <a th:href="'/admin/userData/'+${currentPage - 1}+'#paginate'"
+                                                   th:text="${currentPage - 1}" class="page-link"></a>
+                                            </li>
+                                            <li class="paginate_button page-item">
+                                                <a th:href="'/admin/userData/'+${currentPage}+'#paginate'"
+                                                   th:text="${currentPage}" class="page-link"></a>
+                                            </li>
+                                            <li th:if="${currentPage + 1} <= ${totalPage}"
+                                                class="paginate_button page-item">
+                                                <a th:href="'/admin/userData/'+${currentPage + 1}+'#paginate'"
+                                                   th:text="${currentPage + 1}" class="page-link"></a>
+                                            </li>
+                                            <li th:if="${currentPage + 1} > ${totalPage}"
+                                                class="paginate_button page-item next">
+                                                <a th:href="'/admin/userData/'+${totalPage}+'#paginate'"
+                                                   class="page-link">下一页</a>
+                                            </li>
+                                            <li th:if="${currentPage + 1} <= ${totalPage}"
+                                                class="paginate_button page-item next">
+                                                <a th:href="'/admin/userData/'+${currentPage + 1}+'#paginate'"
+                                                   class="page-link">下一页</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-2">
+                                    <div class="input-group input-group-sm">
+                                        <input  type="number" id="admin-user-page-number" class="form-control"
+                                                th:max="${totalPage}" min="1">
+                                        <span class="input-group-append">
+                                            <button class="btn btn-primary btn-flat" onclick="jumpToPage(this)"
+                                                    id="admin-user-jump">跳转</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="modal fade" id="admin-users-edit" style="display: none;" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">编辑用户信息</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div id="admin-users-info-dialog">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="admin-users-add" style="display: none;" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">新增用户信息</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="admin-user-add-username">用户名</label>
+                    <input type="text" class="form-control" id="admin-user-add-username" placeholder="请输入用户名"
+                           autocomplete="new-username">
+                </div>
+                <div class="form-group">
+                    <label for="admin-user-add-email">邮箱</label>
+                    <input type="email" class="form-control" id="admin-user-add-email" placeholder="请输入邮箱"
+                           autocomplete="new-email">
+                </div>
+                <div class="form-group">
+                    <label for="admin-user-add-password">密码</label>
+                    <input type="password" class="form-control" id="admin-user-add-password" placeholder="请输入密码"
+                           autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label for="admin-user-add-activity">是否激活</label>
+                    <select type="text" class="form-control" id="admin-user-add-activity">
+                        <option>是</option>
+                        <option>否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="adminAddUser()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/toastr.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
+</html>

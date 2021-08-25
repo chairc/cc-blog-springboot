@@ -1,0 +1,81 @@
+server:
+  port: 8080
+  error:
+    path: /error
+  # 去除url中的jsessionid
+  servlet:
+    session:
+      tracking-modes: COOKIE
+      cookie:
+        http-only: true
+  max-http-header-size: 10000000
+  tomcat:
+    max-http-form-post-size: 50000000
+
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    mode: HTML
+    cache: false
+    encoding: utf-8
+    servlet:
+      content-type: text/html
+  aop:
+    auto: true
+    proxy-target-class: true
+  datasource:
+    name:
+    url: jdbc:mysql://localhost:3306/blog_new?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: # 你的数据库账号
+    password: # 你的数据库密码
+  servlet:
+    # 上传文件
+    multipart:
+      # 设置单个文件大小
+      max-file-size: 100MB
+      # 设置单次请求总大小
+      max-request-size: 1000MB
+  web:
+    resources:
+      static-locations:
+  mail:
+    # 邮件发送
+    host: smtp.qq.com
+    username: # qq邮箱
+    password: # 授权码
+    protocol: smtp
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.port: 465
+    properties.mail.display.sendmail: Javen
+    properties.mail.display.sendname: # 发送的名称
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.smtp.starttls.required: true
+    properties.mail.smtp.ssl.enable: true
+    default-encoding: utf-8
+    from: # 来自的名称
+    # 默认路径
+    verification-path: http://localhost:8080/mail/verification
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+    call-setters-on-nulls: false
+
+logging:
+  file:
+    name: spring-log.log
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+
+upload-file:
+  # head-file-path:
+  head-file-path: # 头像图片文件路径，例如：X:/xxxx/xxx/new_blog_project_upload/head/
+  article-file-path: # 文章图片文件路径，例如：X:/xxxx/xxx/new_blog_project_upload/article/
+
+head-image:
+  # 默认头像地址
+  user-head-image-path: /path/

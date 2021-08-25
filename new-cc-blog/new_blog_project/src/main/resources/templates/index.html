@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>小虚无的下午茶</title>
+    <link rel="icon" th:href="@{/static/images/ico/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+</head>
+<body class="sidebar-mini layout-fixed sidebar-collapse" style="height: auto;">
+<div class="wrapper">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="/" class="nav-link">主页</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-user"></i>
+                    <span class="badge badge-danger navbar-badge"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" th:if="${userIndexLoginInfo.getUserIsLogin() == 1}">
+                    <a href="#" class="dropdown-item">
+                        <div class="media">
+                            <img th:src="${userIndexLoginInfo.getUserHeadUrl()}" alt="头像" class="img-size-50 mr-3 img-circle">
+                            <div class="media-body">
+                                <h3 class="dropdown-item-title">
+                                    <span th:text="${userIndexLoginInfo.getUsername()}"></span>
+                                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                </h3>
+                                <p class="text-sm" th:text="${userIndexLoginInfo.getUserEmail()}"></p>
+                                <p class="text-sm text-muted"><i class="far fa-id-card mr-1" th:text="' id-code:'"></i>
+                                    <span th:text="${userIndexLoginInfo.getUserPrivateId()}"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/home" class="dropdown-item dropdown-footer">个人中心</a>
+                </div>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" th:if="${userIndexLoginInfo.getUserIsLogin() == 0}">
+                    <div class="dropdown-divider"></div>
+                    <a href="/login" class="dropdown-item dropdown-footer">请登录</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <a href="#" class="brand-link">
+            <img src="/static/images/picture/login/login-ico.svg" alt="Logo" class="brand-image img-circle elevation-3"
+                 style="opacity: .8">
+            <span class="brand-text font-weight-light">小虚无的下午茶</span>
+        </a>
+        <div class="sidebar">
+            <nav th:replace="/common/sidebar.html"></nav>
+        </div>
+    </aside>
+    <div class="content-wrapper" style="min-height: 337px;">
+        <section class="content-header"></section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card card-info card-outline">
+                            <div class="card-body box-profile">
+                                <div class="text-center">
+                                    <img class="profile-user-img img-fluid img-circle"
+                                         src="/static/images/picture/login/login-ico.svg" alt="User profile picture">
+                                </div>
+                                <h3 class="profile-username text-center">小虚无</h3>
+                                <p class="text-muted text-center">不知名小研究生</p>
+                                <p class="text-muted text-center">致力于网站崩溃、机器瞎学、深度遗忘、数据掩埋和人工智障的学术小辣鸡一枚～</p>
+                            </div>
+                        </div>
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">关于我</h3>
+                            </div>
+                            <div class="card-body">
+                                <strong><i class="fas fa-book mr-1"></i> 教育经历</strong>
+                                <p class="text-muted">本科，鲁东大学</p>
+                                <p class="text-muted">Undergraduate, Ludong University</p>
+                                <p class="text-muted">硕士，齐鲁工业大学（山东省科学院）</p>
+                                <p class="text-muted">Master, Qilu University of Technology (Shandong Academy of Sciences)</p>
+                                <hr>
+                                <strong><i class="fas fa-map-marker-alt mr-1"></i> 坐标</strong>
+                                <p class="text-muted">山东，济南</p>
+                                <hr>
+                                <strong><i class="fas fa-pencil-alt mr-1"></i> 技能</strong>
+                                <p class="text-muted">Java编程，网站开发，人工智能</p>
+                                <hr>
+                                <strong><i class="far fa-envelope mr-1"></i> 联系我</strong>
+                                <p class="text-muted">chenyu1998424@gmail.com</p>
+                                <p class="text-muted">chenyu424@vip.qq.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="card-header p-2">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">最新动态</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#timeline"data-toggle="tab">归档时间线</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="active tab-pane" id="activity">
+                                        <div class="post" th:each="indexArticleList:${indexArticleEntityList}">
+                                            <div class="title">
+                                                <a th:href="'/article/title/'+${indexArticleList.getArticlePrivateId()}+'?page=1'" class="">
+                                                    <h3><b th:text="${indexArticleList.getArticleTitle()}"></b></h3>
+                                                </a>
+                                            </div>
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm"
+                                                     src="/static/images/picture/login/login-ico.svg" alt="">
+                                                <span class="username" th:text="${indexArticleList.getArticleAuthor()}"></span>
+                                                <span class="description" th:text="${indexArticleList.getArticleCreateTime()}"></span>
+                                            </div>
+                                            <p th:text="${indexArticleList.getArticleIntroduction()}"></p>
+                                            <p>
+                                                <a href="javascript:void(0);" class="link-black text-sm mr-2 clipTarget" onclick="shareURL(this)"
+                                                   th:id="'/article/title/'+${indexArticleList.getArticlePrivateId()}+'?page=1'">
+                                                    <i class="fas fa-share mr-1" th:text="' 分享链接'"></i></a>
+                                                <span class="float-right">
+                                                    <a href="#" class="link-black text-sm">
+                                                    <i class="far fa-comments mr-1" th:text="' 评论数：XX'"></i>
+                                                  </a>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="timeline">
+                                        <div class="timeline timeline-inverse">
+                                            <div class="time-label">
+                                                <span class="bg-danger">
+                                                  2021-5-31
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <i class="fas fa-envelope bg-primary"></i>
+                                                <div class="timeline-item">
+                                                    <span class="time"><i class="far fa-clock"></i> 17:33:53</span>
+                                                    <h3 class="timeline-header">写了一篇名为《<a href="#">当前题目</a>》的文章</h3>
+                                                    <div class="timeline-body">
+                                                        一句话概括该文章...
+                                                    </div>
+                                                    <div class="timeline-footer">
+                                                        <a href="#" class="btn btn-primary btn-sm">Read more</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <i class="far fa-clock bg-gray"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer th:replace="/common/footer.html"></footer>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/toastr.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/clipboard.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
+</html>

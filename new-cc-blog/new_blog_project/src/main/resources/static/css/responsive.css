@@ -1,0 +1,131 @@
+@media only screen and (max-width: 1220px) {
+    .header-container {
+        -webkit-box-flex: 0;
+        flex: 0 0 128px;
+        padding-left: 16px;
+        box-sizing: border-box;
+    }
+
+    .main-container {
+        width: 90%;
+        padding-left: 16px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .header-logo {
+        width: 48px;
+        height: 60px;
+        padding-top: 12px;
+        background: url(../images/picture/logo/logo-s.png) no-repeat;
+    }
+}
+
+@media only screen and (max-width: 996px) {
+    .main-right {
+        display: none;
+    }
+
+    .main-left-normal {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .header-container {
+        -webkit-box-flex: 0;
+        flex: 0 0 64px;
+        padding-left: 16px;
+        box-sizing: border-box;
+    }
+
+    .main-container {
+        width: 90%;
+        padding-left: 16px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .header-hide {
+        display: none;
+    }
+
+    .admin-table {
+        table-layout: auto;
+    }
+
+    .dashboard-left {
+        width: 100%;
+        float: left;
+    }
+
+    .dashboard-left-header-image {
+        width: 160px;
+        padding: 10px;
+        margin: auto;
+    }
+
+    .dashboard-box-info {
+        width: 100%;
+        text-align: center;
+    }
+
+    .dashboard-right {
+        width: 100%;
+        float: left;
+        line-height: 40px;
+        padding: 20px 0;
+    }
+
+    .main-context-left {
+        width: 40%;
+        height: 100%;
+        text-align: center;
+        float: left;
+        padding: 10px 10px;
+    }
+
+    .main-context-left-img {
+        width: 96px;
+        height: 96px;
+        padding: 10px;
+        margin: auto;
+    }
+
+    .main-context-right {
+        width: 60%;;
+        height: 100%;
+        float: left;
+        padding: 20px;
+    }
+
+    .more-info-dialog-warp {
+        display: none;
+        position:fixed;
+        width: 80%;
+        /*height: 80vh;*/
+        top:50%;
+        left:50%;
+        z-index: 9999;
+        transform:translateX(-50%) translateY(-50%);
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .more-info-dialog-background {
+        display: none;
+        background-color: #202020;
+        /* position: absolute; */
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 9998;
+        -moz-opacity: 0.8;
+        opacity: .50;
+        filter: alpha(opacity=80); /* 只支持IE6、7、8、9 */
+    }
+}

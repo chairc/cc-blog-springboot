@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注册 | 小虚无的下午茶</title>
+    <link rel="icon" th:href="@{/static/images/ico/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+</head>
+<body class="register-page">
+<div class="register-box">
+    <div class="register-logo">
+        <a href="/"><b>注册</b>小虚无的下午茶</a>
+    </div>
+    <div class="card">
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">注册一个新账户吧</p>
+            <div class="input-group mb-3">
+                <input type="text" id="registered-username" class="form-control" placeholder="请输入用户名" autocomplete="new-username">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="email" id="registered-email" class="form-control" placeholder="请输入邮箱" autocomplete="new-email">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-envelope"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="password" id="registered-password" class="form-control" placeholder="请输入密码" autocomplete="new-password">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="password" id="registered-retype-password" class="form-control" placeholder="请重新输入密码" autocomplete="new-retype-password">
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="number" id="registered-verification-code" class="form-control" placeholder="请输入验证码" autocomplete="new-verification">
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-info btn-flat" id="btn-registered-verification">获取验证码</button>
+                </span>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                </div>
+                <div class="col-4">
+                    <button type="submit" class="btn btn-primary btn-block" id="btn-registered">注册</button>
+                </div>
+            </div>
+            <a href="/login" class="text-center">我已经拥有账户了</a>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/toastr.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
+</html>

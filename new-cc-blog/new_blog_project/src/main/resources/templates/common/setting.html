@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员页面</title>
+    <link rel="icon" th:href="@{/static/images/ico/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+</head>
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+<div class="wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>个人设置</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">博客后台</li>
+                        <li class="breadcrumb-item active">个人设置</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">修改个人资料</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="setting-username">用户名</label>
+                                <input type="email" class="form-control" id="setting-username" placeholder="请输入用户名">
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="updateUserInfo()" class="btn btn-primary float-right">提交</button>
+                        </div>
+                    </div>
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">修改个人头像</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="setting-head-file">添加文件</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="setting-head-file">
+                                        <label class="custom-file-label" for="setting-head-file">选择文件</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="updateHeadImg()" class="btn btn-primary float-right">提交</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">修改个人密码</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="old-password">旧密码</label>
+                                <input type="email" class="form-control" id="old-password" placeholder="请输入旧密码">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">新密码</label>
+                                <input type="password" class="form-control" id="new-password" placeholder="请输入新密码">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password-again">再次输入新密码</label>
+                                <input type="password" class="form-control" id="new-password-again"
+                                       placeholder="请再次输入新密码">
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="updatePassword()" class="btn btn-primary float-right">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/toastr.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bs-custom-file-input.min.js}"></script>
+<script>
+    $(function () {
+        bsCustomFileInput.init();
+    });
+</script>
+</html>

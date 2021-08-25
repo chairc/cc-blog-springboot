@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.chairc.blog.mapper.role.RoleMapper">
+    <resultMap id="roleResultMap" type="cn.chairc.blog.entity.role.RoleEntity">
+        <id column="id" property="id"></id>
+        <result column="role_name" property="roleName"></result>
+        <result column="role_description" property="roleDescription"></result>
+        <result column="role_is_delete" property="roleIsDelete"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <sql id="table_role">role_info</sql>
+
+    <select id="listRole" resultMap="roleResultMap" resultType="cn.chairc.blog.entity.role.RoleEntity">
+        SELECT * FROM
+        <include refid="table_role"/>
+        WHERE
+        role_is_delete = 1
+    </select>
+
+    <select id="getRole" resultMap="roleResultMap" resultType="cn.chairc.blog.entity.role.RoleEntity">
+
+    </select>
+
+    <select id="getRoleIsExist" resultType="java.lang.Boolean" parameterType="java.lang.String">
+        SELECT COUNT(id) FROM
+        <include refid="table_role"/>
+        WHERE
+        role_name = #{roleName} AND role_is_delete = 1
+    </select>
+
+    <insert id="insertRole" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="table_role"/>
+        (role_name,role_description,role_is_delete,create_time,update_time)
+        VALUES
+        (#{roleName},#{roleDescription},#{roleIsDelete},#{createTime},#{updateTime})
+    </insert>
+
+    <update id="updateRole" parameterType="cn.chairc.blog.entity.role.RoleEntity">
+        UPDATE
+        <include refid="table_role"/>
+        <set>
+            <if test="roleName != null and roleName != ''">
+                role_name = #{roleName},
+            </if>
+            <if test="roleDescription != null and roleDescription != ''">
+                role_description = #{roleDescription},
+            </if>
+            <if test="roleIsDelete != 0">
+                role_is_delete = #{roleIsDelete}
+            </if>
+        </set>
+        WHERE
+        role_name = #{roleNameBefore}
+    </update>
+
+    <delete id="deleteRole">
+
+    </delete>
+
+</mapper>
