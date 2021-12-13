@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.chairc</groupId>
     <artifactId>blog</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>blog</name>
     <description>New blog project for Spring Boot</description>
     <properties>
@@ -32,6 +32,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <dependency>
@@ -77,14 +82,14 @@
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
-            <version>1.6.0</version>
+            <version>1.7.0</version>
         </dependency>
 
         <!--mysql8.0-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.11</version>
+            <version>8.0.16</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -127,29 +132,36 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.10.4</version>
+            <version>2.9.10.8</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
-            <version>2.9.6</version>
+            <version>2.9.8</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.9.6</version>
+            <version>2.9.8</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-parameter-names</artifactId>
-            <version>2.9.6</version>
+            <version>2.9.8</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!--oshi系统监控-->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>5.8.1</version>
         </dependency>
     </dependencies>
 

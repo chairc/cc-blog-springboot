@@ -170,6 +170,9 @@ public class ArticleServiceImpl implements ArticleService {
             articleLabelInfoEntity.setArticlePrivateId(articleEntity.getArticlePrivateId());
             articleLabelInfoEntity.setArticleLabelOne(articleEntity.getArticleLabel1());
             articleLabelInfoEntity.setArticleLabelTwo(articleEntity.getArticleLabel2());
+            articleLabelInfoEntity.setArticleLabelIsDelete(1);
+            articleLabelInfoEntity.setCreateTime(articleEntity.getCreateTime());
+            articleLabelInfoEntity.setUpdateTime(articleEntity.getUpdateTime());
             articleMapper.insertArticle(articleEntity);
             articleLabelMapper.insertArticleLabelInfo(articleLabelInfoEntity);
             resultSet.ok("新增文章成功");

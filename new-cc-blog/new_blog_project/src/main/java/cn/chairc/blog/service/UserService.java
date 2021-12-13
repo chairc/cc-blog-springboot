@@ -4,6 +4,8 @@ import cn.chairc.blog.entity.common.ResultSet;
 import cn.chairc.blog.entity.user.UserEntity;
 import cn.chairc.blog.entity.user.UserHeadPictureEntity;
 import cn.chairc.blog.entity.user.UserRegisteredEntity;
+import cn.chairc.blog.entity.user.UserUpdateForgotPasswordEntity;
+import org.springframework.validation.BindingResult;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -63,10 +65,12 @@ public interface UserService {
      * 用户注册
      *
      * @param userRegisteredEntity 注册类
+     * @param httpServletRequest   http请求
+     * @param bindingResult        绑定结构
      * @return 成功或异常
      */
 
-    ResultSet userRegistered(UserRegisteredEntity userRegisteredEntity, HttpServletRequest httpServletRequest);
+    ResultSet userRegistered(UserRegisteredEntity userRegisteredEntity, HttpServletRequest httpServletRequest, BindingResult bindingResult);
 
     /**
      * 用户修改密码
@@ -134,5 +138,15 @@ public interface UserService {
      */
 
     UserHeadPictureEntity getUserHeadPic(String userPrivateId);
+
+    /**
+     * 用户找回密码
+     *
+     * @param userUpdateForgotPasswordEntity 用户找回密码类
+     * @param bindingResult                 绑定结果
+     * @return 成功或异常
+     */
+
+    ResultSet updateForgoPassword(UserUpdateForgotPasswordEntity userUpdateForgotPasswordEntity, BindingResult bindingResult);
 
 }

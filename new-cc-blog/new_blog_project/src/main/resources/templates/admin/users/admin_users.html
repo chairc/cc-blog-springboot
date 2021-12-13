@@ -13,7 +13,7 @@
     <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
 </head>
 <body class="sidebar-mini layout-fixed" style="height: auto;">
-<div class="wrapper">
+<div class="wrapper animated fadeIn">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -49,21 +49,21 @@
                                     <table class="table table-bordered" role="grid">
                                         <thead>
                                         <tr role="row">
-                                            <th class="sorting" rowspan="1" colspan="1">用户名</th>
-                                            <th class="sorting" rowspan="1" colspan="1">邮箱</th>
+                                            <th class="sorting" rowspan="1" colspan="1" style="max-width: 200px">用户名</th>
+                                            <th class="sorting" rowspan="1" colspan="1" style="max-width: 200px">邮箱</th>
                                             <th class="sorting" rowspan="1" colspan="1">最近登录IP</th>
                                             <th class="sorting" rowspan="1" colspan="1">最近登录浏览器</th>
                                             <th class="sorting" rowspan="1" colspan="1">最近登录系统</th>
                                             <th class="sorting" rowspan="1" colspan="1">是否封禁</th>
                                             <th class="sorting" rowspan="1" colspan="1">是否激活</th>
                                             <th class="sorting" rowspan="1" colspan="1">注册时间</th>
-                                            <th class="sorting" rowspan="1" colspan="1"></th>
+                                            <th class="sorting" rowspan="1" colspan="1" style="min-width: 180px"></th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr class="odd" th:each="userList:${adminUserList}">
-                                            <td th:text="${userList.getUsername()}"></td>
-                                            <td th:text="${userList.getUserEmail()}"></td>
+                                            <td th:text="${userList.getUsername()}" style="max-width: 200px"></td>
+                                            <td th:text="${userList.getUserEmail()}" style="max-width: 200px"></td>
                                             <td th:text="${userList.getUserIp()}"></td>
                                             <td th:text="${userList.getUserBrowser()}"></td>
                                             <td th:text="${userList.getUserSystem()}"></td>
@@ -76,7 +76,7 @@
                                             <td th:if="${userList.getUserIsActivity() == -1}"><span
                                                     class="badge badge-danger">未激活</span></td>
                                             <td th:text="${userList.getUserCreateTime()}"></td>
-                                            <td class="text-center">
+                                            <td class="text-center" style="min-width: 180px">
                                                 <a class="btn btn-info btn-sm" href="javascript:void(0);"
                                                    onclick="showUserInfo(this)" th:id="${userList.getUserPrivateId()}">
                                                     <i class="fas fa-pencil-alt"></i> 编辑

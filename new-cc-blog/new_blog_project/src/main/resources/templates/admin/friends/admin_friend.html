@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员页面</title>
+    <link rel="icon" th:href="@{/static/images/ico/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+</head>
+<body class="sidebar-mini layout-fixed" style="height: auto;">
+<div class="wrapper animated fadeIn">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>友人帐列表</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">博客后台</li>
+                        <li class="breadcrumb-item">友人帐管理</li>
+                        <li class="breadcrumb-item active">友人帐列表</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="card card-solid">
+            <div class="card-header">
+                <button class="btn btn-info btn-sm" onclick="selectArticleDialog()">
+                    <i class="fas fa-search"></i> 按条件查找
+                </button>
+                <button class="btn btn-default btn-sm float-right" onclick="refreshPage()">
+                    <i class="fas fa-refresh"></i> 刷新
+                </button>
+            </div>
+            <div class="card-body pb-0">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column" th:each="friend:${friendList}">
+                        <div class="ribbon-wrapper" style="margin-right: 7px;" th:if="${friend.getFriendIsHide()!=1}">
+                            <div class="ribbon bg-danger">已隐藏</div>
+                        </div>
+                        <div class="card bg-light d-flex flex-fill">
+                            <div class="card-header text-muted border-bottom-0"></div>
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <h2 class="lead"><b th:text="${friend.getFriendName()}"></b></h2>
+                                        <p class="text-muted text-sm"><b>关于: </b>
+                                            <span th:text="${friend.getFriendIntroduction()}"></span> </p>
+                                        <ul class="ml-4 mb-0 fa-ul text-muted">
+                                            <li class="small">
+                                                <span class="fa-li"><i class="fas fa-lg fa-laptop"></i></span> 网站:
+                                                <span th:text="${friend.getFriendWebsite()}"></span>
+                                            </li>
+                                            <li class="small">
+                                                <span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span> 邮箱:
+                                                <span th:text="${friend.getFriendEmail()}"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-4 text-center">
+                                        <img th:src="${friend.getFriendHeadUrl()}" alt="" class="img-circle img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="text-right">
+                                    <a th:href="${friend.getFriendWebsite()}" target="_blank" class="btn btn-sm btn-default">
+                                        <i class="fas fa-user"></i> 前往主页
+                                    </a>
+                                    <button class="btn btn-info btn-sm" th:id="${friend.getFriendUserPrivateId()}">
+                                        <i class="fas fa-pencil-alt"></i> 编辑
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" th:id="${friend.getFriendUserPrivateId()}">
+                                        <i class="fas fa-trash"></i> 删除
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="dataTables_info"
+                             th:text="'当前显示第'+${currentPage}+'页 共'+${totalPage}+'页'">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="dataTables_paginate paging_simple_numbers" id="paginate">
+                            <ul class="pagination">
+                                <li th:if="${currentPage - 1} <= 1"
+                                    class="paginate_button page-item previous">
+                                    <a th:href="'/admin/friendData?page=1&search='+${currentSearch}+'&searchType='+${currentSearchType}"
+                                       class="page-link">上一页</a>
+                                </li>
+                                <li th:if="${currentPage - 1} > 1"
+                                    class="paginate_button page-item previous">
+                                    <a th:href="'/admin/friendData?page='+${currentPage - 1}+'&search='+${currentSearch}+'&searchType='+${currentSearchType}"
+                                       class="page-link">上一页</a>
+                                </li>
+                                <li class="paginate_button page-item">
+                                    <a th:href="'/admin/friendData?page='+${currentPage}+'&search='+${currentSearch}+'&searchType='+${currentSearchType}"
+                                       th:text="${currentPage}" class="page-link"></a>
+                                </li>
+                                <li th:if="${currentPage + 1} > ${totalPage}"
+                                    class="paginate_button page-item next">
+                                    <a th:href="'/admin/friendData?page='+${totalPage}+'&search='+${currentSearch}+'&searchType='+${currentSearchType}"
+                                       class="page-link">下一页</a>
+                                </li>
+                                <li th:if="${currentPage + 1} <= ${totalPage}"
+                                    class="paginate_button page-item next">
+                                    <a th:href="'/admin/friendData?page='+${currentPage + 1}+'&search='+${currentSearch}+'&searchType='+${currentSearchType}"
+                                       class="page-link">下一页</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-2">
+                        <div class="input-group input-group-sm">
+                            <input type="number" id="admin-friend-page-number" class="form-control"
+                                   th:max="${totalPage}" th:data-search="${currentSearch}"
+                                   th:data-search-type="${currentSearchType}">
+                            <span class="input-group-append">
+                                <button class="btn btn-primary btn-flat" onclick="jumpToPage(this)"
+                                        id="admin-friend-jump">跳转</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<div class="modal fade" id="admin-article-search" style="display: none;" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">按条件查找友人帐</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" name="check-select" value="all" id="friend-radio1">
+                        <label for="friend-radio1" class="custom-control-label">所有友人帐查询</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" type="radio" name="check-select" value="select" id="friend-radio2">
+                        <label for="friend-radio2" class="custom-control-label">按条件模糊查询</label>
+                    </div>
+                    <label for="friend-select-label"></label>
+                    <select class="form-control" id="friend-select-label">
+                        <option value="all">请选择条件</option>
+                        <option value="name">名称模糊查询</option>
+                        <option value="website">网站域名模糊查询</option>
+                        <option value="email">邮箱模糊查询</option>
+                    </select>
+                    <label for="friend-search-input"></label>
+                    <input class="form-control" type="text" id="friend-search-input" placeholder="请输入查询项">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="selectFriend()">查询</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/toastr.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
+</html>

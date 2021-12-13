@@ -10,6 +10,7 @@ public class CommentMessageEntity {
 
     private long id;
     private String commentMessagePrivateId;
+    private String messagePrivateId;
     private String commentMessageUserPrivateId;
     private String commentMessageContent;
     private String commentMessagePrivateIdReply;
@@ -17,6 +18,10 @@ public class CommentMessageEntity {
     private int commentMessageIsDelete;
     private Date createTime;
     private Date updateTime;
+
+    private String username;
+    private String userHeadImg;
+    private String commentMessageCreateTime;
 
     public long getId() {
         return id;
@@ -32,6 +37,14 @@ public class CommentMessageEntity {
 
     public void setCommentMessagePrivateId(String commentMessagePrivateId) {
         this.commentMessagePrivateId = commentMessagePrivateId;
+    }
+
+    public String getMessagePrivateId() {
+        return messagePrivateId;
+    }
+
+    public void setMessagePrivateId(String messagePrivateId) {
+        this.messagePrivateId = messagePrivateId;
     }
 
     public String getCommentMessageUserPrivateId() {
@@ -90,11 +103,36 @@ public class CommentMessageEntity {
         this.updateTime = updateTime;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUserHeadImg() {
+        return userHeadImg;
+    }
+
+    public void setUserHeadImg(String userHeadImg) {
+        this.userHeadImg = userHeadImg;
+    }
+
+    public String getCommentMessageCreateTime() {
+        return commentMessageCreateTime;
+    }
+
+    public void setCommentMessageCreateTime(String commentMessageCreateTime) {
+        this.commentMessageCreateTime = commentMessageCreateTime;
+    }
+
     @Override
     public String toString() {
         return "CommentMessageEntity{" +
                 "id=" + id +
                 ", commentMessagePrivateId='" + commentMessagePrivateId + '\'' +
+                ", messagePrivateId='" + messagePrivateId + '\'' +
                 ", commentMessageUserPrivateId='" + commentMessageUserPrivateId + '\'' +
                 ", commentMessageContent='" + commentMessageContent + '\'' +
                 ", commentMessagePrivateIdReply='" + commentMessagePrivateIdReply + '\'' +
@@ -102,6 +140,9 @@ public class CommentMessageEntity {
                 ", commentMessageIsDelete=" + commentMessageIsDelete +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", username='" + username + '\'' +
+                ", userHeadImg='" + userHeadImg + '\'' +
+                ", commentMessageCreateTime='" + commentMessageCreateTime + '\'' +
                 '}';
     }
 }

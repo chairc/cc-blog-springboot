@@ -29,10 +29,12 @@
                     <i class="far fa-user"></i>
                     <span class="badge badge-danger navbar-badge"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" th:if="${userIndexLoginInfo.getUserIsLogin() == 1}">
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                     th:if="${userIndexLoginInfo.getUserIsLogin() == 1}">
                     <a href="#" class="dropdown-item">
                         <div class="media">
-                            <img th:src="${userIndexLoginInfo.getUserHeadUrl()}" alt="头像" class="img-size-50 mr-3 img-circle">
+                            <img th:src="${userIndexLoginInfo.getUserHeadUrl()}" alt="头像"
+                                 class="img-size-50 mr-3 img-circle">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
                                     <span th:text="${userIndexLoginInfo.getUsername()}"></span>
@@ -48,7 +50,8 @@
                     <div class="dropdown-divider"></div>
                     <a href="/home" class="dropdown-item dropdown-footer">个人中心</a>
                 </div>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" th:if="${userIndexLoginInfo.getUserIsLogin() == 0}">
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                     th:if="${userIndexLoginInfo.getUserIsLogin() == 0}">
                     <div class="dropdown-divider"></div>
                     <a href="/login" class="dropdown-item dropdown-footer">请登录</a>
                 </div>
@@ -70,7 +73,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-8 animated fadeIn">
                         <div class="card">
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills">
@@ -79,40 +82,97 @@
                             </div>
                             <div class="card-body pb-0">
                                 <div class="row">
-                                    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column" th:each="friend:${friendList}">
+                                    <div class="col-12 col-sm-6 col-md-6 d-flex align-items-stretch flex-column"
+                                         th:each="friend:${friendList}">
                                         <div class="card bg-light d-flex flex-fill">
                                             <div class="card-header text-muted border-bottom-0"></div>
                                             <div class="card-body pt-0">
                                                 <div class="row">
                                                     <div class="col-8">
-                                                        <h2 class="lead"><b th:text="${friend.getFriendName()}"></b></h2>
+                                                        <h2 class="lead"><b th:text="${friend.getFriendName()}"></b>
+                                                        </h2>
                                                         <p class="text-muted text-sm"><b>关于: </b>
-                                                            <span th:text="${friend.getFriendIntroduction()}"></span> </p>
+                                                            <span th:text="${friend.getFriendIntroduction()}"></span>
+                                                        </p>
                                                         <ul class="ml-4 mb-0 fa-ul text-muted">
                                                             <li class="small">
-                                                                <span class="fa-li"><i class="fas fa-lg fa-laptop"></i></span> 网站:
+                                                                <span class="fa-li"><i class="fas fa-lg fa-laptop"></i></span>
+                                                                网站:
                                                                 <span th:text="${friend.getFriendWebsite()}"></span>
                                                             </li>
                                                             <li class="small">
-                                                                <span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span> 邮箱:
+                                                                <span class="fa-li"><i
+                                                                        class="fas fa-lg fa-envelope"></i></span> 邮箱:
                                                                 <span th:text="${friend.getFriendEmail()}"></span>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                     <div class="col-4 text-center">
-                                                        <img th:src="${friend.getFriendHeadUrl()}" alt="" class="img-circle img-fluid">
+                                                        <img th:src="${friend.getFriendHeadUrl()}" alt=""
+                                                             class="img-circle img-fluid">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-footer">
                                                 <div class="text-right">
-                                                    <a th:href="${friend.getFriendWebsite()}" target="_blank" class="btn btn-sm btn-default">
+                                                    <a th:href="${friend.getFriendWebsite()}" target="_blank"
+                                                       class="btn btn-sm btn-default">
                                                         <i class="fas fa-user"></i> 前往主页
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-info card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">关于友链申请</h3>
+                            </div>
+                            <div class="card-body">
+                                <strong><i class="fas fa-pencil-alt mr-1"></i> 友链申请注意</strong>
+                                <p class="text-muted">如果需要新增友链，请在下面提交你的申请嗷！要注意在提交前请先登录！</p>
+                                <hr>
+                                <strong><i class="far fa-envelope mr-1"></i> 联系我</strong>
+                                <p class="text-muted">chenyu1998424@gmail.com</p>
+                                <p class="text-muted">chenyu424@vip.qq.com</p>
+                            </div>
+                        </div>
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">友链申请表</h3>
+                            </div>
+                            <div class="card-body box-profile">
+                                <div class="form-group">
+                                    <label for="friend-web-title">网站标题</label>
+                                    <input type="text" class="form-control" id="friend-web-title"
+                                           placeholder="请输入网站标题" autocomplete="new-friend-web-title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="friend-website">网站网址</label>
+                                    <input type="text" class="form-control" id="friend-website"
+                                           placeholder="请输入网站网址" autocomplete="new-friend-website">
+                                </div>
+                                <div class="form-group">
+                                    <label for="friend-introduction">网站描述</label>
+                                    <input type="text" class="form-control" id="friend-introduction"
+                                           placeholder="请输入网站网址" autocomplete="new-friend-introduction">
+                                </div>
+                                <div class="form-group">
+                                    <label for="friend-head-url">头像链接</label>
+                                    <input type="text" class="form-control" id="friend-head-url"
+                                           placeholder="请输入自己网站头像链接粘贴" autocomplete="new-friend-head-url">
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="friend-confirm" value="1">
+                                    <label for="friend-confirm" class="custom-control-label">我已经添加chairc.cn</label>
+                                </div>
+                                <div class="form-group text-right">
+                                    <button class="btn btn-default" id="friend-clear">清空</button>
+                                    <button class="btn btn-info" id="friend-send">提交申请</button>
                                 </div>
                             </div>
                         </div>

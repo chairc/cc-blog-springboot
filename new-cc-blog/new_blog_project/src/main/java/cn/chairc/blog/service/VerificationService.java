@@ -16,4 +16,13 @@ public interface VerificationService {
      */
 
     ResultSet registeredVerificationCode(String registeredEmail);
+
+    /**
+     * 忘记密码发送验证码
+     *
+     * @param forgotEmail 找回邮箱
+     * @return 成功或异常
+     */
+
+    ResultSet forgotPasswordVerificationCode(String forgotEmail);
 }

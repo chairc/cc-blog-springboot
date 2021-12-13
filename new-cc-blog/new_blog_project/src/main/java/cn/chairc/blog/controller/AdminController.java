@@ -84,22 +84,26 @@ public class AdminController {
     public ResultSet insertUser(@RequestParam(value = "addUsername") String addUsername,
                                 @RequestParam(value = "addUserEmail") String addUserEmail,
                                 @RequestParam(value = "addUserPassword") String addUserPassword,
-                                @RequestParam(value = "addUserIsActivity") String addUserIsActivity) throws ParseException {
-        Date time = TimeUtil.getServerTime();
+                                @RequestParam(value = "addUserIsActivity") String addUserIsActivity){
         UserEntity userEntity = new UserEntity();
-        userEntity.setUserPrivateId(CommonUtil.createUserRandomPrivateId());
-        userEntity.setUsername(addUsername);
-        userEntity.setUserEmail(addUserEmail);
-        userEntity.setPassword(addUserPassword);
-        if (YES.equals(addUserIsActivity)) {
-            userEntity.setUserIsActivity(1);
-        } else {
-            userEntity.setUserIsActivity(-1);
+        try {
+            Date time = TimeUtil.getServerTime();
+            userEntity.setUserPrivateId(CommonUtil.createUserRandomPrivateId());
+            userEntity.setUsername(addUsername);
+            userEntity.setUserEmail(addUserEmail);
+            userEntity.setPassword(addUserPassword);
+            if (YES.equals(addUserIsActivity)) {
+                userEntity.setUserIsActivity(1);
+            } else {
+                userEntity.setUserIsActivity(-1);
+            }
+            userEntity.setUserIsBanned(1);
+            userEntity.setUserIsDelete(1);
+            userEntity.setCreateTime(time);
+            userEntity.setUpdateTime(time);
+        }catch (Exception e){
+            log.error("封装数据出错，原因：{}", e.toString());
         }
-        userEntity.setUserIsBanned(1);
-        userEntity.setUserIsDelete(1);
-        userEntity.setCreateTime(time);
-        userEntity.setUpdateTime(time);
         return userService.insertUser(userEntity);
     }
 
@@ -191,10 +195,14 @@ public class AdminController {
                                 @RequestParam(value = "adminEditUserEmail") String adminEditUserEmail,
                                 @RequestParam(value = "adminEditUserPassword") String adminEditUserPassword) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUserPrivateId(adminEditUserPrivateId);
-        userEntity.setUsername(adminEditUsername);
-        userEntity.setUserEmail(adminEditUserEmail);
-        userEntity.setPassword(adminEditUserPassword);
+        try {
+            userEntity.setUserPrivateId(adminEditUserPrivateId);
+            userEntity.setUsername(adminEditUsername);
+            userEntity.setUserEmail(adminEditUserEmail);
+            userEntity.setPassword(adminEditUserPassword);
+        }catch (Exception e){
+            log.error("封装数据出错，原因：{}", e.toString());
+        }
         return userService.updateUser(userEntity);
     }
 
@@ -225,14 +233,18 @@ public class AdminController {
     @RequestMapping("/insertPermission")
     @ResponseBody
     public ResultSet insertPermission(@RequestParam(value = "permissionName") String permissionName,
-                                      @RequestParam(value = "permissionDescription") String permissionDescription) throws ParseException {
+                                      @RequestParam(value = "permissionDescription") String permissionDescription){
         PermissionEntity permissionEntity = new PermissionEntity();
-        Date time = TimeUtil.getServerTime();
-        permissionEntity.setPermissionName(permissionName);
-        permissionEntity.setPermissionDescription(permissionDescription);
-        permissionEntity.setPermissionIsDelete(1);
-        permissionEntity.setCreateTime(time);
-        permissionEntity.setUpdateTime(time);
+        try {
+            Date time = TimeUtil.getServerTime();
+            permissionEntity.setPermissionName(permissionName);
+            permissionEntity.setPermissionDescription(permissionDescription);
+            permissionEntity.setPermissionIsDelete(1);
+            permissionEntity.setCreateTime(time);
+            permissionEntity.setUpdateTime(time);
+        }catch (Exception e){
+            log.error("封装数据出错，原因：{}", e.toString());
+        }
         return permissionService.insertPermission(permissionEntity);
     }
 
@@ -252,9 +264,13 @@ public class AdminController {
                                       @RequestParam(value = "permissionName") String permissionName,
                                       @RequestParam(value = "permissionDescription") String permissionDescription) {
         PermissionEntity permissionEntity = new PermissionEntity();
-        permissionEntity.setPermissionName(permissionName);
-        permissionEntity.setPermissionDescription(permissionDescription);
-        permissionEntity.setPermissionNameBefore(permissionNameBefore);
+        try {
+            permissionEntity.setPermissionName(permissionName);
+            permissionEntity.setPermissionDescription(permissionDescription);
+            permissionEntity.setPermissionNameBefore(permissionNameBefore);
+        }catch (Exception e){
+            log.error("封装数据出错，原因：{}", e.toString());
+        }
         return permissionService.updatePermission(permissionEntity);
     }
 
@@ -271,14 +287,18 @@ public class AdminController {
     @RequestMapping("/insertRole")
     @ResponseBody
     public ResultSet insertRole(@RequestParam(value = "roleName") String roleName,
-                                @RequestParam(value = "roleDescription") String roleDescription) throws ParseException {
+                                @RequestParam(value = "roleDescription") String roleDescription){
         RoleEntity roleEntity = new RoleEntity();
-        Date time = TimeUtil.getServerTime();
-        roleEntity.setRoleName(roleName);
-        roleEntity.setRoleDescription(roleDescription);
-        roleEntity.setRoleIsDelete(1);
-        roleEntity.setCreateTime(time);
-        roleEntity.setUpdateTime(time);
+        try {
+            Date time = TimeUtil.getServerTime();
+            roleEntity.setRoleName(roleName);
+            roleEntity.setRoleDescription(roleDescription);
+            roleEntity.setRoleIsDelete(1);
+            roleEntity.setCreateTime(time);
+            roleEntity.setUpdateTime(time);
+        }catch (Exception e){
+            log.error("封装数据出错，原因：{}", e.toString());
+        }
         return roleService.insertRole(roleEntity);
     }
 
@@ -298,9 +318,13 @@ public class AdminController {
                                 @RequestParam(value = "roleName") String roleName,
                                 @RequestParam(value = "roleDescription") String roleDescription) {
         RoleEntity roleEntity = new RoleEntity();
-        roleEntity.setRoleName(roleName);
-        roleEntity.setRoleNameBefore(roleNameBefore);
-        roleEntity.setRoleDescription(roleDescription);
+        try {
+            roleEntity.setRoleName(roleName);
+            roleEntity.setRoleNameBefore(roleNameBefore);
+            roleEntity.setRoleDescription(roleDescription);
+        }catch (Exception e){
+            log.error("封装数据出错，原因：{}", e.toString());
+        }
         return roleService.updateRole(roleEntity);
     }
 }

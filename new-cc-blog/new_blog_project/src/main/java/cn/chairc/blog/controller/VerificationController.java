@@ -38,4 +38,19 @@ public class VerificationController {
     public ResultSet createRegisteredVerificationCode(@RequestParam(value = "registeredEmail") String registeredEmail) {
         return verificationService.registeredVerificationCode(registeredEmail);
     }
+
+    /**
+     * 找回密码发送邮箱验证
+     * 方法说明：无敏感信息
+     *
+     * @param forgotEmail 找回邮箱
+     * @return 成功或异常
+     */
+
+    @LogVisitor(level = "LEVEL-1")
+    @RequestMapping("forgotPassword")
+    @ResponseBody
+    public ResultSet createForgotPasswordVerificationCode(@RequestParam(value = "forgotEmail") String forgotEmail) {
+        return verificationService.forgotPasswordVerificationCode(forgotEmail);
+    }
 }

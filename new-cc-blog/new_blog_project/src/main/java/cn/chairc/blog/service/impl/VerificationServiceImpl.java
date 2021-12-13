@@ -44,19 +44,17 @@ public class VerificationServiceImpl implements VerificationService {
     public ResultSet registeredVerificationCode(String registeredEmail) {
         ResultSet resultSet = new ResultSet();
         try {
+            //  验证格式
             Pattern pattern = Pattern.compile(EMAIL_VERIFICATION_PATTERN);
             if (registeredEmail == null || "".equals(registeredEmail)) {
-                log.info("注册邮箱不能为空");
                 resultSet.fail("注册邮箱不能为空");
                 return resultSet;
             }
             if (pattern.matcher(registeredEmail).matches()) {
-                log.info("注册邮箱格式不正确");
                 resultSet.fail("注册邮箱格式不正确");
                 return resultSet;
             }
             if (userMapper.getUserEmailIsExist(registeredEmail)) {
-                log.info("验证码邮箱存在");
                 resultSet.fail("验证码邮箱存在");
                 return resultSet;
             }
@@ -66,6 +64,43 @@ public class VerificationServiceImpl implements VerificationService {
             mailEntity.setEmailType("registered");
             mailService.sendAutomaticEmail(mailEntity);
             resultSet.ok("我们给你的邮箱发送了一封激活邮件，请及时查收");
+        } catch (Exception e) {
+            log.error("验证码发送失败");
+            resultSet.interServerError();
+        }
+        return resultSet;
+    }
+
+    /**
+     * 忘记密码发送验证码
+     *
+     * @param forgotEmail 找回邮箱
+     * @return 成功或异常
+     */
+
+    @Override
+    public ResultSet forgotPasswordVerificationCode(String forgotEmail) {
+        ResultSet resultSet = new ResultSet();
+        try {
+            //  验证格式
+            Pattern pattern = Pattern.compile(EMAIL_VERIFICATION_PATTERN);
+            if (forgotEmail == null || "".equals(forgotEmail)) {
+                resultSet.fail("注册邮箱不能为空");
+                return resultSet;
+            }
+            if (pattern.matcher(forgotEmail).matches()) {
+                resultSet.fail("注册邮箱格式不正确");
+                return resultSet;
+            }
+            if (!userMapper.getUserEmailIsExist(forgotEmail)) {
+                resultSet.fail("验证码邮箱不存在");
+                return resultSet;
+            }
+            MailEntity mailEntity = new MailEntity();
+            mailEntity.setUserEmail(forgotEmail);
+            mailEntity.setEmailType("forgotPassword");
+            mailService.sendAutomaticEmail(mailEntity);
+            resultSet.ok("我们给你的邮箱发送了一封找回密码邮件，请及时查收");
         } catch (Exception e) {
             log.error("验证码发送失败");
             resultSet.interServerError();

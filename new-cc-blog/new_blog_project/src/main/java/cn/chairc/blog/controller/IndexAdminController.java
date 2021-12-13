@@ -4,6 +4,7 @@ import cn.chairc.blog.annotation.LogVisitor;
 import cn.chairc.blog.entity.article.ArticleEntity;
 import cn.chairc.blog.entity.article.ArticleLabelEntity;
 import cn.chairc.blog.entity.article.ArticleTypeEntity;
+import cn.chairc.blog.entity.friend.FriendEntity;
 import cn.chairc.blog.entity.log.LogVisitorEntity;
 import cn.chairc.blog.entity.permission.PermissionEntity;
 import cn.chairc.blog.entity.role.RoleEntity;
@@ -51,13 +52,16 @@ public class IndexAdminController {
 
     private ArticleService articleService;
 
+    private FriendService friendService;
+
     private StatisticsService statisticsService;
 
     @Autowired
     public IndexAdminController(UserService userService, UserPermissionService userPermissionService,
                                 PermissionService permissionService, UserRoleService userRoleService,
                                 RoleService roleService, LogService logService,
-                                ArticleService articleService, StatisticsService statisticsService) {
+                                ArticleService articleService, FriendService friendService,
+                                StatisticsService statisticsService) {
         this.userService = userService;
         this.userPermissionService = userPermissionService;
         this.permissionService = permissionService;
@@ -65,6 +69,7 @@ public class IndexAdminController {
         this.roleService = roleService;
         this.logService = logService;
         this.articleService = articleService;
+        this.friendService = friendService;
         this.statisticsService = statisticsService;
     }
 
@@ -109,7 +114,7 @@ public class IndexAdminController {
         List<StatisticsDataResultSet> currentVisitorData = statisticsService.listCurrentVisitorNumber(7);
         List<StatisticsDataResultSet> currentActiveData = statisticsService.listCurrentActiveData(7);
         model.addAttribute("currentVisitorData", currentVisitorData);
-        model.addAttribute("currentActiveData",currentActiveData);
+        model.addAttribute("currentActiveData", currentActiveData);
         return "admin/data/admin_data";
     }
 
@@ -199,8 +204,10 @@ public class IndexAdminController {
     /**
      * 显示文章列表页面
      *
-     * @param page  当前页
-     * @param model 模型
+     * @param page       当前页
+     * @param searchType 搜索类型
+     * @param type       分类
+     * @param model      模型
      * @return admin_article.html
      */
 
@@ -277,6 +284,32 @@ public class IndexAdminController {
         model.addAttribute("articleLabel", articleLabelEntityList);
         model.addAttribute("articleType", articleTypeEntityList);
         return "admin/article/admin_article_edit";
+    }
+
+    /**
+     * 显示友人帐页面
+     *
+     * @param page       当前页
+     * @param search     搜索
+     * @param searchType 搜索类型
+     * @param model      模型
+     * @return admin_friend.html
+     */
+
+    @LogVisitor(level = "LEVEL-2")
+    @RequestMapping("/friendData")
+    public String showAdminFriendDataPage(@RequestParam("page") int page,
+                                          @RequestParam("search") String search,
+                                          @RequestParam("searchType") String searchType,
+                                          Model model) {
+        Page<FriendEntity> friendEntityPage = PageHelper.startPage(page, 9);
+        List<FriendEntity> friendEntityList = friendService.listFriend("admin", search, searchType);
+        model.addAttribute("friendList", friendEntityList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPage", (int) ((friendEntityPage.getTotal() - 1) / 9 + 1));
+        model.addAttribute("currentSearchType", searchType);
+        model.addAttribute("currentSearch", search);
+        return "admin/friends/admin_friend";
     }
 
     @LogVisitor(level = "LEVEL-2")

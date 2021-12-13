@@ -1,12 +1,15 @@
 package cn.chairc.blog.entity.message;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
  * @author chairc
  * @date 2021/8/22 19:10
  */
-public class MessageEntity {
+public class MessageEntity{
     private long id;
     private String messagePrivateId;
     private String messageUserPrivateId;
@@ -19,6 +22,7 @@ public class MessageEntity {
     private String messageUserHeadImg;
     private String messageCreateTime;
     private String messageUpdateTime;
+    private int messageCommentTotal;
 
     public long getId() {
         return id;
@@ -108,6 +112,14 @@ public class MessageEntity {
         this.messageUpdateTime = messageUpdateTime;
     }
 
+    public int getMessageCommentTotal() {
+        return messageCommentTotal;
+    }
+
+    public void setMessageCommentTotal(int messageCommentTotal) {
+        this.messageCommentTotal = messageCommentTotal;
+    }
+
     @Override
     public String toString() {
         return "MessageEntity{" +
@@ -122,6 +134,7 @@ public class MessageEntity {
                 ", messageUserHeadImg='" + messageUserHeadImg + '\'' +
                 ", messageCreateTime='" + messageCreateTime + '\'' +
                 ", messageUpdateTime='" + messageUpdateTime + '\'' +
+                ", messageCommentTotal=" + messageCommentTotal +
                 '}';
     }
 }

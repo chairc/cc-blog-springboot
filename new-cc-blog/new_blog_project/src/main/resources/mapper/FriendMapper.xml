@@ -26,10 +26,20 @@
         friend_is_delete = 1 AND friend_is_hide = 1
     </select>
 
-    <select id="listFriendByAdmin" resultMap="friendResultMap" resultType="cn.chairc.blog.entity.friend.FriendEntity">
+    <select id="listFriendByAdmin" resultMap="friendResultMap" resultType="cn.chairc.blog.entity.friend.FriendEntity"
+            parameterType="java.lang.String">
         SELECT * FROM
         <include refid="friend_info_table"/>
         WHERE
+        <if test="searchType == 'name'.toString()">
+            friend_name LIKE CONCAT('%',#{search},'%') AND
+        </if>
+        <if test="searchType == 'email'.toString()">
+            friend_email LIKE CONCAT('%',#{search},'%') AND
+        </if>
+        <if test="searchType == 'website'.toString()">
+            friend_website LIKE CONCAT('%',#{search},'%') AND
+        </if>
         friend_is_delete = 1
     </select>
 

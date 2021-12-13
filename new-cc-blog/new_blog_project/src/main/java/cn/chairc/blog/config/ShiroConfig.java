@@ -61,7 +61,10 @@ public class ShiroConfig {
         filterMap.put("/post/**", "anon");
         filterMap.put("/api/user/login", "anon");
         filterMap.put("/api/user/registered", "anon");
+        filterMap.put("/api/user/updateForgotPassword", "anon");
         filterMap.put("/api/message/insertMessage", "anon");
+        filterMap.put("/api/comment/insertCommentMessage", "anon");
+        filterMap.put("/api/friend/insertFriendApplication", "anon");
         filterMap.put("/error/**", "anon");
 
         //  用户授权过滤器
@@ -80,6 +83,7 @@ public class ShiroConfig {
         filterMap.put("/api/message/**", "authc");
         filterMap.put("/api/file/**", "authc");
         filterMap.put("/api/comment/**", "authc");
+        filterMap.put("/api/friend/**", "authc");
 
         //  设置未授权页面
         shiroFilterFactoryBean.setUnauthorizedUrl("/error/noAuth");

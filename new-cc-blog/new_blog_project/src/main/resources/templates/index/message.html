@@ -8,8 +8,8 @@
     <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/adminlte.min.css}">
-    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/static/css/all.min.css}">
     <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
 </head>
 <body class="sidebar-mini layout-fixed sidebar-collapse" style="height: auto;">
@@ -24,22 +24,6 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <div class="navbar-search-block">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="搜索"
-                               aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-user"></i>
@@ -89,73 +73,35 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-9 animated fadeIn">
                         <div class="card">
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills">
-                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">最新文章</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#timeline" data-toggle="tab">归档时间线</a></li>
+                                    <li class="nav-item"><a class="nav-link active" data-toggle="tab">留言板</a></li>
                                 </ul>
                             </div>
                             <div class="card-body">
-                                <div class="tab-content">
-                                    <div class="active tab-pane" id="activity">
-                                        <div class="post" th:each="articleList:${articleEntityList}">
-                                            <div class="title">
-                                                <a th:href="'/article/title/'+${articleList.getArticlePrivateId()}+'?page=1'"
-                                                   class="">
-                                                    <h3><b th:text="${articleList.getArticleTitle()}"></b></h3></a>
-                                            </div>
-                                            <div class="user-block">
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="/static/images/picture/login/login-ico.svg" alt="">
-                                                <span class="username"
-                                                      th:text="${articleList.getArticleAuthor()}"></span>
-                                                <span class="description"
-                                                      th:text="${articleList.getArticleCreateTime()}"></span>
-                                            </div>
-                                            <p th:text="${articleList.getArticleIntroduction()}"></p>
-                                            <p>
-                                                <a href="javascript:void(0);" class="link-black text-sm mr-2 clipTarget" onclick="shareURL(this)"
-                                                   th:id="'/article/title/'+${articleList.getArticlePrivateId()}+'?page=1'">
-                                                    <i class="fas fa-share mr-1" th:text="' 分享链接'"></i></a>
-                                                <a href="#" class="link-black text-sm mr-2">
-                                                    <i class="fas fa-folder mr-1"
-                                                       th:text="' 文章分类：'+${articleList.getArticleType()}"></i>
-                                                </a>
-                                                <span class="float-right">
-                                                    <a href="#" class="link-black text-sm">
-                                                    <i class="far fa-comments mr-1" th:text="' 评论数：XX'"></i>
-                                                  </a>
+                                <div class="post" th:each="messageList:${messageEntityList}">
+                                    <div class="user-block">
+                                        <img class="img-circle img-bordered-sm"
+                                             style="max-width: 40px;max-height: 40px;"
+                                             th:src="${messageList.getMessageUserHeadImg()}" alt="">
+                                        <span class="username">
+                                                  <a href="#" th:text="${messageList.getUsername()}"></a>
                                                 </span>
-                                            </p>
-                                        </div>
+                                        <span class="description" th:text="${messageList.getMessageCreateTime()}"></span>
                                     </div>
-                                    <div class="tab-pane" id="timeline">
-                                        <div class="timeline timeline-inverse">
-                                            <div class="time-label">
-                                                <span class="bg-danger">
-                                                  2021-5-31
-                                                </span>
-                                            </div>
-                                            <div th:each="articleTimeLineList:${articleEntityTimeLineList}">
-                                                <i class="fas fa-file bg-primary"></i>
-                                                <div class="timeline-item">
-                                                    <span class="time"><i class="far fa-clock"
-                                                                          th:text="${articleTimeLineList.getArticleCreateTime()}"></i></span>
-                                                    <h3 class="timeline-header">写了一篇名为《
-                                                        <a th:href="'/article/title/'+${articleTimeLineList.getArticlePrivateId()}+'?page=1'"
-                                                           th:text="${articleTimeLineList.getArticleTitle()}"></a>》的文章
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <i class="far fa-clock bg-gray"></i>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <p th:text="${messageList.getMessageContent()}"></p>
+                                    <p>
+                                        <a th:href="'/message/title/'+${messageList.getMessagePrivateId()}+'?page=1'"
+                                           class="btn btn-outline-info btn-sm">详情</a>
+                                        <span class="float-right">
+                                            <a href="#" class="link-black text-sm">
+                                                <i class="far fa-comments mr-1"></i>
+                                                <span th:text="'评论数：'+ ${messageList.getMessageCommentTotal()}"></span>
+                                            </a>
+                                        </span>
+                                    </p>
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -164,26 +110,26 @@
                                         <ul class="pagination">
                                             <li th:if="${currentPage - 1} <= 1"
                                                 class="paginate_button page-item previous">
-                                                <a th:href="'/article?page=1&type='+${currentType}+'&searchType='+${currentSearchType}"
+                                                <a href="/message?page=1"
                                                    class="page-link">上一页</a>
                                             </li>
                                             <li th:if="${currentPage - 1} > 1"
                                                 class="paginate_button page-item previous">
-                                                <a th:href="'/article?page='+${currentPage - 1}+'&type='+${currentType}+'&searchType='+${currentSearchType}"
+                                                <a th:href="'/message?page='+${currentPage - 1}"
                                                    class="page-link">上一页</a>
                                             </li>
                                             <li class="paginate_button page-item">
-                                                <a th:href="'/article?page='+${currentPage}+'&type='+${currentType}+'&searchType='+${currentSearchType}"
+                                                <a th:href="'/message?page='+${currentPage}"
                                                    th:text="${currentPage}" class="page-link"></a>
                                             </li>
                                             <li th:if="${currentPage + 1} > ${totalPage}"
                                                 class="paginate_button page-item next">
-                                                <a th:href="'/article?page='+${totalPage}+'&type='+${currentType}+'&searchType='+${currentSearchType}"
+                                                <a th:href="'/message?page='+${totalPage}"
                                                    class="page-link">下一页</a>
                                             </li>
                                             <li th:if="${currentPage + 1} <= ${totalPage}"
                                                 class="paginate_button page-item next">
-                                                <a th:href="'/article?page='+${currentPage + 1}+'&type='+${currentType}+'&searchType='+${currentSearchType}"
+                                                <a th:href="'/message?page='+${currentPage + 1}"
                                                    class="page-link">下一页</a>
                                             </li>
                                         </ul>
@@ -195,26 +141,16 @@
                     <div class="col-md-3">
                         <div class="card card-info card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">标签分类</h3>
+                                <h3 class="card-title">给我留言</h3>
                             </div>
                             <div class="card-body box-profile">
-                                <span th:each="label:${articleLabel}">
-                                    <a class="btn btn-default btn-sm" th:text="${label.getLabelName()}"
-                                       onclick="jumpTo(this.id)" th:id="'/article?page=1&type=labelType&searchType='+${label.getLabelName()}"></a>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="card card-info card-outline">
-                            <div class="card-header">
-                                <h3 class="card-title">类型分类</h3>
-                            </div>
-                            <div class="card-body box-profile">
-                                <span>
-                                    <a class="btn btn-default btn-sm" onclick="jumpTo('/article?page=1&type=all&searchType=all')">所有归档</a></span>
-                                <span th:each="type:${articleType}">
-                                    <a class="btn btn-default btn-sm" th:text="${type.getArticleTypeName()}"
-                                       onclick="jumpTo(this.id)" th:id="'/article?page=1&type=articleType&searchType='+${type.getArticleTypeName()}"></a>
-                                </span>
+                                <div class="form-group">
+                                    <textarea id="message-add" class="form-control" rows="4" style="resize: none;"></textarea>
+                                </div>
+                                <div class="form-group text-right">
+                                    <button class="btn btn-default" id="message-board-clear">清空</button>
+                                    <button class="btn btn-info" id="message-board-send">留言</button>
+                                </div>
                             </div>
                         </div>
                         <div class="card card-info">
@@ -242,6 +178,5 @@
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/main.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/toastr.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/clipboard.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>
 </html>

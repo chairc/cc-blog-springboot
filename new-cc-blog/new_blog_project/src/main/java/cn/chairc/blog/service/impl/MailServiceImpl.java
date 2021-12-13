@@ -32,10 +32,10 @@ public class MailServiceImpl implements MailService {
     }
 
     @Value("${spring.mail.from}")
-    private String EMAIL_FROM;
+    private String emailFrom;
 
     @Value("${spring.mail.verification-path}")
-    private String EMAIL_VERIFICATION_PATH;
+    private String emailVerificationPath;
 
     /**
      * 自动发送邮件
@@ -49,7 +49,7 @@ public class MailServiceImpl implements MailService {
         Session session = subject.getSession();
         try {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-            simpleMailMessage.setFrom(EMAIL_FROM);
+            simpleMailMessage.setFrom(emailFrom);
             simpleMailMessage.setTo(mail.getUserEmail());
             String mailSubject = "";
             String mailContent = "";
@@ -65,10 +65,10 @@ public class MailServiceImpl implements MailService {
                     mailContent = "激活验证码为：" + mailVerification;
                     log.info("registered");
                     break;
-                case "findPassword":
+                case "forgotPassword":
                     mailSubject = "小虚无的下午茶博客用户邮箱找回密码";
                     mailContent = "找回密码验证码为：" + mailVerification;
-                    log.info("findPassword");
+                    log.info("forgotPassword");
                     break;
                 case "subscribeInfo":
                     mailSubject = "小虚无的下午茶博客用户邮箱订阅信息";
@@ -83,7 +83,7 @@ public class MailServiceImpl implements MailService {
             simpleMailMessage.setSubject(mail.getEmailSubject());
             simpleMailMessage.setText(mail.getEmailContent());
             mailSender.send(simpleMailMessage);
-            log.info("通过{}向邮箱{}自动发送一下{}类信息：{}", EMAIL_FROM, mail.getUserEmail(), mail.getEmailType(), mail.getEmailContent());
+            log.info("通过{}向邮箱{}自动发送一下{}类信息：{}", emailFrom, mail.getUserEmail(), mail.getEmailType(), mail.getEmailContent());
         } catch (Exception e) {
             log.error("邮件自动发送异常错误，错误原因{}", e.toString());
         }
@@ -101,12 +101,12 @@ public class MailServiceImpl implements MailService {
         ResultSet resultSet = new ResultSet();
         try {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-            simpleMailMessage.setFrom(EMAIL_FROM);
+            simpleMailMessage.setFrom(emailFrom);
             simpleMailMessage.setTo(mail.getUserEmail());
             simpleMailMessage.setSubject(mail.getEmailSubject());
             simpleMailMessage.setText(mail.getEmailContent());
             mailSender.send(simpleMailMessage);
-            log.info("通过{}向邮箱{}手动发送邮件", EMAIL_FROM, mail.getUserEmail());
+            log.info("通过{}向邮箱{}手动发送邮件", emailFrom, mail.getUserEmail());
             resultSet.ok("发送邮件成功");
         } catch (Exception e) {
             log.error("邮件手动发送异常错误，错误原因{}", e.toString());

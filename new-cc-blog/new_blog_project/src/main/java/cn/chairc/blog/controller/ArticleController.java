@@ -61,26 +61,30 @@ public class ArticleController {
                                    @RequestParam(value = "articleAddType") String articleAddType,
                                    @RequestParam(value = "articleAddLabel1") String articleAddLabel1,
                                    @RequestParam(value = "articleAddLabel2") String articleAddLabel2,
-                                   @RequestParam(value = "articleAddContext") String articleAddContext) throws ParseException {
-        Date insertTime = TimeUtil.getServerTime();
+                                   @RequestParam(value = "articleAddContext") String articleAddContext){
         ArticleEntity articleEntity = new ArticleEntity();
-        articleEntity.setArticlePrivateId(articleAddPrivateId);
-        articleEntity.setArticleTitle(articleAddTitle);
-        articleEntity.setArticleAuthor(articleAddAuthor);
-        articleEntity.setArticleIntroduction(articleAddIntroduction);
-        articleEntity.setArticleContent(articleAddContext);
-        articleEntity.setArticleType(articleAddType);
-        if (YES.equals(articleAddIsHide)) {
-            articleEntity.setArticleIsHide(1);
-        } else {
-            articleEntity.setArticleIsHide(-1);
+        try {
+            Date insertTime = TimeUtil.getServerTime();
+            articleEntity.setArticlePrivateId(articleAddPrivateId);
+            articleEntity.setArticleTitle(articleAddTitle);
+            articleEntity.setArticleAuthor(articleAddAuthor);
+            articleEntity.setArticleIntroduction(articleAddIntroduction);
+            articleEntity.setArticleContent(articleAddContext);
+            articleEntity.setArticleType(articleAddType);
+            if (YES.equals(articleAddIsHide)) {
+                articleEntity.setArticleIsHide(1);
+            } else {
+                articleEntity.setArticleIsHide(-1);
+            }
+            articleEntity.setArticleIsDelete(1);
+            articleEntity.setArticleClickNum(0);
+            articleEntity.setCreateTime(insertTime);
+            articleEntity.setUpdateTime(insertTime);
+            articleEntity.setArticleLabel1(articleAddLabel1);
+            articleEntity.setArticleLabel2(articleAddLabel2);
+        }catch (Exception e){
+            log.error("封装数据出错，原因：{}", e.toString());
         }
-        articleEntity.setArticleIsDelete(1);
-        articleEntity.setArticleClickNum(0);
-        articleEntity.setCreateTime(insertTime);
-        articleEntity.setUpdateTime(insertTime);
-        articleEntity.setArticleLabel1(articleAddLabel1);
-        articleEntity.setArticleLabel2(articleAddLabel2);
         return articleService.insertArticle(articleEntity);
     }
 
@@ -111,26 +115,30 @@ public class ArticleController {
                                    @RequestParam(value = "articleEditType") String articleEditType,
                                    @RequestParam(value = "articleEditLabel1") String articleEditLabel1,
                                    @RequestParam(value = "articleEditLabel2") String articleEditLabel2,
-                                   @RequestParam(value = "articleEditContext") String articleEditContext) throws ParseException {
-        Date updateTime = TimeUtil.getServerTime();
+                                   @RequestParam(value = "articleEditContext") String articleEditContext){
         ArticleEntity articleEntity = new ArticleEntity();
-        articleEntity.setArticlePrivateId(articleEditPrivateId);
-        articleEntity.setArticleTitle(articleEditTitle);
-        articleEntity.setArticleAuthor(articleEditAuthor);
-        articleEntity.setArticleIntroduction(articleEditIntroduction);
-        articleEntity.setArticleContent(articleEditContext);
-        articleEntity.setArticleType(articleEditType);
-        if (YES.equals(articleEditIsHide)) {
-            articleEntity.setArticleIsHide(1);
-        } else {
-            articleEntity.setArticleIsHide(-1);
+        try {
+            Date updateTime = TimeUtil.getServerTime();
+            articleEntity.setArticlePrivateId(articleEditPrivateId);
+            articleEntity.setArticleTitle(articleEditTitle);
+            articleEntity.setArticleAuthor(articleEditAuthor);
+            articleEntity.setArticleIntroduction(articleEditIntroduction);
+            articleEntity.setArticleContent(articleEditContext);
+            articleEntity.setArticleType(articleEditType);
+            if (YES.equals(articleEditIsHide)) {
+                articleEntity.setArticleIsHide(1);
+            } else {
+                articleEntity.setArticleIsHide(-1);
+            }
+            articleEntity.setArticleIsDelete(1);
+            articleEntity.setArticleClickNum(0);
+            articleEntity.setCreateTime(updateTime);
+            articleEntity.setUpdateTime(updateTime);
+            articleEntity.setArticleLabel1(articleEditLabel1);
+            articleEntity.setArticleLabel2(articleEditLabel2);
+        }catch (Exception e){
+            log.error("封装数据出错，原因：{}", e.toString());
         }
-        articleEntity.setArticleIsDelete(1);
-        articleEntity.setArticleClickNum(0);
-        articleEntity.setCreateTime(updateTime);
-        articleEntity.setUpdateTime(updateTime);
-        articleEntity.setArticleLabel1(articleEditLabel1);
-        articleEntity.setArticleLabel2(articleEditLabel2);
         return articleService.updateArticle(articleEntity);
     }
 }

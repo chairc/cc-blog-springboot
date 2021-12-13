@@ -20,12 +20,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import org.springframework.validation.BindingResult;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Pattern;
+import java.util.*;
 
 /**
  * @author chairc
@@ -40,7 +38,9 @@ public class UserServiceImpl implements UserService {
 
     private static final String EMAIL_VERIFICATION_PATTERN = "/^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$/";
 
-    private static final String EMAIL_VERIFICATION_CODE_STRING = "registered";
+    private static final String EMAIL_VERIFICATION_CODE_REGISTERED_STRING = "registered";
+
+    private static final String EMAIL_VERIFICATION_CODE_FORGOT_PASSWORD_STRING = "forgotPassword";
 
     private UserMapper userMapper;
 
@@ -248,75 +248,51 @@ public class UserServiceImpl implements UserService {
      * 用户注册
      *
      * @param userRegisteredEntity 注册类
+     * @param httpServletRequest   http请求
+     * @param bindingResult        绑定结构
      * @return 成功或异常
      */
 
     @Override
-    public ResultSet userRegistered(UserRegisteredEntity userRegisteredEntity, HttpServletRequest httpServletRequest) {
+    public ResultSet userRegistered(UserRegisteredEntity userRegisteredEntity, HttpServletRequest httpServletRequest,
+                                    BindingResult bindingResult) {
         ResultSet resultSet = new ResultSet();
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
-        //  传入的注册值
-        String registeredUsername = userRegisteredEntity.getRegisteredUsername();
-        String registeredEmail = userRegisteredEntity.getRegisteredEmail();
-        String registeredPassword = userRegisteredEntity.getRegisteredPassword();
-        String registeredRetypePassword = userRegisteredEntity.getRegisteredRetypePassword();
-        String registeredVerificationCode = userRegisteredEntity.getRegisteredVerificationCode();
         //  session保存的验证码值
         String verificationEmail = (String) session.getAttribute("verificationEmail");
         String verificationCode = (String) session.getAttribute("verificationCode");
         String verificationType = (String) session.getAttribute("verificationType");
         try {
-            //  用户名不能为空
-            if ("".equals(registeredUsername) || registeredUsername == null) {
-                resultSet.fail("注册用户名不能为空");
+            //  对于传入值一般校验
+            if (bindingResult.hasErrors()) {
+                resultSet.fail(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
                 return resultSet;
             }
             //  用户名重复
-            if (userMapper.getUsernameIsExist(registeredUsername)) {
+            if (userMapper.getUsernameIsExist(userRegisteredEntity.getRegisteredUsername())) {
                 resultSet.fail("用户名存在");
                 return resultSet;
             }
-            //  注册邮箱不能为空
-            if ("".equals(registeredEmail) || registeredEmail == null) {
-                resultSet.fail("注册邮箱不能为空");
-                return resultSet;
-            }
-            //  邮箱格式不正确
-            Pattern pattern = Pattern.compile(EMAIL_VERIFICATION_PATTERN);
-            if (pattern.matcher(registeredEmail).matches()) {
-                resultSet.fail("注册邮箱格式不正确");
-                return resultSet;
-            }
             //  邮箱存在
-            if (userMapper.getUserEmailIsExist(registeredEmail)) {
+            if (userMapper.getUserEmailIsExist(userRegisteredEntity.getRegisteredEmail())) {
                 resultSet.fail("邮箱存在");
                 return resultSet;
             }
-            //  密码不能为空
-            if ("".equals(registeredPassword) || "".equals(registeredRetypePassword)
-                    || registeredPassword == null || registeredRetypePassword == null) {
-                resultSet.fail("注册密码不能为空");
-                return resultSet;
-            }
             //  密码不相同
-            if (!registeredPassword.equals(registeredRetypePassword)) {
+            if (!userRegisteredEntity.getRegisteredPassword().equals(userRegisteredEntity.getRegisteredRetypePassword())) {
                 resultSet.fail("两遍密码输入不一致");
                 return resultSet;
             }
-            //  验证码不能为空
-            if ("".equals(registeredVerificationCode) || registeredVerificationCode == null) {
-                resultSet.fail("验证码不能为空");
-                return resultSet;
-            }
             //  验证码失效
-            if (!EMAIL_VERIFICATION_CODE_STRING.equals(verificationType) || verificationEmail == null
+            if (!EMAIL_VERIFICATION_CODE_REGISTERED_STRING.equals(verificationType) || verificationEmail == null
                     || verificationCode == null) {
                 resultSet.fail("注册验证码失效");
                 return resultSet;
             }
             //  邮箱和验证码匹配错误
-            if (!verificationCode.equals(registeredVerificationCode) && verificationEmail.equals(registeredEmail)) {
+            if (!verificationCode.equals(userRegisteredEntity.getRegisteredVerificationCode()) &&
+                    verificationEmail.equals(userRegisteredEntity.getRegisteredEmail())) {
                 resultSet.fail("验证码错误");
                 return resultSet;
             }
@@ -326,8 +302,8 @@ public class UserServiceImpl implements UserService {
             UserEntity userEntity = new UserEntity();
             userEntity.setUserPrivateId(userPrivateId);
             userEntity.setUsername(userRegisteredEntity.getRegisteredUsername());
-            userEntity.setUserEmail(registeredEmail);
-            userEntity.setPassword(DigestUtils.md5DigestAsHex(registeredPassword.getBytes()));
+            userEntity.setUserEmail(userRegisteredEntity.getRegisteredEmail());
+            userEntity.setPassword(DigestUtils.md5DigestAsHex(userRegisteredEntity.getRegisteredPassword().getBytes()));
             //  1为未封禁，-1为封禁
             userEntity.setUserIsBanned(1);
             //  1为激活，-1为未激活
@@ -618,5 +594,64 @@ public class UserServiceImpl implements UserService {
             log.error("用户{}在头像获取时出错，错误为{}", userPrivateId, e.toString());
         }
         return userHeadPictureEntity;
+    }
+
+    /**
+     * 用户找回密码
+     *
+     * @param userUpdateForgotPasswordEntity 用户找回密码类
+     * @return 成功或异常
+     */
+
+    @Override
+    public ResultSet updateForgoPassword(UserUpdateForgotPasswordEntity userUpdateForgotPasswordEntity,
+                                         BindingResult bindingResult) {
+        ResultSet resultSet = new ResultSet();
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        String forgotEmail = userUpdateForgotPasswordEntity.getForgotEmail();
+        String forgotPassword = userUpdateForgotPasswordEntity.getForgotPassword();
+        String forgotRetypePassword = userUpdateForgotPasswordEntity.getForgotRetypePassword();
+        String forgotVerificationCode = userUpdateForgotPasswordEntity.getForgotVerificationCode();
+        //  session保存的验证码值
+        String verificationEmail = (String) session.getAttribute("verificationEmail");
+        String verificationCode = (String) session.getAttribute("verificationCode");
+        String verificationType = (String) session.getAttribute("verificationType");
+        try {
+            //  获取用户信息
+            UserEntity userEntity = userMapper.getUserByEmail(forgotEmail);
+            //  对于传入值一般校验
+            if (bindingResult.hasErrors()) {
+                resultSet.fail(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+                return resultSet;
+            }
+            //  判断新密码是否一致
+            if (!forgotPassword.equals(forgotRetypePassword)) {
+                resultSet.fail("两遍新密码不一致");
+                return resultSet;
+            }
+            //  对验证码进行验证
+            if (!EMAIL_VERIFICATION_CODE_FORGOT_PASSWORD_STRING.equals(verificationType) || verificationEmail == null
+                    || verificationCode == null) {
+                resultSet.fail("注册验证码失效");
+                return resultSet;
+            }
+            //  邮箱和验证码匹配错误
+            if (!verificationCode.equals(forgotVerificationCode) && verificationEmail.equals(forgotEmail)) {
+                resultSet.fail("验证码错误");
+                return resultSet;
+            }
+            //  对密码进行加密更新处理
+            String md5NewPassword = DigestUtils.md5DigestAsHex(forgotPassword.getBytes());
+            UserEntity userUpdatePassword = new UserEntity();
+            userUpdatePassword.setUserPrivateId(userEntity.getUserPrivateId());
+            userUpdatePassword.setPassword(md5NewPassword);
+            userMapper.updateUser(userUpdatePassword);
+            resultSet.ok("修改密码成功");
+        } catch (Exception e) {
+            log.error("修改密码时出错，错误为{}", e.toString());
+            resultSet.interServerError();
+        }
+        return resultSet;
     }
 }

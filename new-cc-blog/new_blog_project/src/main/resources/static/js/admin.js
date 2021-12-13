@@ -9,7 +9,7 @@ function jumpToPage(data) {
             var pageNum = $("#admin-visitor-log-page-number").val().trim();
             var max = $("#admin-visitor-log-page-number").attr("max");
             if (comparePageAndInput(pageNum, min, max)) {
-                window.location.href = "/admin/visitorLogData/" + pageNum + "#paginate";
+                window.location.href = "/admin/logVisitorData/" + pageNum + "#paginate";
             } else {
                 toastr.warning("请检查输入页数格式");
             }
@@ -55,7 +55,22 @@ function jumpToPage(data) {
             } else {
                 toastr.warning("请检查输入页数格式");
             }
+            break;
         }
+        case "admin-friend-jump": {
+            var pageNum = $("#admin-friend-page-number").val().trim();
+            var max = $("#admin-friend-page-number").attr("max");
+            var search = $("#admin-friend-page-number").attr("data-search");
+            var searchType = $("#admin-friend-page-number").attr("data-search-type");
+            if (comparePageAndInput(pageNum, min, max)) {
+                window.location.href = "/admin/friendData?page=" + pageNum + "&search=" + search + "&searchType=" + searchType;
+            } else {
+                toastr.warning("请检查输入页数格式");
+            }
+            break;
+        }
+        default:
+            break;
     }
 }
 
@@ -97,6 +112,20 @@ function selectArticle() {
         case "label":
             searchType = $("#article-select-label").val();
             window.location.href = "/admin/articleData?page=1&type=labelType&searchType=" + searchType;
+            break;
+    }
+}
+
+function selectFriend() {
+    var val = $("input[name='check-select']:checked").val();
+    switch (val) {
+        case "all":
+            window.location.href = "/admin/friendData?page=1&search=all&searchType=all";
+            break;
+        case "select":
+            var search = $("#friend-search-input").val();
+            var searchType = $("#friend-select-label").val();
+            window.location.href = "/admin/friendData?page=1&search="+ search +"&searchType=" + searchType;
             break;
     }
 }
@@ -187,13 +216,12 @@ function showUserPermissionInfo(data) {
                 '                </div>\n' +
                 '                <div class="form-group">\n' +
                 '                    <label for="admin-user-permission-edit-username">用户名</label>\n' +
-                '                    <input type="text" class="form-control" id="admin-user-permission-edit-username" value="' + data.data.userPermission["username"] + '" placeholder="请输入用户名">\n' +
+                '                    <input type="text" class="form-control" id="admin-user-permission-edit-username" value="' + data.data.userPermission["username"] + '" disabled="disabled">\n' +
                 '                </div>\n' +
                 '                <div class="form-group">\n' +
                 '                    <label for="admin-user-permission-edit-permission-name">用户权限</label>\n' +
                 '                    <select type="text" class="form-control" id="admin-user-permission-edit-permission-name">\n'+
                 '                    <option value="' + data.data.userPermission["userPermission"] + '" selected = selected>' + data.data.userPermission["userPermission"] + '</option>\n';
-            console.log(data.data.permissionList.length);
             for(var i=0;i<data.data.permissionList.length;i++){
                 if(data.data.permissionList[i]["permissionName"] !== data.data.userPermission["userPermission"]){
                     userPermissionInfo +=
@@ -249,7 +277,7 @@ function showUserRoleInfo(data) {
                 '                </div>\n' +
                 '                <div class="form-group">\n' +
                 '                    <label for="admin-user-role-edit-username">用户名</label>\n' +
-                '                    <input type="text" class="form-control" id="admin-user-role-edit-username" value="' + data.data.userRole["username"] + '" placeholder="请输入用户名">\n' +
+                '                    <input type="text" class="form-control" id="admin-user-role-edit-username" value="' + data.data.userRole["username"] + '" disabled="disabled">\n' +
                 '                </div>\n' +
                 '                <div class="form-group">\n' +
                 '                    <label for="admin-user-role-edit-permission-name">用户角色</label>\n' +

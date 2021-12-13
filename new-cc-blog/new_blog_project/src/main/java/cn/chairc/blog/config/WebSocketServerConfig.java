@@ -23,8 +23,16 @@ public class WebSocketServerConfig {
 
     private static Logger log = LoggerFactory.getLogger(WebSocketServerConfig.class);
 
+    /**
+     * 在线人数
+     */
+
     private static final AtomicInteger onlineCount = new AtomicInteger(0);
-    //  concurrent包的线程安全Set，用来存放每个客户端对应的Session对象。
+
+    /**
+     * concurrent包的线程安全Set，用来存放每个客户端对应的Session对象。
+     */
+
     private static CopyOnWriteArraySet<Session> SessionSet = new CopyOnWriteArraySet<Session>();
 
     /**
@@ -51,7 +59,7 @@ public class WebSocketServerConfig {
         String username = (String) session.getUserProperties().get("username");
         String userPrivateId = (String) session.getUserProperties().get("userPrivateId");
         String userEmail = (String) session.getUserProperties().get("userEmail");
-        BroadCastInfo(resultSet);
+        broadCastInfo(resultSet);
     }
 
     /**
@@ -69,7 +77,7 @@ public class WebSocketServerConfig {
         String username = (String) session.getUserProperties().get("username");
         String userPrivateId = (String) session.getUserProperties().get("userPrivateId");
         String userEmail = (String) session.getUserProperties().get("userEmail");
-        BroadCastInfo(resultSet);
+        broadCastInfo(resultSet);
     }
 
     /**
@@ -82,7 +90,7 @@ public class WebSocketServerConfig {
     @OnMessage
     public void onMessage(String message, Session session) {
         ResultSet resultSet = new ResultSet();
-        SendMessage(session, resultSet);
+        sendMessage(session, resultSet);
     }
 
     /**
@@ -94,7 +102,7 @@ public class WebSocketServerConfig {
 
     @OnError
     public void onError(Session session, Throwable error) {
-        //log.error("发生错误：{}，Session ID： {}", error.getMessage(), session.getId());
+        log.error("发生错误：{}，Session ID： {}", error.getMessage(), session.getId());
         error.printStackTrace();
     }
 
@@ -102,10 +110,10 @@ public class WebSocketServerConfig {
      * 发送消息
      *
      * @param session 加入连接的session
-     * @param object      返回类
+     * @param object  返回类
      */
 
-    private static void SendMessage(Session session, Object object) {
+    private static void sendMessage(Session session, Object object) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             session.getBasicRemote().sendText(objectMapper.writeValueAsString(object));
@@ -118,15 +126,19 @@ public class WebSocketServerConfig {
     /**
      * 群发消息（单对多聊天）
      *
-     * @param object      返回类
-     * @throws IOException IO异常
+     * @param object 返回类
      */
 
-    public static void BroadCastInfo(Object object) throws IOException {
-        for (Session session : SessionSet) {
-            if (session.isOpen()) {
-                SendMessage(session, object);
+    public static void broadCastInfo(Object object){
+        try {
+            for (Session session : SessionSet) {
+                if (session.isOpen()) {
+                    sendMessage(session, object);
+                }
             }
+        }catch (Exception e){
+            log.error("群发消息出错：{}", e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -134,22 +146,26 @@ public class WebSocketServerConfig {
      * 指定Session发送消息（单对单聊天）
      *
      * @param sessionId 加入连接的session
-     * @param object      返回类
-     * @throws IOException IO异常
+     * @param object    返回类
      */
 
-    public static void SendMessage(Object object, String sessionId) throws IOException {
-        Session session = null;
-        for (Session s : SessionSet) {
-            if (s.getId().equals(sessionId)) {
-                session = s;
-                break;
+    public static void sendMessage(Object object, String sessionId){
+        try {
+            Session session = null;
+            for (Session s : SessionSet) {
+                if (s.getId().equals(sessionId)) {
+                    session = s;
+                    break;
+                }
             }
-        }
-        if (session != null) {
-            SendMessage(session, object);
-        } else {
-            log.warn("没有找到你指定ID的会话：{}", sessionId);
+            if (session != null) {
+                sendMessage(session, object);
+            } else {
+                log.warn("没有找到你指定ID的会话：{}", sessionId);
+            }
+        }catch (Exception e){
+            log.error("指定Session发送消息出错：{}", e.getMessage());
+            e.printStackTrace();
         }
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public interface FriendMapper {
     List<FriendEntity> listFriendByIndex();
 
-    List<FriendEntity> listFriendByAdmin();
+    List<FriendEntity> listFriendByAdmin(String search,String searchType);
 
     FriendEntity getFriendByEmail(String userEmail);
 

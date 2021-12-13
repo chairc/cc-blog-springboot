@@ -42,16 +42,15 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        //资源授权
+        //  资源授权
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
-        //资源授权perms中的字符串
+        //  资源授权perms中的字符串
         UserEntity user = (UserEntity) principals.getPrimaryPrincipal();
-        //获取用户身份许可
+        //  获取用户身份许可
         String permission = userPermissionService.getUserPermission(user.getUserPrivateId());
 
-        //log.info("当前用户权限为：" + permission);
-        //根据许可名过滤权限（ShiroConfig.java权限过滤器）
+        //  根据许可名过滤权限（ShiroConfig.java权限过滤器）
         simpleAuthorizationInfo.addStringPermission(permission);
 
         return simpleAuthorizationInfo;

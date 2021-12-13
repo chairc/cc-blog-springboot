@@ -606,3 +606,9 @@ a:focus, a:active {
     width: 100%;
     height: auto;
 }
+
+.index-introduction-img{
+    width: 22px;
+    height: 22px;
+    padding: 1px;
+}

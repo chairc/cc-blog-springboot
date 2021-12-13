@@ -13,7 +13,7 @@
     <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
 </head>
 <body class="sidebar-mini layout-fixed" style="height: auto;">
-<div class="wrapper">
+<div class="wrapper animated fadeIn">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -53,18 +53,18 @@
                                         <thead>
                                         <tr role="row">
                                             <th class="sorting" rowspan="1" colspan="1">用户私有ID</th>
-                                            <th class="sorting" rowspan="1" colspan="1">用户名</th>
+                                            <th class="sorting" rowspan="1" colspan="1" style="max-width: 200px">用户名</th>
                                             <th class="sorting" rowspan="1" colspan="1">权限</th>
                                             <th class="sorting" rowspan="1" colspan="1">状态</th>
                                             <th class="sorting" rowspan="1" colspan="1">权限生成时间</th>
                                             <th class="sorting" rowspan="1" colspan="1">权限更新时间</th>
-                                            <th class="sorting" rowspan="1" colspan="1"></th>
+                                            <th class="sorting" rowspan="1" colspan="1" style="min-width: 180px"></th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr class="odd" th:each="userPermission:${userPermissionList}">
                                             <td class="dtr-control sorting_1" th:text="${userPermission.getUserPrivateId()}"></td>
-                                            <td th:text="${userPermission.getUsername()}"></td>
+                                            <td th:text="${userPermission.getUsername()}" style="max-width: 200px"></td>
                                             <td><span class="badge badge-info" th:text="${userPermission.getUserPermission()}"></span></td>
                                             <td th:if="${userPermission.getUserPermissionStatus()!=1}">
                                                 <span class="badge badge-danger">注销</span></td>
@@ -72,7 +72,7 @@
                                                 <span class="badge badge-info">正常</span></td>
                                             <td th:text="${userPermission.getUserPermissionCreateTime()}"></td>
                                             <td th:text="${userPermission.getUserPermissionUpdateTime()}"></td>
-                                            <td class="text-center">
+                                            <td class="text-center" style="min-width: 180px">
                                                 <a class="btn btn-info btn-sm" href="javascript:void(0);"
                                                     onclick="showUserPermissionInfo(this)" th:id="${userPermission.getUserPrivateId()}">
                                                     <i class="fas fa-pencil-alt"></i> 编辑

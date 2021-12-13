@@ -4,14 +4,12 @@ import cn.chairc.blog.annotation.LogVisitor;
 import cn.chairc.blog.entity.article.ArticleEntity;
 import cn.chairc.blog.entity.article.ArticleLabelEntity;
 import cn.chairc.blog.entity.article.ArticleTypeEntity;
+import cn.chairc.blog.entity.comment.CommentMessageEntity;
 import cn.chairc.blog.entity.friend.FriendEntity;
 import cn.chairc.blog.entity.message.MessageEntity;
 import cn.chairc.blog.entity.user.UserHeadPictureEntity;
 import cn.chairc.blog.entity.user.UserIndexLoginInfoEntity;
-import cn.chairc.blog.service.ArticleService;
-import cn.chairc.blog.service.FriendService;
-import cn.chairc.blog.service.MessageService;
-import cn.chairc.blog.service.UserService;
+import cn.chairc.blog.service.*;
 import cn.chairc.blog.utils.CommonUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -49,13 +47,17 @@ public class IndexCommonController {
 
     private UserService userService;
 
+    private CommentService commentService;
+
     @Autowired
     public IndexCommonController(ArticleService articleService, MessageService messageService,
-                                 FriendService friendService, UserService userService) {
+                                 FriendService friendService, UserService userService,
+                                 CommentService commentService) {
         this.articleService = articleService;
         this.messageService = messageService;
         this.friendService = friendService;
         this.userService = userService;
+        this.commentService = commentService;
     }
 
     /**
@@ -74,7 +76,7 @@ public class IndexCommonController {
             userIndexLoginInfoEntity.setUserEmail(CommonUtil.sessionValidate("userEmail"));
             userIndexLoginInfoEntity.setUserPrivateId(userPrivateId);
             UserHeadPictureEntity userHeadPictureEntity = userService.getUserHeadPic(userPrivateId);
-            if(userHeadPictureEntity != null){
+            if (userHeadPictureEntity != null) {
                 userHeadUrl = userHeadPictureEntity.getUserHeadMappingThumbnailUrl();
             }
             userIndexLoginInfoEntity.setUserHeadUrl(userHeadUrl);
@@ -96,7 +98,7 @@ public class IndexCommonController {
         List<ArticleEntity> articleEntityList = articleService.listArticleByArticleType("index", "all");
         model.addAttribute("indexArticleEntityList", articleEntityList);
         model.addAttribute("userIndexLoginInfo", getUserIndexLoginInfo());
-        return "index";
+        return "index/index";
     }
 
     /**
@@ -154,7 +156,7 @@ public class IndexCommonController {
     @LogVisitor(level = "LEVEL-1")
     @RequestMapping("/login")
     public String showLoginPage() {
-        return "login";
+        return "index/login";
     }
 
     /**
@@ -166,7 +168,19 @@ public class IndexCommonController {
     @LogVisitor(level = "LEVEL-1")
     @RequestMapping("/registered")
     public String showRegisteredPage() {
-        return "registered";
+        return "index/registered";
+    }
+
+    /**
+     * 显示找回密码页面
+     *
+     * @return forgot_password.html
+     */
+
+    @LogVisitor(level = "LEVEL-1")
+    @RequestMapping("/forgotPassword")
+    public String showForgotPasswordPage() {
+        return "index/forgot_password";
     }
 
     /**
@@ -199,7 +213,7 @@ public class IndexCommonController {
                 break;
             //  标签分类
             case "labelType":
-                articleEntityList = articleService.listArticleByArticleLabel("index",searchType);
+                articleEntityList = articleService.listArticleByArticleLabel("index", searchType);
                 break;
             default:
         }
@@ -214,7 +228,7 @@ public class IndexCommonController {
         model.addAttribute("articleLabel", articleLabelEntityList);
         model.addAttribute("articleType", articleTypeEntityList);
         model.addAttribute("userIndexLoginInfo", getUserIndexLoginInfo());
-        return "article";
+        return "index/article";
     }
 
     /**
@@ -231,6 +245,9 @@ public class IndexCommonController {
     public String showArticleDetailPage(@PathVariable String articlePrivateId,
                                         @RequestParam(value = "page") int page,
                                         Model model) {
+        //  文章回复列表...
+
+
         ArticleEntity articleEntity = articleService.getArticleByPrivateId(articlePrivateId, "index");
         List<ArticleLabelEntity> articleLabelEntityList = articleService.listArticleLabel();
         List<ArticleTypeEntity> articleTypeEntityList = articleService.listArticleType();
@@ -238,37 +255,62 @@ public class IndexCommonController {
         model.addAttribute("userIndexLoginInfo", getUserIndexLoginInfo());
         model.addAttribute("articleLabel", articleLabelEntityList);
         model.addAttribute("articleType", articleTypeEntityList);
-        return "article_show";
+        return "index/article_show";
     }
+
+    /**
+     * 显示留言列表
+     *
+     * @param model 模型
+     * @param page  当前页
+     * @return message.html
+     */
 
     @LogVisitor(level = "LEVEL-1")
     @RequestMapping("/message")
     public String showMessagePage(Model model, @RequestParam(value = "page") int page) {
-        Page<MessageEntity> messageEntityPage = PageHelper.startPage(page,10);
+        Page<MessageEntity> messageEntityPage = PageHelper.startPage(page, 10);
         List<MessageEntity> messageEntityList = messageService.listMessage();
         UserHeadPictureEntity userHeadPictureEntity = userService.getUserHeadPic(CommonUtil.sessionValidate("userPrivateId"));
-        model.addAttribute("messageEntityList",messageEntityList);
+        model.addAttribute("messageEntityList", messageEntityList);
         model.addAttribute("userHeadPic", userHeadPictureEntity);
         model.addAttribute("userIndexLoginInfo", getUserIndexLoginInfo());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPage", (int) ((messageEntityPage.getTotal() - 1) / 10 + 1));
-        return "message";
+        return "index/message";
+    }
+
+    @LogVisitor(level = "LEVEL-1")
+    @RequestMapping("/message/title/{messagePrivateId}")
+    public String showMessageDetailPage(@PathVariable String messagePrivateId,
+                                        @RequestParam(value = "page") int page,
+                                        Model model) {
+        //  留言回复列表...
+        MessageEntity messageEntity = messageService.getMessage(messagePrivateId);
+        Page<CommentMessageEntity> commentMessageEntityPage = PageHelper.startPage(page, 10);
+        List<CommentMessageEntity> commentMessageEntityList = commentService.listCommentMessage("index", messagePrivateId);
+        model.addAttribute("messageEntity", messageEntity);
+        model.addAttribute("commentMessageEntityList", commentMessageEntityList);
+        model.addAttribute("userIndexLoginInfo", getUserIndexLoginInfo());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPage", (int) ((commentMessageEntityPage.getTotal() - 1) / 10 + 1));
+        return "index/message_show";
     }
 
     @LogVisitor(level = "LEVEL-1")
     @RequestMapping("/friend")
     public String showFriendPage(Model model) {
-        List<FriendEntity> friendEntityList = friendService.listFriend("index");
+        List<FriendEntity> friendEntityList = friendService.listFriend("index", "all", "all");
         model.addAttribute("friendList", friendEntityList);
         model.addAttribute("userIndexLoginInfo", getUserIndexLoginInfo());
-        return "friend";
+        return "index/friend";
     }
 
     @LogVisitor(level = "LEVEL-1")
     @RequestMapping("/data")
     public String showDataPage(Model model) {
         model.addAttribute("userIndexLoginInfo", getUserIndexLoginInfo());
-        return "data";
+        return "index/data";
     }
 
 }

@@ -29,10 +29,12 @@
                     <i class="far fa-user"></i>
                     <span class="badge badge-danger navbar-badge"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" th:if="${userIndexLoginInfo.getUserIsLogin() == 1}">
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                     th:if="${userIndexLoginInfo.getUserIsLogin() == 1}">
                     <a href="#" class="dropdown-item">
                         <div class="media">
-                            <img th:src="${userIndexLoginInfo.getUserHeadUrl()}" alt="头像" class="img-size-50 mr-3 img-circle">
+                            <img th:src="${userIndexLoginInfo.getUserHeadUrl()}" alt="头像"
+                                 class="img-size-50 mr-3 img-circle">
                             <div class="media-body">
                                 <h3 class="dropdown-item-title">
                                     <span th:text="${userIndexLoginInfo.getUsername()}"></span>
@@ -48,7 +50,8 @@
                     <div class="dropdown-divider"></div>
                     <a href="/home" class="dropdown-item dropdown-footer">个人中心</a>
                 </div>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" th:if="${userIndexLoginInfo.getUserIsLogin() == 0}">
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right"
+                     th:if="${userIndexLoginInfo.getUserIsLogin() == 0}">
                     <div class="dropdown-divider"></div>
                     <a href="/login" class="dropdown-item dropdown-footer">请登录</a>
                 </div>
@@ -65,7 +68,7 @@
             <nav th:replace="/common/sidebar.html"></nav>
         </div>
     </aside>
-    <div class="content-wrapper" style="min-height: 337px;">
+    <div class="content-wrapper animated fadeIn" style="min-height: 337px;">
         <section class="content-header"></section>
         <section class="content">
             <div class="container-fluid">
@@ -75,11 +78,43 @@
                             <div class="card-body box-profile">
                                 <div class="text-center">
                                     <img class="profile-user-img img-fluid img-circle"
-                                         src="/static/images/picture/login/login-ico.svg" alt="User profile picture">
+                                         src="/static/images/picture/index/head_index_small.jpg" alt="User profile picture">
                                 </div>
                                 <h3 class="profile-username text-center">小虚无</h3>
                                 <p class="text-muted text-center">不知名小研究生</p>
                                 <p class="text-muted text-center">致力于网站崩溃、机器瞎学、深度遗忘、数据掩埋和人工智障的学术小辣鸡一枚～</p>
+                                <ul class="list-group list-group-unbordered mb-3">
+                                    <li class="list-group-item" style="text-align: center;">
+                                        <a class="index-introduction-img" href="https://github.com/chairc"
+                                           target="_blank" title="@chairc">
+                                            <img src="/static/images/picture/index/github.svg" alt="GitHub"
+                                                 title="@chairc" style="width: 20px;height: 20px;">
+                                        </a>
+                                        <a class="index-introduction-img" href="mailto:chenyu1998424@gmail.com"
+                                           title="chenyu1998424@gmail.com">
+                                            <img src="/static/images/picture/index/google.svg" alt="Google"
+                                                 title="chenyu1998424@gmail.com" style="width: 20px;height: 20px;">
+                                        </a>
+                                        <a class="index-introduction-img" href="https://www.instagram.com/c_pangci/"
+                                           target="_blank" title="@c_pangci">
+                                            <img src="/static/images/picture/index/social-instagram.svg" alt="instagram"
+                                                 title="@c_pangci" style="width: 20px;height: 20px;">
+                                        </a>
+                                        <a class="index-introduction-img"
+                                           href="https://music.163.com/#/user/home?id=320416909" target="_blank"
+                                           title="Chair_C">
+                                            <img src="/static/images/picture/index/wangyiyun.svg" alt="wangyi-music"
+                                                 title="Chair_C" style="width: 20px;height: 20px;">
+                                        </a>
+                                        <a class="index-introduction-img" href="https://weibo.com/u/1802917091"
+                                           target="_blank" title="@小陈今年一定要发财">
+                                            <img src="/static/images/picture/index/weibo.svg" alt="weibo"
+                                                 title="@小陈今年一定要发财" style="width: 20px;height: 20px;">
+                                        </a>
+
+
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         <div class="card card-info">
@@ -91,13 +126,14 @@
                                 <p class="text-muted">本科，鲁东大学</p>
                                 <p class="text-muted">Undergraduate, Ludong University</p>
                                 <p class="text-muted">硕士，齐鲁工业大学（山东省科学院）</p>
-                                <p class="text-muted">Master, Qilu University of Technology (Shandong Academy of Sciences)</p>
+                                <p class="text-muted">Master, Qilu University of Technology (Shandong Academy of
+                                    Sciences)</p>
                                 <hr>
                                 <strong><i class="fas fa-map-marker-alt mr-1"></i> 坐标</strong>
                                 <p class="text-muted">山东，济南</p>
                                 <hr>
                                 <strong><i class="fas fa-pencil-alt mr-1"></i> 技能</strong>
-                                <p class="text-muted">Java编程，网站开发，人工智能</p>
+                                <p class="text-muted">计算机视觉，Java编程，网站开发</p>
                                 <hr>
                                 <strong><i class="far fa-envelope mr-1"></i> 联系我</strong>
                                 <p class="text-muted">chenyu1998424@gmail.com</p>
@@ -112,7 +148,7 @@
                                     <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">最新动态</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#timeline"data-toggle="tab">归档时间线</a></li>
+                                        <a class="nav-link" href="#timeline" data-toggle="tab">归档时间线</a></li>
                                 </ul>
                             </div>
                             <div class="card-body">
@@ -120,19 +156,23 @@
                                     <div class="active tab-pane" id="activity">
                                         <div class="post" th:each="indexArticleList:${indexArticleEntityList}">
                                             <div class="title">
-                                                <a th:href="'/article/title/'+${indexArticleList.getArticlePrivateId()}+'?page=1'" class="">
+                                                <a th:href="'/article/title/'+${indexArticleList.getArticlePrivateId()}+'?page=1'"
+                                                   class="">
                                                     <h3><b th:text="${indexArticleList.getArticleTitle()}"></b></h3>
                                                 </a>
                                             </div>
                                             <div class="user-block">
                                                 <img class="img-circle img-bordered-sm"
                                                      src="/static/images/picture/login/login-ico.svg" alt="">
-                                                <span class="username" th:text="${indexArticleList.getArticleAuthor()}"></span>
-                                                <span class="description" th:text="${indexArticleList.getArticleCreateTime()}"></span>
+                                                <span class="username"
+                                                      th:text="${indexArticleList.getArticleAuthor()}"></span>
+                                                <span class="description"
+                                                      th:text="${indexArticleList.getArticleCreateTime()}"></span>
                                             </div>
                                             <p th:text="${indexArticleList.getArticleIntroduction()}"></p>
                                             <p>
-                                                <a href="javascript:void(0);" class="link-black text-sm mr-2 clipTarget" onclick="shareURL(this)"
+                                                <a href="javascript:void(0);" class="link-black text-sm mr-2 clipTarget"
+                                                   onclick="shareURL(this)"
                                                    th:id="'/article/title/'+${indexArticleList.getArticlePrivateId()}+'?page=1'">
                                                     <i class="fas fa-share mr-1" th:text="' 分享链接'"></i></a>
                                                 <span class="float-right">
@@ -182,7 +222,6 @@
 <script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/main.js}"></script>
-<script type="text/javascript" th:src="@{/static/js/admin.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/toastr.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/clipboard.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/js/adminlte.min.js}"></script>

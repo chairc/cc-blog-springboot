@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.chairc.blog.mapper.comment.CommentMessageMapper">
+    <resultMap id="commentMessageResultMap" type="cn.chairc.blog.entity.comment.CommentMessageEntity">
+        <id column="id" property="id"></id>
+        <result column="comment_message_private_id" property="commentMessagePrivateId"></result>
+        <result column="message_private_id" property="messagePrivateId"></result>
+        <result column="comment_message_user_private_id" property="commentMessageUserPrivateId"></result>
+        <result column="comment_message_content" property="commentMessageContent"></result>
+        <result column="comment_message_private_id_reply" property="commentMessagePrivateIdReply"></result>
+        <result column="comment_message_user_private_id_reply" property="commentMessageUserPrivateIdReply"></result>
+        <result column="comment_message_is_delete" property="commentMessageIsDelete"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="update_time" property="updateTime"></result>
+    </resultMap>
+
+    <sql id="comment_message_info_table">comment_message_info</sql>
+
+    <select id="listCommentMessage" resultMap="commentMessageResultMap"
+            resultType="cn.chairc.blog.entity.comment.CommentMessageEntity">
+        SELECT
+        *
+        FROM
+        <include refid="comment_message_info_table"/>
+        WHERE
+        comment_message_is_delete = 1 AND message_private_id = #{messagePrivateId}
+        ORDER BY
+        id DESC
+    </select>
+
+    <select id="getCommentMessage" resultMap="commentMessageResultMap"
+            resultType="cn.chairc.blog.entity.comment.CommentMessageEntity">
+        SELECT * FROM
+        <include refid="comment_message_info_table"/>
+        WHERE
+        comment_message_private_id = #{commentMessagePrivateId} AND comment_message_is_delete = 1
+    </select>
+
+    <select id="getCommentMessageTotal" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT COUNT(*) FROM
+        <include refid="comment_message_info_table"/>
+        WHERE
+        message_private_id = #{messagePrivateId} AND comment_message_is_delete = 1
+    </select>
+
+    <select id="getCommentMessageIsExist" resultType="java.lang.Boolean" parameterType="java.lang.String">
+        SELECT COUNT(id) FROM
+        <include refid="comment_message_info_table"/>
+        WHERE
+        comment_message_private_id = #{commentMessagePrivateId}
+    </select>
+
+    <insert id="insertCommentMessage" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+        <include refid="comment_message_info_table"/>
+        (comment_message_private_id,message_private_id,comment_message_user_private_id,comment_message_content,
+        comment_message_private_id_reply,comment_message_user_private_id_reply,comment_message_is_delete,
+        create_time,update_time)
+        VALUES
+        (#{commentMessagePrivateId},#{messagePrivateId},#{commentMessageUserPrivateId},#{commentMessageContent},
+        #{commentMessagePrivateIdReply},#{commentMessageUserPrivateIdReply},#{commentMessageIsDelete},
+        #{createTime},#{updateTime})
+    </insert>
+
+    <delete id="deleteCommentMessage">
+
+    </delete>
+
+    <update id="updateCommentMessage" parameterType="cn.chairc.blog.entity.comment.CommentMessageEntity">
+        UPDATE
+        <include refid="comment_message_info_table"/>
+        <set>
+            <if test="commentMessageContent != null and commentMessageContent != ''">
+                comment_message_content = #{commentMessageContent},
+            </if>
+            <if test="commentMessageIsDelete != 0">
+                comment_message_is_delete = #{commentMessageIsDelete},
+            </if>
+        </set>
+        WHERE
+        comment_message_private_id = #{commentMessagePrivateId}
+    </update>
+
+</mapper>

@@ -37,10 +37,10 @@ public class FileServiceImpl implements FileService {
     }
 
     @Value("${upload-file.head-file-path}")
-    private String UPLOAD_HEAD_PATH;
+    private String uploadHeadPath;
 
     @Value("${upload-file.article-file-path}")
-    private String UPLOAD_ARTICLE_PATH;
+    private String uploadArticlePath;
 
     /**
      * 头像上传
@@ -69,11 +69,12 @@ public class FileServiceImpl implements FileService {
                 return resultSet;
             }
             //  标准头像文件上传地址
-            String filePath = UPLOAD_HEAD_PATH + userPrivateId + "/";
+            String filePath = uploadHeadPath + userPrivateId + "/";
             //  缩略头像文件上传地址
-            String thumbnailFilePath = UPLOAD_HEAD_PATH + userPrivateId + "/thumbnail/";
-            //  String filename = userPrivateId + ".jpg";
-            String filename = headerFile.getOriginalFilename();
+            String thumbnailFilePath = uploadHeadPath + userPrivateId + "/thumbnail/";
+            String filename = userPrivateId + ".jpg";
+            //  String filename = CommonUtil.createRandomPrivateId("head") + ".jpg";
+            //  String filename = headerFile.getOriginalFilename();
             File targetFile = new File(filePath);
             File targetThumbnailFile = new File(thumbnailFilePath);
             //  检查是否存在该文件夹，不存在则创建
@@ -144,7 +145,7 @@ public class FileServiceImpl implements FileService {
                 return articlePictureResultSet;
             }
             //  设置上传文章图片路径
-            File uploadArticleFilePath = new File(UPLOAD_ARTICLE_PATH + articleFile.getOriginalFilename());
+            File uploadArticleFilePath = new File(uploadArticlePath + articleFile.getOriginalFilename());
             //  判断文件夹是否存在，不存在则创建
             if (!uploadArticleFilePath.exists()) {
                 uploadArticleFilePath.mkdirs();

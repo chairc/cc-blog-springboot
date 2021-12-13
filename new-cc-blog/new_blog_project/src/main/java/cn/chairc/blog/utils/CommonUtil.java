@@ -157,7 +157,7 @@ public class CommonUtil {
      */
 
     public static String sessionValidate(String key) {
-        //Shiro获取session
+        //  Shiro获取session
         String returnVal = null;
         Subject currentUser = SecurityUtils.getSubject();
         if(currentUser.isAuthenticated()){

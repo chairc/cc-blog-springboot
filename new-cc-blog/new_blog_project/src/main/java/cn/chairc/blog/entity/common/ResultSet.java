@@ -6,9 +6,23 @@ package cn.chairc.blog.entity.common;
  */
 public class ResultSet {
 
-    private String code;            //返回码
-    private String msg;             //返回信息
-    private Object data = "";     //返回数据，默认设为空，需要返回数据时，使用setData()方法
+    /**
+     * 返回码
+     */
+
+    private String code;
+
+    /**
+     * 返回信息
+     */
+
+    private String msg;
+
+    /**
+     * 返回数据，默认设为空，需要返回数据时，使用setData()方法
+     */
+
+    private Object data = "";
 
     public String getCode() {
         return code;

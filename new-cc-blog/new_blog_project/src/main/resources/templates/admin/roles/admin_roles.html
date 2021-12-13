@@ -13,7 +13,7 @@
     <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
 </head>
 <body class="sidebar-mini layout-fixed" style="height: auto;">
-<div class="wrapper">
+<div class="wrapper animated fadeIn">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -53,19 +53,19 @@
                                         <thead>
                                         <tr role="row">
                                             <th class="sorting" rowspan="1" colspan="1">用户私有ID</th>
-                                            <th class="sorting" rowspan="1" colspan="1">用户名</th>
+                                            <th class="sorting" rowspan="1" colspan="1" style="max-width: 200px">用户名</th>
                                             <th class="sorting" rowspan="1" colspan="1">角色</th>
                                             <th class="sorting" rowspan="1" colspan="1">状态</th>
                                             <th class="sorting" rowspan="1" colspan="1">角色生成时间</th>
                                             <th class="sorting" rowspan="1" colspan="1">角色更新时间</th>
-                                            <th class="sorting" rowspan="1" colspan="1"></th>
+                                            <th class="sorting" rowspan="1" colspan="1" style="min-width: 180px"></th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr class="odd" th:each="userRole:${userRoleList}">
                                             <td class="dtr-control sorting_1"
                                                 th:text="${userRole.getUserPrivateId()}"></td>
-                                            <td th:text="${userRole.getUsername()}"></td>
+                                            <td th:text="${userRole.getUsername()}" style="max-width: 200px"></td>
                                             <td><span class="badge badge-info"
                                                       th:text="${userRole.getUserRole()}"></span></td>
                                             <td th:if="${userRole.getUserRoleStatus()!=1}">
@@ -74,7 +74,7 @@
                                                 <span class="badge badge-info">正常</span></td>
                                             <td th:text="${userRole.getUserRoleCreateTime()}"></td>
                                             <td th:text="${userRole.getUserRoleUpdateTime()}"></td>
-                                            <td class="text-center">
+                                            <td class="text-center" style="min-width: 180px">
                                                 <a class="btn btn-info btn-sm" href="javascript:void(0);"
                                                    onclick="showUserRoleInfo(this)"
                                                    th:id="${userRole.getUserPrivateId()}">
