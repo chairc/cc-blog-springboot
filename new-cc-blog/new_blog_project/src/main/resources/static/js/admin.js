@@ -631,7 +631,7 @@ function adminAddUser() {
     var addUserPassword = $("#admin-user-add-password").val();
     var addUserIsActivity = $("#admin-user-add-activity").val();
     $.ajax({
-        url: "/api/user/insertUser",
+        url: "/api/admin/insertUser",
         dataType: "JSON",
         contentType: "application/json; charset=utf-8",
         data: {
